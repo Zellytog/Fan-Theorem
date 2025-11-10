@@ -1,0 +1,171 @@
+\subsection{Adequacy}
+
+To prove the adequacy, we first prove a substitution lemma.
+
+\begin{lemma}
+  Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and the following typing derivations: $\Gamma, \varx : S \vdash \varphi : \Prop$, $\Gamma\vdash \termt : S$. The following equivalence holds:
+  \[t \realPP \varphi[\termt/\varx] \iff t \realP{\enviro}{\termenv[\varx\mapsto \termenv(\termt)]}\varphi \]
+\end{lemma}
+
+\begin{proof}
+  We must first prove by induction on terms $\termu$ that $\termenv(\termu[\termt/\varx]) = \termenv[\varx \mapsto \termenv(\termt)](\termu)$. Then, by induction on $\varphi$:
+  \begin{itemize}
+  \item if $\varphi = S(\termt)$, then we use the equality on terms to have $t \in \codE{\termenv(\termt)} \iff t \in \codE{\termenv(\termt)}$
+  \item the other two cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.
+  \end{itemize}
+  Hence the result.
+\end{proof}
+
+To postulate the adequacy, we need to give a typing system.
+
+
+\begin{definition}[Typing system]
+  We define a ($\lambda$-)context as a list $\Xi \in \List(\Xlam \times \Prop)$, whose elements we will write $(x : \varphi)$.
+
+  The typing relation $\Gamma\mid \Xi \vdash t : \varphi$ is defined by induction by the rules:
+  \begin{center}
+    \AxiomC{$(x : \varphi) \in \Xi$}
+    \RightLabel{Ax}
+    \UnaryInfC{$\Gamma\mid \Xi \vdash x : \varphi$}
+    \DisplayProof
+
+    \vspace{0.2cm}
+    \AxiomC{$\Gamma\mid \Xi, x : \varphi \vdash t : \psi$}
+    \RightLabel{$\to_\mathrm i$}
+    \UnaryInfC{$\Gamma\mid \Xi \vdash \lambda x.t : \varphi \to \psi$}
+    \DisplayProof
+    \quad
+    \AxiomC{$\Gamma\mid \Xi \vdash t : \varphi \to \psi$}
+    \AxiomC{$\Gamma\mid \Xi \vdash u : \varphi$}
+    \RightLabel{$\to_\mathrm e$}
+    \BinaryInfC{$\Gamma\mid\Xi\vdash t\;u : \psi$}
+    \DisplayProof
+
+    \vspace{0.2cm}
+    \AxiomC{$\Gamma, \varx : S \mid \Xi \vdash t : \varphi$}
+    \RightLabel{$\forall_\mathrm i$}
+    \UnaryInfC{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}
+    \DisplayProof
+    \quad
+    \AxiomC{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}
+    \AxiomC{$\Gamma\vdash \termt : S$}
+    \RightLabel{$\forall_\mathrm e$}
+    \BinaryInfC{$\Gamma\mid \Xi \vdash t : \varphi[\termt / \varx]$}
+    \DisplayProof
+    
+    \vspace{0.2cm}
+    \AxiomC{}
+    \RightLabel{$\Nat_\mathrm i^0$}
+    \UnaryInfC{$\Gamma\mid Xi \vdash 0 : \Nat(\termZ)$}
+    \DisplayProof
+    \quad
+    \AxiomC{$\Gamma\mid\Xi\vdash t : \Nat(\termt)$}
+    \RightLabel{$\Nat_\mathrm i^S$}
+    \UnaryInfC{$\Gamma\mid\Xi\vdash S\;t : \Nat(\termS(\termt))$}
+    \DisplayProof
+
+    \vspace{0.2cm}
+    \AxiomC{}
+    \RightLabel{$\Nat_\mathrm e$}
+    \UnaryInfC{$\Gamma\mid \Xi\vdash \rec_{\Nat} : \forall X^{\Nat \to \Prop},X(\termZ) \to (\forall \varn^{\{\Nat\}}, X(\varn) \to X(\termS(\varn))) \to \forall \varn^{\{\Nat\}}, X(\varn)$}
+    \DisplayProof
+
+    \vspace{0.2cm}
+    \AxiomC{}
+    \RightLabel{$\Bool_\mathrm i^\top$}
+    \UnaryInfC{$\Gamma\mid\Xi\vdash \rtt : \Bool(\termtt)$}
+    \DisplayProof
+    \quad
+    \AxiomC{}
+    \RightLabel{$\Bool_\mathrm i^\bot$}
+    \UnaryInfC{$\Gamma\mid\Xi\vdash \rff : \Bool(\termff)$}
+    \DisplayProof
+
+    \vspace{0.2cm}
+    \AxiomC{}
+    \RightLabel{$\Bool_\mathrm e$}
+    \UnaryInfC{$\Gamma\mid\Xi\vdash \rec_{\Bool} : \forall X^{\Bool \to \Prop}, X(\termtt) \to X(\termff) \to \forall \varx^{\{\Bool\}}, X(\varx)$}
+    \DisplayProof
+    
+    \vspace{0.2cm}
+    \AxiomC{}
+    \RightLabel{$\List_\mathrm i^{\nil}$}
+    \UnaryInfC{$\Gamma\mid\Xi\vdash \nil : \List(\termnil)$}
+    \DisplayProof
+
+    \vspace{0.2cm}
+    \AxiomC{$\Gamma\mid\Xi\vdash t : S(\termt)$}
+    \AxiomC{$\Gamma\mid \Xi\vdash u : \List(S)(\termu)$}
+    \RightLabel{$\List_\mathrm i^{\append}$}
+    \BinaryInfC{$\Gamma\mid\Xi\vdash t\append u : \List(S)(\termt \termcons \termu)$}
+    \DisplayProof
+
+    \vspace{0.2cm}
+    \AxiomC{}
+    \RightLabel{$\List_\mathrm e$}
+    \UnaryInfC{$\Gamma\mid\Xi \vdash \rec_{\List} : \forall X^{\List(S) \to \Prop}, X(\termnil) \to (\forall \varx^{\{S\}}, \forall \vary^{\{\List(S)\}}, X(\vary) \to X(\varx \termcons \vary)) \to \forall \varx^{\{\List(S)\}}, X(\varx)$}
+    \DisplayProof
+  \end{center}
+\end{definition}
+
+\begin{theorem}[Adequacy]
+  Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$, formulas
+  \[\begin{cases}
+  \Gamma\vdash \varphi_i : \Prop \qquad \forall i = 1,\ldots,n\\
+  \Gamma\vdash \varphi : \Prop
+  \end{cases}\]
+  and terms
+  \[\begin{cases}
+  t_i \realPP \varphi_i \qquad \forall i = 1,\ldots,n\\
+  \Gamma \mid x_1 : \varphi_1,\ldots,x_n : \varphi_n \vdash t : \varphi
+  \end{cases}\]
+  then $t[t_i/x_i] \realPP \varphi$.
+\end{theorem}
+
+\begin{proof}
+  The proof is by induction on the typing derivation:
+  \begin{itemize}
+  \item case Ax with $t = x_i$: the result is by hypothesis.
+  \item case $\to_\mathrm i$ with $\lambda x.t : \psi \to \chi$: let $\enviroT \in \cyl{\enviro}$ and $u \realP{\enviroT}{\termenv} \psi$, let's prove that $(\lambda x.t)u \realP{\enviroT}{\termenv} \chi$. By hypothesis, $t[t_i/x_i][u/x] \realP{\enviroT}{\termenv} \chi$, but then it suffices to use the fact that $\realFP{\chi}{\termenv}{\enviroT}$ is closed by antireduction.
+  \item case $\to_\mathrm e$ is straightforward by definition of realizing $\psi \to \chi$.
+  \item case $\forall_\mathrm i$ with $t : \forall \varx^S, \psi$: by induction hypothesis, we know that for any $\termenv' \models \Gamma, \varx : S$, $t[t_i/x_i] \realP{\enviro}{\termenv'} \psi$. For any $s \in \bS, \termenv[\varx \mapsto s] \models \Gamma$, so $t[t_i/x_i] \realP{\enviro}{\termenv[\varx\mapsto s]} \psi$ which is, by definition, $t[t_i/x_i] \realPP \forall \varx^S,\psi$.
+  \item case $\forall_\mathrm e$ with $t : \psi[\termt/\varx]$: by definition of realizing $\forall \varx^S, \psi$ and using the substitution lemma.
+  \item we won't treat the cases $\Nat$ nor $\Bool$, as they are the same as the case $\List$.
+  \item case $\List_\mathrm i^{\nil}$: indeed, $\nil \redERT \nil$.
+  \item case $\List_\mathrm i^{\append}$: by induction hypothesis.
+  \item case $\List_\mathrm e$: let $X$ be a predicate on $\List(S)$, $\enviroT \in \cyl{\enviro}$ and
+    \[\begin{cases}
+    u \realP{\enviroT}{\termenv} X(\termnil)\\
+    v \realP{\enviroT}{\termenv} \forall \varx^{\{X\}}, \forall \vary^{\{\List(S)\}}, X(\vary) \to X(\varx \termcons \vary)\\
+    w \realP{\enviroT}{\termenv} \List(S)(\varx)
+    \end{cases}\]
+    we want to prove that $t = \rec_{\List}\;u\;v\;w$ realizes $X(\varx)$.
+
+    The object $\termenv(\varx)$ is a list. By induction, it is either $\nil$ or $s \append s'$ for two elements $s \in \bS, s' \in \bS^\star$:
+    \begin{itemize}
+    \item if $\termenv(\varx) = \nil$, then $w \redRTP{\enviroT} \nil$ and $\rec_{\List}\;u\;v\;w \redRTP{\enviroT} u$ so, indeed, $u \realP{\enviroT}{\termenv} X(\termnil)$
+    \item if $\termenv(\varx) = s \append s'$, then $w \redRTP{\enviroT} w_1\append w_2$ for $w_1 \in \codP{s}{\enviroT}$ and $w_2\in\codP{s'}{\enviroT}$. In this case, by induction hypothesis, $\rec_{\List}\;u\;v\;w_2 \realP{\enviroT}{\termenv[\vary \mapsto s']} \List(S)(\vary)$, and
+      \[\rec_{\List}\;u\;v\;w \redRTP{\enviroT} \rec_{\List}\;u\;v\;(w_1\append w_2) \redRTP{\enviroT} v\;w_2\;(\rec_{\List}\;u\;v\;w_2)\]
+      so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\varx)$.
+    \end{itemize}
+  \end{itemize}
+  Hence the result, by induction.
+\end{proof}
+
+\begin{corollary}
+  Let $\Gamma\in \Hctx, \termenv \models \Gamma$, formulas
+  \[\begin{cases}
+  \Gamma\vdash \varphi_i : \Prop \qquad \forall i = 1,\ldots,n\\
+  \Gamma\vdash \varphi : \Prop
+  \end{cases}\]
+  and terms
+  \[\begin{cases}
+  t_i \realUP{\termenv} \varphi_i \qquad \forall i = 1, \ldots, n \\
+  \Gamma\mid x_1 : \varphi_1,\ldots,x_n : \varphi_n \vdash t : \varphi
+  \end{cases}\]
+  then $t[t_i/x_i] \realUP{\termenv} \varphi$.
+\end{corollary}
+
+Thus, the sets
+\[\ThReal \defeq \{ \varphi : \Prop \mid \exists t \in \Lambda, t \real \varphi\} \qquad \ThRealU \defeq \{ \varphi : \Prop \mid \exists t \in \Lambda, t \realU \varphi\}\]
+are closed by logical consequence.
