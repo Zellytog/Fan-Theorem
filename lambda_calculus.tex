@@ -1,0 +1,56 @@
+\subsection{Lambda-calculus}
+
+The lambda-calculu we use is a variant of the usual lambda-calculus, enriched with
+constructors and recursors for integers, booleans and lists of objects. We also add
+pairs and a family of oracles.
+
+\begin{definition}[Lambda-terms]
+  We fix an enumerable set $\Xlam$ of $\lambda$-variables which will be written
+  $x,y,\ldots$ and define inductively the set $\Lambda$ of lambda-terms by~:
+  \begin{align*}
+    t,u  &\Coloneq  x \mid \lambda x.t \mid t\;u \\
+    & \mid \langle t,u\rangle \mid \pi_1\;t \mid \pi_2\;t \\
+    & \mid \lamZ \mid \lamS\;t \mid \rec_{\Nat}\;t\;u\;v\\
+    & \mid \rtt \mid \rff \mid \rec_{\Bool}\;t\;u\;v\\
+    & \mid \nil \mid t\append u \mid \rec_{\List}\;t\;u\;v\\
+    & \mid \oracle_n
+  \end{align*}
+  where $n$ ranges over $\bN$.
+\end{definition}
+
+We assume the usual convention of $\alpha$-renaming of bound variables.
+
+As the family $(\oracle_n)_{n \in \bN}$ represents oracles, the reduction will be parametrised by a list of functions $\bN \to \bN$.
+
+\begin{definition}[Reduction context]
+  Let $\funN$ be the set of set-functions $\bN \to \bN$. We denote by $\Oracle$ the set of lists of set-functions $\bN \to \bN$~:
+  \[\Oracle \defeq \List(\funN)\]
+  Elements of this set will be called reduction contexts. For any $\sigma \in \Oracle$, the $i$-th function of the list will be written $\sigma[i]$ and the length of $\sigma$ will be written $|\sigma|$.
+\end{definition}
+
+We assume the usual convention for substitution without capture of free variables.
+
+\begin{notation}
+  Given a partial map $\rho : \Xlam \partialto \Lambda$ and a term $t$, the simultaneous substitution of $t$ by $\rho$ is denoted $\rho(t)$. If $\rho$ is the function defined on the only point $x \in \Xlam$ by $x \mapsto u$, then we will write $t[u/x]$.
+\end{notation}
+
+The reduction itself is the expected $\beta$-reduction, enriched by the reduction, for
+any set-function $f : \bN \to \bN$ in the $i$-th place of the reduction context~:
+\[\oracle_i \;\encode{n} \mapsto \encode{f(n)}\]
+where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in this lambda-calculus.
+
+\begin{definition}[Reduction]
+  Let $\sigma \in \Oracle$.
+  We define the relation $\mapsto_\sigma$ of immediate reduction by the following rules~:
+  \[\begin{array}{lclr}
+    (\lambda x.t)u & \mapsto_\sigma & t[u/x] \\
+    \pi_i \langle t_1,t_2\rangle &\mapsto_\sigma& t_i & \forall i \in \{1,2\} \\
+    \rec_{\Nat}\;t\;u\;\lamZ & \mapsto_\sigma& t \\
+    \rec_{\Nat}\;t\;u\;(\lamS\;v) & \mapsto_\sigma& u\;v\;(\rec_{\Nat}\;t\;u\;v) \\
+    \rec_{\Bool}\;t\;u\;\rtt & \mapsto_\sigma & t \\
+    \rec_{\Bool}\;t\;u\;\rff & \mapsto_\sigma &u \\
+    \rec_{\List}\;t\;u\;\nil & \mapsto_\sigma &t \\
+    \rec_{\List}\;t\;u\;(v \append w) & \mapsto_\sigma &u\;v\;w\;(\rec_{\List}\;t\;u\;w) \\
+    \xi_i\;\encode{n} & \mapsto_\sigma & \encode{\sigma[i](n)} & \forall i < |\sigma|
+  \end{array}\]
+\end{definition}
