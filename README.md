@@ -1,0 +1,1 @@
+Construction d'un modèle de réalisabilité vérifiant Fan Theorem (FT) et réfutant WKL (Weak König's Lemma).

@@ -6,7 +6,7 @@ pairs and a family of oracles.
 
 \begin{definition}[Lambda-terms]
   We fix an enumerable set $\Xlam$ of $\lambda$-variables which will be written
-  $x,y,\ldots$ and define inductively the set $\Lambda$ of lambda-terms by~:
+  $x,y,\ldots$ and define inductively the set $\Lambda$ of lambda-terms by:
   \begin{align*}
     t,u  &\Coloneq  x \mid \lambda x.t \mid t\;u \\
     & \mid \langle t,u\rangle \mid \pi_1\;t \mid \pi_2\;t \\
@@ -23,9 +23,9 @@ We assume the usual convention of $\alpha$-renaming of bound variables.
 As the family $(\oracle_n)_{n \in \bN}$ represents oracles, the reduction will be parametrised by a list of functions $\bN \to \bN$.
 
 \begin{definition}[Reduction context]
-  Let $\funN$ be the set of set-functions $\bN \to \bN$. We denote by $\Oracle$ the set of lists of set-functions $\bN \to \bN$~:
+  Let $\funN$ be the set of set-functions $\bN \to \bN$. We denote by $\Oracle$ the set of lists of set-functions $\bN \to \bN$:
   \[\Oracle \defeq \List(\funN)\]
-  Elements of this set will be called reduction contexts. For any $\sigma \in \Oracle$, the $i$-th function of the list will be written $\sigma[i]$ and the length of $\sigma$ will be written $|\sigma|$.
+  Elements of this set will be called reduction contexts. For any $\enviro \in \Oracle$, the $i$-th function of the list will be written $\enviro[i]$ and the length of $\enviro$ will be written $|\enviro|$.
 \end{definition}
 
 We assume the usual convention for substitution without capture of free variables.
@@ -35,22 +35,102 @@ We assume the usual convention for substitution without capture of free variable
 \end{notation}
 
 The reduction itself is the expected $\beta$-reduction, enriched by the reduction, for
-any set-function $f : \bN \to \bN$ in the $i$-th place of the reduction context~:
+any set-function $f : \bN \to \bN$ in the $i$-th place of the reduction context:
 \[\oracle_i \;\encode{n} \mapsto \encode{f(n)}\]
 where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in this lambda-calculus.
 
 \begin{definition}[Reduction]
   Let $\sigma \in \Oracle$.
-  We define the relation $\mapsto_\sigma$ of immediate reduction by the following rules~:
+  We define the relation $\mapsto_\sigma$ of immediate reduction by the following rules:
   \[\begin{array}{lclr}
-    (\lambda x.t)u & \mapsto_\sigma & t[u/x] \\
-    \pi_i \langle t_1,t_2\rangle &\mapsto_\sigma& t_i & \forall i \in \{1,2\} \\
-    \rec_{\Nat}\;t\;u\;\lamZ & \mapsto_\sigma& t \\
-    \rec_{\Nat}\;t\;u\;(\lamS\;v) & \mapsto_\sigma& u\;v\;(\rec_{\Nat}\;t\;u\;v) \\
-    \rec_{\Bool}\;t\;u\;\rtt & \mapsto_\sigma & t \\
-    \rec_{\Bool}\;t\;u\;\rff & \mapsto_\sigma &u \\
-    \rec_{\List}\;t\;u\;\nil & \mapsto_\sigma &t \\
-    \rec_{\List}\;t\;u\;(v \append w) & \mapsto_\sigma &u\;v\;w\;(\rec_{\List}\;t\;u\;w) \\
-    \xi_i\;\encode{n} & \mapsto_\sigma & \encode{\sigma[i](n)} & \forall i < |\sigma|
+    (\lambda x.t)u & \rediE & t[u/x] \\
+    \pi_i \langle t_1,t_2\rangle & \rediE & t_i & \forall i \in \{1,2\} \\
+    \rec_{\Nat}\;t\;u\;\lamZ & \rediE & t \\
+    \rec_{\Nat}\;t\;u\;(\lamS\;v) & \rediE & u\;v\;(\rec_{\Nat}\;t\;u\;v) \\
+    \rec_{\Bool}\;t\;u\;\rtt & \rediE & t \\
+    \rec_{\Bool}\;t\;u\;\rff & \rediE &u \\
+    \rec_{\List}\;t\;u\;\nil & \rediE &t \\
+    \rec_{\List}\;t\;u\;(v \append w) & \rediE &u\;v\;w\;(\rec_{\List}\;t\;u\;w) \\
+    \xi_i\;\encode{n} & \rediE & \encode{\enviro[i](n)} & \forall i < |\enviro|
   \end{array}\]
+
+  The reduction relation $\redE$ is the smallest relation containing $\rediE$ and which is compatible, meaning that it is closed by subterms. We write $\redERT$ for the reflexive and transitive closure of $\redE$.
 \end{definition}
+
+It is folklore to check that $\redE$ is confluent.
+
+\begin{notation}
+  For $\enviro,\enviroT \in \Oracle$, we write $\enviro \infOr \enviroT$ when $\enviro$ is a prefix of $\enviroT$. We also write the cylinder on $\enviro$ as follows:
+  \[\cyl\enviro \defeq \{\enviroT \in \Oracle \mid \enviro \infOr \enviroT\}\]
+\end{notation}
+
+\begin{proposition}
+  If $\enviro, \enviroT \in \Oracle$ are such that $\enviro \infOr \enviroT$, then $\redE \subseteq \red_{\enviroT}$.
+\end{proposition}
+
+\begin{proof}
+  It suffices to show that $\rediE\subseteq \redi_{\enviroT}$, but this is straightforward by just comparing the list of redexes.
+\end{proof}
+
+The truth values of our predicates will be subsets of $\Lambda$. As is standard in realizability, thoses subsets need to be closed by anti-reduction.
+
+\begin{definition}[Saturated set]
+  Let $\enviro\in\Oracle$ and $A \subseteq \Lambda$.
+  We call $A$ a $\enviro$-saturated set if it is closed by anti-reduction for $\redE$, and write $\SATE$ the set of saturated sets:
+  \[A \in \SATE \defeq \forall t,u \in \Lambda, (\forall \enviroT \in \cyl{\enviro}, t \redP{\enviroT} u) \implies u \in A \implies t \in A\]
+  We define the set of saturated subsets as follows:
+  \[A \in \SAT \defeq \forall t,u \in \Lambda, (\forall \enviro \in \Oracle, t \redE u) \implies u \in A \implies t \in A\]
+\end{definition}
+
+The following result is folklore.
+
+\begin{proposition}
+  For any $\enviro \in \Oracle$, $\SATE$ is a complete sub-lattice of $\powerset(\Lambda)$. $\SAT$ is also a complete sub-lattice of $\powerset(\Lambda)$.
+\end{proposition}
+
+We now look at the relation between inclusion of reduction contexts and reductions.
+
+\begin{corollary}
+  For $\enviro\infOr\enviroT$, the following inclusion holds:
+  \[\SATE\subseteq \SATP{\enviroT}\]
+\end{corollary}
+
+We also give a lemma which simplfies some proofs of saturation.
+
+\begin{lemma}
+  Let $(A_\enviro)_{\enviro\in\Oracle}$ be a family of sets such that $\forall \enviro\in\Oracle, A_\enviro \in \SATE$. Then $\displaystyle\bigcap_{\enviro \in \Oracle} A_\enviro \in \SAT$.
+\end{lemma}
+
+\begin{proof}
+  Let $t,u \in \Lambda$ such that
+  \[\forall \enviro \in \Oracle, t \redE u\]
+  and $u \in \displaystyle\bigcap_{\enviro \in \Oracle} A_\enviro$. Then for any $\enviro \in \Oracle$, $u \in A_\enviro$ so (as $A_\enviro$ is saturated) $t \in A_\enviro$. So $t \in \displaystyle\bigcap_{\enviro\in\Oracle} A_\enviro$.
+\end{proof}
+
+The $\SATE$ (and $\SAT$) are also Heyting algebras.
+
+\begin{proposition}
+  Let $\sigma \in \Oracle$.
+  Let $A,B \in \SATE$ (resp. $\SAT$). Then let
+  \begin{align*}
+    A \infSATE B &\defeq \exists t \in \Lambda, \forall u \in A, tu \in B\\
+    A \impliesSATE B &\defeq \{t \in \Lambda \mid \forall u \in A, tu \in B\}\\
+    A \landSATE B &\defeq \{t \in \Lambda\mid (\pi_1\;t \in A)\land (\pi_2\;t \in B)\}
+  \end{align*}
+  This defines a Heyting pre-algebra.
+\end{proposition}
+
+\begin{proof}
+  We only prove the result for $\SATE$, the reasonning is the same for $\SAT$.
+  
+  The fact that the two operations are well defined is standard and uses the compatibility of the relation.
+  
+  Let's show that $\infSATE$ is the right adjoint to $\landSATE$. This means that for any $A,B,C \in \SATE$:
+  \[A \infSATE B \impliesSATE C \iff A \landSATE B \infSATE C\]
+  \begin{itemize}
+  \item suppose there is $t$ such that for any $u \in A$, $tu \in B \impliesSATE C$. Thus, the function $(\lambda x. t\;(\pi_1\;x)\;(\pi_2\;x))$ is a witness that $A \landSATE B \infSATE C$
+  \item conversely, if there is $t$ such that for any $u \in A \landSATE B$, $tu \in C$, then the function $\lambda x.\lambda y.t \langle x,y\rangle$ is a witness that $A \infSATE B \impliesSATE C$.
+  \end{itemize}
+
+  Hence $\SATE$ is a Heyting pre-algebra.
+\end{proof}
