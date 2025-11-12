@@ -137,9 +137,13 @@
 \newcommand{\redRT}{\red^{\star}}
 \newcommand{\redRTP}[1]{\red^{\star}_{#1}}
 \newcommand{\redERT}{\redRTP{\enviro}}
+\newcommand{\eqred}{=}
+\newcommand{\eqredP}[1]{\eqred_{#1}}
+\newcommand{\eqredE}{\eqredP{\enviro}}
 \newcommand{\cod}[1]{\ulcorner#1\urcorner}
 \newcommand{\codP}[2]{\cod{#1}^{#2}}
 \newcommand{\codE}[1]{\codP{#1}{\enviro}}
+\newcommand{\restr}[2]{{#1}\!\upharpoonright_{#2}}
 
 %----- ORACLES -----%
 
@@ -171,3 +175,8 @@
 \newcommand{\realUF}[1]{[\!\llbracket #1 \rrbracket\!]}
 \newcommand{\realUFP}[2]{\realUF{#1}^{#2}}
 \newcommand{\realUFE}[1]{\realUFP{#1}{\termenv}}
+
+%----- AXIOMES -----%
+
+\newcommand{\FT}{\mathrm{FT}}
+\newcommand{\WKL}{\mathrm{WKL}}
