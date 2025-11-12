@@ -10,7 +10,36 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
 \end{lemma}
 
 \begin{proof}
-  A FAIRE
+  By hypothesis, we know that $t\;\alpha \redERT \overline n$ for some $n \in \bN$. By confluence, it is possible to chose any reduction strategy which is normalizing. In particular, we can chose the leftmost reduction strategy:
+  \[t\;\alpha \stratETP l \overline n\]
+  Without loss of generality, we assume $t$ to be of the form $\lambda x.u$ as $t$ will reduce to such a term, given it realizes a function and, applied to $\alpha$, returns a value.
+
+  Thus, we are left to prove the result with $t[\alpha/x] \stratETP l \overline n$. By induction on the number of reduction steps, we prove that there exists a finite prefix such that for all $\beta$ with this prefix, $t[\beta/x] \stratETP l \overline n$. Let's proceed by case analysis on the first step reduction:
+  \begin{itemize}
+  \item the redex can be outside $\alpha$, meaning that there is $u$ such that $t[\alpha/x] \stratE l u[\alpha/x]$, then $t[\beta/x] \stratE l u[\beta/x]$ for any $\beta$. Using the induction hypothesis, the result follows.
+  \item the redex can involve $\alpha$. In this case, because of the reduction strategy, we find a right context $E[\;]$ and a term $u$ such that
+    \[t[\alpha/x] = E[\alpha\;u[\alpha/x]][\alpha/x]\]
+    By regrouping reductions, we only focus on the inner term, namely $\alpha\;u[\alpha/x]$: the induction hypothesis will be applied to the resulting term because $\alpha\;u[\alpha/x]$ reduces at least once. Let $v \defeq u[\alpha/x]$.
+
+    We claim that $v \redERT \overline i$ for some $i \in \bN$. Indeed, we can assume without loss of generality that $\alpha$ does not reduce on a term which does not realizes $\Nat$: it suffices to replace the term $\alpha$ with the term
+    \[\rec_{\Nat}\;(\alpha\;0)\;(\lambda n\;x. \alpha(S\;n))\]
+    to have a function which still realizes $\Nat \to \Nat$ but no longer reduces on terms which do not realize $\Nat$.
+
+    Thus, $v \redERT l \overline i$, which implies that $\alpha\;v \redERT \alpha \;\overline i$, but then $\alpha\;\overline i \redERT \overline{\alpha(i)}$ so, in the end,
+    $\alpha\;v \redERT \overline{\alpha(i)}$ and (by confluence)
+    \[\alpha\;v \stratETP l \overline{\alpha(i)}\]
+
+    Now, by induction hypothesis, we find a prefix such that for any $\beta$ with this prefix, $E[\overline{\alpha(i)}][\beta/x] \stratETP l \overline n$. If needed, we can strengthen the condition by taking a longer prefix of alpha such that $\alpha(i)$ is contained in it. Then, for $\beta$ with this prefix:
+    \begin{align*}
+      t[\beta/x] &= E[\beta\;u[\beta/x]][\beta/x] \\
+      &\redERT E[\beta\;\overline i][\beta/x] \\
+      &\stratETP l E[\overline{\alpha(i)}][\beta/x] \\
+      t[\beta/x] &\stratETP l \overline{n}
+    \end{align*}
+    hence the result.
+  \end{itemize}
+
+  Thus, by induction, we deduce that there exists such a prefix.
 \end{proof}
 
 Using this lemma and the $\lambda$-terms from the previous subsection, we can now realize $\FT$.
