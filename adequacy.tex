@@ -11,100 +11,60 @@ To prove the adequacy, we first prove a substitution lemma.
   We must first prove by induction on terms $\termu$ that $\termenv(\termu[\termt/\varx]) = \termenv[\varx \mapsto \termenv(\termt)](\termu)$. Then, by induction on $\varphi$:
   \begin{itemize}
   \item if $\varphi = S(\termt)$, then we use the equality on terms to have $t \in \codE{\termenv(\termt)} \iff t \in \codE{\termenv(\termt)}$
-  \item the other two cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.
+  \item the other three cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.
   \end{itemize}
   Hence the result.
 \end{proof}
 
 To postulate the adequacy, we need to give a typing system.
 
-
 \begin{definition}[Typing system]
   We define a ($\lambda$-)context as a list $\Xi \in \List(\Xlam \times \Prop)$, whose elements we will write $(x : \varphi)$.
 
   The typing relation $\Gamma\mid \Xi \vdash t : \varphi$ is defined by induction by the rules:
   \begin{center}
-    \AxiomC{$(x : \varphi) \in \Xi$}
-    \RightLabel{Ax}
-    \UnaryInfC{$\Gamma\mid \Xi \vdash x : \varphi$}
-    \DisplayProof
+    \ruleUnaryL{$(x : \varphi) \in \Xi$}{$\Gamma\mid \Xi \vdash x : \varphi$}{Ax}
 
     \vspace{0.2cm}
-    \AxiomC{$\Gamma\mid \Xi, x : \varphi \vdash t : \psi$}
-    \RightLabel{$\to_\mathrm i$}
-    \UnaryInfC{$\Gamma\mid \Xi \vdash \lambda x.t : \varphi \to \psi$}
-    \DisplayProof
+    \ruleUnaryL{$\Gamma\mid \Xi, x : \varphi \vdash t : \psi$}{$\Gamma\mid \Xi \vdash \lambda x.t : \varphi \to \psi$}{$\to_\mathrm i$}
     \quad
-    \AxiomC{$\Gamma\mid \Xi \vdash t : \varphi \to \psi$}
-    \AxiomC{$\Gamma\mid \Xi \vdash u : \varphi$}
-    \RightLabel{$\to_\mathrm e$}
-    \BinaryInfC{$\Gamma\mid\Xi\vdash t\;u : \psi$}
-    \DisplayProof
+    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \varphi \to \psi$}{$\Gamma\mid \Xi \vdash u : \varphi$}{$\Gamma\mid\Xi\vdash t\;u : \psi$}{$\to_\mathrm e$}
 
     \vspace{0.2cm}
-    \AxiomC{$\Gamma, \varx : S \mid \Xi \vdash t : \varphi$}
-    \RightLabel{$\forall_\mathrm i$}
-    \UnaryInfC{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}
-    \DisplayProof
+    \ruleUnaryL{$\Gamma, \varx : S \mid \Xi \vdash t : \varphi$}{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}{$\forall_\mathrm i$}
     \quad
-    \AxiomC{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}
-    \AxiomC{$\Gamma\vdash \termt : S$}
-    \RightLabel{$\forall_\mathrm e$}
-    \BinaryInfC{$\Gamma\mid \Xi \vdash t : \varphi[\termt / \varx]$}
-    \DisplayProof
+    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}{$\Gamma\vdash \termt : S$}{$\Gamma\mid \Xi \vdash t : \varphi[\termt / \varx]$}{$\forall_\mathrm e$}
+
+    \vspace{0.2cm}
+    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \varphi[\termt/\varx]$}{$\Gamma\vdash \termt : S$}{$\Gamma\mid \Xi \vdash t : \exists \varx^S, \varphi$}{$\exists_\mathrm i$}
+
+    \vspace{0.2cm}
+    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \exists \varx^S, \varphi$}{$\Gamma, \varx : S \mid \Xi \vdash u : \varphi \to \psi$}{$\Gamma\mid \Xi \vdash u\;t : \psi$}{$\exists_\mathrm e$}
     
     \vspace{0.2cm}
-    \AxiomC{}
-    \RightLabel{$\Nat_\mathrm i^0$}
-    \UnaryInfC{$\Gamma\mid Xi \vdash 0 : \Nat(\termZ)$}
-    \DisplayProof
+    \ruleAxL{$\Gamma\mid Xi \vdash 0 : \Nat(\termZ)$}{$\Nat_\mathrm i^0$}
     \quad
-    \AxiomC{$\Gamma\mid\Xi\vdash t : \Nat(\termt)$}
-    \RightLabel{$\Nat_\mathrm i^S$}
-    \UnaryInfC{$\Gamma\mid\Xi\vdash S\;t : \Nat(\termS(\termt))$}
-    \DisplayProof
+    \ruleUnaryL{$\Gamma\mid\Xi\vdash t : \Nat(\termt)$}{$\Gamma\mid\Xi\vdash S\;t : \Nat(\termS(\termt))$}{$\Nat_\mathrm i^S$}
 
     \vspace{0.2cm}
-    \AxiomC{}
-    \RightLabel{$\Nat_\mathrm e$}
-    \UnaryInfC{$\Gamma\mid \Xi\vdash \rec_{\Nat} : \forall X^{\Nat \to \Prop},X(\termZ) \to (\forall \varn^{\{\Nat\}}, X(\varn) \to X(\termS(\varn))) \to \forall \varn^{\{\Nat\}}, X(\varn)$}
-    \DisplayProof
+    \ruleAxL{$\Gamma\mid \Xi\vdash \rec_{\Nat} : \forall X^{\Nat \to \Prop},X(\termZ) \to (\forall \varn^{\{\Nat\}}, X(\varn) \to X(\termS(\varn))) \to \forall \varn^{\{\Nat\}}, X(\varn)$}{$\Nat_\mathrm e$}
 
     \vspace{0.2cm}
-    \AxiomC{}
-    \RightLabel{$\Bool_\mathrm i^\top$}
-    \UnaryInfC{$\Gamma\mid\Xi\vdash \rtt : \Bool(\termtt)$}
-    \DisplayProof
+    \ruleAxL{$\Gamma\mid\Xi\vdash \rtt : \Bool(\termtt)$}{$\Bool_\mathrm i^\top$}
     \quad
-    \AxiomC{}
-    \RightLabel{$\Bool_\mathrm i^\bot$}
-    \UnaryInfC{$\Gamma\mid\Xi\vdash \rff : \Bool(\termff)$}
-    \DisplayProof
+    \ruleAxL{$\Gamma\mid\Xi\vdash \rff : \Bool(\termff)$}{$\Bool_\mathrm i^\bot$}
 
     \vspace{0.2cm}
-    \AxiomC{}
-    \RightLabel{$\Bool_\mathrm e$}
-    \UnaryInfC{$\Gamma\mid\Xi\vdash \rec_{\Bool} : \forall X^{\Bool \to \Prop}, X(\termtt) \to X(\termff) \to \forall \varx^{\{\Bool\}}, X(\varx)$}
-    \DisplayProof
+    \ruleAxL{$\Gamma\mid\Xi\vdash \rec_{\Bool} : \forall X^{\Bool \to \Prop}, X(\termtt) \to X(\termff) \to \forall \varx^{\{\Bool\}}, X(\varx)$}{$\Bool_\mathrm e$}
     
     \vspace{0.2cm}
-    \AxiomC{}
-    \RightLabel{$\List_\mathrm i^{\nil}$}
-    \UnaryInfC{$\Gamma\mid\Xi\vdash \nil : \List(\termnil)$}
-    \DisplayProof
+    \ruleAxL{$\Gamma\mid\Xi\vdash \nil : \List(\termnil)$}{$\List_\mathrm i^{\nil}$}
 
     \vspace{0.2cm}
-    \AxiomC{$\Gamma\mid\Xi\vdash t : S(\termt)$}
-    \AxiomC{$\Gamma\mid \Xi\vdash u : \List(S)(\termu)$}
-    \RightLabel{$\List_\mathrm i^{\append}$}
-    \BinaryInfC{$\Gamma\mid\Xi\vdash t\append u : \List(S)(\termt \termcons \termu)$}
-    \DisplayProof
+    \ruleBinaryL{$\Gamma\mid\Xi\vdash t : S(\termt)$}{$\Gamma\mid \Xi\vdash u : \List(S)(\termu)$}{$\Gamma\mid\Xi\vdash t\append u : \List(S)(\termt \termcons \termu)$}{$\List_\mathrm i^{\append}$}
 
     \vspace{0.2cm}
-    \AxiomC{}
-    \RightLabel{$\List_\mathrm e$}
-    \UnaryInfC{$\Gamma\mid\Xi \vdash \rec_{\List} : \forall X^{\List(S) \to \Prop}, X(\termnil) \to (\forall \varx^{\{S\}}, \forall \vary^{\{\List(S)\}}, X(\vary) \to X(\varx \termcons \vary)) \to \forall \varx^{\{\List(S)\}}, X(\varx)$}
-    \DisplayProof
+    \ruleAxL{$\Gamma\mid\Xi \vdash \rec_{\List} : \forall X^{\List(S) \to \Prop}, X(\termnil) \to (\forall \varx^{\{S\}}, \forall \vary^{\{\List(S)\}}, X(\vary) \to X(\varx \termcons \vary)) \to \forall \varx^{\{\List(S)\}}, X(\varx)$}{$\List_\mathrm e$}
   \end{center}
 \end{definition}
 
@@ -130,6 +90,8 @@ To postulate the adequacy, we need to give a typing system.
   \item case $\to_\mathrm e$ is straightforward by definition of realizing $\psi \to \chi$.
   \item case $\forall_\mathrm i$ with $t : \forall \varx^S, \psi$: by induction hypothesis, we know that for any $\termenv' \models \Gamma, \varx : S$, $t[t_i/x_i] \realP{\enviro}{\termenv'} \psi$. For any $s \in \bS, \termenv[\varx \mapsto s] \models \Gamma$, so $t[t_i/x_i] \realP{\enviro}{\termenv[\varx\mapsto s]} \psi$ which is, by definition, $t[t_i/x_i] \realPP \forall \varx^S,\psi$.
   \item case $\forall_\mathrm e$ with $t : \psi[\termt/\varx]$: by definition of realizing $\forall \varx^S, \psi$ and using the substitution lemma.
+  \item case $\exists_\mathrm i$ with $t : \exists \varx^S, \varphi$: by induction hypothesis, we know that $\termenv(\termt) \in \bS$ and that $t \realP{\enviro}{\termenv[\varx \mapsto \termenv(\termt)]} \varphi$, so we indeed find some $s in \bS$ (namely $\termenv(\termv)$) such that $t \realP{\enviro}{\termenv[\varx\mapsto s]}\varphi$, which is the expected result.
+  \item case $\exists_\mathrm i$ with $u\;t : \psi$: by induction hypothesis, we know that for any $\termenv\models \Gamma, \varx : S$, $u \realPP \varphi \to \psi$. In particular, there is by induction hypothesis some $s \in \bS$ such that $t \realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$, but then $\termenv[\varx\mapsto s]\models \Gamma, \varx : S$ so we can apply $t$ to $u$ to find that $u\;t\realPP \psi$.
   \item we won't treat the cases $\Nat$ nor $\Bool$, as they are the same as the case $\List$.
   \item case $\List_\mathrm i^{\nil}$: indeed, $\nil \redERT \nil$.
   \item case $\List_\mathrm i^{\append}$: by induction hypothesis.

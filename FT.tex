@@ -62,16 +62,16 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
   \[\alpha : \bN \to \bB\]
   such that for all $n \in \bN, \restr \alpha n \notin C$. We now enrich our reduction context with this alpha:
   \[\enviroT \defeq \enviro \smallfrown \alpha\]
-  so that $\xi_m \realP{\enviroT}{} \Nat \to \Bool$. By definition of $b$, we know that
-  \[b\;\xi_m\realP{\enviroT}{} \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
+  so that $\oracle_m \realP{\enviroT}{} (\Nat \to \Bool)(\alpha)$. By definition of $b$, we know that
+  \[b\;\oracle_m\realP{\enviroT}{} \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
   which we can destruct as some $n \in \bN$ such that
-  \[\pi_1\;(b\;\xi_m) \redRTP{\enviroT} n \qquad \pi_2\;(b\;\xi_m)\realP{\enviroT}{} \restr \alpha n \in B\]
+  \[b\;\oracle_m\;\proj_1 \redRTP{\enviroT} n \qquad b\;\oracle_m\;\proj_2\realP{\enviroT}{} \restr \alpha n \in B\]
   Using lemma \ref{lem:continuity}, we can find an index $p\in \bN$ such that
-  \[\forall (\beta \realP{\enviroT}{} \Nat \to \Bool), (\forall i < p, \beta\;\overline i \redRTP{\enviroT} \overline{\alpha(i)}) \implies \pi_1\;(b\;\beta) \redRTP{\enviroT} n\]
+  \[\forall (\beta \realP{\enviroT}{} \Nat \to \Bool), (\forall i < p, \beta\;\overline i \redRTP{\enviroT} \overline{\alpha(i)}) \implies b\;\beta\;\proj_1 \redRTP{\enviroT} n\]
 
   Let
   \[M \defeq \max(n,p)\]
-  by continuity, we know that $\pi_1\;(b\;\alpha_M) \redRTP{\enviroT}{} n$, so when computing $C(b)\;\alpha_M$, there exists a list $\ell$ of length $\leq M$ such that $\restr\alpha{{\pi_1\;(b\;\ell 0^\infty)}}$ is a prefix of $\restr{\alpha}{M}$, so $\restr{\alpha}{M} \in C$. But by hypothesis, $\restr{\alpha}{M} \notin C$; hence a contradiction.
+  by continuity, we know that $b\;\alpha_M\;\proj_1 \redRTP{\enviroT}{} n$, so when computing $C(b)\;\alpha_M$, there exists a list $\ell$ of length $\leq M$ such that $\restr\alpha{{b\;\ell 0^\infty\;\proj_1}}$ is a prefix of $\restr{\alpha}{M}$, so $\restr{\alpha}{M} \in C$. But by hypothesis, $\restr{\alpha}{M} \notin C$; hence a contradiction.
 
   This means that there is no case when $n_{C(b)}$ diverges, so
   \[n_{C(b)}\realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]

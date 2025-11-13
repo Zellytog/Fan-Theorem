@@ -125,11 +125,13 @@
 \newcommand{\rff}{\mathrm{ff}}
 \newcommand{\nil}{[\,]}
 \newcommand{\append}{::}
+\newcommand{\proj}{\mathrm{k}}
 \newcommand{\oracle}{\xi}
 \newcommand{\encode}[1]{\overline{#1}}
 \newcommand{\redi}{\mapsto}
 \newcommand{\enviro}{\sigma}
 \newcommand{\enviroT}{\tau}
+\newcommand{\enviroTT}{\tau'}
 \newcommand{\rediE}{\redi_{\enviro}}
 \newcommand{\red}{\rhd}
 \newcommand{\redP}[1]{\red_{#1}}
@@ -159,10 +161,14 @@
 
 %----- REGLES INFERENCE -----%
 
-%\newcommand{ruleUnary}[2]{\AxiomC{#1}\UnaryInfC{#2}}
-%\newcommand{ruleBinary}[3]{\AxiomC{#1}\AxiomC{#2}\BinaryInfC{#3}\DisplayProof}
-%\newcommand{ruleUnaryL}[3]{\AxiomC{#1}\RightLabel{#3}\UnaryInfC{#2}\DisplayProof}
-%\newcommand{ruleBinary}[4]{\AxiomC{#1}\AxiomC{#2}\RightLabel{#4}\BinaryInfC{#3}\DisplayProof}
+\newcommand{\ruleUnary}[2]{\AxiomC{#1}\UnaryInfC{#2}\DisplayProof}
+\newcommand{\ruleBinary}[3]{\AxiomC{#1}\AxiomC{#2}\BinaryInfC{#3}\DisplayProof}
+\newcommand{\ruleUnaryL}[3]{\AxiomC{#1}\RightLabel{#3}\UnaryInfC{#2}\DisplayProof}
+\newcommand{\ruleBinaryL}[4]{\AxiomC{#1}\AxiomC{#2}\RightLabel{#4}\BinaryInfC{#3}\DisplayProof}
+\newcommand{\ruleTernary}[4]{\AxiomC{#1}\AxiomC{#2}\AxiomC{#3}\TrinaryInfC{#4}\DisplayProof}
+\newcommand{\ruleTernaryL}[5]{\AxiomC{#1}\AxiomC{#2}\AxiomC{#3}\RightLabel{#5}\TrinaryInfC{#4}\DisplayProof}
+\newcommand{\ruleAx}[1]{\AxiomC{}\UnaryInfC{#1}\DisplayProof}
+\newcommand{\ruleAxL}[2]{\AxiomC{}\RightLabel{#2}\UnaryInfC{#1}\DisplayProof}
 
 %----- REALISABILITY -----%
 
