@@ -25,11 +25,11 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
     \[\rec_{\Nat}\;(\alpha\;0)\;(\lambda n\;x. \alpha(S\;n))\]
     to have a function which still realizes $\Nat \to \Nat$ but no longer reduces on terms which do not realize $\Nat$.
 
-    Thus, $v \redERT l \overline i$, which implies that $\alpha\;v \redERT \alpha \;\overline i$, but then $\alpha\;\overline i \redERT \overline{\alpha(i)}$ so, in the end,
+    Thus, $v \redERT \overline i$, which implies that $\alpha\;v \redERT \alpha \;\overline i$, but then $\alpha\;\overline i \redERT \overline{\alpha(i)}$ so, in the end,
     $\alpha\;v \redERT \overline{\alpha(i)}$ and (by confluence)
     \[\alpha\;v \stratETP l \overline{\alpha(i)}\]
 
-    Now, by induction hypothesis, we find a prefix such that for any $\beta$ with this prefix, $E[\overline{\alpha(i)}][\beta/x] \stratETP l \overline n$. If needed, we can strengthen the condition by taking a longer prefix of alpha such that $\alpha(i)$ is contained in it. Then, for $\beta$ with this prefix:
+    Now, by induction hypothesis, we find a prefix such that for any $\beta$ with this prefix, $E[\overline{\alpha(i)}][\beta/x] \stratETP l \overline n$ and $u[\beta/x] \stratETP l \overline i$. If needed, we can strengthen the condition by taking a longer prefix of alpha such that $\alpha(i)$ is contained in it. Then, for $\beta$ with this prefix:
     \begin{align*}
       t[\beta/x] &= E[\beta\;u[\beta/x]][\beta/x] \\
       &\redERT E[\beta\;\overline i][\beta/x] \\
