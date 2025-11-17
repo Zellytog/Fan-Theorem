@@ -76,7 +76,7 @@
 \newcommand{\List}{\mathrm{List}}
 \newcommand{\Xlam}{\mathcal{X}_\Lambda}
 \newcommand{\Xt}{\mathcal X}
-\newcommand{\funN}{\mathcal F_{\mathbb N}}
+\newcommand{\funB}{\mathcal F_{\mathbb B}}
 \newcommand{\Oracle}{\mathcal O}
 \newcommand{\SAT}{\mathscr{S}\!\mathscr A \! \mathscr T}
 \newcommand{\SATP}[1]{\SAT_{#1}}
@@ -107,6 +107,7 @@
 \newcommand{\termcons}{\boldsymbol{::}}
 \newcommand{\termrec}{\textbf{rec}}
 \newcommand{\implH}{\implies\!\!\!_H}
+\newcommand{\landH}{\land_H}
 \newcommand{\infSAT}{\subseteq_{\SAT}}
 \newcommand{\infSATE}{\subseteq_{\SATE}}
 \newcommand{\landSAT}{\land_{\SAT}}
@@ -188,3 +189,38 @@
 
 \newcommand{\FT}{\mathrm{FT}}
 \newcommand{\WKL}{\mathrm{WKL}}
+
+%----- EVIDENCED FRAMES -----%
+
+\newcommand{\EFE}{\mathcal{E}}
+\newcommand{\EF}{\mathcal{EF}}
+\newcommand{\relEF}[3]{#1 \real #2 \leq #3}
+\newcommand{\relEFdot}{\relEF{\cdot}{\cdot}{\cdot}}
+\newcommand{\witID}{e_{\mathrm{id}}}
+\newcommand{\witComp}[2]{#2 \circ #1}
+\newcommand{\witCompDot}{\witComp{\cdot}{\cdot}}
+\newcommand{\witx}{e}
+\newcommand{\wity}{e'}
+\newcommand{\PropTop}{\top}
+\newcommand{\witTop}{e_\top}
+\newcommand{\witPair}[2]{\llparenthesis #1,#2\rrparenthesis}
+\newcommand{\witPairDot}{\witPair{\cdot}{\cdot}}
+\newcommand{\witFst}{e_{\pi_1}}
+\newcommand{\witSnd}{e_{\pi_2}}
+\newcommand{\PropAnd}[2]{#1 \land #2}
+\newcommand{\PropAndDot}{\PropAnd\cdot\cdot}
+\newcommand{\PropImpl}[2]{#1 \supset #2}
+\newcommand{\PropImplDot}{\PropImpl{\cdot}{\cdot}}
+\newcommand{\witLam}[1]{\lambda\;#1}
+\newcommand{\witEval}{e_{\mathrm{eval}}}
+\newcommand{\FamB}{\mathscr{B}}
+\newcommand{\FamC}{\mathscr{C}}
+\newcommand{\varA}{(A_\enviro)}%_{\enviro \in \Oracle}}
+\newcommand{\varB}{(B_\enviro)}%_{\enviro\in\Oracle}}
+\newcommand{\varC}{(C_\enviro)}%_{\enviro\in\Oracle}}
+\newcommand{\termA}[1]{A_{#1}}
+\newcommand{\termB}[1]{B_{#1}}
+\newcommand{\termC}[1]{C_{#1}}
+\newcommand{\termAE}{\termA\enviro}
+\newcommand{\termBE}{\termB\enviro}
+\newcommand{\termCE}{\termC\enviro}

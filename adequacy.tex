@@ -11,7 +11,7 @@ To prove the adequacy, we first prove a substitution lemma.
   We must first prove by induction on terms $\termu$ that $\termenv(\termu[\termt/\varx]) = \termenv[\varx \mapsto \termenv(\termt)](\termu)$. Then, by induction on $\varphi$:
   \begin{itemize}
   \item if $\varphi = S(\termt)$, then we use the equality on terms to have $t \in \codE{\termenv(\termt)} \iff t \in \codE{\termenv(\termt)}$
-  \item the other three cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.
+  \item the other four cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.
   \end{itemize}
   Hence the result.
 \end{proof}
@@ -29,6 +29,14 @@ To postulate the adequacy, we need to give a typing system.
     \ruleUnaryL{$\Gamma\mid \Xi, x : \varphi \vdash t : \psi$}{$\Gamma\mid \Xi \vdash \lambda x.t : \varphi \to \psi$}{$\to_\mathrm i$}
     \quad
     \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \varphi \to \psi$}{$\Gamma\mid \Xi \vdash u : \varphi$}{$\Gamma\mid\Xi\vdash t\;u : \psi$}{$\to_\mathrm e$}
+
+    \vspace{0.2cm}
+    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \varphi$}{$\Gamma\mid \Xi \vdash u : \psi$}{$\Gamma\mid\Xi \vdash \langle t,u \rangle : \varphi \land \psi$}{$\land_\mathrm i$}
+
+    \vspace{0.2cm}
+    \ruleUnaryL{$\Gamma\mid \Xi \vdash t : \varphi \land \psi$}{$\Gamma\mid\Xi \vdash \pi_1\;t : \varphi$}{$\land_\mathrm e^1$}
+    \quad
+    \ruleUnaryL{$\Gamma\mid \Xi \vdash t : \varphi \land \psi$}{$\Gamma\mid \Xi \vdash \pi_2\;t : \psi$}{$\land_\mathrm e^2$}
 
     \vspace{0.2cm}
     \ruleUnaryL{$\Gamma, \varx : S \mid \Xi \vdash t : \varphi$}{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}{$\forall_\mathrm i$}
@@ -88,6 +96,8 @@ To postulate the adequacy, we need to give a typing system.
   \item case Ax with $t = x_i$: the result is by hypothesis.
   \item case $\to_\mathrm i$ with $\lambda x.t : \psi \to \chi$: let $\enviroT \in \cyl{\enviro}$ and $u \realP{\enviroT}{\termenv} \psi$, let's prove that $(\lambda x.t)u \realP{\enviroT}{\termenv} \chi$. By hypothesis, $t[t_i/x_i][u/x] \realP{\enviroT}{\termenv} \chi$, but then it suffices to use the fact that $\realFP{\chi}{\termenv}{\enviroT}$ is closed by antireduction.
   \item case $\to_\mathrm e$ is straightforward by definition of realizing $\psi \to \chi$.
+  \item case $\land_\mathrm i$ with $\langle t,u \rangle : \psi \land \chi$: we know by induction hypothesis that $t[t_i/x_i] \realPP \psi$ and that $u[t_i/x_i] \realPP \chi$. Moreover, $\pi_1\; \langle t,u \rangle \redE t$ and $\pi_2\;\langle t,u \rangle \redE u$, so $\pi_1\;(\langle t,u\rangle[t_i/x_i]) \realPP\psi$ and $pi_2\;(\langle t,u\rangle[t_i/x_i]) \realPP \chi$ by saturation, hence $\langle t,u\rangle [t_i/x_i] \realPP \psi\land \chi$.
+  \item both cases $\land_\mathrm e$ are straightforward by definition of realizing a conjunction.
   \item case $\forall_\mathrm i$ with $t : \forall \varx^S, \psi$: by induction hypothesis, we know that for any $\termenv' \models \Gamma, \varx : S$, $t[t_i/x_i] \realP{\enviro}{\termenv'} \psi$. For any $s \in \bS, \termenv[\varx \mapsto s] \models \Gamma$, so $t[t_i/x_i] \realP{\enviro}{\termenv[\varx\mapsto s]} \psi$ which is, by definition, $t[t_i/x_i] \realPP \forall \varx^S,\psi$.
   \item case $\forall_\mathrm e$ with $t : \psi[\termt/\varx]$: by definition of realizing $\forall \varx^S, \psi$ and using the substitution lemma.
   \item case $\exists_\mathrm i$ with $t : \exists \varx^S, \varphi$: by induction hypothesis, we know that $\termenv(\termt) \in \bS$ and that $t \realP{\enviro}{\termenv[\varx \mapsto \termenv(\termt)]} \varphi$, so we indeed find some $s in \bS$ (namely $\termenv(\termv)$) such that $t \realP{\enviro}{\termenv[\varx\mapsto s]}\varphi$, which is the expected result.

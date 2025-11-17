@@ -57,6 +57,9 @@ To define terms, we first define HOL-contexts.
   \ruleBinary{$\Gamma\vdash \varphi : \Prop$}{$\Gamma\vdash \psi : \Prop$}{$\Gamma\vdash \varphi \to \psi : \Prop$}
 
   \vspace{0.2cm}
+  \ruleBinary{$\Gamma\vdash \varphi : \Prop$}{$\Gamma\vdash \psi : \Prop$}{$\Gamma\vdash \varphi \land \psi : \Prop$}
+
+  \vspace{0.2cm}
   \ruleUnary{$\Gamma, \varx : S \vdash \varphi : \Prop$}{$\Gamma\vdash \forall \varx^S, \varphi : \Prop$}
   \qquad
   \ruleUnary{$\Gamma, \varx : S \vdash \varphi : \Prop$}{$\Gamma\vdash \exists \varx^S, \varphi : \Prop$}
@@ -125,11 +128,12 @@ We now give the natural set-semantic for each sort and term, parametrized by a c
       \rec_{\bL}(\sem{\Gamma\vdash \termt : T}, \sem{\Gamma\vdash \termu : S \to \List(S) \to T \to T}, \sem{\Gamma\vdash \termv : \List(S)})
     \end{multline*}
   \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \sem{\Gamma\vdash \varphi : \Prop}\implH \sem{\Gamma\vdash \psi : \Prop}$
+  \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \sem{\Gamma\vdash \varphi : \Prop}\landH \sem{\Gamma\vdash \psi : \Prop}$
   \item $\displaystyle\sem{\Gamma\vdash \forall \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcap_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
   \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
   \item $\sem{\Gamma\vdash S(\termt) : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
   \end{itemize}
-  where $\rec_{\bN}$ (resp. $\rec_{\bB}$, resp. $\rec_{\bL}$) are the canonical recurcors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a letter $a$ and a word $u$, appends $a$ to $u$ to make a new word, $\implH$ is the implication of $H$, $\bigcap$ is its intersection and $\bigcup$ its union.
+  where $\rec_{\bN}$ (resp. $\rec_{\bB}$, resp. $\rec_{\bL}$) are the canonical recurcors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a letter $a$ and a word $u$, appends $a$ to $u$ to make a new word, $\implH$ is the implication of $H$, $\landH$ is its meet, $\bigcap$ is its intersection and $\bigcup$ its union.
 
   For a given sort $S$, we will also write $\bS$ for $\sem S$.
 \end{definition}

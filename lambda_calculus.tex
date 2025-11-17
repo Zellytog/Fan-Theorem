@@ -20,11 +20,11 @@ pairs and a family of oracles.
 
 We assume the usual convention of $\alpha$-renaming of bound variables.
 
-As the family $(\oracle_n)_{n \in \bN}$ represents oracles, the reduction will be parametrised by a list of functions $\bN \to \bN$.
+As the family $(\oracle_n)_{n \in \bN}$ represents oracles, the reduction will be parametrised by a list of functions $\bN \to \bB$.
 
 \begin{definition}[Reduction context]
-  Let $\funN$ be the set of set-functions $\bN \to \bN$. We denote by $\Oracle$ the set of lists of set-functions $\bN \to \bN$:
-  \[\Oracle \defeq \List(\funN)\]
+  Let $\funB$ be the set of set-functions $\bN \to \bB$. We denote by $\Oracle$ the set of lists of set-functions $\bN \to \bB$:
+  \[\Oracle \defeq \List(\funB)\]
   Elements of this set will be called reduction contexts. For any $\enviro \in \Oracle$, the $i$-th function of the list will be written $\enviro[i]$ and the length of $\enviro$ will be written $|\enviro|$.
 \end{definition}
 
@@ -35,12 +35,12 @@ We assume the usual convention for substitution without capture of free variable
 \end{notation}
 
 The reduction itself is the expected $\beta$-reduction, enriched by the reduction, for
-any set-function $f : \bN \to \bN$ in the $i$-th place of the reduction context:
+any set-function $f : \bN \to \bB$ in the $i$-th place of the reduction context:
 \[\oracle_i \;\encode{n} \mapsto \encode{f(n)}\]
-where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in this lambda-calculus.
+where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in this lambda-calculus, and the encoding of booleans is obviously $\rtt$ and $\rff$, corresponding respectively to $1 \in \bB$ and $0 \in \bB$.
 
 \begin{definition}[Reduction]
-  Let $\sigma \in \Oracle$.
+  Let $\oracle \in \Oracle$.
   We define the relation $\mapsto_\sigma$ of immediate reduction by the following rules:
   \[\begin{array}{lclr}
     (\lambda x.t)u & \rediE & t[u/x] \\
@@ -51,7 +51,7 @@ where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in
     \rec_{\Bool}\;t\;u\;\rff & \rediE &u \\
     \rec_{\List}\;t\;u\;\nil & \rediE &t \\
     \rec_{\List}\;t\;u\;(v \append w) & \rediE &u\;v\;w\;(\rec_{\List}\;t\;u\;w) \\
-    \xi_i\;\encode{n} & \rediE & \encode{\enviro[i](n)} & \forall i < |\enviro|
+    \oracle_i\;\encode{n} & \rediE & \encode{\enviro[i](n)} & \forall i < |\enviro|
   \end{array}\]
 
   The reduction relation $\redE$ is the smallest relation containing $\rediE$ and which is compatible, meaning that it is closed by subterms. We write $\redERT$ for the reflexive and transitive closure of $\redE$.
@@ -82,6 +82,11 @@ The truth values of our predicates will be subsets of $\Lambda$. As is standard 
   \[A \in \SAT \defeq \forall t,u \in \Lambda, (\forall \enviro \in \Oracle, t \redE u) \implies u \in A \implies t \in A\]
 \end{definition}
 
+\begin{remark}
+  Using the fact that $\redE\subseteq\red_{\enviroT}$ for $\enviro\infOr\enviroT$, we know that if $t \redE u$ and $u \in A$, for $A \in \SATE$, then $t \in A$. Thus the condition of being saturated is a strengthening of the naive definition, which would be
+  \[\forall t,u \in \Lambda, t \redE u \implies u \in A \implies t \in A\]
+\end{remark}
+
 The following result is folklore.
 
 \begin{proposition}
@@ -90,14 +95,18 @@ The following result is folklore.
 
 We now look at the relation between inclusion of reduction contexts and reductions.
 
-\begin{corollary}
+\begin{proposition}
   For $\enviro\infOr\enviroT$, the following inclusion holds:
-  \[\SATE\subseteq \SATP{\enviroT}\]
-\end{corollary}
+  \[\SATP{\enviroT}\subseteq \SATP{\enviro}\]
+\end{proposition}
+
+\begin{proof}
+  Let $\enviro,\enviroT \in \Oracle$ such that $\enviro\infOr\enviroT$. Let $A \in \SATP{\enviroT}$, $t,u \in \Lambda$ such that $\forall \enviroTT \in \cyl{\enviro}, t \redP{\enviroTT} u$ and $u \in A$. Then, we know that for any $\enviroTT \in \cyl{\enviroT}, t \redP{\enviroTT} u$ as $\cyl{\enviroT}\subseteq \cyl{\enviro}$, so $t \in A$ as $A$ is $\enviroT$-saturated.
+\end{proof}
 
 We also give a lemma which simplfies some proofs of saturation.
 
-\begin{lemma}
+\begin{lemma}\label{lem:inter_SAT}
   Let $(A_\enviro)_{\enviro\in\Oracle}$ be a family of sets such that $\forall \enviro\in\Oracle, A_\enviro \in \SATE$. Then $\displaystyle\bigcap_{\enviro \in \Oracle} A_\enviro \in \SAT$.
 \end{lemma}
 
