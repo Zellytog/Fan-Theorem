@@ -1,0 +1,63 @@
+\subsection{Evidenced frames}
+
+The realizability model we give can be defined by an evidenced frame.
+
+\begin{definition}[Evidenced frame]
+  An evidenced frame $\EFE$ is a pair of sets $(E,\Phi)$ equiped with:
+  \begin{itemize}
+  \item a ternary relation $\relEFdot \subseteq E \times \Phi \times \Phi$
+  \item an element $\witID$ such that
+    \[\forall \varphi \in \Phi, \relEF \witID \varphi \varphi\]
+  \item there exists a function $\witCompDot : E \times E \to E$ such that
+    \[\forall \varphi, \psi, \chi \in \Phi, \forall \witx, \wity \in E, \relEF\witx\varphi\psi \implies \relEF\wity\psi\chi \implies \relEF{\witComp\witx\wity}{\varphi}{\chi}\]
+  \item an element $\PropTop \in \Phi$ such that there exists an element $\witTop \in E$ such that
+    \[\forall \varphi \in \Phi, \relEF\witTop\varphi\PropTop\]
+  \item a function $\PropAndDot : \Phi \times \Phi \to \Phi$ such that there exist a function $\witPairDot : E \times E \to E$ and two elements $\witFst,\witSnd \in E$ such that
+    \[\begin{array}{l}
+    \forall \varphi, \psi \in \Phi, \relEF\witFst{\PropAnd\varphi\psi}\varphi\\
+    
+    \forall \varphi, \psi \in \Phi, \relEF\witSnd{\PropAnd\varphi\psi}\varphi\\
+    
+    \forall \varphi, \psi, \chi \in \Phi,\forall \witx,\wity \in E, \relEF\witx\varphi\psi \implies \relEF\wity\varphi\chi\implies \relEF{\witPair\witx\wity}\varphi{\PropAnd\psi\chi}
+    \end{array}\]
+  \item a function $\PropImplDot : \Phi \times \powerset(\Phi) \to \Phi$ such that there exist a function $\witLam{} : E \to E$ and an element $\witEval$ such that
+    \[\begin{array}{l}
+    \forall \varphi,\psi \in \Phi, \forall \vec{\chi}\in \powerset(\Phi), \forall \witx \in E, (\forall \chi \in \vec \chi, \relEF\witx{\PropAnd\varphi\psi}\chi) \implies \relEF{\witLam\witx}\varphi{\PropImpl\psi{\vec{\chi}}}\\
+    \forall \varphi \in \Phi, \forall \vec{\psi} \in \powerset(\Phi),\forall \psi \in \vec{\psi}, \relEF{\witEval}{\PropAnd{(\PropImpl{\varphi}{\vec\psi})}\varphi}\psi
+    \end{array}\]
+  \end{itemize}
+\end{definition}
+
+\begin{proposition}[Saturated sequences]
+  Using our previous convention, we define the two sets
+  \[E \defeq \Lambda \qquad \Phi \defeq \prod_{\enviro \in \Oracle} \SATE\]
+  with the following elements:
+  \begin{itemize}
+  \item the relation is given by
+    \[\relEF t {\varA}{\varB}\defeq \forall \enviro \in \Oracle, \forall u \in \termAE, tu \in \termBE\]
+  \item the identity element is $\witID \defeq \lambda x.x$
+  \item the composition function is
+    \[\witComp t u \defeq \lambda x.u\;(t\;x)\]
+  \item the truth proposition is $\PropTop \defeq \enviro \mapsto \Lambda$ and the evidence for this is $\witTop \defeq \lambda x.x$
+  \item the conjunction function is $\PropAndDot \defeq (\varA,\varB) \mapsto \enviro \mapsto \termAE \landSATE \termBE$, the pairing function is
+    \[\witPair t u \defeq \lambda x. \langle t\;x,u\;x \rangle\]
+    with $\witFst \defeq \pi_1$ and $\witSnd \defeq \pi_2$
+  \item the implication function is
+    \[\PropImplDot \defeq (\varA,\FamB) \mapsto \enviro \mapsto \termAE \impliesSATE \bigcap_{\varB \in \FamB} \termBE \]
+    with abstraction function $\witLam t \defeq \lambda x.\lambda y. t\;\langle x,y\rangle$ and evaluation element $\witEval \defeq \lambda x.\pi_1\;x\;(\pi_2\;x)$
+  \end{itemize}
+  this data gives an evidenced frame.
+\end{proposition}
+
+\begin{proof}
+  We need to prove the properties of each element:
+  \begin{itemize}
+  \item for any $\varA \in \Phi$, $\relEF{\lambda x.x}{\varA}{\varA}$: for $\enviro \in \Oracle$, for any $t \in \termAE$, $(\lambda x.x)t \redE t$, so by saturation $(\lambda x.x)t \in \termAE$.
+  \item for any $\varA,\varB,\varC\in \Phi$, $t,u \in \Lambda$ such that $\relEF t {\varA}{\varB}$ and $\relEF u {\varB}{\varC}$, we have $\relEF{\lambda x.u\;(t\;x)}{\varA}{\varC}$: for $\enviro \in \Oracle$, for any $v \in \termAE$, we know that $t\;v \in \termBE$ (by hypothesis on $t$) and thus that $u\;(t\;v) \in \termCE$ (by hypothesis on $u$), but $(\lambda x.u\;(t\;x))\;v \redE u\;(t\;v)$, hence the result by saturation.
+  \item for any $\varA \in \Phi, \relEF{\lambda x.x}{\varA}{\PropTop}$ is automatic: any term instead of $\lambda x.x$ would satisfy this property.
+  \item for any $\varA,\varB \in \Phi$, $\relEF{\pi_1}{\varA}{\varB}$ and $\relEF{\pi_2}{\varA}{\varB}$: for $\enviro \in \Oracle, t \in \PropAnd{\termAE}{\termBE}$, we know that $\pi_1\;t \in \termAE$ and $\pi_2\;t \in \termBE$, which is exactly the expected result.
+  \item for any $\varA,\varB,\varC \in \Phi$, for any $t,u \in \Lambda$, if $\relEF t {\varA}{\varB}$ and $\relEF u {\varA}{\varC}$, then $\relEF{\lambda x.\langle t\;x,u\;x\rangle}{\varA}{\PropAnd{\varB}{\varC}}$: let $\enviro\in \Oracle, v \in \termAE$, then $t\;v \in \termBE$ and $u\;v \in \termCE$, so $\langle t\;v,u\;v \in \PropAnd{\termBE}{\termCE}$ (by the same argument that we used to say that the typing rule $\land_\mathrm i$ is adequate). As $(\lambda x.\langle t\;x,u\;x\rangle)\;v \redE \langle t\;v,u\;v\rangle$, the result follows by saturation.
+  \item for any $\varA,\varB \in \Phi$, for any set $\FamC\in\powerset(\Phi)$ and evidences $t \in \Lambda$, if $\forall \varC \in \FamC, \relEF t{\PropAnd{\varA}{\varC}}{\varC}$ then $\relEF{\witLam t}{\varA}{\PropImpl{\varB}{\FamC}}$: let $\enviro \in \Oracle, u \in \termAE$, let's prove that $\witLam t\;u \in \PropImpl{\varB}{\FamC}$. Let $\varC \in \FamC$, it suffices to show that for any $v \in \termBE$, $\witLam t\;u\;v \in \termCE$, but as $\langle u,v\rangle \in (\PropAnd{\varA}{\varB})_\enviro$, we deduce that $t\;\langle u,v\rangle \in \termCE$. Moreover, $\witLam t\;u\;v \redE^2 t\;\langle u,v\rangle$, hence the result by saturation.
+  \item for any $\varA \in \Phi, \FamB \in \powerset(\Phi)$ and $\varB \in \FamB$, $\relEF{\witEval}{\PropAnd{(\PropImpl{\varA}{\FamB})}{\varA}}{\varB}$: let $\enviro \in \Oracle$ and $t \in (\PropAnd{(\PropImpl{\varA}{\FamB})}{\varA})_\enviro$, then $\pi_1\;t \in (\PropImpl{\varA}{\FamB})_\enviro$ and $\pi_2\;t \in \termAE$, so for $\varB \in \FamB$, $\pi_1\;t\;(\pi_2\;t) \in \termBE$, hence the result by saturation as $\witEval\;t \redE \pi_1\;t\;(\pi_2\;t)$.
+  \end{itemize}
+\end{proof}
