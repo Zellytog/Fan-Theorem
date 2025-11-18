@@ -61,3 +61,58 @@ The realizability model we give can be defined by an evidenced frame.
   \item for any $\varA \in \Phi, \FamB \in \powerset(\Phi)$ and $\varB \in \FamB$, $\relEF{\witEval}{\PropAnd{(\PropImpl{\varA}{\FamB})}{\varA}}{\varB}$: let $\enviro \in \Oracle$ and $t \in (\PropAnd{(\PropImpl{\varA}{\FamB})}{\varA})_\enviro$, then $\pi_1\;t \in (\PropImpl{\varA}{\FamB})_\enviro$ and $\pi_2\;t \in \termAE$, so for $\varB \in \FamB$, $\pi_1\;t\;(\pi_2\;t) \in \termBE$, hence the result by saturation as $\witEval\;t \redE \pi_1\;t\;(\pi_2\;t)$.
   \end{itemize}
 \end{proof}
+
+\begin{remark}
+  For any $\enviro \in \Oracle$, it is possible to construct the evidenced frame given by
+  \[E \defeq \Lambda \qquad \Phi \defeq \prod_{\enviroT \in \cyl{\enviro}} \SATP\enviroT\]
+  with the same functiond and evidenced.
+\end{remark}
+
+It is also possible to construct, for any $\enviro \in \Oracle$, the evidenced frame given by $\Phi \defeq \SATE$. There is, in this case, morphisms of evidenced frame.
+
+\begin{definition}[Morphism of evidenced frame]
+  Given two evidenced frames $(E_1,\Phi_1)$ and $(E_2,\Phi_2)$, a morphism is a function $F : \Phi_1 \to \Phi_2$ such that:
+  \begin{itemize}
+  \item $\forall \witx \in E_1, \exists \wity \in E_2, \forall \varphi,\psi \in \Phi_1, \relEF{\witx}\varphi\psi \implies \relEF{\wity}{F(\varphi)}{F(\psi)}$
+  \item $\exists \witx \in E_2, \relEF{\witx}{\PropTop_2}{F(\PropTop_1)}$
+  \item $\exists \witx \in E_2, \forall \varphi, \psi \in \Phi_1, \relEF{\witx}{\PropAnd{F(\varphi)}{F(\psi)}}{F(\PropAnd{\varphi}{\psi})}$
+  \item $\exists \witx \in E_2, \forall \varphi \in \Phi_1, \forall \vec\psi \in \powerset(\Phi_1), \relEF{\witx}{\PropImpl{\varphi}{\{F(\psi)\mid \psi \in \vec\psi\}}}{F(\PropImpl{\varphi}{\vec\psi})}$
+  \item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
+      \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
+      \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
+    \end{cases}$
+  \end{itemize}
+\end{definition}
+
+\begin{proposition}
+  For any $\enviro \in \Oracle$, the function
+  \[\begin{array}{ccc}
+  \displaystyle \prod_{\enviro\in\Oracle} \SATE& \longrightarrow & \SATE \\
+  \varA_{\enviro\in\Oracle} &\longmapsto & \termAE
+  \end{array}\]
+  extends to a morphism of evidenced frame.
+\end{proposition}
+
+\begin{proof}
+  We check each proposition:
+  \begin{itemize}
+  \item given a term $t \in \Lambda$, the term $t$ is such that for all $\varA,\varB$:
+    \[(\forall \enviro \in \Oracle, \forall u \in \termAE, tu \in \termBE) \implies \forall u \in \termAE, tu \in \termBE\]
+  \item any term $t$ is an evidence of $\PropTop_2 \leq F(\PropTop_1)$, so we can take for example $\lambda x.x$
+  \item for any $\varA,\varB$, we have $(\PropAnd{\varA}{\varB})_\enviro = \PropAnd{\termAE}{\termBE}$, hence the result by taking $\lambda x.x$
+  \item we take once again the evidence to be $\lambda x.x$. Let $\varA$ and $\FamB$, then both propositions are equal to
+    \[\{t \in \Lambda \mid \forall u \in \termAE, \forall \varB \in \FamB, tu \in \termBE\}\]
+  \item let
+    \[\begin{array}{ccccc}
+    f & : & \SATE & \longrightarrow & \prod_{\enviro\in\Oracle} \SATE\\
+    & & A & \longmapsto & \enviroT \mapsto \{t \in \Lambda \mid \exists u \in A, t \redRTP{\enviroT} u\}
+    \end{array}\]
+    the fact that for each $\enviroT$, the set is $\enviroT$-saturated is a consequence of the definition. In the case of the $\enviro$ component of this set, the set is exactly $A$ as $t \redRTP\enviroT u$ means exactly that $t \in A$ (because $A$ is $\enviro$-saturated). But now, $F(f(\varphi))$ is $A$, so both evidences can be taken to be $\lambda x.x$.
+  \end{itemize}
+
+  Thus, the function defines a morphism of evidenced frames.
+\end{proof}
+
+\begin{remark}
+  The morphism thus defined is stronger in the sense that for $\relEF{\witx}{\varphi}{\psi}$, the associated evidenced $\relEF{\wity}{F(\varphi)}{F(\psi)}$ is $\witx$ itself. This is a kind of logical shift only, where the evidenced are preserved.
+\end{remark}

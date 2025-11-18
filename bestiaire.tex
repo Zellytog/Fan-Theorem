@@ -1,2 +1,104 @@
 \subsection{First exploration of the model}
 
+Given our model, any closed term typable in system T can be written as a closed term and be realized by a term canonicaly associated to it. This means that, for example, the functions $+$ or $\times$ can be expressed both as objects of the sort $\Nat \to \Nat \to \Nat$ and as realizers computing these functions. We will give a list of functions written in system T, and which are thus uniformly realized.
+
+\subsubsection{Boolean operations}
+
+The usual connectives can be defined as boolean operations:
+\begin{align*}
+  \BoolNot &\defeq \rec_{\Bool}\;\rff\;\rtt &: \Bool \to \Bool\\
+  \BoolOr &\defeq \lambda b.\rec_{\Bool}\;\rtt\;b &: \Bool \to \Bool \to \Bool\\
+  \BoolAnd &\defeq \lambda b.\rec_{\Bool}\;b\;\rff &: \Bool \to \Bool \to \Bool\\
+  \BoolImp &\defeq \lambda b.\rec_{\Bool}\;\rtt\;(\BoolNot\;b) &: \Bool \to \Bool \to \Bool\\
+  \BoolEq &\defeq \rec_{\Bool}\;(\lambda x.x)\;\BoolNot &: \Bool \to \Bool \to \Bool
+\end{align*}
+
+These function extend to operations on lists of booleans:
+\begin{align*}
+  \bigwedge &\defeq \rec_{\List}\;\rtt\; (\lambda b\;\_\;b'. b\BoolAnd b')&: \List(\Bool) \to \Bool\\
+  \bigvee &\defeq \rec_{\List}\;\rff\;(\lambda b\;\_\;b'. b\BoolOr b') &: \List(Bool) \to \Bool
+\end{align*}
+
+\subsubsection{Arithmetic}
+
+The usual arithmetic functions are
+\begin{align*}
+  +&\defeq \lambda n.\rec_{\Nat}\;(\lambda\;\_.n)\;(\lambda\;\_\;m.\lamS\;m) &: \Nat \to \Nat \to \Nat\\
+  \times&\defeq \lambda n.\rec_{\Nat}\;(\lambda\;\_.\lamZ)\;(\lambda\;\_\;m.m+n) &: \Nat \to \Nat \to \Nat\\
+  n^m &\defeq \rec_{\Nat}\;(\lambda\;\_.\lamS\;\lamZ)\;(\lambda\;\_\;m.m\times n)\;m&: \Nat\\
+  \predNat &\defeq \rec_{\Nat}\;\lamZ\;(\lambda\;n\;\_.n) &:\Nat \to \Nat\\
+  - &\defeq \lambda n.\rec_{\Nat}\;n\;(\lambda\;\_\;m.\predNat\;m) &:\Nat\to\Nat\to\Nat
+\end{align*}
+
+we can also write the following function:
+\begin{align*}
+  ``\eqNat"& \defeq\rec_{\Nat}\;(\rec_{\Nat}\;\rtt\;(\lambda\;\_\;\_.\rff))\;(\lambda\;\_\;f. (\rec_{\Nat}\;\rff\;(\lambda\;m\;\_.f\;m))) &:\Nat \to \Nat \to \Bool\\
+\end{align*}
+which realizes the graph of the equality. Hence, it can be proved by double induction that
+\[\forall n,m^{\{\Nat\}}, n = m \iff (n \eqNat m) = \rtt\]
+
+We also define an enumeration of integer:
+\begin{align*}
+  \NatToList &\defeq \rec_{\Nat}\;\nil\;(\lambda\;n\;\ell.n\append\ell) &: \Nat \to \List(\Nat)
+\end{align*}
+which reduces on $\overline n$ to $[\overline k \mid k < n]$.
+
+\subsubsection{Operations on lists}
+
+We first define the list concatenation:
+\begin{align*}
+  \concat &\defeq \lambda \ell.\rec_{\List}\;\ell\;(\lambda a\;\_\;\ell'.a\append\ell') &: \List(S) \to \List(S) \to \List(S)
+\end{align*}
+Supposing that $S$ is a sort with decidable equality (meaning that there is a function $e : S \to S \to \Bool$ such that $s = s'$ is equivalent to $e(s,s') = \rtt$), then we construct the prefix order (which is decidable) by
+\begin{multline*}
+  \ell \ListInf \ell' \defeq \rec_{\List}\;(\lambda\_.\rtt)\;(\lambda a\;\_\;\ell_0.\rec_{\List}\;\rff\;(\lambda b\;\ell'_0\;\_.a =_S b \BoolAnd \ell_0\;\ell'_0)) \\:\List(S)\to\List(S)\to \Bool
+\end{multline*}
+
+Given a function $f : S \to T$, we can make the map function:
+\[
+\mapL \defeq \lambda f.\rec_{\List}\;\nil\;(\lambda a\;\_\;\ell.(f\;a)\append \ell) : (S \to T) \to \List(S) \to \List(T)
+\]
+and, for a function $f : S \to \Bool$, we can make the filter function:
+\begin{multline*}
+\filterL \defeq \lambda f.\rec_{\List}\;\nil\;(\lambda a\;\_\;\ell.\rec_{\Bool}\;(a\append\ell)\;\ell\;(f\;a)) \\: (S \to \Bool) \to \List(S) \to \List(S)
+\end{multline*}
+
+Given a function $f : \Nat \to \Nat$, we define the list of its $n$ first values as
+\[\restr{f}{} \defeq \rec_{\Nat}\;\nil\;(\lambda\;n\;\ell.(f\;n) \append \ell)\]
+
+For an integer $n$, we define it writting in base $2$ as follows:
+\[
+  \NatToBool \defeq \rec_{\Nat}\;\rff\;(\lambda\;\_\;\_.\rtt) :\Nat\to\Bool\]
+\begin{multline*}
+  f \defeq \lambda \langle \ell, n \rangle.\rec_{\Nat}\;\langle \ell,n\rangle (\lambda\;\_\;\_.\langle (\NatToBool(n\% 2)) \append \ell, n/2\rangle)\\
+  : (\List(\Bool)\times\Nat) \to (\List(\Bool)\times\Nat)
+\end{multline*}
+\[
+\IntBaseD n \defeq \rec_{\Nat}\;\langle\nil,n \rangle\;(\lambda\;\_.f)\;n : \Nat \to \List(\Bool)
+\]
+
+\subsubsection{Predicate given a bar}
+
+Fix a monotoous predicate $B : \List(\Bool) \to \Prop$, \textit{i.e.} such that
+\[\forall \ell, \ell'^{\List(\Bool)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')\]
+a bar for this predicate is a realizer (in somme reduction context $\enviro$)
+\[b \realP{\enviro}{} \forall \ell^{\{\List(\Bool)\}}, \exists n^{\{\Nat\}}, B(\restr \ell n)\]
+
+Our goal is to construct a monotonous subset $C\subseteq B$ which is decidable, meaning that we must have a term $t : \List(\Bool) \to \Bool$ such that $C(\ell) \iff t\;\ell = \rtt$.
+
+For this, the idea is to consider every list by the order given by our enumeration. For a given list $\ell$, the bar $b$ can be applied to the function $\ell 0^\infty$ to have a list $\ell'$ (either a prefix of $\ell$ or $\ell$ followed by a finite number of $0$).
+
+The algorithm is the following to decide whether a list $\ell_0$ is in $C$. We consider every list $\ell$ of size $n \leq |\ell_0|$: $\ell_0 \in C$ exactly when there is some list $\ell'$ such that its associated $\ell'$ has as an extension $\ell_0$.
+
+The idea is thus to add every extension of $\ell_0$ when the given extension is not already decided. By the fact that $B$ is monotonous and that the bar gives a predicate inside $B$, we know that $C$ is a subset of $B$. As $C$ is made by adding extensions, it is also monotonous, and because we only have to check a finite number of lists to decide whether a given list is in $C$, this is decidable.
+
+The associated term is the following:
+\begin{multline*}
+C(b) \defeq \lambda \ell. \bigvee \mapL\;((\lambda \ell'. \ell'\ListInf \ell)\circ b \circ \ListEnum)\;(\NatToList\;(2^{|\ell| + 1} - 1)) \\: \List(Bool) \to \Bool
+\end{multline*}
+
+Then, we can define an algorithm which tries every list of a given size $n$ and checks if every such list is in $C$. If this converges, then the given $n$ it defines is a uniforme bar on $C$ (hence on $B$):
+
+\[
+n_{C(b)} \defeq \Theta(\lambda f\;n.\rec_{\Bool}\;n\;(f\;(\lamS\;n))\;(\bigwedge\;\mapL\;(C\circ \ListEnum)\;(\restr{\NatToList\;(2^{n + 1} - 1)}{2^n})\;\lamZ
+\]
