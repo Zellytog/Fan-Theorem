@@ -1,0 +1,81 @@
+\subsection{Generalizing the argument}
+
+We will now generalize our proof of $\FT$. The main ideas we used are:
+\begin{itemize}
+\item the realizability model allows one to define at least system T functions (encodings allow one to talk about functions $\List(\Nat) \to \Bool$ for example)
+\item a function $f$ in the model can be called on a function $g$ defined later, $g$ can be non computable at the stage where $f$ is defined.
+\item the functions $(\Nat \to \Nat) \to \Nat$ are continuous, in the sense that for any $f : (\Nat \to \Nat) \to \Nat$ and $\alpha : \Nat \to \Nat$ with a code, there exists a modulus $n$ such that $\forall \beta, \restr\alpha n = \restr \beta n \implies f(\alpha) = f(\beta)$.
+\item the computationnal model can do an unbounded search with only the information in the meta-theory that the search will terminate.
+\end{itemize}
+
+The Kripke semantic styled realizability relation we gave, and the fact we state a property about a possible future, strongly leads us to a generalization on some Kripke model. The usual way of giving a Kripke model is to consider a category $\bC$, a pre-ordered set $(W, \leq)$ and to give a functor $F : W \to \bC$. We will follow this by stating exactly the informations we wish to preserve in our morphisms.
+
+This leads us to the definition of evidenced frame with data types.
+
+\begin{definition}[EF with data types]
+  An evidenced frame with data types (EFdata, for short), is a tuple $(E,\Phi,\relEFdot, \cod \cdot, e_0, e_S, e_{\rec})$ with:
+  \begin{itemize}
+  \item $(E,\Phi,\relEFdot)$ is an evidenced frame.
+  \item $\cod \cdot : \bN \to \Phi$ is an encoding function. We extend it naturally for types on
+    \[T,U \Coloneq \bN \mid T \to U\]
+    by, for any $f : T \to U$:
+    \[\cod f \defeq \prod_{x \in T} \PropImpl{\cod x}{\cod{f(x)}}\]
+  \item $\relEF{e_0}{\top}{\cod 0}$
+  \item for all $n \in \bN$, $\relEF{e_S}{\cod n}{\cod{n + 1}}$
+  \item for all type $T$ as previously defined, let $\rec_T$ be the recursor $T \to (\bN \to T \to T) \to \bN \to T$, then $\relEF{e_{\rec}}{\top}{\cod{\rec_T}}$
+  \end{itemize}
+\end{definition}
+
+\begin{remark}
+  For any $n \in \bN$, $\cod n$ is realized by $S^n 0$. Also, any system T definable function is realized by the naturally associated term.
+\end{remark}
+
+Now, we define continuity and unbounded search.
+
+\begin{definition}[Continuity]
+  Let $(E,\Phi,\relEFdot, \cod\cdot, e_0,e_S,e_{\rec})$ be an EFdata. This EFdata is said to have continuity if
+  \begin{multline*}
+    \forall f : (\bN \to \bN) \to \bN, \forall \alpha : \bN \to \bN, \forall \relEF{t}{\top}{\cod f},
+    \\\forall \relEF{u}{\top}{\cod \alpha}, \exists n \in \bN, \restr \alpha n = \restr \beta n \implies f(\alpha) = f(\beta)
+  \end{multline*}
+\end{definition}
+
+\begin{definition}[Unbounded search]
+  An EFdata is said to have unbounded search if there exists $e$ such that, for any $f : \bN \to \bN$ having at least one zero,
+  \[\relEF{e}{\cod f}{(\exists (n : \bN), \cod f \land f(n) = 0)}\]
+\end{definition}
+
+Finally, we need to define a notion of morphism for an EFdata.
+
+\begin{definition}[EFdata morphism]
+  Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$). A morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi2$ and $F_E : E_1 \to E_2$ (we will just write $F$) such that~:
+  \begin{itemize}
+  \item $\forall \varphi, \psi \in \Phi_1, \forall e \in E_1, \relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
+  \item $F({\witTop}_1) = {\witTop}_2$
+  \item $\forall e, e' \in E_1, F({\witPair e {e'}}_1) = \witPair{F(e)}{F(e')}_2$
+  \item $F({\witFst}_1) = {\witFst}_2$
+  \item $F({\witSnd}_1) = {\witSnd}_2$
+  \item $\forall e \in E_1, F({\witLam e}_1) = {\witLam{F(e)}}_2$
+  \item $F({\witEval}_1) = {\witEval}_2$
+  \item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
+      \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
+      \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
+  \end{cases}$
+  \item $F({e_{0}}_1) = {e_{0}}_2$
+  \item $F({e_{S}}_1) = {e_S}_2$
+  \item $F({e_{\rec}}_1) = {e_{\rec}}_2$
+  \end{itemize}
+
+  We define $\CatEFData$ as the category whose objects are EFdatas, and morphisms are those defined above.
+\end{definition}
+
+We can now state our generalized theorem about $\FT$.
+
+\begin{theorem}
+  Let $\EFE$ be an EFData with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following two conditions are satisfied:
+  \begin{itemize}
+  \item there is a dense subset $W' \subseteq W$ such that for any $w \in W', F(w)$ has continuity.
+  \item for any $w \in W$, function $B : (\List(\bN) \to \bB) \to \bB$ with an infinite path and a code in $w$, there is an element $w' \geq w$, a code $e_\alpha$ of an infinite path $\alpha$ in $B$ and a code $e \in E_{w'}$ such that for any $n \in \bN$, $\relEF{e}{\cod n}{\restr \alpha n \in B}$
+  \end{itemize}
+  then $\EFE \real \FT$.
+\end{theorem}
