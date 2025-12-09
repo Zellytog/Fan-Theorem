@@ -36,7 +36,8 @@ Now, we define continuity and unbounded search.
   Let $(E,\Phi,\relEFdot, \cod\cdot, e_0,e_S,e_{\rec})$ be an EFdata. This EFdata is said to have continuity if
   \begin{multline*}
     \forall f : (\bN \to \bN) \to \bN, \forall \alpha : \bN \to \bN, \forall \relEF{t}{\top}{\cod f},
-    \\\forall \relEF{u}{\top}{\cod \alpha}, \exists n \in \bN, \restr \alpha n = \restr \beta n \implies f(\alpha) = f(\beta)
+    \\\forall \relEF{u}{\top}{\cod \alpha}, \exists n \in \bN,
+    \forall \beta:\bN\to\bN,\restr \alpha n = \restr \beta n \implies f(\alpha) = f(\beta)
   \end{multline*}
 \end{definition}
 
