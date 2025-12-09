@@ -31,7 +31,7 @@ The realizability model we give can be defined by an evidenced frame.
 \begin{proposition}[Saturated sequences]
   Using our previous convention, we define the two sets
   \[E \defeq \Lambda \qquad \Phi \defeq
-  \left\{\left.(A_\enviro) \in \prod_{\enviro \in \Oracle} \SAT \right\vert \forall \enviro,\enviroT \in \Oracle, \enviro\infOr\enviroT \implies A_\enviro \subseteq A_\enviroT \right\}\]
+  \left\{\left.(A_\enviro) \in \prod_{\enviro \in \Oracle} \SATE \right\vert \forall \enviro,\enviroT \in \Oracle, \enviro\infOr\enviroT \implies A_\enviro \subseteq A_\enviroT \right\}\]
   with the following elements:
   \begin{itemize}
   \item the relation is given by
@@ -72,10 +72,8 @@ The realizability model we give can be defined by an evidenced frame.
 \begin{remark}
   For any $\enviro \in \Oracle$, it is possible to construct the evidenced frame given by
   \[E \defeq \Lambda \qquad \Phi \defeq \prod_{\enviroT \in \cyl{\enviro}} \SATP\enviroT\]
-  with the same functiond and evidenced.
+  with the same functions and evidenced.
 \end{remark}
-
-It is also possible to construct, for any $\enviro \in \Oracle$, the evidenced frame given by $\Phi \defeq \SATE$. There is, in this case, morphisms of evidenced frame.
 
 \begin{definition}[Morphism of evidenced frame]
   Given two evidenced frames $(E_1,\Phi_1)$ and $(E_2,\Phi_2)$, a morphism is a function $F : \Phi_1 \to \Phi_2$ such that:
@@ -90,6 +88,8 @@ It is also possible to construct, for any $\enviro \in \Oracle$, the evidenced f
     \end{cases}$
   \end{itemize}
 \end{definition}
+
+There is a morphism of evidenced frame between the evidenced frame constructed at $\enviro$ and the one constructed at $\enviroT$, for $\enviro \infOr \enviroT$. There is also a morphism obtained by projecting on some $\SATE$.
 
 \begin{proposition}
   For any $\enviro \in \Oracle$, the function

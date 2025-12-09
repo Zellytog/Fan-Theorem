@@ -143,3 +143,33 @@ The $\SATE$ (and $\SAT$) are also Heyting algebras.
 
   Hence $\SATE$ is a Heyting pre-algebra.
 \end{proof}
+
+Finally, we give the Heyting pre-algebra we will use for our construction. This one is given by in a similar way as for $\SAT$, but we require a Kripke-like condition for the implication.
+
+\begin{definition}[$\SAT$ family Heyting pre-algebra]
+  We define the following Heyting pre-algebra. For the carrier set, let
+  \[\HeytingFamily \defeq \left\{\left. (A_\enviro)_{\enviro \in \Oracle} \in \prod_{\enviro \in \Oracle} \SATE \right\vert \forall \enviroT \in \Oracle, \enviro \infOr \enviroT \implies A_\enviro \subseteq A_{\enviroT}\right\}\]
+  We define the pre-order as
+  \[\varA \InfSATFam \varB \defeq \exists t \in \Lambda, \forall \enviro \in \Oracle, \forall u \in \termAE, t\;u \in \termBE\]
+  the conjunction and the implication respectively as
+  \begin{align*}
+    \varA \AndSATFam \varB &\defeq \enviro \longmapsto \{t \in \Lambda \mid (\pi_1\;t\in \termAE)\land (\pi_2\;t \in \termBE)\} \\
+    \qquad \varA \ImplSATFam \varB &\defeq \enviro \longmapsto \{ t \in \Lambda \mid \forall \enviroT \in \cyl{\enviro}, \forall u \in \termA{\enviroT}, t\;u \in \termB{\enviroT}\}
+  \end{align*}
+\end{definition}
+
+\begin{proof}
+  We show that this is indeed a Heyting pre-algebra with arbitrary meet and join. First, for the meet and join, the fact that each $\SATE$ is stable by arbitrary intersection and union means that we can define
+  \[\bigcap_{i \in I} (A_{\enviro,i})_{\enviro \in \Oracle} \defeq \left(\bigcap_{i \in I} A_{\enviro,i}\right)_{\enviro \in \Oracle}\]
+
+  We are left to show the adjunction between $\AndSATFam$ and $\ImplSATFam$. Let $\varA$, $\varB$ and $\varC$ be families, then stating that $(\varA \AndSATFam \varB) \InfSATFam \varC$ and $\varA \InfSATFam (\varB \ImplSATFam \varC)$ mean respectively:
+  \begin{itemize}
+  \item we find a term $t$ such that if $\pi_1 u \in \termAE$ and $\pi_2 u \in \termBE$ for any $\enviro \in \Oracle$, then $t\;u \in \termCE$ for any $\enviro \in \Oracle$
+  \item we find a term $t$ such that, for any $\enviro,\enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, $u \in \termAE, v \in \termB{\enviroT}$, we have $t\;u\;v \in \termC{\enviroT}$
+  \end{itemize}
+  using the monotonicity of the families, the two terms can be converted one into the other respectively by the two following functions:
+  \[t \longmapsto \lambda u.\lambda v.t\;\langle u,v\rangle \qquad
+  t \longmapsto \lambda u. t\;(\pi_1\;u)\;(\pi_2\;u)\]
+
+  Hence this gives us a Heyting pre-algebra with a meet and join operation.
+\end{proof}

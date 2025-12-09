@@ -1,6 +1,8 @@
 \subsection{Realizability relation}
 
-We now define the realizability relation $\real$. For this, we must first give a Heyting pre-algebra interpreting $\Prop$. This will be done, given a reduction context $\enviro$, by using $\SATE$. Then, we define the set of codes of any element $s \in \bS$, for a given sort $\bS$. This set will depend on $\enviro$, as oracles add new code.
+We now define the realizability relation $\real$. For this, we must first give a Heyting pre-algebra interpreting $\Prop$. This will be done, given a reduction context $\enviro$, by using $\SAT$. Then, we define the set of codes of any element $s \in \bS$, for a given sort $\bS$. This set will depend on $\enviro$, as oracles add new code.
+
+As each $\enviro \in \Oracle$ gives a set of codes and a set of realizers for each formula, we consider as the Heyting pre-algebra the $\SAT$ family one.
 
 \begin{definition}[Code of an element]
   Let $\sigma \in \Oracle$. We define by induction, for any $S \in \Sort$ and any element $s \in \bS$, the set $\codE s \in \SAT$:
@@ -17,15 +19,12 @@ We now define the realizability relation $\real$. For this, we must first give a
     \[\codE{(x,y)} \defeq \{ t \in \Lambda \mid (\pi_1\;t \in \codE x) \land (\pi_2\;t \in \codE y)\}\]
   \item if $S = T \to U$, then for all $f : \bT \to \bU$,
     \[\codE f \defeq \{ t \in \Lambda \mid \forall s \in \bT, \forall \enviroT \in \cyl{\enviro},\forall u \in \codP s \enviroT, tu \in \codP{f(s)}\enviroT\}\]
-  \item if $S = \Prop$, then for all $A \in \SAT$,
-    \[\codE A \defeq A\]
+  \item if $S = \Prop$, then for all $(A_\enviro)_{\enviro \in \Oracle} \in \prod_{\enviro \in \Oracle}\SATE$,
+    \[\codE{(A)_{\enviro}} \defeq A_\enviro\]
   \end{itemize}
-
-  Finally, we define for all element $s \in \bS$:
-  \[\cod{s} \defeq \bigcap_{\enviro \in \Oracle} \codE{s}\]
 \end{definition}
 
-The fact that $\codE s \in\SAT$ is a straightforward induction on the set of sorts.
+The fact that $\codE s \in\SATE$ is a straightforward induction on the set of sorts.
 
 \begin{definition}[Realizability relation]
   Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma\vdash \varphi : \Prop$. We define by induction the realizability relation:
@@ -45,7 +44,7 @@ The fact that $\codE s \in\SAT$ is a straightforward induction on the set of sor
 
 In fact, $t \realUP{\termenv} \varphi$ can be defined just as $t \realP{}{\termenv} \varphi$, thanks to the following property.
 
-\begin{proposition}
+\begin{proposition}\label{prop.monotonicity}
   let $\enviro, \enviroT \in \Oracle$, $\enviro \infOr \enviroT$, $\Gamma \in \Hctx, \termenv \models \Gamma, \Gamma \vdash \varphi : \Prop$. Then, for every $t$, we have the following implication:
   \[t \realPP \varphi \implies t \realP{\enviroT}{\termenv} \varphi\]
 \end{proposition}
@@ -67,12 +66,12 @@ In fact, $t \realUP{\termenv} \varphi$ can be defined just as $t \realP{}{\terme
   For a formula $\varphi$, we write
   \begin{align*}
     \realFE{\varphi} &\defeq \{ t \in \Lambda \mid t \realPP \varphi \}\\
-    \realUFE{\varphi} &\defeq \{ t \in \Lambda \mid t \realUP{\termenv}\varphi \} \\
+    \realUFE{\varphi} &\defeq (\realFE{\varphi})_{\enviro \in \Oracle} \\
   \end{align*}
 \end{notation}
 
 \begin{proposition}
-  For every $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma \vdash \varphi : \Prop$, $\realFE{\varphi} \in \SAT$ and $\realUFE{\varphi} \in \SAT$.
+  For every $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma \vdash \varphi : \Prop$, $\realFE{\varphi} \in \SAT$ and $\realUFE{\varphi} \in \HeytingFamily$.
 \end{proposition}
 
 \begin{proof}
@@ -84,7 +83,7 @@ In fact, $t \realUP{\termenv} \varphi$ can be defined just as $t \realP{}{\terme
   \item if $\varphi = \forall \varx^S, \varphi$, then we use the fact that $\SAT$ is closed by intersection.
   \item if $\varphi = \exists \varx^S, \varphi$, then we use the fact that $\SAT$ is closed by union.
   \end{itemize}
-  Hence the result.
+  Hence the result (the monotonicity for $\realUFE{\varphi}$ is already proved in proposition \ref{prop.monotonicity}).
 \end{proof}
 
 \begin{notation}
