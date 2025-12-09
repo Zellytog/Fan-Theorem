@@ -30,7 +30,7 @@ This leads us to the definition of evidenced frame with data types.
   For any $n \in \bN$, $\cod n$ is realized by $S^n 0$. Also, any system T definable function is realized by the naturally associated term.
 \end{remark}
 
-Now, we define continuity and unbounded search.
+Now, we define continuity, unbounded search and explicit existential.
 
 \begin{definition}[Continuity]
   Let $(E,\Phi,\relEFdot, \cod\cdot, e_0,e_S,e_{\rec})$ be an EFdata. This EFdata is said to have continuity if
@@ -44,6 +44,11 @@ Now, we define continuity and unbounded search.
 \begin{definition}[Unbounded search]
   An EFdata is said to have unbounded search if there exists $e$ such that, for any $f : \bN \to \bN$ having at least one zero,
   \[\relEF{e}{\cod f}{(\exists (n : \bN), \cod n \land f(n) = 0)}\]
+\end{definition}
+
+\begin{definition}[Explicit existential]
+  An EFdata is said to have explicit existential if there is an evidenced $e$ such that for any system T type $\tau$ and any function $\varphi(-) : \tau \to \Prop$ there exists $a \in \tau$ such that
+  \[\relEF{e}{\exists x^\tau, \cod x \land \varphi(x)}{\cod a \land \varphi(a)}\]
 \end{definition}
 
 Finally, we need to define a notion of morphism for an EFdata.
@@ -77,10 +82,30 @@ Finally, we need to define a notion of morphism for an EFdata.
 We can now state our generalized theorem about $\FT$.
 
 \begin{theorem}
-  Let $\EFE$ be an EFData with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following two conditions are satisfied:
+  Let $\EFE$ be an EFdata with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following two conditions are satisfied:
   \begin{itemize}
-  \item there is a dense subset $W' \subseteq W$ such that for any $w \in W', F(w)$ has continuity.
+  \item there is a dense subset $W' \subseteq W$ such that for any $w \in W', F(w)$ has continuity and explicit existential.
   \item for any $w \in W$, function $B : (\List(\bN) \to \bB) \to \bB$ with an infinite path and a code in $w$, there is an element $w' \geq w$, a code $e_\alpha$ of an infinite path $\alpha$ in $B$ and a code $e \in E_{w'}$ such that for any $n \in \bN$, $\relEF{e}{\cod n}{\restr \alpha n \in B}$
   \end{itemize}
   then $\EFE \real \FT$.
 \end{theorem}
+
+\begin{proof}
+  We apply the proof of theorem \ref{thm:FT} in the general setting. The proposition we want to prove is that there exists $\witx \in E$ such that
+  \begin{multline*}
+    \witx\real \forall B^{\List(\Bool) \to \Bool}, (\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B) \implies\\
+    \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr \alpha n \in B
+  \end{multline*}
+
+  We consider $\List(\Bool)$ as an encoding by integer (every primitive function on this type is system T definable from $\Nat$). We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we can't define the fixpoint by itself, but we can define the function which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. Call this function $F_C : \Nat \to \Bool$. This function has a code $e_{F_C}$.
+
+  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ F_C$ (because we search for a $n$ such that $F_C(n) = 1$). Combining it with the code $e_{F_C}$, this gives an evidenced of a uniform bound. Thus, all that is left to prove is that $\lnot \circ F_C$ indeed has a $0$.
+
+  Suppose that $F_C(n) = 0$ for any $n$. This means that for any $n \in \bN$, there is a list of size $n$ avoiding $C$. Using Weak König's Lemma, we find a path $\alpha : \bN \to \bB$ such that $\restr \alpha n \notin C$ for any $n \in \bN$. By hypothesis on our functor $W \to \CatEFData$, we find $w' \in W$ and a code $e_\alpha \in \cod \alpha$ in $w'$. By the other hypothesis, we can assume (up to going to a later world) that $F(w')$ has continuity.
+
+  Let $g$ be the morphism from $\EFE$ to $F(w')$. By construction of morphisms, we have that
+  \[g(b)\real g(\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B)\]
+  but as $g$ commutes with $\cod -$, with $\implies$, and with quantification $\forall$, we deduce that
+  \[g(b)\real \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
+  hence, $g(b) e_{\alpha} \real \exists n^{\{\Nat\}}, \restr \alpha n \in g(B)$. Using the fact that $g(b)$ is a code of a function $(\bN \to \bN) \to \bN$, we can apply continuity to find $m$ such that $\restr \alpha m = \restr \beta m \implies g(b) \alpha = g(b) \beta$ for any $\beta : \bN \to \bN$ with a code. This means that we can apply the same argument as in theorem \ref{thm:FT} to have a contradiction~: taking $M$ the maximum of this $m$ and of the encoded $n^{\{\Nat\}}$ by $g(b) e_{\alpha}$ (that we can take by explicit existential), we get $\restr \alpha M \in C(b)$, which is contradicting the fact that $\alpha$ always avoids $C(b)$.
+\end{proof}
