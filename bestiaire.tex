@@ -99,6 +99,11 @@ C(b) \defeq \lambda \ell. \bigvee \mapL\;((\lambda \ell'. \ell'\ListInf \ell)\ci
 
 Then, we can define an algorithm which tries every list of a given size $n$ and checks if every such list is in $C$. If this converges, then the given $n$ it defines is a uniforme bar on $C$ (hence on $B$):
 
-\[
-n_{C(b)} \defeq \Theta(\lambda f\;n.\rec_{\Bool}\;n\;(f\;(\lamS\;n))\;(\bigwedge\;\mapL\;(C\circ \ListEnum)\;(\restr{\NatToList\;(2^{n + 1} - 1)}{2^n})\;\lamZ
-\]
+\begin{multline*}
+  n_{C(b)} \defeq \Theta(\lambda f\;n.\rec_{\Bool}\;n\;(f\;(\lamS\;n))\\
+  (\bigwedge\;\mapL\;(C\circ \ListEnum)\;(\restr{\NatToList\;(2^{n + 1} - 1)}{2^n})))\;\lamZ
+\end{multline*}
+
+where $\Theta$ is the Turing fixpoint, defined by
+\[ \theta \defeq \lambda x\;y.y\;(x\;x\;y)\qquad
+\Theta \defeq \theta\;\theta\]

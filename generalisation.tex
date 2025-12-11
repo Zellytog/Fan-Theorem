@@ -81,7 +81,7 @@ Finally, we need to define a notion of morphism for an EFdata.
 
 We can now state our generalized theorem about $\FT$.
 
-\begin{theorem}
+\begin{theorem}\label{thm:main}
   Let $\EFE$ be an EFdata with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following two conditions are satisfied:
   \begin{itemize}
   \item there is a dense subset $W' \subseteq W$ such that for any $w \in W', F(w)$ has continuity and explicit existential.
@@ -109,3 +109,33 @@ We can now state our generalized theorem about $\FT$.
   \[g(b)\real \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
   hence, $g(b) e_{\alpha} \real \exists n^{\{\Nat\}}, \restr \alpha n \in g(B)$. Using the fact that $g(b)$ is a code of a function $(\bN \to \bN) \to \bN$, we can apply continuity to find $m$ such that $\restr \alpha m = \restr \beta m \implies g(b) \alpha = g(b) \beta$ for any $\beta : \bN \to \bN$ with a code. This means that we can apply the same argument as in theorem \ref{thm:FT} to have a contradiction~: taking $M$ the maximum of this $m$ and of the encoded $n^{\{\Nat\}}$ by $g(b) e_{\alpha}$ (that we can take by explicit existential), we get $\restr \alpha M \in C(b)$, which is contradicting the fact that $\alpha$ always avoids $C(b)$.
 \end{proof}
+
+\subsection{Application, limitations}
+
+Now that we stated the theorem \ref{thm:main}, we give examples of a realizability model satisfying the conditions (and thus, realizing $\FT$).
+
+The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata of $\SATE$ family as in proposition \ref{prop:EF_notre}. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the $\SATE$ family EFdata has continuity, explicit existential and unbounded search, hence the fact that it satisfies $\FT$.
+
+The second example is the historical one: the Kleene algebra $K_2$ satisfies the premisses. The preorder is the trivial one, with only one element. Continuity is by definition of the PCA (it is the set of continuous functions $(\bN \to \bN) \to \bN$), unbounded search can be defined for any PCA by encoding $\Theta$ (or the combinator $Y$) in combinatorial logic. Any function $\bN \to \bN$ has a code, hence the condition that a path exists for any decidable tree encoded. Finally, explicit existential is true for intuitionnistic PCAs. We thus find back the usual result that $K_2$ satisfies $\FT$.
+
+A third example is the model we based our generalization on: the model by Lubarsky in [REF].
+
+The existence of a path in a possible future is essentiel. Indeed, the $\lambda$-calculus version of the $K_1$ realizability algebra, given by the set of saturated set for the pure untyped $\lambda$-calculus, does not realize $\FT$. To show this, we use the Kleene tree. For any computable path, given by a code $e$, we can simulate $e$ for increasing time duration until the finite path gets out of the tree, which will always happen because the infinite path in the Kleene tree are all uncomputable. This thus gives a bar for the Kleene tree, but this bar can't be uniform as the length of lists in this tree is unbounded.
+
+Finally, we advocate that the condition that we consider EFdatas and not just EF is not a limitation by itself. The additionnal data, indeed, always exist inside the realizability topos given by an EF.
+
+Take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories, given by the assemblies which are the following data:
+\begin{itemize}
+\item a set $X$
+\item a function $E_X : X \to \Phi$
+\end{itemize}
+and morphisms $(X,E_X) \to (Y,E_Y)$ are given by
+\begin{itemize}
+\item a function $f : X \to Y$
+\item an evidence $\relEF{e}{x}{f(x)}$ uniform on $x \in X$
+\end{itemize}
+This exactly corresponds to the way we define codes for system T types, so every construction in the EFdata can be translated inside the realizability topos. We are left to show that there is indeed an encoding $\bN \to \Phi$, with an evidence for $0$, the function $S$ and the recursor (which must be uniform for any codomain).
+
+A FAIRE : Church encoding, justifier qu'on a un NNO dans le topos de réalisabilité
+
+This means that any EF can be made into an EFdata by chosing some encoding of natural numbers.
