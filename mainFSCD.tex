@@ -1,0 +1,92 @@
+\documentclass[a4paper,USenglish,cleveref, autoref, thm-restate,authorcolumns]{lipics-v2021}
+\newcommand{\vlong}[1]{#1}
+\newcommand{\vshort}[1]{}
+\pdfoutput=1 %uncomment to ensure pdflatex processing (mandatatory e.g. to submit to arXiv
+\hideLIPIcs  %uncomment to remove references to LIPIcs series (logo, DOI, ...), e.g. when preparing a pre-final version to be uploaded to arXiv or another public repository
+%\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
+% \usepackage[T1]{fontenc}
+\usepackage{prelude-FSCD}
+
+
+\usepackage{dsfont}
+\usepackage[draft,inline,nomargin]{fixme}
+\fxusetheme{color}
+\fxuseenvlayout{color}
+\FXRegisterAuthor{tl}{tlg}{\color{teal}[T]}
+\FXRegisterAuthor{em}{aem}{\color{blue}[É]}
+
+% \usepackage[colorlinks=true]{hyperref}
+%%%% REFS
+\Crefname{equation}{Eq.}{Eqs.}
+\Crefname{figure}{Fig.}{Figs.}
+\Crefname{tabular}{Tab.}{Tabs.}
+\Crefname{section}{Sec.}{Secs.}
+\Crefname{definition}{Def.}{Defs.}
+\Crefname{defi}{Def.}{Defs.}
+\Crefname{lemma}{Lem.}{Lems.}
+\Crefname{lem}{Lem.}{Lems.}
+\Crefname{theorem}{Thm.}{Thms.}
+\Crefname{thm}{Thm.}{Thms.}
+\Crefname{paragraph}{Sec.}{Secs.}
+\Crefname{appendix}{Appx.}{Appxs.}
+\Crefname{corollary}{Cor.}{Cors.}
+\Crefname{example}{Ex.}{Exs.}
+\Crefname{proposition}{Prop.}{Props.}
+\Crefname{remark}{Rem.}{Rems.}
+% \usepackage{ebproof}
+
+\title{}
+\authorrunning{Leclercq, Miquey}
+\Copyright{Leclercq and Miquey} %TODO mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
+\author{Titouan Leclercq}{Aix Marseille University, CNRS, I2M, Marseille, France}{titouan.leclercq@univ-amu.fr	}{}{}
+\author{\'{E}tienne Miquey}{Aix Marseille University, CNRS, I2M, Marseille, France}{etienne.miquey@univ-amu.fr	}{0000-0002-5987-6547}{}
+\ccsdesc[500]{Theory of computation}
+%\ccsdesc[500]{Theory of computation~Proof theory}
+% \ccsdesc[300]{Theory of computation~Linear logic}
+\keywords{Combinatory algebras, Monads, Effects, Realizability, Evidenced frames} %TODO mandatory; please add comma-separated list of keywords
+\funding{ANR blabla}
+\acknowledgements{}
+\nolinenumbers %uncomment to disable line numbering
+
+
+
+
+% \input{config_amsthm.tex}
+\newtheorem{notation}[definition]{Notation}
+\begin{document}
+\maketitle
+\begin{abstract}
+to do
+\end{abstract}
+
+\section{Introduction}
+
+\input{introduction.tex}
+
+\section{The realizability model}
+
+We give a detailed construction of the realizability model: the logic used, the lambda-calculus and the realizability relation. We also give the standard theorem for a realizability model, namely the adequacy, which guaranties that we construct a consistant theory.
+
+\input{syntaxe_logique.tex}
+
+\input{lambda_calculus.tex}
+
+\input{realizability_relation.tex}
+
+\input{adequacy.tex}
+
+\section{The main result}
+
+As the model is constructed, we can show the separation result between Fan Theorem and Weak König's Lemma. Before this, we give a list of $\lambda$-terms which implement important functions for our work. We then prove that $\FT$ holds, and that $\WKL$ fails.
+
+\input{bestiaire.tex}
+
+\input{FT.tex}
+
+\section{Generalization}
+
+\input{EF.tex}
+
+\input{generalisation.tex}
+
+\end{document}
