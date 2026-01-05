@@ -1,10 +1,44 @@
-\documentclass[11pt, a4paper, english]{article}
+\providecommand{\mode}{-1} %% Neutre
+%  \providecommand{\mode}{0} %% FSCD
+% \providecommand{\mode}{1} %% LICS
 
-\usepackage{prelude}
 
-\input{config_amsthm.tex}
+
+\newcommand\switch[3]{%
+  \ifcase\mode\relax
+    #1
+  \or
+    #2
+  \or
+\else
+    #3
+  \fi
+}
+\newcommand\iflics[2]{\ifcase\mode\relax #2 \or #1 \else #2\fi}
+
+
+\switch{
+\input{header_fscd}
+}{
+\input{header_lics}
+}{
+    \documentclass[11pt, a4paper, english]{article}
+    \usepackage{prelude}
+    \input{config_amsthm.tex}
+    \author{}
+}
+
+
 
 \begin{document}
+\title{Something}
+\iflics{\input{authorLICS}}{}
+
+\maketitle
+\iflics{}{\begin{abstract}
+ \input{abstract}
+\end{abstract}}
+
 
 \section{Introduction}
 
@@ -36,4 +70,10 @@ As the model is constructed, we can show the separation result between Fan Theor
 
 \input{generalisation.tex}
 
+\cite{BreHer21}
+\switch
+{\bibliographystyle{plainurl}}
+{\bibliographystyle{ACM-Reference-Format}}
+{\bibliographystyle{plainurl}}
+\bibliography{biblio}
 \end{document}

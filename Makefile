@@ -5,8 +5,26 @@ SUBFILES := $(wildcard *.tex)
 PDFFILES    := $(patsubst %.tex, %.pdf, $(TEXFILES))
 PSFILES    := $(patsubst %.tex, %.ps, $(TEXFILES))
 
-all: $(SUBFILES) $(BIBFILES)
+all: lics fscd article
+
+
+article: $(SUBFILES) $(BIBFILES)
 	make $(PDFFILES)
+
+
+lics: main.aux $(SUBFILES) $(BIBFILES)
+	pdflatex "\newcommand\mode{0}\input{main}"
+	bibtex main.aux
+	pdflatex "\newcommand\mode{1}\input{main}"
+	pdflatex "\newcommand\mode{1}\input{main}"
+	cp main.pdf mainLICS.pdf
+
+fscd: main.aux $(SUBFILES) $(BIBFILES)
+	pdflatex "\newcommand\mode{0}\input{main}"
+	bibtex main.aux		
+	pdflatex "\newcommand\mode{0}\input{main}"
+	pdflatex "\newcommand\mode{0}\input{main}"
+	cp main.pdf mainFSCD.pdf
 
 %.dvi: %.tex *.tex
 	latex $*.tex
@@ -17,9 +35,12 @@ all: $(SUBFILES) $(BIBFILES)
 %.ps: %.dvi *.tex	
 	dvips $*.dvi
 
+%.aux:  *.tex
+	pdflatex $*.tex
+
 %.pdf:  *.tex
 	pdflatex $*.tex
-	bibtex $*.aux
+	bibtex 	$*.aux
 	pdflatex $*.tex
 	pdflatex $*.tex
 
