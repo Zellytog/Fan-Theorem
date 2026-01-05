@@ -1,1 +1,117 @@
-BLABLA
+
+
+
+\paragraph{Reverse maths}
+\emnote{Reverse maths, motivation, big five}
+\cite{Simpson09}
+
+
+
+% Friedman-Simpson's original program of reverse mathematics,
+% as is also the case for most of standard mathematics,
+% has been developed in classical subsystems of second-order arithmetic~\cite{Friedman75,Simpson09}.
+% As such, (classical) reverse mathematics presents various limitations
+% from a constructive point of view, since for instance they are intrinsically
+% bound to classify theorems that are compatible with classical logic (which is not
+% the case for all intuitionistic theorems), or unable do distinguish between a
+% statement and its contrapositive (for instance dependent choice and bar induction).
+% More recently, Ishihara advocated for a constructive approach to reverse
+% mathematics to overcome such limitations~\cite{Ishihara06}, but with
+% purely logical considerations, without paying attention to the computational counterpart
+% of constructive results.
+% It is only during the last few years that works in that direction were developed,
+% especially around Gödel's completeness theorem for first-order logic~\cite{HerIli22,ForKirWeh21}.
+% Interestingly, recent work by Bauer on a notion of reducibility between predicates
+% uses realizability models to computationally inhabit the studied notions~\cite{Bauer22},
+% which is to the best of our knowledge the first work to do so.
+% We advocate for a generalization of this approach, and the second objective of {\choice}
+% is tailored for that purpose, by tackling first the problem of capturing the
+% precise computational counterpart of choice principles.
+
+
+
+
+\paragraph{Choice principles}
+\emnote{Choice principles,Brede-Herbelin, intuitionistic logic}
+
+\cite{Rathjen02}
+\cite{BreHer21}
+
+
+\paragraph{Constructive reverse maths}
+\emnote{manifesto: for a computational approach}
+
+
+
+\paragraph{Curry-Howard \& realizability}
+brief intro
+
+model with computatinal perspective on the validity of axioms,
+
+following Krivine: new reasoning principles = extra computational features
+
+EF: algebraic approach, also to abstract and give ``robust'' interpretation, statement as: ``any computational system featuring this and that induces a realizability interpretation satisfying ...''. So far, done for countable and dependent choice, related to memoization.
+
+A bit further: separation result, to capture exactly...
+
+
+
+\paragraph{Fan Theorem \& Weak K\"onig's Lemma}
+Big Five, increasing strength over RCA0, adding axioms. First extension with WKL. KL and FT, equivalent over classical logic, state that:
+
+In this work, we aim at :
+providing a computational interpretation of FT,
++ identifying sufficient computational features via a robust approach,  while separating FT from WKL.
+
+Constructive reverse maths are much more subtle thant classical one, and for instance although Brouwer's continuity principle was first stated more than a century ago~\cite{Brouwer1919}, continuity principles and their consequences are still actively studied,  FT~\cite{VanAttenVanDalen2002,VeldmanBrouwer2022,BergerDecomposition2009,FujiwaraExtensionEquivalenceBrouwers2022,FujiwaraChoicePrinciplesCharacterizing2025}.
+For instance, FT equivalent FT binary, while the contrapositive of the first, KL, is strictly stronger in a classical setting than WKL, the contrapositive of the second~\cite{FujiwaraKonigsLemmaWeak2021}.
+
+Follow
+
+This work
+\cite{LubRat13}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newcommand{\ZFC}{ZFC}
+\newcommand{\ZF}{ZF}
+\newcommand{\KL}{KL}
+\newcommand{\RCAO}{RCA0}
+\newcommand{\RCA}{RCA}
+\newcommand{\double}{double}
+\newcommand{\intt}{int}
+% \newcommand{\FT}{FT}
+%
+%
+% Les math\'ematiques usuelles se d\'eroulent dans $\ZFC$. Dans cette pratique des math\'ematiques, l'objectif est de d\'emontrer un maximum de r\'esultats, sans consid\'eration pour les moyens logiques employ\'es (sous r\'eserve que ceux-ci soient coh\'erents). Le cadre de ce rapport, celui des math\'ematiques à rebours, cherche au contraire à \'etudier la force logique de r\'esultats d\'ejà d\'emontr\'es~: quels principes doit-on admettre pour les d\'emontrer ?
+%
+% Cette question est renouvel\'ee dans le cadre de la logique intuitionniste et des math\'ematiques constructivistes (qui n'acceptent que les proc\'ed\'es d\'emonstratifs explicites), puisque l'on peut \'etudier le caractère constructif des principes en plus de leur force logique. Dans cette \'etude, une famille de formules a un rôle privil\'egi\'e : les principes de choix. Leur forme g\'en\'erale est
+% \[\forall x^A, \exists y^B, R(x,y) \implies \exists f^{A\to B}, \forall x^A, R(x,f(x))\]
+% Où $R$ est une relation binaire entre $A$ et $B$. Suivant le choix de $A,B$ et des formes que peut prendre $R$, on obtient de nombreux principes de choix. On peut, de plus, \'etudier une variante de ces principes en en prenant la contrapos\'ee~: en logique intuitionniste, ces ``principes de co-choix'' sont plus faibles, souvent strictement.
+%
+% Dans ce rapport, nous \'etudierons l'un des principes les plus faibles~: le lemme de König et sa contrapos\'ee, le Fan theorem. Le premier \'enonce qu'un arbre infini qui reste finiment branchant (comprendre par-là qu'à un n\oe ud donn\'e il n'y a qu'un nombre fini de fils directs) possède une branche infini ; le deuxième \'enonce que pour un arbre $T$, si toute branche infinie $\alpha$ sort de l'arbre à partir d'une longueur $n_\alpha$, alors on peut trouver un $n$ uniforme tel que toute branche infini $\alpha$ sort de $T$ à partir de la longueur $n$~: autrement dit, l'arbre a une hauteur finie. Sans rentrer dans les d\'etails, en consid\'erant un arbre comme une partie de $\bN^*$ close par pr\'efixe (son compl\'ementaire est donc une partie de $\bN^*$ close par extension), on peut \'enoncer le lemme de König et le Fan theorem de la façon suivante (en omettant plusieurs hypothèses sur $T$, respectivement $C$)~:
+% \[\KL \defeq (\forall n^{\bN}, \exists p^{\bN^*}, |p| = n \land p \in T) \implies \exists \alpha^{\bN\to\bN}, \forall n^{\bN}, \alpha_0\ldots\alpha_{n-1}\in T\]
+% \[\FT \defeq (\forall \alpha^{\bN\to\bN}, \exists n^\bN, \alpha_0\ldots \alpha_{n-1}\in C)\implies \exists n^\bN, \forall \alpha^{\bN\to\bN}, \alpha_0\ldots\alpha_{n-1}\in T\]
+% L'\'ecriture $\exists p^{\bN^*},|p| = n \land p \in T$ est \'equivalente à $\exists \alpha^{\bN\to\bN}, \alpha_0\ldots\alpha_{n-1}\in T$, mais plus naturelle à consid\'erer. On suppose ici que $T$ est clos par pr\'efixe et $C$ par extension, nous donnant donc que $\FT$ est la contrapos\'ee de $\KL$.
+%
+% Mentionnons que $\KL$ comme $\FT$ sont toujours vrais dans $\ZFC$, et même dans $\ZF$~: on travaille donc dans une th\'eorie plus faible dans laquelle on peut \'etudier l'ajout de $\FT$ ou $\KL$ comme non trivial. La th\'eorie habituellement utilis\'ee en math\'ematiques à rebours est un fragment faible de l'arithm\'etique du second ordre nomm\'ee $\RCAO$. Cette th\'eorie est très expressive car elle permet de d\'ecrire les r\'eels ainsi que les fonctions continues voire mesurables. Cependant, cette expressivit\'e se fait au coût d'une grande quantit\'e de codages, qui nous int\'eressent peu. Nous faisons donc le choix de travailler dans une version de l'arithm\'etique dans laquelle on peut parler de façon interne de fonctions, de paires et d'autres outils primitifs en plus des entiers, le tout avec une logique du second ordre.
+%
+% Maintenant que le contexte est plus clair, nous pouvons d\'ecrire l'objectif du stage pr\'esent\'e dans ce rapport~: il s'agit de mesurer le contenu logique et calculatoire de $\FT$, en le s\'eparant notamment de $\KL$. Pour ce faire, nous utilisons la r\'ealisabilit\'e, qui est un outil reliant les langages de programmation et la logique.
+%
+% Depuis la d\'ecouverte de la correspondance de Curry-Howard, en effet, le lien entre les langages de programmation et la logique ont \'et\'e longuement explor\'es. Cette correspondance \'etablit un parallèle entre, d'un côt\'e, les programmes d'un langage typ\'e (par exemple un programme doublant sont entr\'ee, qu'on pourrait \'ecrire $\double : \intt \to \intt$) et les preuves d'une proposition. A une proposition $A$ il est possible de faire correspondre un type $A'$, et les programmes de types $A'$ correspondent alors à des preuves de $A$. La r\'ealisabilit\'e \'etend cette correspondance en consid\'erant, plutôt que la relation de typage, syntaxique, une approche s\'emantique. On entend par-là que la relation de typage est d\'efinie par un ensemble simple de règles d'inf\'erences, que l'on peut v\'erifier m\'ethodiquement, et que v\'erifier si un certain programme est d'un type donn\'e est en g\'en\'eral un problème d\'ecidable. La r\'ealisabilit\'e, elle, remplace la relation de typage $t : A'$ par une relation, directement entre $t$ et $A$ (la proposition), que l'on note $t \real A$, et qui signifie que $t$ est une preuve de $A$. Dans cette d\'efinition, on autorise les termes à être par exemple non typ\'es, et le seul critère consid\'er\'e pour dire que $t \real A$ est le comportement (la s\'emantique) de $t$. Avec cette relation, il devient alors possible de d\'efinir une nouvelle notion de modèle~: plutôt que d'attribuer à une proposition une valeur de v\'erit\'e dans $\{0,1\}$, la valeur de v\'erit\'e de $A$ devient l'ensemble de ses preuves, qu'on appellera ses r\'ealiseurs.
+%
+% Partant d'un langage simple (le $\lambda$-calcul), nous allons construire un modèle de r\'ealisabilit\'e v\'erifiant Fan theorem mais invalidant le lemme de König (sous une forme faible). La preuve que ce modèle v\'erifie $\FT$ pourra ensuite servir à chercher une pr\'esentation plus g\'en\'erale de l'argument qu'une forme de continuit\'e des fonctions calculables implique $\FT$, qui semble être une notion de continuit\'e des fonctions. En effet, il existe des cadres de travail plus g\'en\'eraux pour parler de r\'ealisabilit\'e, et extraire l'argument derrière la v\'erification de $\FT$ nous permettrait alors, en employant un de ces cadres de travail (en particulier les evidenced frames d\'ecrites dans \cite{DBLP:conf/lics/0001MT21}), d'extraire la notion calculatoire qui permet de v\'erifier ou non $\FT$.
+%
+% La principale contribution de ce stage, qui explique d'ailleurs le point de vue d\'evelopp\'e dans ce rapport, est la d\'efinition d'un modèle de r\'ealisabilit\'e pour aborder la r\'ealisabilit\'e permettant, plus tard, d'\'etudier les principes de choix. La construction de modèles de r\'ealisabilit\'e est un exercice classique~: on peut par exemple retrouver plusieurs modèles dans \cite{Dinis_2023} ou dans \cite{COHEN201987}, mais ceux-ci sont utilis\'es dans un objectif diff\'erent du nôtre. Le modèle que nous construisons a l'avantage d'être facilement expressif (peu de codage doit être employ\'e) et modulaire (on peut modifier une partie du modèle, comme le langage de programmation ou la syntaxe, avec un impact minime sur les autres parties).
