@@ -119,29 +119,29 @@ The other sorts are given their natural set theoretic semantic.
   \item
     \begin{multline*}
       \sem{\Gamma\vdash \termrec_{\Nat}(\termt,\termu,\termv) : S} \defeq \\
-      \rec_{\bN}(\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : \Nat \to S \to S}, \sem{\Gamma\vdash \termv : \Nat})
+      \rec_{\bN}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : \Nat \to S \to S}, \sem{\Gamma\vdash \termv : \Nat}\rangle
     \end{multline*}
   \item $\sem{\Gamma\vdash \termtt : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \top$
   \item $\sem{\Gamma\vdash \termff : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bot$
   \item
     \begin{multline*}
-      \sem{\Gamma\vdash \rec_{\Bool}(\termt,\termu,\termv) : S} \defeq \\
-      \rec_{\bB}(\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : S}, \sem{\Gamma\vdash \termv : \Bool})
+      \sem{\Gamma\vdash \termrec_{\Bool}(\termt,\termu,\termv) : S} \defeq \\
+      \rec_{\bB}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : S}, \sem{\Gamma\vdash \termv : \Bool}\rangle
     \end{multline*}
   \item $\sem{\Gamma\vdash \termnil : \List(S)} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \varepsilon$
   \item $\sem{\Gamma\vdash \termt \termcons \termu : \List(S)}\defeq \smallfrown \circ \langle\sem{\Gamma\vdash \termt : \List(S)},\sem{\Gamma\vdash\termu : S}\rangle$
   \item
     \begin{multline*}
-      \sem{\Gamma\vdash\rec_{\List(S)}(\termt,\termu,\termv) : T} \defeq\\
-      \rec_{\bL}(\sem{\Gamma\vdash \termt : T}, \sem{\Gamma\vdash \termu : S \to \List(S) \to T \to T}, \sem{\Gamma\vdash \termv : \List(S)})
+      \sem{\Gamma\vdash\termrec_{\List(S)}(\termt,\termu,\termv) : T} \defeq\\
+      \rec_{\bL}\circ\langle\sem{\Gamma\vdash \termt : T}, \sem{\Gamma\vdash \termu : S \to \List(S) \to T \to T}, \sem{\Gamma\vdash \termv : \List(S)}\rangle
     \end{multline*}
-  \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \sem{\Gamma\vdash \varphi : \Prop}\implH \sem{\Gamma\vdash \psi : \Prop}$
-  \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \sem{\Gamma\vdash \varphi : \Prop}\landH \sem{\Gamma\vdash \psi : \Prop}$
+  \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \implH\circ\langle\sem{\Gamma\vdash \varphi : \Prop},\sem{\Gamma\vdash \psi : \Prop}\rangle$
+  \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \landH\circ\langle\sem{\Gamma\vdash \varphi : \Prop}, \sem{\Gamma\vdash \psi : \Prop}\rangle$
   \item $\displaystyle\sem{\Gamma\vdash \forall \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcap_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
   \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
   \item $\sem{\Gamma\vdash S(\termt) : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
   \end{itemize}
-  where $\rec_{\bN}$ (resp. $\rec_{\bB}$, resp. $\rec_{\bL}$) are the canonical recurcors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a letter $a$ and a word $u$, appends $a$ to $u$ to make a new word, $\implH$ is the implication of $H$ and $\landH$ is its meet.
+  where $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recurcors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a letter $a$ and a word $u$, appends $a$ to $u$ to make a new word, $\implH$ is the implication of $H$ and $\landH$ is its meet.
 
   For a given sort $S$, we will also write $\bS$ for $\sem S$.
 \end{definition}

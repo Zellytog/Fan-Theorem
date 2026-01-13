@@ -2,28 +2,30 @@
 
 The realizability relation relates the lambda-calculus and the HOL model. The first step to relate the two is to instantiate the semantic defined previously with a Heyting pre-algebra interpreting $\Prop$. Of course, this instantiation is done by taking $\sem{\Prop}$ to be the set of saturated sets. Be it $\SATE$ or $\SAT$, those sets are equiped with a Heyting pre-algebra structure and both intersection and union operation.
 
-The only thing left to be defined is the $\cod -$ operation. We define it in the case where $\sem{\Prop}\defeq \SAT$, but if $\sem{\Prop}\defeq \SATE$, the same definition applies.
+The only thing left to be defined is the $\cod -$ operation.
 
 \begin{definition}[Code of an element]
-  Let $\sigma \in \Oracle$. We define by induction, for any $S \in \Sort$ and any element $s \in \bS$, the set $\codE s \in \SATE$:
+  We define by induction, for any $S \in \Sort$ and any element $s \in \bS$, the set $\cod s \in \SAT$:
   \begin{itemize}
   \item if $S = \Nat$, then for $n \in \bN$,
-    \[\codE{n} \defeq \{ t \in \Lambda \mid t \redERT \overline n\}\]
+    \[\cod{n} \defeq \enviro \mapsto \{ t \in \Lambda \mid t \redERT \overline n\}\]
   \item if $S = \Bool$, then
-    \[\codE{\top} \defeq \{ t \in \Lambda \mid t \redERT \rtt\}\quad\text{ and }\quad\codE{\bot} \defeq \{ t \in \Lambda \mid t \redERT \rff\}\]
+    \[\cod{\top} \defeq \enviro \mapsto \{ t \in \Lambda \mid t \redERT \rtt\}\quad\text{ and }\quad\cod{\bot} \defeq \enviro\mapsto \{ t \in \Lambda \mid t \redERT \rff\}\]
   \item if $S = \List(T)$, then
-    \[\codE{\varepsilon} \defeq \{ t \in \Lambda \mid t \redERT \nil \}\]
+    \[\cod{\varepsilon} \defeq \enviro \mapsto\{ t \in \Lambda \mid t \redERT \nil \}\]
     and for all $x \in \bT^\star$, $y \in \bT$,
-    \[\codE{x \smallfrown y} \defeq \{ t \in \Lambda \mid \exists u \in \codE x, \exists v \in \codE y, t \redERT u \append v\}\]
+    \[\cod{x \smallfrown y} \defeq \enviro\mapsto \{ t \in \Lambda \mid \exists u \in \codE x, \exists v \in \codE y, t \redERT v \append u\}\]
   \item if $S = T \times U$, then for all $x \in \bT$, $y \in \bU$,
-    \[\codE{(x,y)} \defeq \{ t \in \Lambda \mid (\pi_1\;t \in \codE x) \land (\pi_2\;t \in \codE y)\}\]
+    \[\cod{(x,y)} \defeq \cod{x} \landSAT \cod{y}\]
+    %\[\codE{(x,y)} \defeq \{ t \in \Lambda \mid (\pi_1\;t \in \codE x) \land (\pi_2\;t \in \codE y)\}\]
   \item if $S = T \to U$, then for all $f : \bT \to \bU$,
-    \[\codE f \defeq \{ t \in \Lambda \mid \forall s \in \bT, \forall \enviroT \supOr\enviro,\forall u \in \codP s \enviroT, tu \in \codP{f(s)}\enviroT\}\]
-  \item if $S = \Prop$, then for all $\varA_{\enviro \in \Oracle} \in SAT$,
-    \[\codE{(A)_{\enviro}} \defeq A_\enviro\]
+    \[\cod f \defeq \bigcap_{x \in \bT} \cod x \impliesSAT \cod{f(x)}\]
+    %\[\codE f \defeq \{ t \in \Lambda \mid \forall s \in \bT, \forall \enviroT \supOr\enviro,\forall u \in \codP s \enviroT, tu \in \codP{f(s)}\enviroT\}\]
+  \item if $S = \Prop$, then for all $\varA \in SAT$,
+    \[\cod{\varA} \defeq \varA\]
   \end{itemize}
 
-  We define then $\cod s$ by $\cod s \defeq \enviro \mapsto \codE s$.
+  For each $\enviro\in\Oracle$, we define $\codE s$ by $\codE s \defeq (\cod s)_\enviro$.
 \end{definition}
 
 The fact that $\codE s \in\SATE$ is a straightforward induction on the set of sorts. We postpone the proof that $\enviro\infOr \enviroT \implies \codE s \subseteq \codP s {\enviroT}$ to the proposition \ref{prop.monotonicity}, as it is a particular case of a proposition on realizability.
