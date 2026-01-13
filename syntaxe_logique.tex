@@ -1,14 +1,21 @@
 \subsection{HOL Model}
 
-We fix a family of sorts including integers, booleans, lists of a given sort, functions and products. We also add propositions, so that our model is HOL-like.
+The model we construct is based on higher order logic (HOL). This is a multi-sorted logic with a sort $\Prop$ denoting the set of propositions (hence the higher order qualification).
+
+The choice of HOL as our syntax is mainly motivated by its expressiveness. In HOL, it is possible to easily talk about property about sets over a given sort $S$, by the sort $S \to \Prop$. Using this logic and the basic sorts $\Nat/\Bool/\List$ makes it easy to state $\FT,\WKL$ and many other importants principles.
 
 \begin{definition}[Sorts]
   We define the set of sorts $\Sort$ inductively by:
   \[S,T \Coloneq \Nat \mid \Bool \mid \List(S)\mid S \times T \mid S \to T \mid \Prop\]
 \end{definition}
 
-To define terms, we first define HOL-contexts.
+With this set of sorts, we give a syntax for well-typed terms. We use bold font for the syntactic HOL terms, to distinguish them from the $\lambda$-calculus terms we introduce later. The only exception is to denote an element in $\Prop$, for which we use $\varphi,\psi\ldots$
 
+The HOL term constructors are akin to system T: there is a constructor for abstraction and application for functions, constructors for pairing and projections, canonical constructors and recursor for our data types ($\Nat,\Bool,\List$). The main difference is on the logical aspect, as we also add propositional constructors. Those constructors are the conjunction $\land$, the implication $\to$, the two quantifications $\forall/\exists$ and the construction $S(\termt)$.
+
+This construction is used to underline the standard elements and to give them a computational meaning. For example, the difference between $\forall \varx^{\Nat},\varphi(\varx)$ and $\forall \varx^{\Nat},\Nat(\varx) \to \varphi(\varx)$ is that the second proposition can be proved by a computation depending on the integer $\varx$, meanwhile the first one must be proved by a proof of $\varphi$ uniform on $\varx$.
+
+\tlnote{Maybe ignore this definition, it's straightforward.}
 \begin{definition}[HOL-context]
   We fix a denumerable set $\Xt$ of variables which we denote by $\varx,\vary,\ldots$ A (HOL-)context is a list of pairs $(\varx : S)$ where $\varx \in \Xt$ and $S \in \Sort$. We denote the set of (HOL-)contexts by $\Hctx$ and will write its elements $\Gamma,\Delta,\ldots$
 \end{definition}
@@ -69,10 +76,11 @@ To define terms, we first define HOL-contexts.
   \end{center}
 \end{definition}
 
-We now give the natural set-semantic for each sort and term, parametrized by a complete Heyting algebra $H$ representing $\Prop$.
+A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and a function interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equiped with two functions $\powerset (H) \to H$. Finally, to interpret $\Prop$, we need an interpretation of $S(\termt)$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
+The other sorts are given their natural set theoretic semantic.
 
 \begin{definition}[Semantic]
-  Let $(H,\leqH)$ be a Heyting algebra with an intersection and a union operations.
+  Let $(H,\leqH)$ be a Heyting algebra with an intersection and a union operations $\bigcup,\bigcap : \powerset (H) \to H$.
   For each sort $S \in \Sort$, we associate a set $\sem S$:
   \begin{itemize}
   \item $\sem{\Nat} \defeq \bN$
@@ -133,10 +141,12 @@ We now give the natural set-semantic for each sort and term, parametrized by a c
   \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
   \item $\sem{\Gamma\vdash S(\termt) : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
   \end{itemize}
-  where $\rec_{\bN}$ (resp. $\rec_{\bB}$, resp. $\rec_{\bL}$) are the canonical recurcors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a letter $a$ and a word $u$, appends $a$ to $u$ to make a new word, $\implH$ is the implication of $H$, $\landH$ is its meet, $\bigcap$ is its intersection and $\bigcup$ its union.
+  where $\rec_{\bN}$ (resp. $\rec_{\bB}$, resp. $\rec_{\bL}$) are the canonical recurcors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a letter $a$ and a word $u$, appends $a$ to $u$ to make a new word, $\implH$ is the implication of $H$ and $\landH$ is its meet.
 
   For a given sort $S$, we will also write $\bS$ for $\sem S$.
 \end{definition}
+
+In all generality, the syntactic terms are given in a typing context, like $\Gamma\vdash \termt : S$. Thus, to construct an element of $\bS$, we need an environment $\rho$ which covers $\Gamma$.
 
 \begin{notation}
   Given a HOL-context $\Gamma$ and a function $\displaystyle\termenv : \Xt \partialto \bigcup_{S \in \Sort} \bS$, we define

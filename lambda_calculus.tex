@@ -1,8 +1,8 @@
 \subsection{Lambda-calculus}
 
-The lambda-calculu we use is a variant of the usual lambda-calculus, enriched with
-constructors and recursors for integers, booleans and lists of objects. We also add
-pairs and a family of oracles.
+The proof we adapt from \cite{LubRat13} uses the Turing-machine realizability relation over a Kripke model of IZF. This Kripke model is made on the frame $\omega^{<\omega}$ and every world in this frame is equiped with a finite family of oracles: the realizers then use only these oracles for their computation.
+
+Simplifying this construction, we consider a lambda-calculus which, similarly to the realizers of the model mentionned above, is able to call a finite number of oracles. To implement the call to oracles primitive, we add a family of terms $\oracle_n$ representing the $n$-th oracle of our family.
 
 \begin{definition}[Lambda-terms]
   We fix an enumerable set $\Xlam$ of $\lambda$-variables which will be written
@@ -20,7 +20,7 @@ pairs and a family of oracles.
 
 We assume the usual convention of $\alpha$-renaming of bound variables.
 
-As the family $(\oracle_n)_{n \in \bN}$ represents oracles, the reduction will be parametrised by a list of functions $\bN \to \bB$.
+Using our multiple worlds analogy, we parametrize the reduction on terms by a list of functions $\bN \to \bB$. In place of the frame $\omega^{<\omega}$ previously mentionned, our set of worlds is $(\bN \to \bB)^{<\omega}$, but every definition can be restricted to a subset of $\bN \to \bB$, for example by taking only functions of some given degree. The model of \cite{LubRat13} is the case where we restrict the $i$-th element of the list to be in a degree $\degreeD_i$, where $(\degreeD_i)$ is a fixed countable family of Turing degrees.
 
 \begin{definition}[Reduction context]
   Let $\funB$ be the set of set-functions $\bN \to \bB$. We denote by $\Oracle$ the set of lists of set-functions $\bN \to \bB$:
@@ -37,7 +37,7 @@ We assume the usual convention for substitution without capture of free variable
 The reduction itself is the expected $\beta$-reduction, enriched by the reduction, for
 any set-function $f : \bN \to \bB$ in the $i$-th place of the reduction context:
 \[\oracle_i \;\encode{n} \mapsto \encode{f(n)}\]
-where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in this lambda-calculus, and the encoding of booleans is obviously $\rtt$ and $\rff$, corresponding respectively to $1 \in \bB$ and $0 \in \bB$.
+where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in this lambda-calculus, and the encoding of booleans is $\rtt$ and $\rff$, corresponding respectively to $1 \in \bB$ and $0 \in \bB$.
 
 \begin{definition}[Reduction]
   Let $\oracle \in \Oracle$.
@@ -57,11 +57,15 @@ where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in
   The reduction relation $\redE$ is the smallest relation containing $\rediE$ and which is compatible, meaning that it is closed by subterms. We write $\redERT$ for the reflexive and transitive closure of $\redE$.
 \end{definition}
 
-It is folklore to check that $\redE$ is confluent.
+%It is folklore to check that $\redE$ is confluent.
+
+As the reduction depends on the reduction context, we show that extending the reduction context also extends the reduction.
 
 \begin{notation}
-  For $\enviro,\enviroT \in \Oracle$, we write $\enviro \infOr \enviroT$ when $\enviro$ is a prefix of $\enviroT$. We also write the cylinder on $\enviro$ as follows:
-  \[\cyl\enviro \defeq \{\enviroT \in \Oracle \mid \enviro \infOr \enviroT\}\]
+  For $\enviro,\enviroT \in \Oracle$, we write $\enviro \infOr \enviroT$ when $\enviro$ is a prefix of $\enviroT$.
+
+  %We also write the cylinder on $\enviro$ as follows:
+  %\[\cyl\enviro \defeq \{\enviroT \in \Oracle \mid \enviro \infOr \enviroT\}\]
 \end{notation}
 
 \begin{proposition}
@@ -72,66 +76,67 @@ It is folklore to check that $\redE$ is confluent.
   It suffices to show that $\rediE\subseteq \redi_{\enviroT}$, but this is straightforward by just comparing the list of redexes.
 \end{proof}
 
-The truth values of our predicates will be subsets of $\Lambda$. As is standard in realizability, thoses subsets need to be closed by anti-reduction.
+The standard interpretation of $\Prop$ in realizability is the set $\SAT$ of saturated sets. In our case, as saturation is a property about (anti)reduction, we parametrize the notion of saturation by a reduction context.
+
+The notion of truth value in our model is thus, in a world $\enviro$, the set of saturated sets for $\rediE$. This truth value is local, in the sense that it only speaks about $\enviro$, so the adapted notion of truth value (for the Kripke interpretation) is given by family of saturated sets, for each $\enviro$.
 
 \begin{definition}[Saturated set]
   Let $\enviro\in\Oracle$ and $A \subseteq \Lambda$.
   We call $A$ a $\enviro$-saturated set if it is closed by anti-reduction for $\redE$, and write $\SATE$ the set of saturated sets:
-  \[A \in \SATE \defeq \forall t,u \in \Lambda, (\forall \enviroT \in \cyl{\enviro}, t \redP{\enviroT} u) \implies u \in A \implies t \in A\]
-  We define the set of saturated subsets as follows:
-  \[A \in \SAT \defeq \forall t,u \in \Lambda, (\forall \enviro \in \Oracle, t \redE u) \implies u \in A \implies t \in A\]
+  \[A \in \SATE \defeq \forall t,u \in \Lambda, t \rediE u \implies u \in A \implies t \in A\]
+  We define the set of global saturated subsets as follows:
+  \[\SAT \defeq \left\{\left.(A_{\enviro}) \in \prod_{\enviro\in\Oracle} \SATE \right\vert
+  \forall \enviro,\enviroT\in\Oracle, \enviro \infOr \enviroT \implies A_{\enviro} \subseteq A_{\enviroT}\right\}\]
 \end{definition}
 
-\begin{remark}
-  Using the fact that $\redE\subseteq\red_{\enviroT}$ for $\enviro\infOr\enviroT$, we know that if $t \redE u$ and $u \in A$, for $A \in \SATE$, then $t \in A$. Thus the condition of being saturated is a strengthening of the naive definition, which would be
-  \[\forall t,u \in \Lambda, t \redE u \implies u \in A \implies t \in A\]
-\end{remark}
-
-The following result is folklore.
+As for usual saturated set, the different notions of saturated sets are complete lattice.
 
 \begin{proposition}
-  For any $\enviro \in \Oracle$, $\SATE$ is a complete sub-lattice of $\powerset(\Lambda)$. $\SAT$ is also a complete sub-lattice of $\powerset(\Lambda)$.
+  For any $\enviro \in \Oracle$, $\SATE$ is a complete sub-lattice of $\powerset(\Lambda)$. $\SAT$ is also a complete lattice for the pointwise inclusion and with the pointwise union and intersection.
 \end{proposition}
 
-We now look at the relation between inclusion of reduction contexts and reductions.
+%We now look at the relation between inclusion of reduction contexts and reductions.
+
+%\begin{proposition}
+%  For $\enviro\infOr\enviroT$, the following inclusion holds:
+%  \[\SATP{\enviroT}\subseteq \SATP{\enviro}\]
+%\end{proposition}
+
+%\begin{proof}
+%  Let $\enviro,\enviroT \in \Oracle$ such that $\enviro\infOr\enviroT$. Let $A \in \SATP{\enviroT}$, $t,u \in \Lambda$ such that $\forall \enviroTT \in \cyl{\enviro}, t \redP{\enviroTT} u$ and $u \in A$. Then, we know that for any $\enviroTT \in \cyl{\enviroT}, t \redP{\enviroTT} u$ as $\cyl{\enviroT}\subseteq \cyl{\enviro}$, so $t \in A$ as $A$ is $\enviroT$-saturated.
+%\end{proof}
+
+%We also give a lemma which simplfies some proofs of saturation.
+
+%\begin{lemma}\label{lem:inter_SAT}
+%  Let $(A_\enviro)_{\enviro\in\Oracle}$ be a family of sets such that $\forall \enviro\in\Oracle, A_\enviro \in \SATE$. Then $\displaystyle\bigcap_{\enviro \in \Oracle} A_\enviro \in \SAT$.
+%\end{lemma}
+
+%\begin{proof}
+%  Let $t,u \in \Lambda$ such that
+%  \[\forall \enviro \in \Oracle, t \redE u\]
+%  and $u \in \displaystyle\bigcap_{\enviro \in \Oracle} A_\enviro$. Then for any $\enviro \in \Oracle$, $u \in A_\enviro$ so (as $A_\enviro$ is saturated) $t \in A_\enviro$. So $t \in \displaystyle\bigcap_{\enviro\in\Oracle} A_\enviro$.
+%\end{proof}
+
+The fact that each $\SATE$ and $\SAT$ are taken to be truth value means that we will use them to interpret $\Prop$ in the semantic interpretation of our HOL syntax. We thus show that those sets can be equiped with a Heyting pre-algebra structure.
+
+The structure of Heyting pre-algebra on $\SATE$ is the expected one: $A \leq B$ means that there is a uniform mapping of elements of $A$ to elements of $B$, and the set of those mapping (is saturated and) constitutes the set $A \implies B$. For the structure of $\SAT$, however, the structure is defined in a more subtle way. $\varA\leq \varB$ means that the mapping witnessing the inequality is also uniform on $\enviro$. The implication $\implies$ in $\SAT$ is then defined in a Kripke-style way, as the elements inside a world $\enviro$ also have to work for any future world $\enviroT\supOr \enviro$. This definition of $\implies$ is the reason why we impose monotonicity in the family $\varA\in \SAT$.
 
 \begin{proposition}
-  For $\enviro\infOr\enviroT$, the following inclusion holds:
-  \[\SATP{\enviroT}\subseteq \SATP{\enviro}\]
-\end{proposition}
-
-\begin{proof}
-  Let $\enviro,\enviroT \in \Oracle$ such that $\enviro\infOr\enviroT$. Let $A \in \SATP{\enviroT}$, $t,u \in \Lambda$ such that $\forall \enviroTT \in \cyl{\enviro}, t \redP{\enviroTT} u$ and $u \in A$. Then, we know that for any $\enviroTT \in \cyl{\enviroT}, t \redP{\enviroTT} u$ as $\cyl{\enviroT}\subseteq \cyl{\enviro}$, so $t \in A$ as $A$ is $\enviroT$-saturated.
-\end{proof}
-
-We also give a lemma which simplfies some proofs of saturation.
-
-\begin{lemma}\label{lem:inter_SAT}
-  Let $(A_\enviro)_{\enviro\in\Oracle}$ be a family of sets such that $\forall \enviro\in\Oracle, A_\enviro \in \SATE$. Then $\displaystyle\bigcap_{\enviro \in \Oracle} A_\enviro \in \SAT$.
-\end{lemma}
-
-\begin{proof}
-  Let $t,u \in \Lambda$ such that
-  \[\forall \enviro \in \Oracle, t \redE u\]
-  and $u \in \displaystyle\bigcap_{\enviro \in \Oracle} A_\enviro$. Then for any $\enviro \in \Oracle$, $u \in A_\enviro$ so (as $A_\enviro$ is saturated) $t \in A_\enviro$. So $t \in \displaystyle\bigcap_{\enviro\in\Oracle} A_\enviro$.
-\end{proof}
-
-The $\SATE$ (and $\SAT$) are also Heyting algebras.
-
-\begin{proposition}
-  Let $\sigma \in \Oracle$.
-  Let $A,B \in \SATE$ (resp. $\SAT$). Then let
+  Let $\enviro \in \Oracle$.
+  Let $A,B \in \SATE$ and $\varA,\varB \in \SAT$. Then let
   \begin{align*}
     A \infSATE B &\defeq \exists t \in \Lambda, \forall u \in A, tu \in B\\
     A \impliesSATE B &\defeq \{t \in \Lambda \mid \forall u \in A, tu \in B\}\\
-    A \landSATE B &\defeq \{t \in \Lambda\mid (\pi_1\;t \in A)\land (\pi_2\;t \in B)\}
+    A \landSATE B &\defeq \{t \in \Lambda\mid (\pi_1\;t \in A)\land (\pi_2\;t \in B)\}\\
+    \varA \infSAT \varB &\defeq \exists t \in \Lambda, \forall \enviro \in \Oracle, \forall u \in \termAE, tu \in \termBE\\
+    \varA \impliesSAT \varB &\defeq \enviro \mapsto \{ t \in \Lambda \mid \forall \enviroT \supOr \enviro, \forall u \in \termA{\enviroT}, tu \in \termB{\enviroT}\}\\
+    \varA\landSAT\varB &\defeq \enviro \mapsto \{ t \in \Lambda \mid (\pi_1\;t\in \termAE) \land (\pi_2\;t \in \termBE)\}
   \end{align*}
   This defines a Heyting pre-algebra.
 \end{proposition}
 
 \begin{proof}
-  We only prove the result for $\SATE$, the reasonning is the same for $\SAT$.
-  
   The fact that the two operations are well defined is standard and uses the compatibility of the relation.
   
   Let's show that $\infSATE$ is the right adjoint to $\landSATE$. This means that for any $A,B,C \in \SATE$:
@@ -141,35 +146,46 @@ The $\SATE$ (and $\SAT$) are also Heyting algebras.
   \item conversely, if there is $t$ such that for any $u \in A \landSATE B$, $tu \in C$, then the function $\lambda x.\lambda y.t \langle x,y\rangle$ is a witness that $A \infSATE B \impliesSATE C$.
   \end{itemize}
 
-  Hence $\SATE$ is a Heyting pre-algebra.
-\end{proof}
-
-Finally, we give the Heyting pre-algebra we will use for our construction. This one is given by in a similar way as for $\SAT$, but we require a Kripke-like condition for the implication.
-
-\begin{definition}[$\SAT$ family Heyting pre-algebra]
-  We define the following Heyting pre-algebra. For the carrier set, let
-  \[\HeytingFamily \defeq \left\{\left. (A_\enviro)_{\enviro \in \Oracle} \in \prod_{\enviro \in \Oracle} \SATE \right\vert \forall \enviroT \in \Oracle, \enviro \infOr \enviroT \implies A_\enviro \subseteq A_{\enviroT}\right\}\]
-  We define the pre-order as
-  \[\varA \InfSATFam \varB \defeq \exists t \in \Lambda, \forall \enviro \in \Oracle, \forall u \in \termAE, t\;u \in \termBE\]
-  the conjunction and the implication respectively as
-  \begin{align*}
-    \varA \AndSATFam \varB &\defeq \enviro \longmapsto \{t \in \Lambda \mid (\pi_1\;t\in \termAE)\land (\pi_2\;t \in \termBE)\} \\
-    \qquad \varA \ImplSATFam \varB &\defeq \enviro \longmapsto \{ t \in \Lambda \mid \forall \enviroT \in \cyl{\enviro}, \forall u \in \termA{\enviroT}, t\;u \in \termB{\enviroT}\}
-  \end{align*}
-\end{definition}
-
-\begin{proof}
-  We show that this is indeed a Heyting pre-algebra with arbitrary meet and join. First, for the meet and join, the fact that each $\SATE$ is stable by arbitrary intersection and union means that we can define
-  \[\bigcap_{i \in I} (A_{\enviro,i})_{\enviro \in \Oracle} \defeq \left(\bigcap_{i \in I} A_{\enviro,i}\right)_{\enviro \in \Oracle}\]
-
-  We are left to show the adjunction between $\AndSATFam$ and $\ImplSATFam$. Let $\varA$, $\varB$ and $\varC$ be families, then stating that $(\varA \AndSATFam \varB) \InfSATFam \varC$ and $\varA \InfSATFam (\varB \ImplSATFam \varC)$ mean respectively:
+  We do the same for $\SAT$:
+  \[\varA \infSAT \varB \impliesSAT \varC \iff \varA\landSAT \infSAT \varC\]
   \begin{itemize}
-  \item we find a term $t$ such that if $\pi_1 u \in \termAE$ and $\pi_2 u \in \termBE$ for any $\enviro \in \Oracle$, then $t\;u \in \termCE$ for any $\enviro \in \Oracle$
-  \item we find a term $t$ such that, for any $\enviro,\enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, $u \in \termAE, v \in \termB{\enviroT}$, we have $t\;u\;v \in \termC{\enviroT}$
+  \item suppose there is $t$ such that for any $\enviro,\enviroT\in\Oracle$, $u \in \termAE, v \in \termB{\enviroT}$ and such that $\enviro \infOr \enviroT$, $t\;u\;v \in \termC{\enviroT}$. Then, for $\enviro \in \Oracle$ and $u \in \termAE\landSAT\termBE$, $\pi_1\;u\in\termAE$ and $\pi_2\;u\in\termBE$, so $t\;(\pi_1\;u)\;(\pi_2\;u)\in\termCE$.
+  \item suppose there is $t$ such that for any $\enviro\in\Oracle$ and $u \in \termAE \landSAT \termBE$, $tu \in \termCE$. Then, let $\enviro,\enviroT\in\Oracle$ such that $\enviro\infOr \enviroT$ and $u \in \termAE$. By inclusion, $u \in \termA{\enviroT}$, so for any $v \in \termB{\enviroT}$, $t\;\langle u,v\rangle \in \termC{\enviroT}$, so by antireduction $\lambda x\;y.t\;\langle x,y\rangle$ is a witness that $\varA\infSAT \varB \impliesSAT \varC$.
   \end{itemize}
-  using the monotonicity of the families, the two terms can be converted one into the other respectively by the two following functions:
-  \[t \longmapsto \lambda u.\lambda v.t\;\langle u,v\rangle \qquad
-  t \longmapsto \lambda u. t\;(\pi_1\;u)\;(\pi_2\;u)\]
 
-  Hence this gives us a Heyting pre-algebra with a meet and join operation.
+  Hence $\SATE$ and $\SAT$ are Heyting pre-algebras.
 \end{proof}
+
+\begin{remark}
+  The pre-order $\infSATE$ contains $\subseteq$ with the witness $t = \lambda x.x$. For this reason, $\bigcap$ defines a lower bound, even though not the greatest.
+\end{remark}
+
+%Finally, we give the Heyting pre-algebra we will use for our construction. This one is given by in a similar way as for $\SAT$, but we require a Kripke-like condition for the implication.
+
+%\begin{definition}[$\SAT$ family Heyting pre-algebra]
+%  We define the following Heyting pre-algebra. For the carrier set, let
+%  \[\HeytingFamily \defeq \left\{\left. (A_\enviro)_{\enviro \in \Oracle} \in \prod_{\enviro \in \Oracle} \SATE \right\vert \forall \enviroT \in \Oracle, \enviro \infOr \enviroT \implies A_\enviro \subseteq A_{\enviroT}\right\}\]
+%  We define the pre-order as
+%  \[\varA \InfSATFam \varB \defeq \exists t \in \Lambda, \forall \enviro \in \Oracle, \forall u \in \termAE, t\;u \in \termBE\]
+%  the conjunction and the implication respectively as
+%  \begin{align*}
+%    \varA \AndSATFam \varB &\defeq \enviro \longmapsto \{t \in \Lambda \mid (\pi_1\;t\in \termAE)\land (\pi_2\;t \in \termBE)\} \\
+%    \qquad \varA \ImplSATFam \varB &\defeq \enviro \longmapsto \{ t \in \Lambda \mid \forall \enviroT \in \cyl{\enviro}, \forall u \in \termA{\enviroT}, t\;u \in \termB{\enviroT}\}
+%  \end{align*}
+%\end{definition}
+
+%\begin{proof}
+%  We show that this is indeed a Heyting pre-algebra with arbitrary meet and join. First, for the meet and join, the fact that each $\SATE$ is stable by arbitrary intersection and union means that we can define
+%  \[\bigcap_{i \in I} (A_{\enviro,i})_{\enviro \in \Oracle} \defeq \left(\bigcap_{i \in I} A_{\enviro,i}\right)_{\enviro \in \Oracle}\]
+
+%  We are left to show the adjunction between $\AndSATFam$ and $\ImplSATFam$. Let $\varA$, $\varB$ and $\varC$ be families, then stating that $(\varA \AndSATFam \varB) \InfSATFam \varC$ and $\varA \InfSATFam (\varB \ImplSATFam \varC)$ mean respectively:
+%  \begin{itemize}
+%  \item we find a term $t$ such that if $\pi_1 u \in \termAE$ and $\pi_2 u \in \termBE$ for any $\enviro \in \Oracle$, then $t\;u \in \termCE$ for any $\enviro \in \Oracle$
+%  \item we find a term $t$ such that, for any $\enviro,\enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, $u \in \termAE, v \in \termB{\enviroT}$, we have $t\;u\;v \in \termC{\enviroT}$
+%  \end{itemize}
+%  using the monotonicity of the families, the two terms can be converted one into the other respectively by the two following functions:
+%  \[t \longmapsto \lambda u.\lambda v.t\;\langle u,v\rangle \qquad
+%  t \longmapsto \lambda u. t\;(\pi_1\;u)\;(\pi_2\;u)\]
+
+%  Hence this gives us a Heyting pre-algebra with a meet and join operation.
+%\end{proof}
