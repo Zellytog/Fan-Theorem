@@ -23,7 +23,7 @@ This motivates the definition of EF with data types: those are EF for which we e
   \item $\relEF{e_0}{\top}{\cod 0}$
   \item for all $n \in \bN$, $\relEF{e_S}{\cod n}{\cod{n + 1}}$
   \item for all functions $f : \bN \to \Phi$,
-    \[\relEF{e_{\rec}}{\top}{\PropImpl{f(0)}{\PropImpl{\left(\prod_{n \in \bN}\PropImpl{f(n)}{f(n+1)}\right)}{\prod_{n \in \bN} \PropImpl{\cod n}{f(n)}}}}\]
+    \[\relEF{e_{\rec}}{\top}{\PropImpl{f(0)}{\PropImpl{\left(\prod_{n \in \bN}\PropImpl{\cod n}{\PropImpl{f(n)}{f(n+1)}}\right)}{\prod_{n \in \bN} \PropImpl{\cod n}{f(n)}}}}\]
   %\item for all type $T$ as previously defined, let $\rec_T$ be the recursor $T \to (\bN \to T \to T) \to \bN \to T$, then $\relEF{e_{\rec}}{\top}{\cod{\rec_T}}$
   \end{itemize}
 \end{definition}
