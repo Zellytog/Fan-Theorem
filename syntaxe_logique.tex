@@ -13,7 +13,7 @@ With this set of sorts, we give a syntax for well-typed terms. We use bold font 
 
 The HOL term constructors are akin to system T: there is a constructor for abstraction and application for functions, constructors for pairing and projections, canonical constructors and recursor for our data types ($\Nat,\Bool,\List$). The main difference is on the logical aspect, as we also add propositional constructors. Those constructors are the conjunction $\land$, the implication $\to$, the two quantifications $\forall/\exists$ and the construction $S(\termt)$.
 
-This construction is used to underline the standard elements and to give them a computational meaning. For example, the difference between $\forall \varx^{\Nat},\varphi(\varx)$ and $\forall \varx^{\Nat},\Nat(\varx) \to \varphi(\varx)$ is that the second proposition can be proved by a computation depending on the integer $\varx$, meanwhile the first one must be proved by a proof of $\varphi$ uniform on $\varx$.
+This last construction is used to underline the standard elements and to give them a computational meaning. For example, the difference between $\forall \varx^{\Nat},\varphi(\varx)$ and $\forall \varx^{\Nat},\Nat(\varx) \to \varphi(\varx)$ is that the second proposition can be proved by a computation depending on the integer $\varx$, meanwhile the first one must be proved by a proof of $\varphi$ uniform on $\varx$.
 
 \tlnote{Maybe ignore this definition, it's straightforward.}
 \begin{definition}[HOL-context]

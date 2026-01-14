@@ -21,7 +21,7 @@ The only thing left to be defined is the $\cod -$ operation.
   \item if $S = T \to U$, then for all $f : \bT \to \bU$,
     \[\cod f \defeq \bigcap_{x \in \bT} \cod x \impliesSAT \cod{f(x)}\]
     %\[\codE f \defeq \{ t \in \Lambda \mid \forall s \in \bT, \forall \enviroT \supOr\enviro,\forall u \in \codP s \enviroT, tu \in \codP{f(s)}\enviroT\}\]
-  \item if $S = \Prop$, then for all $\varA \in SAT$,
+  \item if $S = \Prop$, then for all $\varA \in \SAT$,
     \[\cod{\varA} \defeq \varA\]
   \end{itemize}
 
@@ -48,7 +48,7 @@ We now have a semantic interpretation of our initial HOL syntax, where propositi
   \[t \realUP{\termenv} \varphi \defeq \forall \enviro \in \Oracle, t \realP{\enviro}{\termenv}\varphi\]
 \end{definition}
 
-The following propositions justifie that the definitions give saturated sets, in the sense that they are monotonous with regard to the ordre on reduction contexts.
+The following proposition justifies that the definitions give saturated sets, in the sense that they are monotonous with regard to the order on reduction contexts.
 
 \begin{proposition}\label{prop.monotonicity}
   let $\enviro, \enviroT \in \Oracle$, $\enviro \infOr \enviroT$, $\Gamma \in \Hctx, \termenv \models \Gamma, \Gamma \vdash \varphi : \Prop$. Then, for every $t$, we have the following implication:
@@ -60,7 +60,7 @@ The following propositions justifie that the definitions give saturated sets, in
   \begin{itemize}
   \item if $S = \Nat$, then $t \realPP \Nat(\termt)$ means that $t \redERT \overline n$, thus $t \redRTP{\enviroT} \overline n$, so $t \realP{\enviroT}{\termenv} \Nat(\termt)$.
   \item if $S \in \{\Bool, \List(T), T \times U, \Prop\}$, the argument is the same.
-  \item if $S = T \to U$, then suppose that $t \realPP \Nat(\termt)$. To prove the expected result, let $\enviroTT \supOr\enviroT$ and $u \in \codP{\termenv(\termt)} \enviroTT$, then $tu \in \codP{\termenv(\termt)}{\enviroTT}$ by hypothesis on $t$.
+  \item if $S = T \to U$, then this is just a consequence of the case of implication and universal quantification.
   \item if $\varphi = \psi \to \chi$, then let $\enviroTT \supOr\enviroT$ and $u \realP{\enviroTT}{\termenv} \psi$. By transitivity, $\enviro \infOr \enviroTT$, so by hypothesis on $t$, $tu \realP{\enviroTT}{\termenv} \psi$
   \item if $\varphi = \psi \land \chi$, then we can conclude directly by induction hypothesis
   \item the cases $\forall, \exists$ are the same: the induction hypothesis goes through without issue
@@ -71,35 +71,39 @@ The following propositions justifie that the definitions give saturated sets, in
 \begin{notation}
   For a formula $\varphi$, we write
   \begin{align*}
-    \realFE{\varphi} &\defeq \{ t \in \Lambda \mid t \realPP \varphi \}\\
-    \realUFE{\varphi} &\defeq (\realFE{\varphi})_{\enviro \in \Oracle} \\
+    \realFP{\varphi}{\termenv}{} &\defeq \{ t \in \Lambda \mid t \realUP{\termenv} \varphi \}\\
+    \realF{\varphi} &\defeq \{ t \in \Lambda \mid t \realU \varphi\}
   \end{align*}
+%  \begin{align*}
+%    \realFE{\varphi} &\defeq \{ t \in \Lambda \mid t \realPP \varphi \}\\
+%    \realUFE{\varphi} &\defeq (\realFE{\varphi})_{\enviro \in \Oracle} \\
+%  \end{align*}
 \end{notation}
 
-\begin{proposition}
-  For every $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma \vdash \varphi : \Prop$, $\realFE{\varphi} \in \SAT$ and $\realUFE{\varphi} \in \SAT$.
-\end{proposition}
+%\begin{proposition}
+%  For every $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma \vdash \varphi : \Prop$, $\realFE{\varphi} \in \SAT$ and $\realUFE{\varphi} \in \SAT$.
+%\end{proposition}
 
-\begin{proof}
-  The proof is by induction on the realizability relation:
-  \begin{itemize}
-  \item if $\varphi = S(\termt)$, then we just use the fact that each $\codE{s}$ is in $\SAT$ (respectively that $\cod{s} \in \SAT$), so it's the case in particular for $\codE{\termenv(\termt)}$.
-  \item if $\varphi = \psi \to \chi$, then let $t,u \in \Lambda, t \red u$ and $u \realPP \psi \to \chi$. Let's prove that $t \realPP \psi \to \chi$. Let $\enviroT \supOr\enviro$ and $v \realP{\enviroT}{\termenv} \psi$, let's prove that $tv \realP{\enviroT}{\termenv} \chi$. By compatibility, $tv \red uv$, but as $u \realPP \psi \to \chi$, this means that $uv \realP{\enviroT}{\termenv} \chi$, hence (as $\realFP{\chi}{\termenv}{\enviroT}$ is saturated by induction hypothesis) $tv \realP{\enviroT}{\termenv} \chi$.
-  \item if $\varphi = \psi \land \chi$, then let $t,u \in \Lambda, t \red u$ and $u \realPP \psi \land \chi$. This means that both $\pi_1\;u \realPP \psi$ and $\pi_2\;u \realPP \chi$, but then $\pi_i\;t \red \pi_i\;u$ for $i \in \{1,2\}$, so by saturation of $\realFE{\psi}$ and $\realFE{\chi}$ (given by induction hypotheses), $\pi_1\;t \realPP \psi$ and $\pi_2\;t \realPP \chi$. Thus $t \realPP \psi \land \chi$.
-  \item if $\varphi = \forall \varx^S, \varphi$, then we use the fact that $\SAT$ is closed by intersection.
-  \item if $\varphi = \exists \varx^S, \varphi$, then we use the fact that $\SAT$ is closed by union.
-  \end{itemize}
-  Hence the result (the monotonicity for $\realUFE{\varphi}$ is already proved in proposition \ref{prop.monotonicity}).
-\end{proof}
+%\begin{proof}
+%  The proof is by induction on the realizability relation:
+%  \begin{itemize}
+%  \item if $\varphi = S(\termt)$, then we just use the fact that each $\codE{s}$ is in $\SAT$ (respectively that $\cod{s} \in \SAT$), so it's the case in particular for $\codE{\termenv(\termt)}$.
+%  \item if $\varphi = \psi \to \chi$, then let $t,u \in \Lambda, t \red u$ and $u \realPP \psi \to \chi$. Let's prove that $t \realPP \psi \to \chi$. Let $\enviroT \supOr\enviro$ and $v \realP{\enviroT}{\termenv} \psi$, let's prove that $tv \realP{\enviroT}{\termenv} \chi$. By compatibility, $tv \red uv$, but as $u \realPP \psi \to \chi$, this means that $uv \realP{\enviroT}{\termenv} \chi$, hence (as $\realFP{\chi}{\termenv}{\enviroT}$ is saturated by induction hypothesis) $tv \realP{\enviroT}{\termenv} \chi$.
+%  \item if $\varphi = \psi \land \chi$, then let $t,u \in \Lambda, t \red u$ and $u \realPP \psi \land \chi$. This means that both $\pi_1\;u \realPP \psi$ and $\pi_2\;u \realPP \chi$, but then $\pi_i\;t \red \pi_i\;u$ for $i \in \{1,2\}$, so by saturation of $\realFE{\psi}$ and $\realFE{\chi}$ (given by induction hypotheses), $\pi_1\;t \realPP \psi$ and $\pi_2\;t \realPP \chi$. Thus $t \realPP \psi \land \chi$.
+%  \item if $\varphi = \forall \varx^S, \varphi$, then we use the fact that $\SAT$ is closed by intersection.
+%  \item if $\varphi = \exists \varx^S, \varphi$, then we use the fact that $\SAT$ is closed by union.
+%  \end{itemize}
+%  Hence the result (the monotonicity for $\realUFE{\varphi}$ is already proved in proposition \ref{prop.monotonicity}).
+%\end{proof}
 
 \begin{notation}
   We define the relativised universal quantification of a proposition, $\forall \varx^{\{S\}}, \varphi$, as
   \[\forall \varx^{\{S\}}, \varphi \defeq \forall \varx^S, S(\varx) \to \varphi\]
-  Thus, when realizing a formula like $\forall \varx^{\{S\}}, \varphi$, it suffices to suppose that there is an objet $s \in \bS$ with a code $t$ and t prove $\varphi$ using the data $t$.
+  Thus, when realizing a formula like $\forall \varx^{\{S\}}, \varphi$, it suffices to suppose that there is an objet $s \in \bS$ with a code $t$ and t proves $\varphi$ using the data $t$.
 
   The relativised existantial quantification is defined by
   \[\exists \varx^{\{S\}}, \varphi \defeq \exists \varx^{S}, S(\varx) \land \varphi\]
   This type is naturally equiped with both
   \[\pi_1 \realU \varphi \land \psi \to \varphi \qquad \pi_2 \realU \varphi \land \psi \to \psi\]
-  This means that, if $t\realP{\enviro}{\termenv} \exists\varx^{\{S\}}, \varphi(\varx)$, then there exists some $s \in \bS$ such that $\pi_1\;t$ is a code of $s$ (for the reduction contexte $\enviro$) and $\pi_2\;t \realP{\enviro}{\termenv[\vary\mapsto s]} \varphi(\vary)$ with $\vary$ a fresh variable.
+  This means that, if $t\realP{\enviro}{\termenv} \exists\varx^{\{S\}}, \varphi(\varx)$, then there exists some $s \in \bS$ such that $\pi_1\;t$ is a code of $s$ (for the reduction context $\enviro$) and $\pi_2\;t \realP{\enviro}{\termenv[\vary\mapsto s]} \varphi(\vary)$ with $\vary$ a fresh variable.
 \end{notation}
