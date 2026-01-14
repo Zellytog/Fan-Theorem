@@ -52,7 +52,7 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
 \begin{proof}
   Let's prove that $\lambda b. n_{C(b)} \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
   \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
-  for some function $B : \List(\bB) \to \SATE$ closed by extension. By saturation, it suffices to show that
+  for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
   \[n_{C(b)} \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
   but we already know that $n_{C(b)}$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C(b)}$ is a uniform bound for $B$.
 

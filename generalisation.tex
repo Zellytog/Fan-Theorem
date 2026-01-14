@@ -103,13 +103,15 @@ We can now state our generalized theorem about $\FT$. The conditions are the one
 \end{theorem}
 
 \begin{proof}
-  We apply the proof of theorem \ref{thm:FT} in the general setting. The proposition we want to prove is that there exists $\witx \in E$ such that
+  We apply the proof of theorem \ref{thm:FT} in the general setting. To make the proof easier to read, we consider the types $\Bool$ and $\List(\Bool)$, as they can be encoded inside integers and the usual manipulations can be simulated on the encodings.
+
+  The proposition we want to prove is that there exists $\witx \in E$ such that for any predicate $B : \List(\Bool) \to \Phi$ closed by extension,
   \begin{multline*}
-    \witx\real \forall B^{\List(\Bool) \to \Bool}, (\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B) \implies\\
+    \witx\real (\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B) \implies\\
     \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr \alpha n \in B
   \end{multline*}
-
-  We consider $\List(\Bool)$ as an encoding by integer (every primitive function on this type is system T definable from $\Nat$). We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we can't define the fixpoint by itself, but we can define the function which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. Call this function $F_C : \Nat \to \Bool$. This function has a code $e_{F_C}$.
+  
+  We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we can't define the fixpoint by itself, but we can define the function which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. Call this function $F_C : \Nat \to \Bool$. This function has a code $e_{F_C}$.
 
   By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ F_C$ (because we search for a $n$ such that $F_C(n) = 1$). Combining it with the code $e_{F_C}$, this gives an evidenced of a uniform bound. Thus, all that is left to prove is that $\lnot \circ F_C$ indeed has a $0$.
 
@@ -132,9 +134,9 @@ The second example is the historical one: the second Kleene algebra $K_2$ \cite{
 
 A third example is the model we based our generalization on: the model by Lubarsky in \cite{LubRat13}.
 
-The existence of a path in a possible future is essential. Indeed, the $\lambda$-calculus version of the $K_1$ realizability algebra, given by the set of saturated set for the pure untyped $\lambda$-calculus, does not realize $\FT$. To show this, we use the Kleene tree. For any computable path, given by a code $e$, we can simulate $e$ for increasing time duration until the finite path gets out of the tree, which will always happen because the infinite path in the Kleene tree are all uncomputable. This thus gives a bar for the Kleene tree, but this bar can't be uniform as the length of lists in this tree is unbounded.
+The existence of a path in a possible future is essential. For example, taking the realizability model given by $\SATE$, with local computation at some context $\enviro\in\Oracle$, the model does not realize $\FT$. To show this, we use the Kleene tree relativized to $\enviro$-computable functions. For any $\enviro$-computable path, given by a code $e$, we can simulate $e$ for increasing time duration until the finite path gets out of the tree, which will always happen because the infinite path in the Kleene tree are all uncomputable. This thus gives a bar for the Kleene tree, but this bar can't be uniform as the length of lists in this tree is unbounded.
 
-Finally, we advocate that the condition that we consider EFdatas and not just EF is not a limitation by itself. The additionnal data, indeed, always exist inside the realizability topos given by an EF.
+Finally, we advocate that the restriction of working on EFdatas instead of just EF is not a limitation in practice. The additionnal data, indeed, always exist inside the realizability topos given by an EF.
 
 Take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories, given by the assemblies which are the following data:
 \begin{itemize}
@@ -146,6 +148,8 @@ and morphisms $(X,E_X) \to (Y,E_Y)$ are given by
 \item a function $f : X \to Y$
 \item an evidence $\relEF{e}{E_X(x)}{E_Y(f(x))}$ uniform on $x \in X$
 \end{itemize}
-This exactly corresponds to the way we define codes for system T types, so every construction in the EFdata can be translated inside the realizability topos. The object associated to $(\bN,\cod -)$ in the realizability topos is a natural number object (NNO): $e_0$ defines the element $0 in \bN$, $e_S$ defines the function $\bN \to \bN$ and $e_{\rec}$ ensures the initiality of $1+\bN \xrightarrow{[0,S]} \bN$ among the algebras for $X\mapsto 1+X$.
+This exactly corresponds to the way we define codes for system T types, so every construction in the EFdata can be translated inside the realizability topos. The object associated to $(\bN,\cod -)$ in the realizability topos is a natural number object (NNO): $e_0$ defines the element $0 \in \bN$, $e_S$ defines the function $\bN \to \bN$ and $e_{\rec}$ ensures the initiality of $1+\bN \xrightarrow{[0,S]} \bN$ among the algebras for $X\mapsto 1+X$.
+
+\tlnote{Ajouter une ref pour le NNO ? Ca vient de Lawvere 1963 apparemment, mais je sais pas si c'est pertinent de mettre une citation pour ça.}
 
 Hence, to get an EFdata from an EF $\EFE$, one needs to find a NNO inside the realizability topos of $\EFE$, for which the initial algebra property is assured in a uniform way (\textit{i.e.} by the same witness $e \in E$), and pull back the associated data to make $e_0,e_S,e_{\rec}$. In practice, any realizability model of interest possesses such an object, as logically relevant models need arithmetical language (and thus a NNO) and it is natural to keep the same constructor for every recursive definition.
