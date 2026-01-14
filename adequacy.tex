@@ -7,16 +7,18 @@ To prove the adequacy, we first prove a substitution lemma.
   \[t \realPP \varphi[\termt/\varx] \iff t \realP{\enviro}{\termenv[\varx\mapsto \termenv(\termt)]}\varphi \]
 \end{lemma}
 
-\begin{proof}
-  We must first prove by induction on terms $\termu$ that $\termenv(\termu[\termt/\varx]) = \termenv[\varx \mapsto \termenv(\termt)](\termu)$. Then, by induction on $\varphi$:
-  \begin{itemize}
-  \item if $\varphi = S(\termt)$, then we use the equality on terms to have $t \in \codE{\termenv(\termt)} \iff t \in \codE{\termenv(\termt)}$
-  \item the other four cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.
-  \end{itemize}
-  Hence the result.
-\end{proof}
+\tlnote{J'ai mis la preuve en commentaire parce qu'elle est vraiment pas intéressante.}
 
-To postulate the adequacy, we need to give a typing system.
+%\begin{proof}
+%  We must first prove by induction on terms $\termu$ that $\termenv(\termu[\termt/\varx]) = \termenv[\varx \mapsto \termenv(\termt)](\termu)$. Then, by induction on $\varphi$:
+%  \begin{itemize}
+%  \item if $\varphi = S(\termt)$, then we use the equality on terms to have $t \in \codE{\termenv(\termt)} \iff t \in \codE{\termenv(\termt)}$
+%  \item the other four cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.
+%  \end{itemize}
+%  Hence the result.
+%\end{proof}
+
+To postulate the adequacy, we need to give a typing system with regard to which the realisability is indeed adequate.
 
 \begin{definition}[Typing system]
   We define a ($\lambda$-)context as a list $\Xi \in \List(\Xlam \times \Prop)$, whose elements we will write $(x : \varphi)$.
@@ -50,11 +52,20 @@ To postulate the adequacy, we need to give a typing system.
     \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \exists \varx^S, \varphi$}{$\Gamma, \varx : S \mid \Xi \vdash u : \varphi \to \psi$}{$\Gamma\mid \Xi \vdash u\;t : \psi$}{$\exists_\mathrm e$}
     
     \vspace{0.2cm}
-    \ruleAxL{$\Gamma\mid Xi \vdash 0 : \Nat(\termZ)$}{$\Nat_\mathrm i^0$}
+    \ruleAxL{$\Gamma\mid \Xi \vdash 0 : \Nat(\termZ)$}{$\Nat_\mathrm i^0$}
     \quad
     \ruleUnaryL{$\Gamma\mid\Xi\vdash t : \Nat(\termt)$}{$\Gamma\mid\Xi\vdash S\;t : \Nat(\termS(\termt))$}{$\Nat_\mathrm i^S$}
 
     \vspace{0.2cm}
+%    \ruleBinaryL{$\Gamma, X : \Prop^{\Nat}\mid \Xi \vdash t : X(\termZ)$}
+%                {$\Gamma, X : \Prop^{\Nat}\mid \Xi\vdash u : \forall \varn^{\{\Nat\}}, X(\varn) \to X(\termS(\varn))$}
+%                {$\Gamma, X : \Prop^{\Nat}\mid \Xi \vdash \rec_{\Nat}\;t\;u : \forall \varn^{\{\Nat\}}, X(\varn)$}
+%                {$\Nat_\mathrm e$}
+%    \ruleTernaryL{$\Gamma, X : \Nat \to \Prop\mid \Xi \vdash t : X(\termZ)$}
+%                 {$\Gamma, X : \Nat \to \Prop\mid \Xi\vdash u : \forall \varn^{\{\Nat\}}, X(\varn) \to X(\termS(\varn))$}
+%                 {$\Gamma, X : \Nat \to \Prop, \varn : \Nat\mid \Xi \vdash v : \Nat\varn$}
+%                 {$\Gamma, X : \Nat \to \Prop, \varn : \Nat\mid\Xi\vdash \rec_{\Nat}\;t\;u\;v : X(\varn)$}
+%                 {$\Nat_\mathrm e$}
     \ruleAxL{$\Gamma\mid \Xi\vdash \rec_{\Nat} : \forall X^{\Nat \to \Prop},X(\termZ) \to (\forall \varn^{\{\Nat\}}, X(\varn) \to X(\termS(\varn))) \to \forall \varn^{\{\Nat\}}, X(\varn)$}{$\Nat_\mathrm e$}
 
     \vspace{0.2cm}
@@ -94,9 +105,9 @@ To postulate the adequacy, we need to give a typing system.
   The proof is by induction on the typing derivation:
   \begin{itemize}
   \item case Ax with $t = x_i$: the result is by hypothesis.
-  \item case $\to_\mathrm i$ with $\lambda x.t : \psi \to \chi$: let $\enviroT \in \cyl{\enviro}$ and $u \realP{\enviroT}{\termenv} \psi$, let's prove that $(\lambda x.t)u \realP{\enviroT}{\termenv} \chi$. By hypothesis, $t[t_i/x_i][u/x] \realP{\enviroT}{\termenv} \chi$, but then it suffices to use the fact that $\realFP{\chi}{\termenv}{\enviroT}$ is closed by antireduction.
+  \item case $\to_\mathrm i$ with $\lambda x.t : \psi \to \chi$: let $\enviroT \supOr\enviro$ and $u \realP{\enviroT}{\termenv} \psi$, let's prove that $(\lambda x.t)u \realP{\enviroT}{\termenv} \chi$. By hypothesis, $t[t_i/x_i][u/x] \realP{\enviroT}{\termenv} \chi$, but then it suffices to use the fact that $\realFP{\chi}{\termenv}{\enviroT}$ is closed by antireduction.
   \item case $\to_\mathrm e$ is straightforward by definition of realizing $\psi \to \chi$.
-  \item case $\land_\mathrm i$ with $\langle t,u \rangle : \psi \land \chi$: we know by induction hypothesis that $t[t_i/x_i] \realPP \psi$ and that $u[t_i/x_i] \realPP \chi$. Moreover, $\pi_1\; \langle t,u \rangle \redE t$ and $\pi_2\;\langle t,u \rangle \redE u$, so $\pi_1\;(\langle t,u\rangle[t_i/x_i]) \realPP\psi$ and $pi_2\;(\langle t,u\rangle[t_i/x_i]) \realPP \chi$ by saturation, hence $\langle t,u\rangle [t_i/x_i] \realPP \psi\land \chi$.
+  \item case $\land_\mathrm i$ with $\langle t,u \rangle : \psi \land \chi$: we know by induction hypothesis that $t[t_i/x_i] \realPP \psi$ and that $u[t_i/x_i] \realPP \chi$. Moreover, $\pi_1\; \langle t,u \rangle \redE t$ and $\pi_2\;\langle t,u \rangle \redE u$, so $\pi_1\;(\langle t,u\rangle[t_i/x_i]) \realPP\psi$ and $\pi_2\;(\langle t,u\rangle[t_i/x_i]) \realPP \chi$ by saturation, hence $\langle t,u\rangle [t_i/x_i] \realPP \psi\land \chi$.
   \item both cases $\land_\mathrm e$ are straightforward by definition of realizing a conjunction.
   \item case $\forall_\mathrm i$ with $t : \forall \varx^S, \psi$: by induction hypothesis, we know that for any $\termenv' \models \Gamma, \varx : S$, $t[t_i/x_i] \realP{\enviro}{\termenv'} \psi$. For any $s \in \bS, \termenv[\varx \mapsto s] \models \Gamma$, so $t[t_i/x_i] \realP{\enviro}{\termenv[\varx\mapsto s]} \psi$ which is, by definition, $t[t_i/x_i] \realPP \forall \varx^S,\psi$.
   \item case $\forall_\mathrm e$ with $t : \psi[\termt/\varx]$: by definition of realizing $\forall \varx^S, \psi$ and using the substitution lemma.
@@ -105,7 +116,7 @@ To postulate the adequacy, we need to give a typing system.
   \item we won't treat the cases $\Nat$ nor $\Bool$, as they are the same as the case $\List$.
   \item case $\List_\mathrm i^{\nil}$: indeed, $\nil \redERT \nil$.
   \item case $\List_\mathrm i^{\append}$: by induction hypothesis.
-  \item case $\List_\mathrm e$: let $X$ be a predicate on $\List(S)$, $\enviroT \in \cyl{\enviro}$ and
+  \item case $\List_\mathrm e$: let $X$ be a predicate on $\List(S)$, $\enviroT \supOr\enviro$ and
     \[\begin{cases}
     u \realP{\enviroT}{\termenv} X(\termnil)\\
     v \realP{\enviroT}{\termenv} \forall \varx^{\{X\}}, \forall \vary^{\{\List(S)\}}, X(\vary) \to X(\varx \termcons \vary)\\
@@ -113,10 +124,10 @@ To postulate the adequacy, we need to give a typing system.
     \end{cases}\]
     we want to prove that $t = \rec_{\List}\;u\;v\;w$ realizes $X(\varx)$.
 
-    The object $\termenv(\varx)$ is a list. By induction, it is either $\nil$ or $s \append s'$ for two elements $s \in \bS, s' \in \bS^\star$:
+    The object $\termenv(\varx)$ is a list. By induction, it is either $\nil$ or $s \smallfrown s'$ for two elements $s \in \bS^\star, s' \in \bS$:
     \begin{itemize}
-    \item if $\termenv(\varx) = \nil$, then $w \redRTP{\enviroT} \nil$ and $\rec_{\List}\;u\;v\;w \redRTP{\enviroT} u$ so, indeed, $u \realP{\enviroT}{\termenv} X(\termnil)$
-    \item if $\termenv(\varx) = s \append s'$, then $w \redRTP{\enviroT} w_1\append w_2$ for $w_1 \in \codP{s}{\enviroT}$ and $w_2\in\codP{s'}{\enviroT}$. In this case, by induction hypothesis, $\rec_{\List}\;u\;v\;w_2 \realP{\enviroT}{\termenv[\vary \mapsto s']} \List(S)(\vary)$, and
+    \item if $\termenv(\varx) = \nil$, then $w \redRTP{\enviroT} \nil$, $\rec_{\List}\;u\;v\;w \redRTP{\enviroT} u$ and $u \realP{\enviroT}{\termenv} X(\termnil)$, so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\termnil)$.
+    \item if $\termenv(\varx) = s \smallfrown s'$, then $w \redRTP{\enviroT} w_1\append w_2$ for $w_1 \in \codP{s'}{\enviroT}$ and $w_2\in\codP{s}{\enviroT}$. In this case, by induction hypothesis, $\rec_{\List}\;u\;v\;w_2 \realP{\enviroT}{\termenv[\vary \mapsto s']} \List(S)(\vary)$, and
       \[\rec_{\List}\;u\;v\;w \redRTP{\enviroT} \rec_{\List}\;u\;v\;(w_1\append w_2) \redRTP{\enviroT} v\;w_2\;(\rec_{\List}\;u\;v\;w_2)\]
       so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\varx)$.
     \end{itemize}
@@ -138,14 +149,15 @@ To postulate the adequacy, we need to give a typing system.
   then $t[t_i/x_i] \realUP{\termenv} \varphi$.
 \end{corollary}
 
-Thus, the sets
-\[\ThReal \defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \real \varphi\} \qquad \ThRealU \defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}\]
+Thus, the set
+\[\ThRealU \defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}\]
+%\[\ThReal \defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \real \varphi\} \qquad \ThRealU \defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}\]
 are closed by logical consequence. Morever, as $\SAT$ contains $\varnothing$,
 \[\bot \defeq \forall \varphi^{\Prop}, \varphi\]
 is not realized, so $\ThRealU$ (resp. $\ThReal$) is consistant.
 
 \begin{notation}
-  A lot of functions of our model are not described by any HOL-term but can have a realizer (as any computable function $\bN \to \bN$ is the code of a function, but not all functions correspond to terms). Thus, we introduce the following notation for $t \in \Lambda, S \in \Sort, s \in \bS$:
+  A lot of functions of our model are not described by any HOL-term but can have a realizer. Thus, we introduce the following notation for $t \in \Lambda, S \in \Sort, s \in \bS$:
   \[t \real S(s) \defeq t \realP{}{[\varx \mapsto s]} S(\varx)\]
   Given a $\lambda$-term $t$, there can be several objects $s,s' \in S$ such that $t$ is a code of $s$ (resp. $s'$): however, the intended behavior of $s$ (resp. $s'$) is given by the term $t$, and the choice of the object will not be relevant. For this reason, we will write
   \[t \real S \defeq \exists s \in \bS, t \real S(s)\]

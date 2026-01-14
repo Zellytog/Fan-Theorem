@@ -1,6 +1,6 @@
 \subsection{Evidenced frames}
 
-The realizability model we give can be defined by an evidenced frame.
+First, let's recall the definition of an evidenced frame.
 
 \begin{definition}[Evidenced frame]
   An evidenced frame $\EFE$ is a pair of sets $(E,\Phi)$ equiped with:
@@ -28,98 +28,107 @@ The realizability model we give can be defined by an evidenced frame.
   \end{itemize}
 \end{definition}
 
-\begin{proposition}[Saturated sequences]\label{prop:EF_notre}
+As we want to generalize the argument of the theorem \ref{thm:FT} to evidenced frames, the first sanity check to do is to show that our model can be considered as an EF.
+
+\begin{proposition}\label{prop:EF_notre}
   Using our previous convention, we define the two sets
-  \[E \defeq \Lambda \qquad \Phi \defeq
-  \left\{\left.(A_\enviro) \in \prod_{\enviro \in \Oracle} \SATE \right\vert \forall \enviro,\enviroT \in \Oracle, \enviro\infOr\enviroT \implies A_\enviro \subseteq A_\enviroT \right\}\]
+  \[E \defeq \Lambda \qquad \Phi \defeq \SAT\]
   with the following elements:
   \begin{itemize}
   \item the relation is given by
     \[\relEF t {\varA}{\varB}\defeq \forall \enviro \in \Oracle, \forall u \in \termAE, tu \in \termBE\]
+    so $\varA \infSAT \varB$ is the proposition $\relEF t {\varA}{\varB}$ for which we erase the witness $t$.
   \item the identity element is $\witID \defeq \lambda x.x$
   \item the composition function is
     \[\witComp t u \defeq \lambda x.u\;(t\;x)\]
   \item the truth proposition is $\PropTop \defeq \enviro \mapsto \Lambda$ and the evidence for this is $\witTop \defeq \lambda x.x$
   \item the conjunction function is
-    \[\PropAndDot \defeq (\varA,\varB) \mapsto \enviro \mapsto
-    \{t \in \Lambda \mid (\pi_1\;t \in A_\enviro)\land (\pi_2\;t \in B_\enviro)\}\]
+    \[\PropAndDot \defeq \cdot \landSAT \cdot\]
+    %(\varA,\varB) \mapsto \enviro \mapsto
+    %\{t \in \Lambda \mid (\pi_1\;t \in A_\enviro)\land (\pi_2\;t \in B_\enviro)\}\]
     the pairing function is
     \[\witPair t u \defeq \lambda x. \langle t\;x,u\;x \rangle\]
     with $\witFst \defeq \pi_1$ and $\witSnd \defeq \pi_2$
   \item the implication function is
-    \[\PropImplDot \defeq (\varA,\FamB) \mapsto \enviro \mapsto
-    \{t \in \Lambda \mid
-    \forall (B_\enviro)\in\FamB, \forall \enviroT \in \cyl{\enviro}, \forall u \in A_\enviroT,\\
-      tu \in B_\enviroT\}\]
+    \[\PropImplDot \defeq (\varA,\FamB) \mapsto \bigcap_{\varB \in \FamB} (\varA \impliesSAT \FamB)\]
+    %(\varA,\FamB) \mapsto \enviro \mapsto
+    %\{t \in \Lambda \mid
+    %\forall (B_\enviro)\in\FamB, \forall \enviroT \in \cyl{\enviro}, \forall u \in A_\enviroT,\\
+    %  tu \in B_\enviroT\}\]
     with abstraction function $\witLam t \defeq \lambda x.\lambda y. t\;\langle x,y\rangle$ and evaluation element $\witEval \defeq \lambda x.\pi_1\;x\;(\pi_2\;x)$
   \end{itemize}
-  this data gives an evidenced frame.
+  this data gives an evidenced frame $\EFSAT$.
 \end{proposition}
 
 \begin{proof}
-  We need to prove the properties of each element:
-  \begin{itemize}
-  \item for any $\varA \in \Phi$, $\relEF{\lambda x.x}{\varA}{\varA}$: for $\enviro \in \Oracle$, for any $t \in \termAE$, $(\lambda x.x)t \redE t$, so by saturation $(\lambda x.x)t \in \termAE$.
-  \item for any $\varA,\varB,\varC\in \Phi$, $t,u \in \Lambda$ such that $\relEF t {\varA}{\varB}$ and $\relEF u {\varB}{\varC}$, we have $\relEF{\lambda x.u\;(t\;x)}{\varA}{\varC}$: for $\enviro \in \Oracle$, for any $v \in \termAE$, we know that $t\;v \in \termBE$ (by hypothesis on $t$) and thus that $u\;(t\;v) \in \termCE$ (by hypothesis on $u$), but $(\lambda x.u\;(t\;x))\;v \redE u\;(t\;v)$, hence the result by saturation.
-  \item for any $\varA \in \Phi, \relEF{\lambda x.x}{\varA}{\PropTop}$ is automatic: any term instead of $\lambda x.x$ would satisfy this property.
-  \item for any $\varA,\varB \in \Phi$, $\relEF{\pi_1}{\varA}{\varB}$ and $\relEF{\pi_2}{\varA}{\varB}$: for $\enviro \in \Oracle, t \in \PropAnd{\termAE}{\termBE}$, we know that $\pi_1\;t \in \termAE$ and $\pi_2\;t \in \termBE$, which is exactly the expected result.
-  \item for any $\varA,\varB,\varC \in \Phi$, for any $t,u \in \Lambda$, if $\relEF t {\varA}{\varB}$ and $\relEF u {\varA}{\varC}$, then $\relEF{\lambda x.\langle t\;x,u\;x\rangle}{\varA}{\PropAnd{\varB}{\varC}}$: let $\enviro\in \Oracle, v \in \termAE$, then $t\;v \in \termBE$ and $u\;v \in \termCE$, so $\langle t\;v,u\;v\rangle \in \PropAnd{\termBE}{\termCE}$ (by the same argument that we used to say that the typing rule $\land_\mathrm i$ is adequate). As $(\lambda x.\langle t\;x,u\;x\rangle)\;v \redE \langle t\;v,u\;v\rangle$, the result follows by saturation.
-  \item for any $\varA,\varB \in \Phi$, for any set $\FamC\in\powerset(\Phi)$ and evidences $t \in \Lambda$, if $\forall \varC \in \FamC, \relEF t{\PropAnd{\varA}{\varB}}{\varC}$ then $\relEF{\witLam t}{\varA}{\PropImpl{\varB}{\FamC}}$: let $\enviro \in \Oracle, u \in \termAE$, let's prove that $\witLam t\;u \in \PropImpl{\varB}{\FamC}$. Let $\varC \in \FamC$, and $\enviroT \in \cyl\enviro$. It suffices to show that for any $v \in \termB\enviroT$, $\witLam t\;u\;v \in \termC\enviroT$, but as $\langle u,v\rangle \in (\PropAnd{\varA}{\varB})_\enviro$ (because $A_\enviro \subseteq A_\enviroT$), we deduce that $t\;\langle u,v\rangle \in \termC\enviroT$. Moreover, $\witLam t\;u\;v \redE^2 t\;\langle u,v\rangle$, hence the result by saturation.
-  \item for any $\varA \in \Phi, \FamB \in \powerset(\Phi)$ and $\varB \in \FamB$, $\relEF{\witEval}{\PropAnd{(\PropImpl{\varA}{\FamB})}{\varA}}{\varB}$: let $\enviro \in \Oracle$ and $t \in (\PropAnd{(\PropImpl{\varA}{\FamB})}{\varA})_\enviro$, then $\pi_1\;t \in (\PropImpl{\varA}{\FamB})_\enviro$ and $\pi_2\;t \in \termAE$, so for $\varB \in \FamB$, $\pi_1\;t\;(\pi_2\;t) \in \termBE$, hence the result by saturation as $\witEval\;t \redE \pi_1\;t\;(\pi_2\;t)$.
-  \end{itemize}
+  The constructions are defined by using the structure of $\SAT$, which is a Heyting pre-algebra with intersection, and those properties (including the remark \ref{rmk:inclusion}) suffice to show that $\EFSAT$ is an evidenced frame.
+  %We need to prove the properties of each element:
+  %\begin{itemize}
+  %\item for any $\varA \in \Phi$, $\relEF{\lambda x.x}{\varA}{\varA}$: for $\enviro \in \Oracle$, for any $t \in \termAE$, $(\lambda x.x)t \redE t$, so by saturation $(\lambda x.x)t \in \termAE$.
+  %\item for any $\varA,\varB,\varC\in \Phi$, $t,u \in \Lambda$ such that $\relEF t {\varA}{\varB}$ and $\relEF u {\varB}{\varC}$, we have $\relEF{\lambda x.u\;(t\;x)}{\varA}{\varC}$: for $\enviro \in \Oracle$, for any $v \in \termAE$, we know that $t\;v \in \termBE$ (by hypothesis on $t$) and thus that $u\;(t\;v) \in \termCE$ (by hypothesis on $u$), but $(\lambda x.u\;(t\;x))\;v \redE u\;(t\;v)$, hence the result by saturation.
+  %\item for any $\varA \in \Phi, \relEF{\lambda x.x}{\varA}{\PropTop}$ is automatic: any term instead of $\lambda x.x$ would satisfy this property.
+  %\item for any $\varA,\varB \in \Phi$, $\relEF{\pi_1}{\varA}{\varB}$ and $\relEF{\pi_2}{\varA}{\varB}$: for $\enviro \in \Oracle, t \in \PropAnd{\termAE}{\termBE}$, we know that $\pi_1\;t \in \termAE$ and $\pi_2\;t \in \termBE$, which is exactly the expected result.
+  %\item for any $\varA,\varB,\varC \in \Phi$, for any $t,u \in \Lambda$, if $\relEF t {\varA}{\varB}$ and $\relEF u {\varA}{\varC}$, then $\relEF{\lambda x.\langle t\;x,u\;x\rangle}{\varA}{\PropAnd{\varB}{\varC}}$: let $\enviro\in \Oracle, v \in \termAE$, then $t\;v \in \termBE$ and $u\;v \in \termCE$, so $\langle t\;v,u\;v\rangle \in \PropAnd{\termBE}{\termCE}$ (by the same argument that we used to say that the typing rule $\land_\mathrm i$ is adequate). As $(\lambda x.\langle t\;x,u\;x\rangle)\;v \redE \langle t\;v,u\;v\rangle$, the result follows by saturation.
+  %\item for any $\varA,\varB \in \Phi$, for any set $\FamC\in\powerset(\Phi)$ and evidences $t \in \Lambda$, if $\forall \varC \in \FamC, \relEF t{\PropAnd{\varA}{\varB}}{\varC}$ then $\relEF{\witLam t}{\varA}{\PropImpl{\varB}{\FamC}}$: let $\enviro \in \Oracle, u \in \termAE$, let's prove that $\witLam t\;u \in \PropImpl{\varB}{\FamC}$. Let $\varC \in \FamC$, and $\enviroT \in \cyl\enviro$. It suffices to show that for any $v \in \termB\enviroT$, $\witLam t\;u\;v \in \termC\enviroT$, but as $\langle u,v\rangle \in (\PropAnd{\varA}{\varB})_\enviro$ (because $A_\enviro \subseteq A_\enviroT$), we deduce that $t\;\langle u,v\rangle \in \termC\enviroT$. Moreover, $\witLam t\;u\;v \redE^2 t\;\langle u,v\rangle$, hence the result by saturation.
+  %\item for any $\varA \in \Phi, \FamB \in \powerset(\Phi)$ and $\varB \in \FamB$, $\relEF{\witEval}{\PropAnd{(\PropImpl{\varA}{\FamB})}{\varA}}{\varB}$: let $\enviro \in \Oracle$ and $t \in (\PropAnd{(\PropImpl{\varA}{\FamB})}{\varA})_\enviro$, then $\pi_1\;t \in (\PropImpl{\varA}{\FamB})_\enviro$ and $\pi_2\;t \in \termAE$, so for $\varB \in \FamB$, $\pi_1\;t\;(\pi_2\;t) \in \termBE$, hence the result by saturation as $\witEval\;t \redE \pi_1\;t\;(\pi_2\;t)$.
+  %\end{itemize}
 \end{proof}
 
 \begin{remark}
   For any $\enviro \in \Oracle$, it is possible to construct the evidenced frame given by
-  \[E \defeq \Lambda \qquad \Phi \defeq \prod_{\enviroT \in \cyl{\enviro}} \SATP\enviroT\]
+  \[E \defeq \Lambda \qquad \Phi \defeq \left\{\left.\varA\in\prod_{\enviroT \supOr \enviro} \SATP\enviroT\right\vert \forall \enviroT, \enviroTT\supOr \enviro, \enviroT \infOr \enviroTT \implies \termA{\enviroT} \subseteq \termA{\enviroTT} \right\}\]
   with the same functions and evidenced.
 \end{remark}
 
-\begin{definition}[Morphism of evidenced frame]
-  Given two evidenced frames $(E_1,\Phi_1)$ and $(E_2,\Phi_2)$, a morphism is a function $F : \Phi_1 \to \Phi_2$ such that:
-  \begin{itemize}
-  \item $\forall \witx \in E_1, \exists \wity \in E_2, \forall \varphi,\psi \in \Phi_1, \relEF{\witx}\varphi\psi \implies \relEF{\wity}{F(\varphi)}{F(\psi)}$
-  \item $\exists \witx \in E_2, \relEF{\witx}{\PropTop_2}{F(\PropTop_1)}$
-  \item $\exists \witx \in E_2, \forall \varphi, \psi \in \Phi_1, \relEF{\witx}{\PropAnd{F(\varphi)}{F(\psi)}}{F(\PropAnd{\varphi}{\psi})}$
-  \item $\exists \witx \in E_2, \forall \varphi \in \Phi_1, \forall \vec\psi \in \powerset(\Phi_1), \relEF{\witx}{\PropImpl{\varphi}{\{F(\psi)\mid \psi \in \vec\psi\}}}{F(\PropImpl{\varphi}{\vec\psi})}$
-  \item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
-      \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
-      \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
-    \end{cases}$
-  \end{itemize}
-\end{definition}
+%\begin{definition}[Morphism of evidenced frame]
+%  Given two evidenced frames $(E_1,\Phi_1)$ and $(E_2,\Phi_2)$, a morphism is a function $F : \Phi_1 \to \Phi_2$ such that:
+%  \begin{itemize}
+%  \item $\forall \witx \in E_1, \exists \wity \in E_2, \forall \varphi,\psi \in \Phi_1, \relEF{\witx}\varphi\psi \implies \relEF{\wity}{F(\varphi)}{F(\psi)}$
+%  \item $\exists \witx \in E_2, \relEF{\witx}{\PropTop_2}{F(\PropTop_1)}$
+%  \item $\exists \witx \in E_2, \forall \varphi, \psi \in \Phi_1, \relEF{\witx}{\PropAnd{F(\varphi)}{F(\psi)}}{F(\PropAnd{\varphi}{\psi})}$
+%  \item $\exists \witx \in E_2, \forall \varphi \in \Phi_1, \forall \vec\psi \in \powerset(\Phi_1), \relEF{\witx}{\PropImpl{\varphi}{\{F(\psi)\mid \psi \in \vec\psi\}}}{F(\PropImpl{\varphi}{\vec\psi})}$
+%  \item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
+%      \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
+%      \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
+%    \end{cases}$
+%  \end{itemize}
+%\end{definition}
 
-There is a morphism of evidenced frame between the evidenced frame constructed at $\enviro$ and the one constructed at $\enviroT$, for $\enviro \infOr \enviroT$. There is also a morphism obtained by projecting on some $\SATE$.
+%There is a morphism of evidenced frame between the evidenced frame constructed at $\enviro$ and the one constructed at $\enviroT$, for $\enviro \infOr \enviroT$. There is also a morphism obtained by projecting on some $\SATE$.
 
-\begin{proposition}
-  For any $\enviro \in \Oracle$, the function
-  \[\begin{array}{ccc}
-  \displaystyle \prod_{\enviro\in\Oracle} \SATE& \longrightarrow & \SATE \\
-  \varA_{\enviro\in\Oracle} &\longmapsto & \termAE
-  \end{array}\]
-  extends to a morphism of evidenced frame.
-\end{proposition}
+%\begin{proposition}
+%  For any $\enviro \in \Oracle$, the function
+%  \[\begin{array}{ccc}
+%  \displaystyle \prod_{\enviro\in\Oracle} \SATE& \longrightarrow & \SATE \\
+%  \varA_{\enviro\in\Oracle} &\longmapsto & \termAE
+%  \end{array}\]
+%  extends to a morphism of evidenced frame.
+%\end{proposition}
 
-\begin{proof}
-  We check each proposition:
-  \begin{itemize}
-  \item given a term $t \in \Lambda$, the term $t$ is such that for all $\varA,\varB$:
-    \[(\forall \enviro \in \Oracle, \forall u \in \termAE, tu \in \termBE) \implies \forall u \in \termAE, tu \in \termBE\]
-  \item any term $t$ is an evidence of $\PropTop_2 \leq F(\PropTop_1)$, so we can take for example $\lambda x.x$
-  \item for any $\varA,\varB$, we have $(\PropAnd{\varA}{\varB})_\enviro = \PropAnd{\termAE}{\termBE}$, hence the result by taking $\lambda x.x$
-  \item we take once again the evidence to be $\lambda x.x$. Let $\varA$ and $\FamB$, then both propositions are equal to
-    \[\{t \in \Lambda \mid \forall u \in \termAE, \forall \varB \in \FamB, tu \in \termBE\}\]
-  \item let
-    \[\begin{array}{ccccc}
-    f & : & \SATE & \longrightarrow & \prod_{\enviro\in\Oracle} \SATE\\
-    & & A & \longmapsto & \enviroT \mapsto \{t \in \Lambda \mid \exists u \in A, t \redRTP{\enviroT} u\}
-    \end{array}\]
-    the fact that for each $\enviroT$, the set is $\enviroT$-saturated is a consequence of the definition. In the case of the $\enviro$ component of this set, the set is exactly $A$ as $t \redRTP\enviroT u$ means exactly that $t \in A$ (because $A$ is $\enviro$-saturated). But now, $F(f(\varphi))$ is $A$, so both evidences can be taken to be $\lambda x.x$.
-  \end{itemize}
+%\begin{proof}
+%  We check each proposition:
+%  \begin{itemize}
+%  \item given a term $t \in \Lambda$, the term $t$ is such that for all $\varA,\varB$:
+%    \[(\forall \enviro \in \Oracle, \forall u \in \termAE, tu \in \termBE) \implies \forall u \in \termAE, tu \in \termBE\]
+%  \item any term $t$ is an evidence of $\PropTop_2 \leq F(\PropTop_1)$, so we can take for example $\lambda x.x$
+%  \item for any $\varA,\varB$, we have $(\PropAnd{\varA}{\varB})_\enviro = \PropAnd{\termAE}{\termBE}$, hence the result by taking $\lambda x.x$
+%  \item we take once again the evidence to be $\lambda x.x$. Let $\varA$ and $\FamB$, then both propositions are equal to
+%    \[\{t \in \Lambda \mid \forall u \in \termAE, \forall \varB \in \FamB, tu \in \termBE\}\]
+%  \item let
+%    \[\begin{array}{ccccc}
+%    f & : & \SATE & \longrightarrow & \prod_{\enviro\in\Oracle} \SATE\\
+%    & & A & \longmapsto & \enviroT \mapsto \{t \in \Lambda \mid \exists u \in A, t \redRTP{\enviroT} u\}
+%    \end{array}\]
+%    the fact that for each $\enviroT$, the set is $\enviroT$-saturated is a consequence of the definition. In the case of the $\enviro$ component of this set, the set is exactly $A$ as $t \redRTP\enviroT u$ means exactly that $t \in A$ (because $A$ is $\enviro$-saturated). But now, $F(f(\varphi))$ is $A$, so both evidences can be taken to be $\lambda x.x$.
+%  \end{itemize}
 
-  Thus, the function defines a morphism of evidenced frames.
-\end{proof}
+%  Thus, the function defines a morphism of evidenced frames.
+%\end{proof}
 
-\begin{remark}
-  The morphism thus defined is stronger in the sense that for $\relEF{\witx}{\varphi}{\psi}$, the associated evidenced $\relEF{\wity}{F(\varphi)}{F(\psi)}$ is $\witx$ itself. This is a kind of logical shift only, where the evidenced are preserved.
-\end{remark}
+%\begin{remark}
+%  The morphism thus defined is stronger in the sense that for $\relEF{\witx}{\varphi}{\psi}$, the associated evidenced $\relEF{\wity}{F(\varphi)}{F(\psi)}$ is $\witx$ itself. This is a kind of logical shift only, where the evidenced are preserved.
+%\end{remark}
+
+From our definition, the second sanity check to do is to show that for any proposition $\vdash\varphi : \Prop$ in HOL, $t \realU \varphi$ if and only if $\relEF{t}{\top}{\realUF{\varphi}}$. The proof is by induction on $\varphi$, and is mostly straightforward. The only issue is for the existentiel quantifier.
+
+Indeed, in EFs, the way to encode $\exists x^S, \varphi(x)$ is to consider the impredicative encoding $\forall \psi^{\Prop}, (\forall x^S, \varphi(x) \to \psi) \to \psi$, while our interpretation of $t\realU \exists x^S, \varphi(x)$ is given by a union on a family in $\SAT$: this is why the fact that $\EFSAT$ is an EF did not use the union operation of $\SAT$. Nonetheless, the two notions coincide in our case, as is standard in realizability without effects.

@@ -58,13 +58,24 @@ We give a detailed construction of the realizability model: the logic used, the 
 
 \section{The main result}
 
-As the model is constructed, we can show the separation result between Fan Theorem and Weak König's Lemma. Before this, we give a list of $\lambda$-terms which implement important functions for our work. We then prove that $\FT$ holds, and that $\WKL$ fails.
+With our model constructed, and the proof that it describes a consistent theory done, we can describe the proof that this model satisfies $\FT$. We also show that $\WKL$ fails with a standard argument using Kleene tree.
 
 \input{bestiaire.tex}
 
 \input{FT.tex}
 
 \section{Generalization}
+
+The realizability model from before uses the same ideas as developped in \cite{LubRat13} to prove $\FT$. For the argument in this proof to work, the two main conditions the emerge are
+\begin{itemize}
+\item continuity for the realizers
+\item having a Kripke-style notion of future worlds in which, given a tree $T$ at some world $\enviro$, there exists a future $\enviroT$ in which a path in $T$ can be computed.
+\end{itemize}
+Hence, we seek for a general way to state these conditions (and a few other which will come later) in an abstract framework. The framework we use is the evidenced frames introduced in \cite{DBLP:conf/lics/0001MT21}. These evidenced frames (which we will shorten as EF) are combinatorial structures encompassing the notion of a realizability model: an EF contains a set of witnesses describing the realizers, a set of formulas describing the set of truth values and a relation akin to the logical inequality $\infSAT$, where the witness is made explicit.
+
+A few work already study EFs \cite{DBLP:conf/lics/0001MT21,GarMiq23,DBLP:conf/lics/CohenGKM25}. In these works, the employed procedure is to consider concrete structure implementing realizability (\textit{e.g.} an abstract notion of computation system) and to prove that this structure is also an EF. In contrast, our work will focus only on EFs: the concrete structure will be introduced as a structure over EFs.
+
+This section ends with the statement of the theorem \ref{thm:main}, which is a more abstract version of the theorem \ref{thm:FT}: in this version, the realizability structure realizing $\FT$ can have realizers of any form ($\lambda$-terms, Turing machines\ldots) as long as it gives an implementation of integers with its recursor, satisfies the two conditions mentioned above for the argument to work, and satisfies two technical conditions.
 
 \input{EF.tex}
 

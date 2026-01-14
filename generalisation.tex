@@ -8,9 +8,9 @@ We will now generalize our proof of $\FT$. The main ideas we used are:
 \item the computationnal model can do an unbounded search with only the information in the meta-theory that the search will terminate.
 \end{itemize}
 
-The Kripke semantic styled realizability relation we gave, and the fact we state a property about a possible future, strongly leads us to a generalization on some Kripke model. The usual way of giving a Kripke model is to consider a category $\bC$, a pre-ordered set $(W, \leq)$ and to give a functor $F : W \to \bC$. We will follow this by stating exactly the informations we wish to preserve in our morphisms.
+The Kripke-like semantic realizability relation we gave, and the fact we state a property about a possible future, strongly leads us to a generalization on some Kripke model. The category semantic way of giving a Kripke model is to consider a category $\bC$, a pre-ordered set $(W, \leq)$ and to give a functor $F : W \to \bC$. We will follow this by constructing a well designed category for our work, where morphisms preserve the information we expect.
 
-This leads us to the definition of evidenced frame with data types.
+This motivates the definition of EF with data types: those are EF for which we explicitly add a representation of $\bN$. This can be seen as taking an EF $\EFE$ and pulling back from its category of assemblies a natural number object. For this definition, as we want at least system T functions, we also give an encoding (which is the one we expect for assemblies) of functions, and thus a minimal system T types syntax.
 
 \begin{definition}[EF with data types]
   An evidenced frame with data types (EFdata, for short), is a tuple $(E,\Phi,\relEFdot, \cod \cdot, e_0, e_S, e_{\rec})$ with:
@@ -22,7 +22,9 @@ This leads us to the definition of evidenced frame with data types.
     \[\cod f \defeq \prod_{x \in T} \PropImpl{\cod x}{\cod{f(x)}}\]
   \item $\relEF{e_0}{\top}{\cod 0}$
   \item for all $n \in \bN$, $\relEF{e_S}{\cod n}{\cod{n + 1}}$
-  \item for all type $T$ as previously defined, let $\rec_T$ be the recursor $T \to (\bN \to T \to T) \to \bN \to T$, then $\relEF{e_{\rec}}{\top}{\cod{\rec_T}}$
+  \item for all functions $f : \bN \to \Phi$,
+    \[\relEF{e_{\rec}}{\top}{\PropImpl{f(0)}{\PropImpl{\left(\prod_{n \in \bN}\PropImpl{\cod n}{\PropImpl{f(n)}{f(n+1)}}\right)}{\prod_{n \in \bN} \PropImpl{\cod n}{f(n)}}}}\]
+  %\item for all type $T$ as previously defined, let $\rec_T$ be the recursor $T \to (\bN \to T \to T) \to \bN \to T$, then $\relEF{e_{\rec}}{\top}{\cod{\rec_T}}$
   \end{itemize}
 \end{definition}
 
@@ -30,31 +32,10 @@ This leads us to the definition of evidenced frame with data types.
   For any $n \in \bN$, $\cod n$ is realized by $S^n 0$. Also, any system T definable function is realized by the naturally associated term.
 \end{remark}
 
-Now, we define continuity, unbounded search and explicit existential.
-
-\begin{definition}[Continuity]
-  Let $(E,\Phi,\relEFdot, \cod\cdot, e_0,e_S,e_{\rec})$ be an EFdata. This EFdata is said to have continuity if
-  \begin{multline*}
-    \forall f : (\bN \to \bN) \to \bN, \forall \alpha : \bN \to \bN, \forall \relEF{t}{\top}{\cod f},
-    \\\forall \relEF{u}{\top}{\cod \alpha}, \exists n \in \bN,
-    \forall \beta:\bN\to\bN,\restr \alpha n = \restr \beta n \implies f(\alpha) = f(\beta)
-  \end{multline*}
-\end{definition}
-
-\begin{definition}[Unbounded search]
-  An EFdata is said to have unbounded search if there exists $e$ such that, for any $f : \bN \to \bN$ having at least one zero,
-  \[\relEF{e}{\cod f}{(\exists (n : \bN), \cod n \land f(n) = 0)}\]
-\end{definition}
-
-\begin{definition}[Explicit existential]
-  An EFdata is said to have explicit existential if there is an evidenced $e$ such that for any system T type $\tau$ and any function $\varphi(-) : \tau \to \Prop$ there exists $a \in \tau$ such that
-  \[\relEF{e}{\exists x^\tau, \cod x \land \varphi(x)}{\cod a \land \varphi(a)}\]
-\end{definition}
-
-Finally, we need to define a notion of morphism for an EFdata.
+To construct the category of EFdatas, we also need to define morphisms. The notion of morphism we develop is only intended to state a correct generalized version of the theorem \ref{thm:FT}, they are very strict morphisms which preverve every construction (they preserve the witnesses, the functions on propositions, \textit{etc.}) and are not to be considered as the natural notion of morphism for EFdata. For example, EF morphisms as defined in \cite{DBLP:conf/lics/0001MT21} do not require the constructions and morphism to commute on the nose.
 
 \begin{definition}[EFdata morphism]
-  Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$). A morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi2$ and $F_E : E_1 \to E_2$ (we will just write $F$) such that~:
+  Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$). A morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) such that~:
   \begin{itemize}
   \item $\forall \varphi, \psi \in \Phi_1, \forall e \in E_1, \relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
   \item $F(\PropTop_1) = \PropTop_2$
@@ -66,10 +47,10 @@ Finally, we need to define a notion of morphism for an EFdata.
   \item $\forall \varphi \in \Phi_1, \forall \vec \psi \in \powerset(\Phi_1),F({(\PropImpl{\varphi}{\vec\psi})}_1) = {(\PropImpl{F(\varphi)}{\{F(\psi)\mid \psi \in \vec \psi\}})}_2$
   \item $\forall e \in E_1, F({\witLam e}_1) = {\witLam{F(e)}}_2$
   \item $F({\witEval}_1) = {\witEval}_2$
-  \item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
-      \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
-      \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
-  \end{cases}$
+  %\item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
+  %    \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
+  %    \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
+  %\end{cases}$
   \item $F({e_{0}}_1) = {e_{0}}_2$
   \item $F({e_{S}}_1) = {e_S}_2$
   \item $F({e_{\rec}}_1) = {e_{\rec}}_2$
@@ -79,10 +60,41 @@ Finally, we need to define a notion of morphism for an EFdata.
   We define $\CatEFData$ as the category whose objects are EFdatas, and morphisms are those defined above.
 \end{definition}
 
-We can now state our generalized theorem about $\FT$.
+With this notion of morphism, we can formalize the future world notion by taking a pre-order $\bC$ and constructing a functor $\bC \to \CatEFData$. This makes it easy to define the condition that in any world and infinite binary tree $T$ at this world, there is a future in which a path in $T$ exists.
+
+Now, we formalize the continuity condition in those EFdata. Continuity in computable systems is a well studied notion, and a lot of variants exist for this \tlnote{insérer citation de trucs sur la continuité}. We only give one very weak such variant, which is enough for this work.
+
+\begin{definition}[Continuity]
+  Let $(E,\Phi,\relEFdot, \cod\cdot, e_0,e_S,e_{\rec})$ be an EFdata. This EFdata is said to have continuity if
+  \begin{multline*}
+    \forall f : (\bN \to \bN) \to \bN, \forall \alpha : \bN \to \bN, \forall \relEF{t}{\top}{\cod f},
+    \\\forall \relEF{u}{\top}{\cod \alpha}, \exists n \in \bN,
+    \forall \beta:\bN\to\bN,\restr \alpha n = \restr \beta n \implies f(\alpha) = f(\beta)
+  \end{multline*}
+\end{definition}
+
+By analysing in details the proof of theorem \ref{thm:FT}, in addition to the two main conditions, two technical conditions are needed.
+
+These condition arise from two constructions quite natural but not always true for an arbitrary realizability model:
+\begin{itemize}
+\item to find the uniform bound, we use a fixpoint creating an unbounded search. This operation is akin to the $\mu$ operator from \cite{Kleene1943}, and is not realized in some typed settings. For example, we can easily construct a realizability model of Heyting Arithmetic using system T functions and those functions are total and contain recursive primitive functions, hence they can't be stable under $\mu$.
+\item having a strong notion underlying the quantifier $\exists$, that we call explicit existential. The explicit existential allows one to use a proof of $\exists x, \varphi$ to extract an object $a$ such that $\varphi$ is true on $a$. In the presence of effects, and even more so with classical logic, this explicit existential is not realized \cite{Herbelin05}.
+\end{itemize}
+
+\begin{definition}[Unbounded search]
+  An EFdata is said to have unbounded search if there exists $e$ such that, for any $f : \bN \to \bN$ having at least one zero,
+  \[\relEF{e}{\cod f}{(\exists (n : \bN), \cod n \land f(n) = 0)}\]
+\end{definition}
+
+\begin{definition}[Explicit existential]
+  An EFdata is said to have explicit existential if there is an evidence $e$ such that for any system T type $\tau$ and any function $\varphi(-) : \tau \to \Prop$ there exists $a \in \tau$ such that
+  \[\relEF{e}{\exists x^\tau, \cod x \land \varphi(x)}{\cod a \land \varphi(a)}\]
+\end{definition}
+
+We can now state our generalized theorem about $\FT$. The conditions are the one introduced above, but they are not needed to be satisfied on every world. In the proof of the theorem \ref{thm:FT}, there are two world: the one from which we get the bar, and the one in which we get the path avoiding $C(b)$. The continuity and explicit existential only need to be satisfied in the latter and, up to going to an even further future, can be checked only on a dense set of worlds. The unbounded search is used on the base world (the one containing our model), which is te only use of this hypothesis.
 
 \begin{theorem}\label{thm:main}
-  Let $\EFE$ be an EFdata with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following two conditions are satisfied:
+  Let $\EFE$ be an EFdata with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following conditions are satisfied:
   \begin{itemize}
   \item there is a dense subset $W' \subseteq W$ such that for any $w \in W', F(w)$ has continuity and explicit existential.
   \item for any $w \in W$, function $B : (\List(\bN) \to \bB) \to \bB$ with an infinite path and a code in $w$, there is an element $w' \geq w$, a code $e_\alpha$ of an infinite path $\alpha$ in $B$ and a code $e \in E_{w'}$ such that for any $n \in \bN$, $\relEF{e}{\cod n}{\restr \alpha n \in B}$
@@ -91,17 +103,19 @@ We can now state our generalized theorem about $\FT$.
 \end{theorem}
 
 \begin{proof}
-  We apply the proof of theorem \ref{thm:FT} in the general setting. The proposition we want to prove is that there exists $\witx \in E$ such that
+  We apply the proof of theorem \ref{thm:FT} in the general setting. To make the proof easier to read, we consider the types $\Bool$ and $\List(\Bool)$, as they can be encoded inside integers and the usual manipulations can be simulated on the encodings.
+
+  The proposition we want to prove is that there exists $\witx \in E$ such that for any predicate $B : \List(\Bool) \to \Phi$ closed by extension,
   \begin{multline*}
-    \witx\real \forall B^{\List(\Bool) \to \Bool}, (\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B) \implies\\
+    \witx\real (\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B) \implies\\
     \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr \alpha n \in B
   \end{multline*}
-
-  We consider $\List(\Bool)$ as an encoding by integer (every primitive function on this type is system T definable from $\Nat$). We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we can't define the fixpoint by itself, but we can define the function which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. Call this function $F_C : \Nat \to \Bool$. This function has a code $e_{F_C}$.
+  
+  We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we can't define the fixpoint by itself, but we can define the function which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. Call this function $F_C : \Nat \to \Bool$. This function has a code $e_{F_C}$.
 
   By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ F_C$ (because we search for a $n$ such that $F_C(n) = 1$). Combining it with the code $e_{F_C}$, this gives an evidenced of a uniform bound. Thus, all that is left to prove is that $\lnot \circ F_C$ indeed has a $0$.
 
-  Suppose that $F_C(n) = 0$ for any $n$. This means that for any $n \in \bN$, there is a list of size $n$ avoiding $C$. Using Weak König's Lemma, we find a path $\alpha : \bN \to \bB$ such that $\restr \alpha n \notin C$ for any $n \in \bN$. By hypothesis on our functor $W \to \CatEFData$, we find $w' \in W$ and a code $e_\alpha \in \cod \alpha$ in $w'$. By the other hypothesis, we can assume (up to going to a later world) that $F(w')$ has continuity.
+  Suppose that $F_C(n) = 0$ for any $n$. This means that for any $n \in \bN$, there is a list of size $n$ avoiding $C$. Using Weak König's Lemma on $\complement C$ (which is a tree), we find a path $\alpha : \bN \to \bB$ such that $\restr \alpha n \notin C$ for any $n \in \bN$. By hypothesis on our functor $W \to \CatEFData$, we find $w' \in W$ and a code $e_\alpha \in \cod \alpha$ in $w'$. By the other hypothesis, we can assume (up to going to a future world) that $F(w')$ has continuity.
 
   Let $g$ be the morphism from $\EFE$ to $F(w')$. By construction of morphisms, we have that
   \[g(b)\real g(\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B)\]
@@ -112,17 +126,17 @@ We can now state our generalized theorem about $\FT$.
 
 \subsection{Application, limitations}
 
-Now that we stated the theorem \ref{thm:main}, we give examples of a realizability model satisfying the conditions (and thus, realizing $\FT$).
+Now that we stated the theorem \ref{thm:main}, we give examples of a realizability models satisfying the conditions (and thus, realizing $\FT$).
 
-The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata of $\SATE$ family as in proposition \ref{prop:EF_notre}. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the $\SATE$ family EFdata has continuity, explicit existential and unbounded search, hence the fact that it satisfies $\FT$.
+The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata of $\SATP{\supOr \enviro}$ family as in proposition \ref{prop:EF_notre} but with families over $\{ \enviroT\in\Oracle \mid \enviroT\supOr \enviro\}$. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the $\SATP{\supOr\enviro}$ family EFdata has continuity, explicit existential and unbounded search, hence the fact that it satisfies $\FT$.
 
-The second example is the historical one: the Kleene algebra $K_2$ satisfies the premisses. The preorder is the trivial one, with only one element. Continuity is by definition of the PCA (it is the set of continuous functions $(\bN \to \bN) \to \bN$), unbounded search can be defined for any PCA by encoding $\Theta$ (or the combinator $Y$) in combinatorial logic. Any function $\bN \to \bN$ has a code, hence the condition that a path exists for any decidable tree encoded. Finally, explicit existential is true for intuitionnistic PCAs. We thus find back the usual result that $K_2$ satisfies $\FT$.
+The second example is the historical one: the second Kleene algebra $K_2$ \cite{Kleene1965} satisfies the premisses. The preorder is the trivial one, with only one element. Continuity is by definition of the PCA (it is the set of continuous functions $(\bN \to \bN) \to \bN$), unbounded search can be defined for any PCA by encoding $\Theta$ (or the combinator $Y$) in combinatory logic. Any function $\bN \to \bN$ has a code, hence the condition that a path exists for any decidable tree encoded. Finally, explicit existential is true for intuitionnistic PCAs. We thus find back the usual result that $K_2$ satisfies $\FT$.
 
-A third example is the model we based our generalization on: the model by Lubarsky in [REF].
+A third example is the model we based our generalization on: the model by Lubarsky in \cite{LubRat13}.
 
-The existence of a path in a possible future is essentiel. Indeed, the $\lambda$-calculus version of the $K_1$ realizability algebra, given by the set of saturated set for the pure untyped $\lambda$-calculus, does not realize $\FT$. To show this, we use the Kleene tree. For any computable path, given by a code $e$, we can simulate $e$ for increasing time duration until the finite path gets out of the tree, which will always happen because the infinite path in the Kleene tree are all uncomputable. This thus gives a bar for the Kleene tree, but this bar can't be uniform as the length of lists in this tree is unbounded.
+The existence of a path in a possible future is essential. For example, taking the realizability model given by $\SATE$, with local computation at some context $\enviro\in\Oracle$, the model does not realize $\FT$. To show this, we use the Kleene tree relativized to $\enviro$-computable functions. For any $\enviro$-computable path, given by a code $e$, we can simulate $e$ for increasing time duration until the finite path gets out of the tree, which will always happen because the infinite path in the Kleene tree are all uncomputable. This thus gives a bar for the Kleene tree, but this bar can't be uniform as the length of lists in this tree is unbounded.
 
-Finally, we advocate that the condition that we consider EFdatas and not just EF is not a limitation by itself. The additionnal data, indeed, always exist inside the realizability topos given by an EF.
+Finally, we advocate that the restriction of working on EFdatas instead of just EF is not a limitation in practice. The additionnal data, indeed, always exist inside the realizability topos given by an EF.
 
 Take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories, given by the assemblies which are the following data:
 \begin{itemize}
@@ -134,8 +148,8 @@ and morphisms $(X,E_X) \to (Y,E_Y)$ are given by
 \item a function $f : X \to Y$
 \item an evidence $\relEF{e}{E_X(x)}{E_Y(f(x))}$ uniform on $x \in X$
 \end{itemize}
-This exactly corresponds to the way we define codes for system T types, so every construction in the EFdata can be translated inside the realizability topos. We are left to show that there is indeed an encoding $\bN \to \Phi$, with an evidence for $0$, the function $S$ and the recursor (which must be uniform for any codomain).
+This exactly corresponds to the way we define codes for system T types, so every construction in the EFdata can be translated inside the realizability topos. The object associated to $(\bN,\cod -)$ in the realizability topos is a natural number object (NNO): $e_0$ defines the element $0 \in \bN$, $e_S$ defines the function $\bN \to \bN$ and $e_{\rec}$ ensures the initiality of $1+\bN \xrightarrow{[0,S]} \bN$ among the algebras for $X\mapsto 1+X$.
 
-A FAIRE : Church encoding, justifier qu'on a un NNO dans le topos de réalisabilité
+\tlnote{Ajouter une ref pour le NNO ? Ca vient de Lawvere 1963 apparemment, mais je sais pas si c'est pertinent de mettre une citation pour ça.}
 
-This means that any EF can be made into an EFdata by chosing some encoding of natural numbers.
+Hence, to get an EFdata from an EF $\EFE$, one needs to find a NNO inside the realizability topos of $\EFE$, for which the initial algebra property is assured in a uniform way (\textit{i.e.} by the same witness $e \in E$), and pull back the associated data to make $e_0,e_S,e_{\rec}$. In practice, any realizability model of interest possesses such an object, as logically relevant models need arithmetical language (and thus a NNO) and it is natural to keep the same constructor for every recursive definition.
