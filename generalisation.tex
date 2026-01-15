@@ -34,7 +34,7 @@ those are evidenced frames for which we explicitly add a representation of $\bN$
 This can be seen as taking an evidenced frame $\EFE$
 and pulling back from its category of assemblies a natural number object.
 For this definition, as we want at least system T functions,
-we also give\emnote{require?} an encoding (which is the one we expect for assemblies)
+we also require an encoding (which is the one we expect for assemblies)
 of functions, and thus a minimal system T types syntax.
 
 
@@ -99,12 +99,18 @@ This makes it easy to define the condition that in any world and infinite binary
 at this world, there is a future in which a path in $T$ exists.
 
 
-\emnote{add a sentence on how this is a faithful generalization of relativized quantifications.}
-\emnote{to do}having a strong notion underlying the quantifier $\exists$, that we call explicit existential. The explicit existential allows one to use a proof of $\exists x, \varphi$ to extract an object $a$ such that $\varphi$ is true on $a$. In the presence of effects, and even more so with classical logic, this explicit existential is not realized \cite{Herbelin05}.
+To generalize our argument in the setting of EF, we need some computational conditions. To begin with, we need to
+%\emnote{add a sentence on how this is a faithful generalization of relativized quantifications.}
+%\emnote{to do}
+have a strong notion underlying the quantifier $\exists$, that we call explicit existential. The explicit existential allows one to use a proof of $\exists x, \varphi$ to extract an object $a$ such that $\varphi$ is true on $a$. In the presence of effects, and even more so with classical logic,
+the witness used to prove $\exists x, \varphi$ can be impossible to retrieve, making
+this explicit existential not realized \cite{Herbelin05}.
+The explicit existentiel is thus a natural condition: when taking the relativized version of $\exists$, we expect the proof to be able to give an explicit witness by its code, and explicit existential ensures that this code of witness indeed retrieves the witness.
 \begin{definition}[Explicit existential]
   An EFdata is said to have explicit existential if there is an evidence $e$ such that for any system T type $\tau$ and any function $\varphi(-) : \tau \to \Prop$ there exists $a \in \tau$ such that
   \[\relEF{e}{\exists x^\tau, \cod x \land \varphi(x)}{\cod a \land \varphi(a)}\]
 \end{definition}
+
 
 \subsubsection{Continuity}
 Now, we formalize the continuity condition in the setting of EFdatas.
@@ -126,12 +132,15 @@ For the purpose of this work, we will only consider the following (weak) version
 \subsubsection{Unbounded search}
 % By analysing in details the proof of theorem \ref{thm:FT}, in addition to the two main conditions, two technical conditions are needed.
 
-\emnote{todo: introductory sentence}
-These condition arise from two constructions quite natural but not always true for an arbitrary realizability model:
-\begin{itemize}
-\item to find the uniform bound, we use a fixpoint creating an unbounded search. This operation is akin to the $\mu$ operator from \cite{Kleene1943}, and is not realized in some typed settings. For example, we can easily construct a realizability model of Heyting Arithmetic using system T functions and those functions are total and contain recursive primitive functions, hence they can't be stable under $\mu$.
+%\emnote{todo: introductory sentence}
+Another principle that is used in the theorem \ref{thm:FT} but need not be realized in any EF is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}. This construction is not realized in some typed settings. For example, we can easily construct a realizability model of Heyting Arithmetic using system T functions: those functions are total and contain recursive primitive functions, hence they can't be stable under $\mu$.
 
-\end{itemize}
+
+%These condition arise from two constructions quite natural but not always true for an arbitrary realizability model:
+%\begin{itemize}
+%\item to find the uniform bound we use a fixpoint creating an unbounded search. This operation is akin to the $\mu$ operator from \cite{Kleene1943}, and is not realized in some typed settings. For example, we can easily construct a realizability model of Heyting Arithmetic using system T functions: those functions are total and contain recursive primitive functions, hence they can't be stable under $\mu$.
+
+%\end{itemize}
 
 \begin{definition}[Unbounded search]
   An EFdata is said to have unbounded search if there exists $e$ such that, for any $f : \bN \to \bN$ having at least one zero,
@@ -141,7 +150,7 @@ These condition arise from two constructions quite natural but not always true f
 
 
 \subsubsection{The robust theorem}
-We can now state our generalized theorem about $\FT$. The conditions are the one introduced above, but they are not needed to be satisfied on every world. In the proof of \Cref{thm:FT}, there are two world: the one from which we get the bar, and the one in which we get the path avoiding $C(b)$. The continuity and explicit existential only need to be satisfied in the latter and, up to going to an even further future, can be checked only on a dense set of worlds. The unbounded search is used on the base world (the one containing our model), which is te only use of this hypothesis.
+We can now state our generalized theorem about $\FT$. The conditions are the one introduced above, but they are not needed to be satisfied on every world. In the proof of \Cref{thm:FT}, there are two worlds: the one from which we get the bar, and the one in which we get the path avoiding $C(b)$. The continuity and explicit existential only need to be satisfied in the latter and, up to going to an even further future, can be checked only on a dense set of worlds. The unbounded search is used on the base world (the one containing our model), which is the only use of this hypothesis.
 
 \begin{theorem}\label{thm:main}
   Let $\EFE$ be an EFdata with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following conditions are satisfied:
