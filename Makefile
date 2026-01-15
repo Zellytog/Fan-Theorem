@@ -9,11 +9,15 @@ all: lics fscd article
 
 
 article: $(SUBFILES) $(BIBFILES)
-	make $(PDFFILES)
+	pdflatex "\newcommand\mode{-1}\input{main}"
+	bibtex main.aux
+	pdflatex "\newcommand\mode{-1}\input{main}"
+	pdflatex "\newcommand\mode{-1}\input{main}"
+
 
 
 lics: main.aux $(SUBFILES) $(BIBFILES)
-	pdflatex "\newcommand\mode{0}\input{main}"
+	pdflatex "\newcommand\mode{1}\input{main}"
 	bibtex main.aux
 	pdflatex "\newcommand\mode{1}\input{main}"
 	pdflatex "\newcommand\mode{1}\input{main}"

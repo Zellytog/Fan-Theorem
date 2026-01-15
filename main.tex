@@ -1,6 +1,6 @@
-\providecommand{\mode}{-1} %% Neutre
+% \providecommand{\mode}{-1} %% Neutre
 % \providecommand{\mode}{0} %% FSCD
-% \providecommand{\mode}{1} %% LICS
+\providecommand{\mode}{1} %% LICS
 
 
 
@@ -57,6 +57,7 @@ We give a detailed construction of the realizability model: the logic used, the 
 \input{adequacy.tex}
 
 \section{The main result}
+\label{s:realizability}
 
 With our model constructed, and the proof that it describes a consistent theory done, we can describe the proof that this model satisfies $\FT$. We also show that $\WKL$ fails with a standard argument using Kleene tree.
 
@@ -64,18 +65,41 @@ With our model constructed, and the proof that it describes a consistent theory 
 
 \input{FT.tex}
 
-\section{Generalization}
+\section{A robust interpretation of the Fan Theorem}
 
-The realizability model from before uses the same ideas as developped in \cite{LubRat13} to prove $\FT$. For the argument in this proof to work, the two main conditions the emerge are
+The realizability model developed in \Cref{s:realizability} relies on the ideas
+of Lubarsky and Rathjen's work \cite{LubRat13} to prove $\FT$.
+For the argument in this proof to work, the two main conditions that emerge are
 \begin{itemize}
-\item continuity for the realizers
-\item having a Kripke-style notion of future worlds in which, given a tree $T$ at some world $\enviro$, there exists a future $\enviroT$ in which a path in $T$ can be computed.
+\item a notion of continuity for the realizers \emnote{of quantified relativization/individuals realized by a code}
+\item having a Kripke-style notion of future worlds in which, given a tree $T$ at some world $\enviro$,
+there exists a future $\enviroT$ in which a path in $T$ can be computed.
 \end{itemize}
-Hence, we seek for a general way to state these conditions (and a few other which will come later) in an abstract framework. The framework we use is the evidenced frames introduced in \cite{DBLP:conf/lics/0001MT21}. These evidenced frames (which we will shorten as EF) are combinatorial structures encompassing the notion of a realizability model: an EF contains a set of witnesses describing the realizers, a set of formulas describing the set of truth values and a relation akin to the logical inequality $\infSAT$, where the witness is made explicit.
+We shall now show the robustness of this approach: we shall highlight that the interpretation
+is actually independent of the particular choice of a computational system as long as these conditions are satisfied.
+To that end, we will use the notion of \emph{evidenced frames} introduced in \cite{CohMiqTat21}.
+Evidenced frames (which we will shorten as EF) are combinatorial structures encompassing
+the notion of a realizability model:
+an EF contains a set of witnesses describing the realizers,
+a set of formulas describing the set of truth values and
+a relation akin to the logical inequality $\infSAT$, where the witness is made explicit.
+In particular, it has the advantage of allowing one to abstract away
+from the implementation details to show that any computational system satisfying
+some specifications (\emph{e.g.}, memoization features) will induce a realizability model
+satisfying the expected logical principles (\emph{e.g.}, countable choice~\cite{CohMiqTat21}).
+In this section, we therefore seek for a general way to state the two conditions aboves
+(as well as a few others which will arise later) using EFs.
 
-A few work already study EFs \cite{DBLP:conf/lics/0001MT21,GarMiq23,DBLP:conf/lics/CohenGKM25}. In these works, the employed procedure is to consider concrete structure implementing realizability (\textit{e.g.} an abstract notion of computation system) and to prove that this structure is also an EF. In contrast, our work will focus only on EFs: the concrete structure will be introduced as a structure over EFs.
+In contrast with previous works using EFs~\cite{CohMiqTat21,GarMiq23,CohGruKirMiq25EffHOL,
+CohGruKirMiq25mca}, where concrete structures used to define realizability interpretations
+(\textit{e.g.} monadic combinatorial algebras) are proven to induce an EF,
+here we will rather will focus only on EFs:
+the concrete structure we study will be introduced as an additional structure
+over EFs.
 
-This section ends with the statement of the theorem \ref{thm:main}, which is a more abstract version of the theorem \ref{thm:FT}: in this version, the realizability structure realizing $\FT$ can have realizers of any form ($\lambda$-terms, Turing machines\ldots) as long as it gives an implementation of integers with its recursor, satisfies the two conditions mentioned above for the argument to work, and satisfies two technical conditions.
+This section ends with the statement of the \Cref{thm:main}, which is a more abstract
+variant of the \Cref{thm:FT}: in this version, the realizability structure realizing $\FT$ can have realizers of any form ($\lambda$-terms, Turing machines\ldots) as long as it gives an implementation of integers with its recursor, satisfies the two conditions mentioned above for the argument to work,
+plus two additional technical conditions.
 
 \input{EF.tex}
 
