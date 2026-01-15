@@ -1,0 +1,213 @@
+\ProvidesPackage{macros}
+
+%----- Symboles usuels -----%
+
+\newcommand{\defeq}{\triangleq}
+\newcommand{\partialto}{\rightharpoonup}
+\newcommand{\bOne}{\mathds{1}}
+
+%----- NOTATIONS TYPES ET ENSEMBLES -----%
+
+\newcommand{\Sort}{\mathfrak S}
+\newcommand{\bN}{\mathbb N}
+\newcommand{\bB}{\mathbb B}
+\newcommand{\bS}{\mathbb S}
+\newcommand{\bL}{\mathbb L}
+\newcommand{\bT}{\mathbb T}
+\newcommand{\bU}{\mathbb U}
+\newcommand{\Prop}{\mathrm{Prop}}
+\newcommand{\Nat}{\mathrm{Nat}}
+\newcommand{\Bool}{\mathrm{Bool}}
+\newcommand{\List}{\mathrm{List}}
+\newcommand{\Xlam}{\mathcal{X}_\Lambda}
+\newcommand{\Xt}{\mathcal X}
+\newcommand{\funB}{\mathcal F_{\mathbb B}}
+\newcommand{\Oracle}{\mathcal O}
+% \newcommand{\SAT}{\mathscr{S}\!\mathscr A \! \mathscr T}
+\newcommand{\SAT}{{\mathbf{SAT}}}
+\newcommand{\SATP}[1]{\SAT_{#1}}
+\newcommand{\SATE}{\SATP{\enviro}}
+\newcommand{\powerset}{\mathscr{P}}
+\newcommand{\Hctx}{\mathrm{Ctx}}
+\newcommand{\sem}[1]{\llbracket #1 \rrbracket}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\leqH}{\leq}
+\newcommand{\eval}{\mathrm{eval}}
+
+%----- NOTATIONS TERMES MODELE -----%
+
+\newcommand{\varx}{\mathbf{x}}
+\renewcommand{\vary}{\mathbf{y}}
+\newcommand{\termt}{\mathbf{t}}
+\newcommand{\termu}{\mathbf{u}}
+\newcommand{\termv}{\mathbf{v}}
+\newcommand{\termw}{\mathbf{w}}
+\newcommand{\varn}{\mathbf{n}}
+\newcommand{\termlam}{\boldsymbol{\lambda}}
+\newcommand{\termpi}{\boldsymbol{\pi}}
+\newcommand{\termZ}{\boldsymbol{0}}
+\newcommand{\termS}{\textbf{S}}
+\newcommand{\termtt}{\textbf{tt}}
+\newcommand{\termff}{\textbf{ff}}
+\newcommand{\termnil}{\boldsymbol[ \; \boldsymbol]}
+\newcommand{\termcons}{\boldsymbol{::}}
+\newcommand{\termrec}{\textbf{rec}}
+\newcommand{\implH}{\implies\!\!\!_H}
+\newcommand{\landH}{\land_H}
+\newcommand{\infSAT}{\subseteq_{\SAT}}
+\newcommand{\infSATE}{\subseteq_{\SATE}}
+\newcommand{\landSAT}{\land_{\SAT}}
+\newcommand{\landSATE}{\land_{\SATE}}
+\newcommand{\impliesSAT}{\implies\!\!\!_{\SAT}}
+\newcommand{\impliesSATE}{\implies\!\!\!_{\SATE}}
+\newcommand{\termenv}{\rho}
+
+%----- NOTATIONS TERMES LAMBDA CALCUL -----%
+
+\newcommand{\recEq}{\Coloneq}
+\newcommand{\rec}[0]{\mathrm{rec}}
+\newcommand{\lamZ}{0}
+\newcommand{\lamS}{S}
+\newcommand{\rtt}{\mathrm{tt}}
+\newcommand{\rff}{\mathrm{ff}}
+\newcommand{\nil}{[\,]}
+\newcommand{\append}{::}
+\newcommand{\concat}{\mathrm{append} }
+\newcommand{\proj}{\mathrm{k}}
+\newcommand{\oracle}{\xi}
+\newcommand{\encode}[1]{\overline{#1}}
+\newcommand{\BoolNot}{\lnot_{\Bool}}
+\newcommand{\BoolOr}{\lor_{\Bool}}
+\newcommand{\BoolAnd}{\land_{\Bool}}
+\newcommand{\BoolImp}{\implies\!\!\!_{\Bool}}
+\newcommand{\BoolEq}{=_{\Bool}}
+\newcommand{\eqNat}{=_{\Nat}}
+\newcommand{\predNat}{\mathrm{pred}}
+\newcommand{\NatToList}{\mathrm{ToList}}
+\newcommand{\NatToBool}{\mathrm{ToBool}}
+\newcommand{\IntBase}[2]{\overline{#1}^{#2}}
+\newcommand{\IntBaseD}[1]{\IntBase{#1}{2}}
+\newcommand{\ListInf}{\preccurlyeq_{\mathrm{pref}}}
+\newcommand{\ListEnum}{\mathrm{enum}}
+\newcommand{\mapL}{\mathrm{map}}
+\newcommand{\filterL}{\mathrm{filter}}
+\newcommand{\redi}{\mapsto}
+\newcommand{\enviro}{\sigma}
+\newcommand{\enviroT}{\tau}
+\newcommand{\enviroTT}{\tau'}
+\newcommand{\rediE}{\redi_{\enviro}}
+\newcommand{\red}{\rhd}
+\newcommand{\redP}[1]{\red_{#1}}
+\newcommand{\redE}{\redP{\enviro}}
+\newcommand{\redRT}{\red^{\star}}
+\newcommand{\redRTP}[1]{\red^{\star}_{#1}}
+\newcommand{\redERT}{\redRTP{\enviro}}
+\newcommand{\stratETP}[1]{\redRTP{\underset{#1}{\enviro}}}
+\newcommand{\stratE}[1]{\redP{\underset{#1}{\enviro}}}
+\newcommand{\eqred}{=}
+\newcommand{\eqredP}[1]{\eqred_{#1}}
+\newcommand{\eqredE}{\eqredP{\enviro}}
+\newcommand{\cod}[1]{\ulcorner#1\urcorner}
+\newcommand{\codP}[2]{\cod{#1}^{#2}}
+\newcommand{\codE}[1]{\codP{#1}{\enviro}}
+\newcommand{\restr}[2]{{#1}\!\upharpoonright_{#2}}
+
+%----- ORACLES -----%
+
+\newcommand{\infOr}{\preccurlyeq}
+\newcommand{\supOr}{\succcurlyeq}
+\newcommand{\cyl}[1]{\llbracket #1 \rrbracket}
+
+%----- THEORIES -----%
+
+\newcommand{\ThReal}{\mathscr T_{\real}}
+\newcommand{\ThRealU}{\mathscr T_{\realU}}
+
+%----- REGLES INFERENCE -----%
+
+\newcommand{\ruleUnary}[2]{\AxiomC{#1}\UnaryInfC{#2}\DisplayProof}
+\newcommand{\ruleBinary}[3]{\AxiomC{#1}\AxiomC{#2}\BinaryInfC{#3}\DisplayProof}
+\newcommand{\ruleUnaryL}[3]{\AxiomC{#1}\RightLabel{#3}\UnaryInfC{#2}\DisplayProof}
+\newcommand{\ruleBinaryL}[4]{\AxiomC{#1}\AxiomC{#2}\RightLabel{#4}\BinaryInfC{#3}\DisplayProof}
+\newcommand{\ruleTernary}[4]{\AxiomC{#1}\AxiomC{#2}\AxiomC{#3}\TrinaryInfC{#4}\DisplayProof}
+\newcommand{\ruleTernaryL}[5]{\AxiomC{#1}\AxiomC{#2}\AxiomC{#3}\RightLabel{#5}\TrinaryInfC{#4}\DisplayProof}
+\newcommand{\ruleAx}[1]{\AxiomC{}\UnaryInfC{#1}\DisplayProof}
+\newcommand{\ruleAxL}[2]{\AxiomC{}\RightLabel{#2}\UnaryInfC{#1}\DisplayProof}
+
+%----- REALISABILITY -----%
+
+\newcommand{\real}{\Vdash}
+\newcommand{\realP}[2]{\real_{#1}^{#2}}
+\newcommand{\realPP}{\real_{\enviro}^{\termenv}}
+\newcommand{\realU}{\Vvdash}
+\newcommand{\realUP}[1]{\realU^{#1}}
+\newcommand{\realF}[1]{\llbracket #1 \rrbracket}
+\newcommand{\realFP}[3]{\realF{#1}^{#2}_{#3}}
+\newcommand{\realFE}[1]{\realFP{#1}{\termenv}{\enviro}}
+\newcommand{\realUF}[1]{[\!\llbracket #1 \rrbracket\!]}
+\newcommand{\realUFP}[2]{\realUF{#1}^{#2}}
+\newcommand{\realUFE}[1]{\realUFP{#1}{\termenv}}
+
+%----- AXIOMES -----%
+
+\newcommand{\FT}{\mathrm{FT}}
+\newcommand{\WKL}{\mathrm{WKL}}
+
+%----- EVIDENCED FRAMES -----%
+
+\newcommand{\EFE}{\mathcal{E}}
+\newcommand{\EF}{\mathcal{EF}}
+\newcommand{\EFSAT}{\EFE_{\SAT}}
+\newcommand{\relEF}[3]{#1 \real #2 \leq #3}
+\newcommand{\relEFdot}{\relEF{\cdot}{\cdot}{\cdot}}
+\newcommand{\witID}{e_{\mathrm{id}}}
+\newcommand{\witComp}[2]{#2 \circ #1}
+\newcommand{\witCompDot}{\witComp{\cdot}{\cdot}}
+\newcommand{\witx}{e}
+\newcommand{\wity}{e'}
+\newcommand{\PropTop}{\top}
+\newcommand{\witTop}{e_\top}
+\newcommand{\witPair}[2]{\llparenthesis #1,#2\rrparenthesis}
+\newcommand{\witPairDot}{\witPair{\cdot}{\cdot}}
+\newcommand{\witFst}{e_{\pi_1}}
+\newcommand{\witSnd}{e_{\pi_2}}
+\newcommand{\PropAnd}[2]{#1 \land #2}
+\newcommand{\PropAndDot}{\PropAnd\cdot\cdot}
+\newcommand{\PropImpl}[2]{#1 \supset #2}
+\newcommand{\PropImplDot}{\PropImpl{\cdot}{\cdot}}
+\newcommand{\witLam}[1]{\lambda\;#1}
+\newcommand{\witEval}{e_{\mathrm{eval}}}
+\newcommand{\FamB}{\mathscr{B}}
+\newcommand{\FamC}{\mathscr{C}}
+\newcommand{\varA}{(A_\enviro)}%_{\enviro \in \Oracle}}
+\newcommand{\varB}{(B_\enviro)}%_{\enviro\in\Oracle}}
+\newcommand{\varC}{(C_\enviro)}%_{\enviro\in\Oracle}}
+\newcommand{\termA}[1]{A_{#1}}
+\newcommand{\termB}[1]{B_{#1}}
+\newcommand{\termC}[1]{C_{#1}}
+\newcommand{\termAE}{\termA\enviro}
+\newcommand{\termBE}{\termB\enviro}
+\newcommand{\termCE}{\termC\enviro}
+
+\newcommand{\CatEFData}{\mathbf{EFData}}
+\newcommand{\witZ}{e_{0}}
+\newcommand{\witS}{e_S}
+\newcommand{\witRec}{e_{\rec}}
+
+\newcommand{\xle}[1]{\xrightarrow{\!#1\!}}
+
+
+%----- TRUCS EN PLUS -----%
+
+\newcommand{\InfSATFam}{\sqsubseteq}
+\newcommand{\AndSATFam}{\sqcap}
+\newcommand{\ImplSATFam}{\sqsupset}
+\newcommand{\HeytingFamily}{\mathscr H_{\SAT}}
+
+%----- CATEGORIES -----%
+
+\newcommand{\bC}{\mathbf{C}}
+
+%----- CALCULABILITE -----%
+
+\newcommand{\degreeD}{\mathfrak{d}}

@@ -27,7 +27,7 @@
     \input{config_amsthm.tex}
     \author{}
 }
-
+\usepackage{macros}
 
 
 \begin{document}
@@ -80,9 +80,11 @@ is actually independent of the particular choice of a computational system as lo
 To that end, we will use the notion of \emph{evidenced frames} introduced in \cite{CohMiqTat21}.
 Evidenced frames (which we will shorten as EF) are combinatorial structures encompassing
 the notion of a realizability model:
-an EF contains a set of witnesses describing the realizers,
-a set of formulas describing the set of truth values and
-a relation akin to the logical inequality $\infSAT$, where the witness is made explicit.
+roughly speaking, an EF is a triple $( \Phi, E, \relEFdot )$
+where $\Phi$ is a set of formulas describing the set of truth values,
+~$E$ is a set of evidences describing the realizers,
+and the relation \mbox{$\cdot \xle{\cdot} \cdot$} is akin to the logical inequality $\infSAT$
+where the witness is made explicit.
 In particular, it has the advantage of allowing one to abstract away
 from the implementation details to show that any computational system satisfying
 some specifications (\emph{e.g.}, memoization features) will induce a realizability model
