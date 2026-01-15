@@ -35,7 +35,7 @@ We now have a semantic interpretation of our initial HOL syntax, where propositi
 \begin{definition}[Realizability relation]
   Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma\vdash \varphi : \Prop$. We define by induction the realizability relation:
   \begin{itemize}
-  \item $t \realPP S(\termt) \defeq t \in \codE{\termenv(\termt)}$
+  \item $t \realPP \sortPred{\termt} \defeq t \in \codE{\termenv(\termt)}$
   \item $t \realPP \varphi \to \psi \defeq \forall \enviroT \supOr\enviro, u \realP{\enviroT}{\termenv} \varphi \implies tu \realP{\enviroT}{\termenv}\psi$
   \item $t \realPP \varphi \land \psi \defeq (\pi_1\;t \realPP \varphi) \land (\pi_2\;t \realPP \psi)$
   \item $t \realPP \forall \varx^S, \varphi \defeq \forall s \in \bS, t\realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$
@@ -56,9 +56,9 @@ The following proposition justifies that the definitions give saturated sets, in
 \end{proposition}
 
 \begin{proof}
-  We prove this by induction on $\varphi$ (and thus, for the case where $\varphi = S(\termt)$, by induction on $S$):
+  We prove this by induction on $\varphi$ (and thus, for the case where $\varphi = \sortPred{\termt}$, by induction on $S$):
   \begin{itemize}
-  \item if $S = \Nat$, then $t \realPP \Nat(\termt)$ means that $t \redERT \overline n$, thus $t \redRTP{\enviroT} \overline n$, so $t \realP{\enviroT}{\termenv} \Nat(\termt)$.
+  \item if $S = \Nat$, then $t \realPP \sortPredS{\Nat}{\termt}$ means that $t \redERT \overline n$, thus $t \redRTP{\enviroT} \overline n$, so $t \realP{\enviroT}{\termenv} \sortPredS{\Nat}{\termt}$.
   \item if $S \in \{\Bool, \List(T), T \times U, \Prop\}$, the argument is the same.
   \item if $S = T \to U$, then this is just a consequence of the case of implication and universal quantification.
   \item if $\varphi = \psi \to \chi$, then let $\enviroTT \supOr\enviroT$ and $u \realP{\enviroTT}{\termenv} \psi$. By transitivity, $\enviro \infOr \enviroTT$, so by hypothesis on $t$, $tu \realP{\enviroTT}{\termenv} \psi$
@@ -87,7 +87,7 @@ The following proposition justifies that the definitions give saturated sets, in
 %\begin{proof}
 %  The proof is by induction on the realizability relation:
 %  \begin{itemize}
-%  \item if $\varphi = S(\termt)$, then we just use the fact that each $\codE{s}$ is in $\SAT$ (respectively that $\cod{s} \in \SAT$), so it's the case in particular for $\codE{\termenv(\termt)}$.
+%  \item if $\varphi = \sortPred{\termt}$, then we just use the fact that each $\codE{s}$ is in $\SAT$ (respectively that $\cod{s} \in \SAT$), so it's the case in particular for $\codE{\termenv(\termt)}$.
 %  \item if $\varphi = \psi \to \chi$, then let $t,u \in \Lambda, t \red u$ and $u \realPP \psi \to \chi$. Let's prove that $t \realPP \psi \to \chi$. Let $\enviroT \supOr\enviro$ and $v \realP{\enviroT}{\termenv} \psi$, let's prove that $tv \realP{\enviroT}{\termenv} \chi$. By compatibility, $tv \red uv$, but as $u \realPP \psi \to \chi$, this means that $uv \realP{\enviroT}{\termenv} \chi$, hence (as $\realFP{\chi}{\termenv}{\enviroT}$ is saturated by induction hypothesis) $tv \realP{\enviroT}{\termenv} \chi$.
 %  \item if $\varphi = \psi \land \chi$, then let $t,u \in \Lambda, t \red u$ and $u \realPP \psi \land \chi$. This means that both $\pi_1\;u \realPP \psi$ and $\pi_2\;u \realPP \chi$, but then $\pi_i\;t \red \pi_i\;u$ for $i \in \{1,2\}$, so by saturation of $\realFE{\psi}$ and $\realFE{\chi}$ (given by induction hypotheses), $\pi_1\;t \realPP \psi$ and $\pi_2\;t \realPP \chi$. Thus $t \realPP \psi \land \chi$.
 %  \item if $\varphi = \forall \varx^S, \varphi$, then we use the fact that $\SAT$ is closed by intersection.

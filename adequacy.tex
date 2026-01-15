@@ -12,7 +12,7 @@ To prove the adequacy, we first prove a substitution lemma.
 %\begin{proof}
 %  We must first prove by induction on terms $\termu$ that $\termenv(\termu[\termt/\varx]) = \termenv[\varx \mapsto \termenv(\termt)](\termu)$. Then, by induction on $\varphi$:
 %  \begin{itemize}
-%  \item if $\varphi = S(\termt)$, then we use the equality on terms to have $t \in \codE{\termenv(\termt)} \iff t \in \codE{\termenv(\termt)}$
+%  \item if $\varphi = \sortPred{\termt}$, then we use the equality on terms to have $t \in \codE{\termenv(\termt)} \iff t \in \codE{\termenv(\termt)}$
 %  \item the other four cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.
 %  \end{itemize}
 %  Hence the result.
@@ -23,70 +23,14 @@ To postulate the adequacy, we need to give a typing system with regard to which 
 \begin{definition}[Typing system]
   We define a ($\lambda$-)context as a list $\Xi \in \List(\Xlam \times \Prop)$, whose elements we will write $(x : \varphi)$.
 
-  The typing relation $\Gamma\mid \Xi \vdash t : \varphi$ is defined by induction by the rules:
-  \begin{center}
-    \ruleUnaryL{$(x : \varphi) \in \Xi$}{$\Gamma\mid \Xi \vdash x : \varphi$}{Ax}
+  The typing relation $\Gamma\mid \Xi \vdash t : \varphi$ is defined by induction by the rules in~\Cref{fig:typing_rules}.
 
-    \vspace{0.2cm}
-    \ruleUnaryL{$\Gamma\mid \Xi, x : \varphi \vdash t : \psi$}{$\Gamma\mid \Xi \vdash \lambda x.t : \varphi \to \psi$}{$\to_\mathrm i$}
-    \quad
-    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \varphi \to \psi$}{$\Gamma\mid \Xi \vdash u : \varphi$}{$\Gamma\mid\Xi\vdash t\;u : \psi$}{$\to_\mathrm e$}
-
-    \vspace{0.2cm}
-    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \varphi$}{$\Gamma\mid \Xi \vdash u : \psi$}{$\Gamma\mid\Xi \vdash \langle t,u \rangle : \varphi \land \psi$}{$\land_\mathrm i$}
-
-    \vspace{0.2cm}
-    \ruleUnaryL{$\Gamma\mid \Xi \vdash t : \varphi \land \psi$}{$\Gamma\mid\Xi \vdash \pi_1\;t : \varphi$}{$\land_\mathrm e^1$}
-    \quad
-    \ruleUnaryL{$\Gamma\mid \Xi \vdash t : \varphi \land \psi$}{$\Gamma\mid \Xi \vdash \pi_2\;t : \psi$}{$\land_\mathrm e^2$}
-
-    \vspace{0.2cm}
-    \ruleUnaryL{$\Gamma, \varx : S \mid \Xi \vdash t : \varphi$}{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}{$\forall_\mathrm i$}
-    \quad
-    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}{$\Gamma\vdash \termt : S$}{$\Gamma\mid \Xi \vdash t : \varphi[\termt / \varx]$}{$\forall_\mathrm e$}
-
-    \vspace{0.2cm}
-    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \varphi[\termt/\varx]$}{$\Gamma\vdash \termt : S$}{$\Gamma\mid \Xi \vdash t : \exists \varx^S, \varphi$}{$\exists_\mathrm i$}
-
-    \vspace{0.2cm}
-    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \exists \varx^S, \varphi$}{$\Gamma, \varx : S \mid \Xi \vdash u : \varphi \to \psi$}{$\Gamma\mid \Xi \vdash u\;t : \psi$}{$\exists_\mathrm e$}
-    
-    \vspace{0.2cm}
-    \ruleAxL{$\Gamma\mid \Xi \vdash 0 : \Nat(\termZ)$}{$\Nat_\mathrm i^0$}
-    \quad
-    \ruleUnaryL{$\Gamma\mid\Xi\vdash t : \Nat(\termt)$}{$\Gamma\mid\Xi\vdash S\;t : \Nat(\termS(\termt))$}{$\Nat_\mathrm i^S$}
-
-    \vspace{0.2cm}
-%    \ruleBinaryL{$\Gamma, X : \Prop^{\Nat}\mid \Xi \vdash t : X(\termZ)$}
-%                {$\Gamma, X : \Prop^{\Nat}\mid \Xi\vdash u : \forall \varn^{\{\Nat\}}, X(\varn) \to X(\termS(\varn))$}
-%                {$\Gamma, X : \Prop^{\Nat}\mid \Xi \vdash \rec_{\Nat}\;t\;u : \forall \varn^{\{\Nat\}}, X(\varn)$}
-%                {$\Nat_\mathrm e$}
-%    \ruleTernaryL{$\Gamma, X : \Nat \to \Prop\mid \Xi \vdash t : X(\termZ)$}
-%                 {$\Gamma, X : \Nat \to \Prop\mid \Xi\vdash u : \forall \varn^{\{\Nat\}}, X(\varn) \to X(\termS(\varn))$}
-%                 {$\Gamma, X : \Nat \to \Prop, \varn : \Nat\mid \Xi \vdash v : \Nat\varn$}
-%                 {$\Gamma, X : \Nat \to \Prop, \varn : \Nat\mid\Xi\vdash \rec_{\Nat}\;t\;u\;v : X(\varn)$}
-%                 {$\Nat_\mathrm e$}
-    \ruleAxL{$\Gamma\mid \Xi\vdash \rec_{\Nat} : \forall X^{\Nat \to \Prop},X(\termZ) \to (\forall \varn^{\{\Nat\}}, X(\varn) \to X(\termS(\varn))) \to \forall \varn^{\{\Nat\}}, X(\varn)$}{$\Nat_\mathrm e$}
-
-    \vspace{0.2cm}
-    \ruleAxL{$\Gamma\mid\Xi\vdash \rtt : \Bool(\termtt)$}{$\Bool_\mathrm i^\top$}
-    \quad
-    \ruleAxL{$\Gamma\mid\Xi\vdash \rff : \Bool(\termff)$}{$\Bool_\mathrm i^\bot$}
-
-    \vspace{0.2cm}
-    \ruleAxL{$\Gamma\mid\Xi\vdash \rec_{\Bool} : \forall X^{\Bool \to \Prop}, X(\termtt) \to X(\termff) \to \forall \varx^{\{\Bool\}}, X(\varx)$}{$\Bool_\mathrm e$}
-    
-    \vspace{0.2cm}
-    \ruleAxL{$\Gamma\mid\Xi\vdash \nil : \List(\termnil)$}{$\List_\mathrm i^{\nil}$}
-
-    \vspace{0.2cm}
-    \ruleBinaryL{$\Gamma\mid\Xi\vdash t : S(\termt)$}{$\Gamma\mid \Xi\vdash u : \List(S)(\termu)$}{$\Gamma\mid\Xi\vdash t\append u : \List(S)(\termt \termcons \termu)$}{$\List_\mathrm i^{\append}$}
-
-    \vspace{0.2cm}
-    \ruleAxL{$\Gamma\mid\Xi \vdash \rec_{\List} : \forall X^{\List(S) \to \Prop}, X(\termnil) \to (\forall \varx^{\{S\}}, \forall \bvary^{\{\List(S)\}}, X(\bvary) \to X(\varx \termcons \bvary)) \to \forall \varx^{\{\List(S)\}}, X(\varx)$}{$\List_\mathrm e$}
-  \end{center}
 \end{definition}
-
+\begin{figure*}[t]
+ \input{typing_rules}
+ \caption{Typing rules}
+ \label{fig:typing_rules}
+\end{figure*}
 \begin{theorem}[Adequacy]
   Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$, formulas
   \[\begin{cases}

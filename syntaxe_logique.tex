@@ -11,9 +11,9 @@ The choice of HOL as our syntax is mainly motivated by its expressiveness. In HO
 
 With this set of sorts, we give a syntax for well-typed terms. We use bold font for the syntactic HOL terms, to distinguish them from the $\lambda$-calculus terms we introduce later. The only exception is to denote an element in $\Prop$, for which we use $\varphi,\psi\ldots$
 
-The HOL term constructors are akin to system T: there is a constructor for abstraction and application for functions, constructors for pairing and projections, canonical constructors and recursor for our data types ($\Nat,\Bool,\List$). The main difference is on the logical aspect, as we also add propositional constructors. Those constructors are the conjunction $\land$, the implication $\to$, the two quantifications $\forall/\exists$ and the construction $S(\termt)$.
+The HOL term constructors are akin to system T: there is a constructor for abstraction and application for functions, constructors for pairing and projections, canonical constructors and recursor for our data types ($\Nat,\Bool,\List$). The main difference is on the logical aspect, as we also add propositional constructors. Those constructors are the conjunction $\land$, the implication $\to$, the two quantifications $\forall/\exists$ and the construction $\sortPred{\termt}$.
 
-This last construction is used to underline the standard elements and to give them a computational meaning. For example, the difference between $\forall \varx^{\Nat},\varphi(\varx)$ and $\forall \varx^{\Nat},\Nat(\varx) \to \varphi(\varx)$ is that the second proposition can be proved by a computation depending on the integer $\varx$, meanwhile the first one must be proved by a proof of $\varphi$ uniform on $\varx$.
+This last construction is used to underline the standard elements and to give them a computational meaning. For example, the difference between $\forall \varx^{\Nat},\varphi(\varx)$ and $\forall \varx^{\Nat},\sortPredS{\Nat}{\varx} \to \varphi(\varx)$ is that the second proposition can be proved by a computation depending on the integer $\varx$, meanwhile the first one must be proved by a proof of $\varphi$ uniform on $\varx$.
 
 \tlnote{Maybe ignore this definition, it's straightforward.}
 \begin{definition}[HOL-context]
@@ -39,7 +39,7 @@ This last construction is used to underline the standard elements and to give th
   \vspace{0.2cm}
   \ruleAx{$\Gamma\vdash \termZ : \Nat$}
   \qquad
-  \ruleUnary{$\Gamma\vdash \termt : \Nat$}{$\Gamma\vdash \termS(\termt) : \Nat$}
+  \ruleUnary{$\Gamma\vdash \termt : \Nat$}{$\Gamma\vdash S(\termt) : \Nat$}
 
   \vspace{0.2cm}
   \ruleTernary{$\Gamma\vdash \termt : S$}{$\Gamma\vdash \termu : \Nat \to S \to S$}{$\Gamma\vdash \termv : \Nat$}{$\Gamma\vdash \termrec_{\Nat}(\termt,\termu,\termv) : S$}
@@ -72,11 +72,11 @@ This last construction is used to underline the standard elements and to give th
   \ruleUnary{$\Gamma, \varx : S \vdash \varphi : \Prop$}{$\Gamma\vdash \exists \varx^S, \varphi : \Prop$}
 
   \vspace{0.2cm}
-  \ruleUnary{$\Gamma\vdash : \termt : S$}{$\Gamma \vdash S(\termt) : \Prop$}
+  \ruleUnary{$\Gamma\vdash : \termt : S$}{$\Gamma \vdash \sortPred{\termt} : \Prop$}
   \end{center}
 \end{definition}
 
-A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and a function interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equiped with two functions $\powerset (H) \to H$. Finally, to interpret $\Prop$, we need an interpretation of $S(\termt)$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
+A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and a function interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equiped with two functions $\powerset (H) \to H$. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
 The other sorts are given their natural set theoretic semantic.
 
 \begin{definition}[Semantic]
@@ -115,7 +115,7 @@ The other sorts are given their natural set theoretic semantic.
   \item $\sem{\Gamma\vdash \termpi_1(\termt) : S} \defeq \pi_1 \circ \sem{\Gamma\vdash \termt : S \times T}$
   \item $\sem{\Gamma\vdash \termpi_2(\termt) : S} \defeq \pi_2 \circ \sem{\Gamma\vdash \termt : S \times T}$
   \item $\sem{\Gamma\vdash \termZ : \Nat} \defeq (\overrightarrow{x} \in \sem\Gamma) \mapsto 0$
-  \item $\sem{\Gamma\vdash \termS(\termt) : \Nat} \defeq (n \mapsto n + 1) \circ \sem{\Gamma\vdash \termt : \Nat}$
+  \item $\sem{\Gamma\vdash S(\termt) : \Nat} \defeq (n \mapsto n + 1) \circ \sem{\Gamma\vdash \termt : \Nat}$
   \item
     \begin{multline*}
       \sem{\Gamma\vdash \termrec_{\Nat}(\termt,\termu,\termv) : S} \defeq \\
@@ -139,7 +139,7 @@ The other sorts are given their natural set theoretic semantic.
   \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \landH\circ\langle\sem{\Gamma\vdash \varphi : \Prop}, \sem{\Gamma\vdash \psi : \Prop}\rangle$
   \item $\displaystyle\sem{\Gamma\vdash \forall \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcap_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
   \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
-  \item $\sem{\Gamma\vdash S(\termt) : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
+  \item $\sem{\Gamma\vdash \sortPred{\termt} : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
   \end{itemize}
   where $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recurcors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a letter $a$ and a word $u$, appends $a$ to $u$ to make a new word, $\implH$ is the implication of $H$ and $\landH$ is its meet.
 
