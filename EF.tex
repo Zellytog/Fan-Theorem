@@ -3,7 +3,7 @@
 We first recall the definition of an Evidenced Frame~\cite{CohMiqTat21}.
 
 \begin{definition}[Evidenced frame]
-  An Evidenced Frame $\EFE$ is a pair of sets $(\Phi,E$ equiped with:\emnote{can be compacted if needed}
+  An Evidenced Frame $\EFE$ is a pair of sets $(\Phi,E)$ equiped with:\emnote{can be compacted if needed}
   \begin{itemize}
   \item a ternary relation $\relEFdot \subseteq E \times \Phi \times \Phi$
   \item an element $\witID$ such that
@@ -35,13 +35,13 @@ this shows besides that our model also gives rise to a tripos and a topos~\cite{
 \begin{proposition}\label{prop:EF_notre}
   We define $E \defeq \Lambda$ and $\Phi \defeq \SAT$, together with the relation
   \[\relEF t {\varA}{\varB}\defeq \forall \enviro \in \Oracle, \forall u \in \termAE, tu \in \termBE\]
-  Then the triple $(\Phi,E,\relEFdot)$ is an evidenced framr.
+  Then the triple $(\Phi,E,\relEFdot)$ is an evidenced frame.
 \end{proposition}
 
 \begin{proof}
 Observe that $\varA \infSAT \varB$ is exactly the proposition $\relEF t {\varA}{\varB}$
 for which we erase the witness $t$.
- The different components are thus defined by using the structure of $\SAT$ (but taking care of evidences which provided
+ The different components are thus defined by using the structure of $\SAT$ (but taking care of evidences provided
  by the expectedd $\lambda$-terms),
  which is a Heyting pre-algebra with intersection,
  and those properties (including the remark \ref{rmk:inclusion})
@@ -94,7 +94,7 @@ the pairing function is defined by $\witPair t u \defeq \lambda x. \langle t\;x,
 % \end{proposition}
 
 \begin{remark}
-  For any $\enviro \in \Oracle$, it is possible to construct the Evidenced Frame given by
+  For any $\enviro \in \Oracle$, it is possible to construct the Evidenced Frame $\EFSATE$ given by
   \[E \defeq \Lambda \qquad \Phi \defeq \left\{\left.\varA\in\prod_{\enviroT \supOr \enviro} \SATP\enviroT\right\vert \forall \enviroT, \enviroTT\supOr \enviro, \enviroT \infOr \enviroTT \implies \termA{\enviroT} \subseteq \termA{\enviroTT} \right\}\]
   with the same functions and evidenced.
 \end{remark}
@@ -149,7 +149,7 @@ the pairing function is defined by $\witPair t u \defeq \lambda x. \langle t\;x,
 %\end{remark}
 
 From our definition, the second sanity check to do is to show that for any proposition $\vdash\varphi : \Prop$ in HOL,
-$t \realU \varphi$ if and only if $\relEF{t}{\top}{\realUF{\varphi}}$.\emnote{il faut pas $\lambda\_.t$ ?}
+$t \realU \varphi$ if and only if $\relEF{\lambda\_.t}{\top}{\realUF{\varphi}}$.%\emnote{il faut pas $\lambda\_.t$ ?}
 The proof is by induction on $\varphi$, and is mostly straightforward. The only issue is for the existentiel quantifier.
 
 Indeed, in EFs, the way to encode $\exists x^S, \varphi(x)$ is to consider the impredicative encoding $\forall \psi^{\Prop}, (\forall x^S, \varphi(x) \to \psi) \to \psi$, while our interpretation of $t\realU \exists x^S, \varphi(x)$ is given by a union on a family in $\SAT$: this is why the fact that $\EFSAT$ is an EF did not use the union operation of $\SAT$. Nonetheless, the two notions coincide in our case, as is standard in realizability without effects.

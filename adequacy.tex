@@ -83,7 +83,7 @@ To postulate the adequacy, we need to give a typing system with regard to which 
     \ruleBinaryL{$\Gamma\mid\Xi\vdash t : S(\termt)$}{$\Gamma\mid \Xi\vdash u : \List(S)(\termu)$}{$\Gamma\mid\Xi\vdash t\append u : \List(S)(\termt \termcons \termu)$}{$\List_\mathrm i^{\append}$}
 
     \vspace{0.2cm}
-    \ruleAxL{$\Gamma\mid\Xi \vdash \rec_{\List} : \forall X^{\List(S) \to \Prop}, X(\termnil) \to (\forall \varx^{\{S\}}, \forall \vary^{\{\List(S)\}}, X(\vary) \to X(\varx \termcons \vary)) \to \forall \varx^{\{\List(S)\}}, X(\varx)$}{$\List_\mathrm e$}
+    \ruleAxL{$\Gamma\mid\Xi \vdash \rec_{\List} : \forall X^{\List(S) \to \Prop}, X(\termnil) \to (\forall \varx^{\{S\}}, \forall \bvary^{\{\List(S)\}}, X(\bvary) \to X(\varx \termcons \bvary)) \to \forall \varx^{\{\List(S)\}}, X(\varx)$}{$\List_\mathrm e$}
   \end{center}
 \end{definition}
 
@@ -119,7 +119,7 @@ To postulate the adequacy, we need to give a typing system with regard to which 
   \item case $\List_\mathrm e$: let $X$ be a predicate on $\List(S)$, $\enviroT \supOr\enviro$ and
     \[\begin{cases}
     u \realP{\enviroT}{\termenv} X(\termnil)\\
-    v \realP{\enviroT}{\termenv} \forall \varx^{\{X\}}, \forall \vary^{\{\List(S)\}}, X(\vary) \to X(\varx \termcons \vary)\\
+    v \realP{\enviroT}{\termenv} \forall \varx^{\{X\}}, \forall \bvary^{\{\List(S)\}}, X(\bvary) \to X(\varx \termcons \bvary)\\
     w \realP{\enviroT}{\termenv} \List(S)(\varx)
     \end{cases}\]
     we want to prove that $t = \rec_{\List}\;u\;v\;w$ realizes $X(\varx)$.
@@ -127,7 +127,7 @@ To postulate the adequacy, we need to give a typing system with regard to which 
     The object $\termenv(\varx)$ is a list. By induction, it is either $\nil$ or $s \smallfrown s'$ for two elements $s \in \bS^\star, s' \in \bS$:
     \begin{itemize}
     \item if $\termenv(\varx) = \nil$, then $w \redRTP{\enviroT} \nil$, $\rec_{\List}\;u\;v\;w \redRTP{\enviroT} u$ and $u \realP{\enviroT}{\termenv} X(\termnil)$, so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\termnil)$.
-    \item if $\termenv(\varx) = s \smallfrown s'$, then $w \redRTP{\enviroT} w_1\append w_2$ for $w_1 \in \codP{s'}{\enviroT}$ and $w_2\in\codP{s}{\enviroT}$. In this case, by induction hypothesis, $\rec_{\List}\;u\;v\;w_2 \realP{\enviroT}{\termenv[\vary \mapsto s']} \List(S)(\vary)$, and
+    \item if $\termenv(\varx) = s \smallfrown s'$, then $w \redRTP{\enviroT} w_1\append w_2$ for $w_1 \in \codP{s'}{\enviroT}$ and $w_2\in\codP{s}{\enviroT}$. In this case, by induction hypothesis, $\rec_{\List}\;u\;v\;w_2 \realP{\enviroT}{\termenv[\bvary \mapsto s']} \List(S)(\bvary)$, and
       \[\rec_{\List}\;u\;v\;w \redRTP{\enviroT} \rec_{\List}\;u\;v\;(w_1\append w_2) \redRTP{\enviroT} v\;w_2\;(\rec_{\List}\;u\;v\;w_2)\]
       so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\varx)$.
     \end{itemize}

@@ -62,7 +62,8 @@ To construct the category of EFdatas, we also need to define morphisms. The noti
 
 With this notion of morphism, we can formalize the future world notion by taking a pre-order $\bC$ and constructing a functor $\bC \to \CatEFData$. This makes it easy to define the condition that in any world and infinite binary tree $T$ at this world, there is a future in which a path in $T$ exists.
 
-Now, we formalize the continuity condition in those EFdata. Continuity in computable systems is a well studied notion, and a lot of variants exist for this \tlnote{insérer citation de trucs sur la continuité}. We only give one very weak such variant, which is enough for this work.
+Now, we formalize the continuity condition in those EFdata. Continuity in computable systems is a well studied notion, and a lot of variants exist for this (\cite{these_baillon}). %\tlnote{insérer citation de trucs sur la continuité}
+We only give one very weak such variant, which is enough for this work.
 
 \begin{definition}[Continuity]
   Let $(E,\Phi,\relEFdot, \cod\cdot, e_0,e_S,e_{\rec})$ be an EFdata. This EFdata is said to have continuity if
@@ -128,7 +129,11 @@ We can now state our generalized theorem about $\FT$. The conditions are the one
 
 Now that we stated the theorem \ref{thm:main}, we give examples of a realizability models satisfying the conditions (and thus, realizing $\FT$).
 
-The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata of $\SATP{\supOr \enviro}$ family as in proposition \ref{prop:EF_notre} but with families over $\{ \enviroT\in\Oracle \mid \enviroT\supOr \enviro\}$. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the $\SATP{\supOr\enviro}$ family EFdata has continuity, explicit existential and unbounded search, hence the fact that it satisfies $\FT$.
+The first example is the one given before.
+%For each $\enviro \in \Oracle$,
+%we can define the EFdata of $\SATP{\supOr \enviro}$ family as in proposition \ref{prop:EF_notre} but with families over $\{ \enviroT\in\Oracle \mid \enviroT\supOr \enviro\}$.
+We can construct a functor $F$ which sends each $\enviro\in \Oracle$ to $\EFSATE$: for $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the %$\SATP{\supOr\enviro}$ family
+EFdata $\EFSATE$ has continuity, explicit existential and unbounded search, hence the fact that $EFSAT = EFSATP{\varepsilon}$ satisfies $\FT$.
 
 The second example is the historical one: the second Kleene algebra $K_2$ \cite{Kleene1965} satisfies the premisses. The preorder is the trivial one, with only one element. Continuity is by definition of the PCA (it is the set of continuous functions $(\bN \to \bN) \to \bN$), unbounded search can be defined for any PCA by encoding $\Theta$ (or the combinator $Y$) in combinatory logic. Any function $\bN \to \bN$ has a code, hence the condition that a path exists for any decidable tree encoded. Finally, explicit existential is true for intuitionnistic PCAs. We thus find back the usual result that $K_2$ satisfies $\FT$.
 
