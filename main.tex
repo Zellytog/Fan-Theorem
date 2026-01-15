@@ -25,6 +25,7 @@
     \documentclass[11pt, a4paper, english]{article}
     \usepackage{prelude}
     \input{config_amsthm.tex}
+    \newcommand{\vary}{\mathbf{y}}
     \author{}
 }
 \usepackage{macros}
@@ -66,7 +67,7 @@ With our model constructed, and the proof that it describes a consistent theory 
 \input{FT.tex}
 
 \section{A robust interpretation of the Fan Theorem}
-
+\label{s:robust}
 The realizability model developed in \Cref{s:realizability} relies on the ideas
 of Lubarsky and Rathjen's work \cite{LubRat13} to prove $\FT$.
 For the argument in this proof to work, the two main conditions that emerge are
@@ -103,9 +104,19 @@ This section ends with the statement of the \Cref{thm:main}, which is a more abs
 variant of the \Cref{thm:FT}: in this version, the realizability structure realizing $\FT$ can have realizers of any form ($\lambda$-terms, Turing machines\ldots) as long as it gives an implementation of integers with its recursor, satisfies the two conditions mentioned above for the argument to work,
 plus two additional technical conditions.
 
+\subsection{The induced Evidenced Frame}
+\label{s:EF}
 \input{EF.tex}
 
+\subsection{A robust generalization of the proof}
+\label{s:generalization}
 \input{generalisation.tex}
+
+
+\subsection{Application, limitations}
+\label{s:application}
+\input{application.tex}
+
 
 \cite{BreHer21}
 \switch
