@@ -75,3 +75,14 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
   \[n_{C(b)}\realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
   which means that $\lambda b.n_{C(b)}\realU \FT$.
 \end{proof}
+
+\begin{theorem}
+  There is no $t \in \Lambda$ such that $t \realU \WKL$.
+\end{theorem}
+
+\begin{proof}
+  Suppose that there is $t \realU \WKL$. Let $\enviro\in\Oracle$, then $t \realP{}{\enviro} \WKL$. Let $\EnumE{}$ be an enumeration of $\sigma$-computable functions given by fixing a Gödel encoding of terms $t$. The Kleene tree $K_\enviro$ is defined as the set of lists $\ell \in \List(\Bool)$ such that for $i < |\ell|$, if $\EnumE{i}(i)\convcal[i]$ (meaning that the computation of $\EnumE{i}$ terminate in less than $i$ steps) then $\EnumE{i}(i) \neq \ell_i$.
+  $K_\enviro$ is thus a tree with arbitrarily large finite sequences $\ell \in K$, but an finite path inside $K_\enviro$ cannot be $\enviro$-computable as it differs with every $\EnumE{i}$ on $i$. The realized functions $\Nat \to \Bool$ at context $\enviro$ being $\enviro$-computable, and taking a term $u$ encoding the premisses of $\WKL$ for $K_\enviro$ (the fact that $K_\enviro$ has arbitrarily large finite sequences), $t\;u$ should realize an infinite path in $K_\enviro$ at context $\enviro$, which is impossible.
+
+  Hence $\WKL\notin\ThReal{\enviro}$, and $\WKL\notin\ThRealU$.
+\end{proof}
