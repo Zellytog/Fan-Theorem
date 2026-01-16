@@ -126,7 +126,9 @@ For the purpose of this work, we will only consider the following (weak) version
     \forall \beta:\bN\to\bN,\restr \alpha n = \restr \beta n \implies f(\alpha) = f(\beta)
   \end{multline*}
 \end{definition}
+\begin{example}
 
+\end{example}
 
 
 \subsubsection{Unbounded search}
@@ -146,7 +148,11 @@ Another principle that is used in the theorem \ref{thm:FT} but need not be reali
   An EFdata is said to have unbounded search if there exists $e$ such that, for any $f : \bN \to \bN$ having at least one zero,
   \[\relEF{e}{\cod f}{(\exists (n : \bN), \cod n \land f(n) = 0)}\]
 \end{definition}
-
+\begin{example}
+Typed realizability settings based on the $\lambda$-calculus or any other computational system where all realizers have to be
+terminating would forbid such unbounded search,
+but extension to PCF or untyped settings naturally allow for such an operator.
+\end{example}
 
 
 \subsubsection{The robust theorem}
