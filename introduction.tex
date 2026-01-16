@@ -1,83 +1,86 @@
 
 
 
-\paragraph{Reverse maths}
-\emnote{Reverse maths, motivation, big five}
-\cite{Simpson09}
-
-\emnote{cf stage Titouan}
-
-The program of reverse mathematics, first initiated by Friedman in the 70s with
-the aim of classifying mathematical theorems according to their equivalence to one of a small
-number of set-theoretic principles. If classical reverse mathematics has now identified a well-
-established hierarchy of subsystems of second-order arithmetic [44], the literature in construc-
-tive reverse mathematics is much more recent and the situation is more complex: several prin-
-ciples compatible with constructive mathematics lead to logical inconsistencies when added
-together (e.g. Church’s thesis and the law of excluded-middle).
+% \paragraph{Reverse maths}
+The program of reverse mathematics, first initiated by Friedman in the 70s,
+aims at answering questions of the form: ``\emph{what are the minimal axioms necessary to derive the theorem $T$?}''.
+To do so, formulas are classified via their logical equivalence classes over the ambient theory $\T$, which has then to be chosen carefully.
+Indeed, $\T$ has to be expressive enough for usual mathematical statements to have meaning, while a too strong theory would identify all the provable formulas. Classical reverse mathematics has now identified a well-
+established hierarchy of subsystems of second-order arithmetic serving this purpose~\cite{Simpson09}, but the literature in constructive reverse mathematics is much more recent and the situation is more complex: several principles compatible with constructive mathematics lead to logical inconsistencies when added together (\emph{e.g.}, Church’s thesis and the law of excluded-middle).
 
 
-% Friedman-Simpson's original program of reverse mathematics,
-% as is also the case for most of standard mathematics,
-% has been developed in classical subsystems of second-order arithmetic~\cite{Friedman75,Simpson09}.
-% As such, (classical) reverse mathematics presents various limitations
-% from a constructive point of view, since for instance they are intrinsically
-% bound to classify theorems that are compatible with classical logic (which is not
-% the case for all intuitionistic theorems), or unable do distinguish between a
-% statement and its contrapositive (for instance dependent choice and bar induction).
-% More recently, Ishihara advocated for a constructive approach to reverse
-% mathematics to overcome such limitations~\cite{Ishihara06}, but with
-% purely logical considerations, without paying attention to the computational counterpart
-% of constructive results.
-% It is only during the last few years that works in that direction were developed,
-% especially around Gödel's completeness theorem for first-order logic~\cite{HerIli22,ForKirWeh21}.
-% Interestingly, recent work by Bauer on a notion of reducibility between predicates
-% uses realizability models to computationally inhabit the studied notions~\cite{Bauer22},
-% which is to the best of our knowledge the first work to do so.
-% We advocate for a generalization of this approach, and the second objective of {\choice}
+
+
+
+\paragraph{Constructive reverse maths}
+% \emnote{Choice principles,Brede-Herbelin, intuitionistic logic}
+Among the various limitations that classical reverse mathematics present
+from a constructive point of view,  they are for instance intrinsically
+bound to classify theorems that are compatible with classical logic (which is not the case for all intuitionistic theorems), or unable do distinguish between a statement and its contrapositive.
+More recently, Ishihara advocated for a constructive approach to reverse
+mathematics to overcome such limitations~\cite{Ishihara06}, but with
+purely logical considerations, without paying attention to the computational counterpart of constructive results.
+It is only during the last few years that works in that direction were developed, especially around Gödel's completeness theorem for first-order logic~\cite{HerIli22,ForKirWeh21}.
+We advocate for a generalization of this approach, which has shown to be very conducive over the past few years~\cite{KirZen25,CohEtAl24,HerKir24,Bauer22}.
 % is tailored for that purpose, by tackling first the problem of capturing the
 % precise computational counterpart of choice principles.
 
 
-
-
 \paragraph{Choice principles}
-\emnote{Choice principles,Brede-Herbelin, intuitionistic logic}
+In a recent paper, Brede \& Herbelin put forward a generalized variant of the dependent choice $\GDC_{ABT}$, and its contrapositive bar induction principle $\GBI_{ABT}$, expressed in terms of tree~\cite{BreHer21}.
+% named $\GDC_{ABT}$ and $\GBI_{ABT}$.
+Different instantiations of the parameters $A$, $B$, $T$, which refer to the objects they apply to, allow to capture
+a structured hierarchy of choice principles, ranging from Weak K\"onig's Lemma
+(when $A$ is the type $\bN$ of natural numbers and $B$ is the type $\mathbb{B}$ of Booleans)
+to the relational variant of the Axiom of Choice
+(when $T$ is a filter induced by the considered relation), together with their contrapositive.
+Following the recent advances in constructive reverse mathematics, we suggest to consider these principles with a computational point of view, and especially the question: ``\emph{what is the computational content of each of these principles?}''
 
-\cite{Rathjen02}
-\cite{BreHer21}
-
-
-\paragraph{Constructive reverse maths}
-\emnote{manifesto: for a computational approach}
 
 
 
-\paragraph{Curry-Howard \& realizability}
-brief intro
 
-model with computatinal perspective on the validity of axioms,
 
+\paragraph{Realizability interpretations}
+Such a question raises several difficulties.
+
+a/ how to relate more complex with logical principles with computational features?
 following Krivine: new reasoning principles = extra computational features
 
-EF: algebraic approach, also to abstract and give ``robust'' interpretation, statement as: ``any computational system featuring this and that induces a realizability interpretation satisfying ...''. So far, done for countable and dependent choice, related to memoization.
+b/ how to prove that we capture excatly the computational content:
+1: enough? for instance full AC trivial in purely intuitionistic models àla BHK.  This is due do an implicit restriction, that computations in $A\to B$ are functions, which does not survive to extension. Several work fors AC$_\bN$/ DC
+to recover it via memoization techniques~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
 
-A bit further: separation result, to capture exactly...
+2: not too much? of course, in such settings, AC$_\bN$ entails KL etc... we need to establish separation results: models A but not B
+
+3: robustness: how to make sure this is not peculiar to the speficics of the implementation of the model ? keep memoization, change $\lambda$-calculus for a different computational system
+
+-> EF: algebraic approach, compatible with effects~\cite{CohMiqTat21,CohGruKirMiq25mca}, also to abstract and give ``robust'' interpretation, statement as: ``any computational system featuring this and that induces a realizability interpretation satisfying ...''. So far, done for countable and dependent choice, related to memoization.
+
+
+
+
 
 
 
 \paragraph{Fan Theorem \& Weak K\"onig's Lemma}
-Big Five, increasing strength over RCA0, adding axioms. First extension with WKL. KL and FT, equivalent over classical logic, state that:
+
+
+In this paper, we will focus and the lowest principles of Brede-Herbelin hierarchy, namely the Fan Theorem.
+Constructive reverse maths are much more subtle than classical ones,
+and the situation is already quite amusing: FT equivalent FT binary, while the contrapositive of the first, KL, is strictly stronger in a classical setting than WKL, the contrapositive of the second~\cite{FujiwaraKonigsLemmaWeak2021}.
+This explains that even though a principle such as Brouwer's continuity principle was first stated more than a century ago~\cite{Brouwer1919}, continuity principles and their consequences, in particular FT, are still actively studied in constructive settings~\cite{VanAttenVanDalen2002,VeldmanBrouwer2022,BergerDecomposition2009,FujiwaraExtensionEquivalenceBrouwers2022,FujiwaraChoicePrinciplesCharacterizing2025,BaiEtAl25,CohRah23}.
+
+
+
 
 In this work, we aim at :
 providing a computational interpretation of FT,
 + identifying sufficient computational features via a robust approach,  while separating FT from WKL.
 
-Constructive reverse maths are much more subtle thant classical one, and for instance although Brouwer's continuity principle was first stated more than a century ago~\cite{Brouwer1919}, continuity principles and their consequences are still actively studied,  FT~\cite{VanAttenVanDalen2002,VeldmanBrouwer2022,BergerDecomposition2009,FujiwaraExtensionEquivalenceBrouwers2022,FujiwaraChoicePrinciplesCharacterizing2025}.
-For instance, FT equivalent FT binary, while the contrapositive of the first, KL, is strictly stronger in a classical setting than WKL, the contrapositive of the second~\cite{FujiwaraKonigsLemmaWeak2021}.
 
-Follow
-
-This work
+inspired from Lubarsky \& Rathjen's work, describing a computational ...
+%
 \cite{LubRat13}
 
 
@@ -88,8 +91,8 @@ This work
 
 
 
-
-
+\paragraph{Contributions}
+orga = Contributions
 
 
 
