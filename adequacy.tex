@@ -93,12 +93,15 @@ To postulate the adequacy, we need to give a typing system with regard to which 
   then $t[t_i/x_i] \realUP{\termenv} \varphi$.
 \end{corollary}
 
-Thus, the set
-\[\ThRealU \defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}\]
-%\[\ThReal \defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \real \varphi\} \qquad \ThRealU \defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}\]
+Thus, for any $\enviro\in\Oracle$, the sets
+%\[\ThRealU \defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}\]
+\begin{align*}
+  \ThReal{\enviro} &\defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realP{\enviro}{} \varphi\} \\
+  \ThRealU &\defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}
+\end{align*}
 are closed by logical consequence. Morever, as $\SAT$ contains $\varnothing$,
 \[\bot \defeq \forall \varphi^{\Prop}, \varphi\]
-is not realized, so $\ThRealU$ (resp. $\ThReal$) is consistant.
+is not realized, so $\ThRealU$ (resp. $\ThReal{\enviro}$) is consistant.
 
 \begin{notation}
   A lot of functions of our model are not described by any HOL-term but can have a realizer. Thus, we introduce the following notation for $t \in \Lambda, S \in \Sort, s \in \bS$:

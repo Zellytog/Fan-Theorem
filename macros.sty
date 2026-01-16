@@ -123,7 +123,7 @@
 
 %----- THEORIES -----%
 
-\newcommand{\ThReal}{\mathscr T_{\real}}
+\newcommand{\ThReal}[1]{\mathscr T_{\realP{#1}{}}}
 \newcommand{\ThRealU}{\mathscr T_{\realU}}
 
 %----- REGLES INFERENCE -----%
@@ -216,3 +216,6 @@
 %----- CALCULABILITE -----%
 
 \newcommand{\degreeD}{\mathfrak{d}}
+\newcommand{\Enum}[2]{\Phi^{#1}_{#2}}
+\newcommand{\EnumE}[1]{\Enum{\enviro}{#1}}
+\newcommand{\convcal}{\downarrow}
