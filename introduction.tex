@@ -12,7 +12,7 @@ established hierarchy of subsystems of second-order arithmetic serving this purp
 
 
 
-\paragraph{Constructive reverse maths}
+% \paragraph{Constructive reverse maths}
 % \emnote{Choice principles,Brede-Herbelin, intuitionistic logic}
 Among the various limitations that classical reverse mathematics present
 from a constructive point of view,  they are for instance intrinsically
@@ -26,7 +26,7 @@ We advocate for a generalization of this approach, which has shown to be very co
 % precise computational counterpart of choice principles.
 
 
-\paragraph{Choice principles}
+% \paragraph{Choice principles}
 In a recent paper, Brede \& Herbelin put forward a generalized variant of the dependent choice $\GDC_{ABT}$, and its contrapositive bar induction principle $\GBI_{ABT}$, expressed in terms of tree~\cite{BreHer21}.
 % named $\GDC_{ABT}$ and $\GBI_{ABT}$.
 Different instantiations of the parameters $A$, $B$, $T$, which refer to the objects they apply to, allow to capture
@@ -34,24 +34,27 @@ a structured hierarchy of choice principles, ranging from Weak K\"onig's Lemma
 (when $A$ is the type $\bN$ of natural numbers and $B$ is the type $\mathbb{B}$ of Booleans)
 to the relational variant of the Axiom of Choice
 (when $T$ is a filter induced by the considered relation), together with their contrapositive.
-Following the recent advances in constructive reverse mathematics, we suggest to consider these principles with a computational point of view, and especially the question: ``\emph{what is the computational content of each of these principles?}''
+Following the recent advances in constructive reverse mathematics, we suggest to consider these principles with a computational point of view, and especially the question:
+\begin{center}
+ ``\emph{What is the computational content of each of these principles?}''
+\end{center}
 
 
 
 
 
 
-\paragraph{Realizability interpretations}
-Such a question raises several difficulties.
 
-a/ how to relate more complex with logical principles with computational features?
-following Krivine: new reasoning principles = extra computational features
+% \paragraph{Realizability interpretations}
+Adressing such a question raises several difficulties.
+First and foremost, we need to understand how to relate advanced logical principles with computational features.
+To that end, we rely on realizability interpretations, and especially on the recent literature in lines with Krivine approach which unveiled that adding programing instructions to a programing language can lead to interpreting new reasoning principles~\cite{Krivine04,Miquel11,Miquey18a,Geoffroy18,CohFarTat19,Blot22}
 
-b/ how to prove that we capture excatly the computational content:
-1: enough? for instance full AC trivial in purely intuitionistic models àla BHK.  This is due do an implicit restriction, that computations in $A\to B$ are functions, which does not survive to extension. Several work fors AC$_\bN$/ DC
-to recover it via memoization techniques~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
+Besides, we need to figure out what it means to  capture \emph{exactly} the computational content of a logical principle. We believe that a satisfying answer to that question should address the three following points.
+First, is the computational content exhibited enough? It should be the fact that the expected principle is validated not because of some implicit restrictions, but in a setting that is also compatible with further computational extensions.
+For instance, the relational variant of the Axiom of Choice is trivially valid in a setting with strong existential (such as Martin-Löf Type Theory or intuitionistic realizability interpretations based on a purely functional language) but this is due to the implicit restrictions that a realizer of $A\to B$ is necesarily a function. This does not survive to extension with effects, allowing for a coin flip is enough to refute it~\cite{CohFarTat19}. In contrast, several works show how Countable Choice can be validated using memoization techniques in presence of effects~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
 
-2: not too much? of course, in such settings, AC$_\bN$ entails KL etc... we need to establish separation results: models A but not B
+Secondly, how to know can we ensure that thec computational features we consider are not too much? For instance, it is clear that if memoization techniques allow to validate Countable Choice in presence of classical logic, such settings will also entail \Konig's Lemma and the Fan Theorem. We therefore suggest to look for realizability models providing separation results: \emph{e.g.}, to capture the exact computational content of Countable Choice, one should aim for a model refuting Dependent Choice. ~\cite{Bauer22}
 
 3: robustness: how to make sure this is not peculiar to the speficics of the implementation of the model ? keep memoization, change $\lambda$-calculus for a different computational system
 
