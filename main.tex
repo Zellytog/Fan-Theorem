@@ -47,8 +47,19 @@ the Fan Theorem from (Weak) \Konig’s Lemma}
 \input{introduction.tex}
 
 \section{The realizability model}
+\label{s:realizability}
 
 We give a detailed construction of the realizability model: the logic used, the lambda-calculus and the realizability relation. We also give the standard theorem for a realizability model, namely the adequacy, which guaranties that we construct a consistant theory.
+
+\emnote{je ferais peut-etre une division : section 2 - la logique (actuelle 2.1),
+et le language des termes pour calculer avec les objets mathématiques,
+en expliquant au préalable l'importance des quantifications relativisées
+et donc notre envie de bien séparer ce langage}
+
+\emnote{ensuite je ferais sec 3 - réalisabilité, en donnant au préalable
+une description avec les mains du réaliseur attendu (boucle, terminaison parce que
+sinon chemin infini, on veut le calculer (oracles) et alors par continuité...), justifiant du coup le besoin
+d'oracles et de kripke}
 
 \input{syntaxe_logique.tex}
 
@@ -59,7 +70,7 @@ We give a detailed construction of the realizability model: the logic used, the 
 \input{adequacy.tex}
 
 \section{The main result}
-\label{s:realizability}
+\label{s:FT}
 
 With our model constructed, and the proof that it describes a consistent theory done, we can describe the proof that this model satisfies $\FT$. We also show that $\WKL$ fails with a standard argument using Kleene tree.
 
@@ -69,7 +80,7 @@ With our model constructed, and the proof that it describes a consistent theory 
 
 \section{A robust interpretation of the Fan Theorem}
 \label{s:robust}
-The realizability model developed in \Cref{s:realizability} relies on the ideas
+The realizability model developed in \Cref{s:FT} relies on the ideas
 of Lubarsky and Rathjen's work \cite{LubRat13} to prove $\FT$.
 For the argument in this proof to work, the two main conditions that emerge are
 \begin{itemize}

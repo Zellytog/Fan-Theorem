@@ -54,55 +54,42 @@ Besides, we need to figure out what it means to  capture \emph{exactly} the comp
 First, is the computational content exhibited enough? It should be the fact that the expected principle is validated not because of some implicit restrictions, but in a setting that is also compatible with further computational extensions.
 For instance, the relational variant of the Axiom of Choice is trivially valid in a setting with strong existential (such as Martin-Löf Type Theory or intuitionistic realizability interpretations based on a purely functional language) but this is due to the implicit restrictions that a realizer of $A\to B$ is necesarily a function. This does not survive to extension with effects, allowing for a coin flip is enough to refute it~\cite{CohFarTat19}. In contrast, several works show how Countable Choice can be validated using memoization techniques in presence of effects~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
 
-Secondly, how to know can we ensure that thec computational features we consider are not too much? For instance, it is clear that if memoization techniques allow to validate Countable Choice in presence of classical logic, such settings will also entail \Konig's Lemma and the Fan Theorem. We therefore suggest to look for realizability models providing separation results: \emph{e.g.}, to capture the exact computational content of Countable Choice, one should aim for a model refuting Dependent Choice. ~\cite{Bauer22}
+Secondly, how can we know that the computational features we consider are not too much? For instance, it is clear that if memoization techniques allow to validate Countable Choice in presence of classical logic, such settings will also entail \Konig's Lemma and the Fan Theorem. We therefore suggest to look for realizability models providing separation results: \emph{e.g.}, to capture the exact computational content of Countable Choice, one should aim for a model refuting Dependent Choice.
 
-3: robustness: how to make sure this is not peculiar to the speficics of the implementation of the model ? keep memoization, change $\lambda$-calculus for a different computational system
-
--> EF: algebraic approach, compatible with effects~\cite{CohMiqTat21,CohGruKirMiq25mca}, also to abstract and give ``robust'' interpretation, statement as: ``any computational system featuring this and that induces a realizability interpretation satisfying ...''. So far, done for countable and dependent choice, related to memoization.
-
+Thirdly, we should aim to offer robust interpretations, \emph{i.e.} to ensure that the validity of the interpretation is only a consequence of the studied computational features (say, memoization) and not peculiar to specificities of the underlying language of realizers (say, some $\lambda$-calculus). To that end, we suggest relying on \emph{evidenced frames}~\cite{CohMiqTat21}, which provide an algebraic representation of realizability models and allow us to express robust statements such as:
+\emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''. In particukar, Cohen \emph{et al.} proved that memoization techniques (a) in any of a variety of computational systems would lead to a realizability model of Countable Choice (b), which is a much stronger result than the definition of a specific model of the same axiom in ~\cite{Herbelin12,Miquey18a} based on an ad-hoc variant of the $\lambda$-calculus with some implementation of memoization.
 
 
 
 
 
 
-\paragraph{Fan Theorem \& Weak K\"onig's Lemma}
 
 
-In this paper, we will focus and the lowest principles of Brede-Herbelin hierarchy, namely the Fan Theorem.
-Constructive reverse maths are much more subtle than classical ones,
-and the situation is already quite amusing: FT equivalent FT binary, while the contrapositive of the first, KL, is strictly stronger in a classical setting than WKL, the contrapositive of the second~\cite{FujiwaraKonigsLemmaWeak2021}.
-This explains that even though a principle such as Brouwer's continuity principle was first stated more than a century ago~\cite{Brouwer1919}, continuity principles and their consequences, in particular FT, are still actively studied in constructive settings~\cite{VanAttenVanDalen2002,VeldmanBrouwer2022,BergerDecomposition2009,FujiwaraExtensionEquivalenceBrouwers2022,FujiwaraChoicePrinciplesCharacterizing2025,BaiEtAl25,CohRah23}.
+\paragraph{The computational content of the Fan Theorem}
+
+
+In this paper, we focus on the lowest principles of Brede-Herbelin hierarchy, namely Brouwer's Fan Theorem (\FT). Considering trees as prefix-closed sets of lists of natural numbers, a set $C$ whose complement is a tree is said to be \emph{barred} if it contains a finite prefix $\alpha_n$ of any infinite sequence $\alpha\in\bN^\bN$. It is \emph{uniformly barred} if there exists a natural number $n$ such that for any $\alpha\in\bN^\bN$, $\alpha_n\in C$.
+The Fan Theorem states that if such a set is barred, then it is uniformly barred. This can be understood as the contrapositive of \Konig's Lemma (\KL), which states that a tree is infinite if it contains an infinite path, and both statements have a weak variant (\WFT and \WKL) restricted to binary trees (and thus lists/sequences of booleans). In particular, \KL is known to be strictly stronger than \WKL and to entail \FT.
+As explained, constructive reverse mathematics are much more subtle than classical mathematics, which explains that even though a principle such as Brouwer's continuity principle was first stated more than a century ago~\cite{Brouwer1919}, continuity principles and their consequences, in particular $\FT$, are still actively studied in constructive settings~\cite{VanAttenVanDalen2002,VeldmanBrouwer2022,BergerDecomposition2009,FujiwaraExtensionEquivalenceBrouwers2022,FujiwaraChoicePrinciplesCharacterizing2025,BaiEtAl25,CohRah23}.
 
 
 
-
-In this work, we aim at :
-providing a computational interpretation of FT,
-+ identifying sufficient computational features via a robust approach,  while separating FT from WKL.
-
-
-inspired from Lubarsky \& Rathjen's work, describing a computational ...
-%
-\cite{LubRat13}
+\paragraph{Contributions of this paper}
+In this work, we aim to provide a computational interpretation of the Fan Theorem while following our manifesto: we therefore provide a realizability interpretation satisfying \FT while refuting \WKL.
+To do so, we take inspiration from Lubarsky \& Rathjen work~\cite{LubRat13}, where they sketch the definition of such a model based on a mix of a Kripke semantics and realizability: a sequence of reals of increasing Turing degree over the worlds is used as an oracle, and at each world the computable functions are used to define a PCA-based realizability model.
+Here, in order to better stress the computational behavior of realizers, in \Cref{s:realizability} we rather consider a $\lambda$-calculus extended with oracles and we use it to to define a realizability interpretation in the spirit of relative realizability~\cite{VanOosten08}. In \Cref{s:FT}, we prove that our system satisfies a continuity property and use it to exhibit a simple $\lambda$-term which realizes \FT. We also show that our model refutes \WKL, thus providing a separation result. Last, we identify in \Cref{s:robust} the computational features of our construction, namely a continuity property, strong existentials and unbounded search, and we provide a robust version of the validity of \FT usong evidenced frames.
 
 
 
 
-\emnote{parler d'oracles}
 
-
-
-
-\paragraph{Contributions}
-orga = Contributions
 
 
 
 
 \newcommand{\ZFC}{ZFC}
 \newcommand{\ZF}{ZF}
-\newcommand{\KL}{KL}
 \newcommand{\RCAO}{RCA0}
 \newcommand{\RCA}{RCA}
 \newcommand{\double}{double}
