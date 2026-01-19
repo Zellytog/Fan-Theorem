@@ -46,17 +46,17 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
 
 \begin{theorem}[Realization of Fan Theorem]\label{thm:FT}
   Using our previous definitions:
-  \[\lambda b. n_{C(b)} \realU \FT\]
+  \[\lambda b. n_{C_b} \realU \FT\]
 \end{theorem}
 
 \begin{proof}
-  Let's prove that $\lambda b. n_{C(b)} \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
+  Let's prove that $\lambda b. n_{C_b} \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
   \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
   for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
-  \[n_{C(b)} \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
-  but we already know that $n_{C(b)}$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C(b)}$ is a uniform bound for $B$.
+  \[n_{C_b} \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
+  but we already know that $n_{C_b}$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}$ is a uniform bound for $B$.
 
-  Now, suppose $n_{C(b)}$ diverges. This means that for any $n \in \bN$, there exists some word $w_n \in \bB^\star$ such that $w_n \notin C$. By applying Weak König's Lemma (in our meta-theory), we find an infinite path
+  Now, suppose $n_{C_b}$ diverges. This means that for any $n \in \bN$, there exists some word $w_n \in \bB^\star$ such that $w_n \notin C$. By applying Weak König's Lemma (in our meta-theory), we find an infinite path
   \[\alpha : \bN \to \bB\]
   such that for all $n \in \bN, \restr \alpha n \notin C$. We now enrich our reduction context with this alpha:
   \[\enviroT \defeq \enviro \smallfrown \alpha\]
@@ -69,11 +69,11 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
 
   Let
   \[M \defeq \max(n,p)\]
-  by continuity, we know that $\pi_1\;(b\;\alpha_M) \redRTP{\enviroT}{} n$, so when computing $C(b)\;\alpha_M$, there exists a list $\ell$ of length $\leq M$ such that $\restr\alpha{{\pi_1\;(b\;\ell 0^\infty)}}$ is a prefix of $\restr{\alpha}{M}$, so $\restr{\alpha}{M} \in C$. But by hypothesis, $\restr{\alpha}{M} \notin C$; hence a contradiction.
+  by continuity, we know that $\pi_1\;(b\;\alpha_M) \redRTP{\enviroT}{} n$, so when computing $C_b\;\alpha_M$, there exists a list $\ell$ of length $\leq M$ such that $\restr\alpha{{\pi_1\;(b\;\ell 0^\infty)}}$ is a prefix of $\restr{\alpha}{M}$, so $\restr{\alpha}{M} \in C$. But by hypothesis, $\restr{\alpha}{M} \notin C$; hence a contradiction.
 
-  This means that there is no case when $n_{C(b)}$ diverges, so
-  \[n_{C(b)}\realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
-  which means that $\lambda b.n_{C(b)}\realU \FT$.
+  This means that there is no case when $n_{C_b}$ diverges, so
+  \[n_{C_b}\realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
+  which means that $\lambda b.n_{C_b}\realU \FT$.
 \end{proof}
 
 \begin{theorem}
