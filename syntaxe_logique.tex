@@ -35,10 +35,9 @@ In order for our realizers to compute with trees, that is with path (via functio
 % \end{definition}
 
 
-
 \begin{definition}[Formulas]
  Formulas are inductively defined by :
-  \[\varphi,\psi \Coloneq S(\termt) \mid \varphi\to\psi \mid \varphi \land \psi \mid \forall x^S,\varphi \mid \exists x^S,\varphi \eqno(S\in\Sort)\]
+  $$\varphi,\psi \Coloneq S(\termt) \mid \varphi\to\psi \mid \varphi \land \psi \mid \forall x^S,\varphi \mid \exists x^S,\varphi \eqno(S\in\Sort)$$
 where $\termt$ is a HOL-term \Cref{def:hol_terms}
 \end{definition}
 
@@ -53,7 +52,7 @@ The HOL term constructors are akin to system T: there is a constructor for abstr
 
 \begin{definition}[HOL-terms]
   \label{def:hol_terms}
-  A well-typed (HOL-)term in a context $\Gamma$ is defined by the inductive relation in \Cref{fig:hol_terms}.
+  A well-typed (HOL-)term $\termt$ of sort $S$ in a context $\Gamma$, which we denote by $\Gamma\vdash \termt:S$, is defined by the inductive relation given in \Cref{fig:hol_terms}.
   \end{definition}
   \begin{figure}[t]
   \begin{center}
@@ -119,6 +118,7 @@ The other sorts are given their natural set theoretic semantic.
 \begin{definition}[Semantic]
   Let $(H,\leqH)$ be a Heyting algebra with an intersection and a union operations $\bigcup,\bigcap : \powerset (H) \to H$.
   For each sort $S \in \Sort$, we associate a set $\sem S$:
+  \begin{multicols}{2}
   \begin{itemize}
   \item $\sem{\Nat} \defeq \bN$
   \item $\sem{\Bool} \defeq \bB$
@@ -127,14 +127,13 @@ The other sorts are given their natural set theoretic semantic.
   \item $\sem{S \to T} \defeq {\sem T}^{\sem S}$
   \item $\sem{\Prop} \defeq H$
   \end{itemize}
-
-  Let
+  \end{multicols}
+  \noindent Let
   \[\begin{array}{ccccc}
   \cod - &:& \bigcup_{S \in \Sort} \sem{S} & \longrightarrow & H \\
   & & s &\longmapsto & \cod s
   \end{array}\]
   be a function associating to each object a set of codes (possibly empty).
-
   Each well-typed term $\Gamma \vdash \termt : S$ is mapped to its semantic
   \[
   \sem{\Gamma \vdash \termt : S} : \prod_{T \in \Gamma} \sem T \longrightarrow \sem S
@@ -142,7 +141,7 @@ The other sorts are given their natural set theoretic semantic.
   by the following interpretation:
   \begin{itemize}
   \item $\sem{\varx_1 : S_1,\cdots , \varx_n : S_n\vdash \varx_i : S_i} \defeq \pi_i^n$
-  \item
+  \item \emnote{à modifier}
     \begin{multline*}
       \sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq \\
       (x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)
@@ -178,7 +177,7 @@ The other sorts are given their natural set theoretic semantic.
   \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
   \item $\sem{\Gamma\vdash \sortPred{\termt} : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
   \end{itemize}
-  where $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recurcors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a letter $a$ and a word $u$, appends $a$ to $u$ to make a new word, $\implH$ is the implication of $H$ and $\landH$ is its meet.
+  where $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recursors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a letter $a$ and a word $u$, appends $a$ to $u$ to make a new word, $\implH$ is the implication of $H$ and $\landH$ is its meet.
 
   For a given sort $S$, we will also write $\bS$ for $\sem S$.
 \end{definition}
