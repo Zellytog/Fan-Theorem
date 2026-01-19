@@ -1,91 +1,84 @@
 
 
 
-\paragraph{Reverse maths}
-\emnote{Reverse maths, motivation, big five}
-\cite{Simpson09}
-
-\emnote{cf stage Titouan}
-
-The importance of these principles has been em-
-phasized by the program of reverse mathematics, first initiated by Friedman in the 70s with
-the aim of classifying mathematical theorems according to their equivalence to one of a small
-number of set-theoretic principles. If classical reverse mathematics has now identified a well-
-established hierarchy of subsystems of second-order arithmetic [44], the literature in construc-
-tive reverse mathematics is much more recent and the situation is more complex: several prin-
-ciples compatible with constructive mathematics lead to logical inconsistencies when added
-together (e.g. Church’s thesis and the law of excluded-middle).
+% \paragraph{Reverse maths}
+The program of reverse mathematics, first initiated by Friedman in the 70s,
+aims at answering questions of the form: ``\emph{what are the minimal axioms necessary to derive the theorem $T$?}''.
+To do so, formulas are classified via their logical equivalence classes over the ambient theory $\T$, which has then to be chosen carefully.
+Indeed, $\T$ has to be expressive enough for usual mathematical statements to have meaning, while a too strong theory would identify all the provable formulas. Classical reverse mathematics has now identified a well-
+established hierarchy of subsystems of second-order arithmetic serving this purpose~\cite{Simpson09}, but the literature in constructive reverse mathematics is much more recent and the situation is more complex: several principles compatible with constructive mathematics lead to logical inconsistencies when added together (\emph{e.g.}, Church’s thesis and the law of excluded-middle).
 
 
-% Friedman-Simpson's original program of reverse mathematics,
-% as is also the case for most of standard mathematics,
-% has been developed in classical subsystems of second-order arithmetic~\cite{Friedman75,Simpson09}.
-% As such, (classical) reverse mathematics presents various limitations
-% from a constructive point of view, since for instance they are intrinsically
-% bound to classify theorems that are compatible with classical logic (which is not
-% the case for all intuitionistic theorems), or unable do distinguish between a
-% statement and its contrapositive (for instance dependent choice and bar induction).
-% More recently, Ishihara advocated for a constructive approach to reverse
-% mathematics to overcome such limitations~\cite{Ishihara06}, but with
-% purely logical considerations, without paying attention to the computational counterpart
-% of constructive results.
-% It is only during the last few years that works in that direction were developed,
-% especially around Gödel's completeness theorem for first-order logic~\cite{HerIli22,ForKirWeh21}.
-% Interestingly, recent work by Bauer on a notion of reducibility between predicates
-% uses realizability models to computationally inhabit the studied notions~\cite{Bauer22},
-% which is to the best of our knowledge the first work to do so.
-% We advocate for a generalization of this approach, and the second objective of {\choice}
+
+
+
+% \paragraph{Constructive reverse maths}
+% \emnote{Choice principles,Brede-Herbelin, intuitionistic logic}
+Among the various limitations that classical reverse mathematics present
+from a constructive point of view,  they are for instance intrinsically
+bound to classify theorems that are compatible with classical logic (which is not the case for all intuitionistic theorems), or unable do distinguish between a statement and its contrapositive.
+More recently, Ishihara advocated for a constructive approach to reverse
+mathematics to overcome such limitations~\cite{Ishihara06}, but with
+purely logical considerations, without paying attention to the computational counterpart of constructive results.
+It is only during the last few years that works in that direction were developed, especially around Gödel's completeness theorem for first-order logic~\cite{HerIli22,ForKirWeh21}.
+We advocate for a generalization of this approach, which has shown to be very conducive over the past few years~\cite{KirZen25,CohEtAl24,HerKir24,Bauer22}.
 % is tailored for that purpose, by tackling first the problem of capturing the
 % precise computational counterpart of choice principles.
 
 
-
-
-\paragraph{Choice principles}
-\emnote{Choice principles,Brede-Herbelin, intuitionistic logic}
-
-\cite{Rathjen02}
-\cite{BreHer21}
-
-
-\paragraph{Constructive reverse maths}
-\emnote{manifesto: for a computational approach}
-
-
-
-\paragraph{Curry-Howard \& realizability}
-brief intro
-
-model with computatinal perspective on the validity of axioms,
-
-following Krivine: new reasoning principles = extra computational features
-
-EF: algebraic approach, also to abstract and give ``robust'' interpretation, statement as: ``any computational system featuring this and that induces a realizability interpretation satisfying ...''. So far, done for countable and dependent choice, related to memoization.
-
-A bit further: separation result, to capture exactly...
-
-
-
-\paragraph{Fan Theorem \& Weak K\"onig's Lemma}
-Big Five, increasing strength over RCA0, adding axioms. First extension with WKL. KL and FT, equivalent over classical logic, state that:
-
-In this work, we aim at :
-providing a computational interpretation of FT,
-+ identifying sufficient computational features via a robust approach,  while separating FT from WKL.
-
-Constructive reverse maths are much more subtle thant classical one, and for instance although Brouwer's continuity principle was first stated more than a century ago~\cite{Brouwer1919}, continuity principles and their consequences are still actively studied,  FT~\cite{VanAttenVanDalen2002,VeldmanBrouwer2022,BergerDecomposition2009,FujiwaraExtensionEquivalenceBrouwers2022,FujiwaraChoicePrinciplesCharacterizing2025}.
-For instance, FT equivalent FT binary, while the contrapositive of the first, KL, is strictly stronger in a classical setting than WKL, the contrapositive of the second~\cite{FujiwaraKonigsLemmaWeak2021}.
-
-Follow
-
-This work
-\cite{LubRat13}
+% \paragraph{Choice principles}
+In a recent paper, Brede \& Herbelin put forward a generalized variant of the dependent choice $\GDC_{ABT}$, and its contrapositive bar induction principle $\GBI_{ABT}$, expressed in terms of tree~\cite{BreHer21}.
+% named $\GDC_{ABT}$ and $\GBI_{ABT}$.
+Different instantiations of the parameters $A$, $B$, $T$, which refer to the objects they apply to, allow to capture
+a structured hierarchy of choice principles, ranging from Weak K\"onig's Lemma
+(when $A$ is the type $\bN$ of natural numbers and $B$ is the type $\mathbb{B}$ of Booleans)
+to the relational variant of the Axiom of Choice
+(when $T$ is a filter induced by the considered relation), together with their contrapositive.
+Following the recent advances in constructive reverse mathematics, we suggest to consider these principles with a computational point of view, and especially the question:
+\begin{center}
+ ``\emph{What is the computational content of each of these principles?}''
+\end{center}
 
 
 
 
-\emnote{parler d'oracles}
 
+
+
+% \paragraph{Realizability interpretations}
+Adressing such a question raises several difficulties.
+First and foremost, we need to understand how to relate advanced logical principles with computational features.
+To that end, we rely on realizability interpretations, and especially on the recent literature in lines with Krivine approach which unveiled that adding programing instructions to a programing language can lead to interpreting new reasoning principles~\cite{Krivine04,Miquel11,Miquey18a,Geoffroy18,CohFarTat19,Blot22}
+
+Besides, we need to figure out what it means to  capture \emph{exactly} the computational content of a logical principle. We believe that a satisfying answer to that question should address the three following points.
+First, is the computational content exhibited enough? It should be the fact that the expected principle is validated not because of some implicit restrictions, but in a setting that is also compatible with further computational extensions.
+For instance, the relational variant of the Axiom of Choice is trivially valid in a setting with strong existential (such as Martin-Löf Type Theory or intuitionistic realizability interpretations based on a purely functional language) but this is due to the implicit restrictions that a realizer of $A\to B$ is necesarily a function. This does not survive to extension with effects, allowing for a coin flip is enough to refute it~\cite{CohFarTat19}. In contrast, several works show how Countable Choice can be validated using memoization techniques in presence of effects~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
+
+Secondly, how can we know that the computational features we consider are not too much? For instance, it is clear that if memoization techniques allow to validate Countable Choice in presence of classical logic, such settings will also entail \Konig's Lemma and the Fan Theorem. We therefore suggest to look for realizability models providing separation results: \emph{e.g.}, to capture the exact computational content of Countable Choice, one should aim for a model refuting Dependent Choice.
+
+Thirdly, we should aim to offer robust interpretations, \emph{i.e.} to ensure that the validity of the interpretation is only a consequence of the studied computational features (say, memoization) and not peculiar to specificities of the underlying language of realizers (say, some $\lambda$-calculus). To that end, we suggest relying on \emph{evidenced frames}~\cite{CohMiqTat21}, which provide an algebraic representation of realizability models and allow us to express robust statements such as:
+\emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''. In particukar, Cohen \emph{et al.} proved that memoization techniques (a) in any of a variety of computational systems would lead to a realizability model of Countable Choice (b), which is a much stronger result than the definition of a specific model of the same axiom in ~\cite{Herbelin12,Miquey18a} based on an ad-hoc variant of the $\lambda$-calculus with some implementation of memoization.
+
+
+
+
+
+
+
+
+\paragraph{The computational content of the Fan Theorem}
+
+
+In this paper, we focus on the lowest principles of Brede-Herbelin hierarchy, namely Brouwer's Fan Theorem (\FT). Considering trees as prefix-closed sets of lists of natural numbers, a set $C$ whose complement is a tree is said to be \emph{barred} if it contains a finite prefix $\alpha_n$ of any infinite sequence $\alpha\in\bN^\bN$. It is \emph{uniformly barred} if there exists a natural number $n$ such that for any $\alpha\in\bN^\bN$, $\alpha_n\in C$.
+The Fan Theorem states that if such a set is barred, then it is uniformly barred. This can be understood as the contrapositive of \Konig's Lemma (\KL), which states that a tree is infinite if it contains an infinite path, and both statements have a weak variant (\WFT and \WKL) restricted to binary trees (and thus lists/sequences of booleans). In particular, \KL is known to be strictly stronger than \WKL and to entail \FT.
+As explained, constructive reverse mathematics are much more subtle than classical mathematics, which explains that even though a principle such as Brouwer's continuity principle was first stated more than a century ago~\cite{Brouwer1919}, continuity principles and their consequences, in particular $\FT$, are still actively studied in constructive settings~\cite{VanAttenVanDalen2002,VeldmanBrouwer2022,BergerDecomposition2009,FujiwaraExtensionEquivalenceBrouwers2022,FujiwaraChoicePrinciplesCharacterizing2025,BaiEtAl25,CohRah23}.
+
+
+
+\paragraph{Contributions of this paper}
+In this work, we aim to provide a computational interpretation of the Fan Theorem while following our manifesto: we therefore provide a realizability interpretation satisfying \FT while refuting \WKL.
+To do so, we take inspiration from Lubarsky \& Rathjen work~\cite{LubRat13}, where they sketch the definition of such a model based on a mix of a Kripke semantics and realizability: a sequence of reals of increasing Turing degree over the worlds is used as an oracle, and at each world the computable functions are used to define a PCA-based realizability model.
+Here, in order to better stress the computational behavior of realizers, in \Cref{s:realizability} we rather consider a $\lambda$-calculus extended with oracles and we use it to to define a realizability interpretation in the spirit of relative realizability~\cite{VanOosten08}. In \Cref{s:FT}, we prove that our system satisfies a continuity property and use it to exhibit a simple $\lambda$-term which realizes \FT. We also show that our model refutes \WKL, thus providing a separation result. Last, we identify in \Cref{s:robust} the computational features of our construction, namely a continuity property, strong existentials and unbounded search, and we provide a robust version of the validity of \FT usong evidenced frames.
 
 
 
@@ -97,7 +90,6 @@ This work
 
 \newcommand{\ZFC}{ZFC}
 \newcommand{\ZF}{ZF}
-\newcommand{\KL}{KL}
 \newcommand{\RCAO}{RCA0}
 \newcommand{\RCA}{RCA}
 \newcommand{\double}{double}
