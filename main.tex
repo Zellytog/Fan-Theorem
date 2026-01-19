@@ -67,14 +67,13 @@ the Fan Theorem from (Weak) \Konig’s Lemma}
 \section{The realizability model}
 \label{s:realizability}
 
-\emnote{ici description informelle preuve et réaliseur attendu (boucle, terminaison parce que
-sinon chemin infini, on veut le calculer (oracles) et alors par continuité...), justifiant du coup le besoin
-d'oracles et de kripke}
+%\emnote{ici description informelle preuve et réaliseur attendu (boucle, terminaison parce que
+%sinon chemin infini, on veut le calculer (oracles) et alors par continuité...), justifiant du coup le besoin
+%d'oracles et de kripke}
 
-We give a detailed construction of the realizability model: the logic used, the lambda-calculus and the realizability relation. We also give the standard theorem for a realizability model,
-namely the adequacy, which guaranties that we construct a consistent theory.
+From a naive realizability model, the main issue to realize $\WFT$ is that a barred tree can be very ill-behaved. For example, a tree can have arbitrary long finite path, as long as any infinite path is non computable. The solution we adopt is to construct a realizability relation accounting for possible infinite path: using a semantic similar to Kripke semantic, the trees are forced to be compatible with possible non computable infinite path. To add infinite paths in the computational model, we fix primitives $\oracle$ and a reduction rule $\oracle\;\encode n \redi \encode{\alpha(n)}$ where $\alpha$ is the infinite path.
 
-
+Using this realizability notion, the algorithm realizing $\WFT$ is an extensive search. For each integer $n$, the algorithm tests whether $n$ is a uniform bound. The algorithm terminates by meta-theoretic arguments, using both $\WKL$ in the meta-theory and the continuity of $\lambda$-calculus to get a contradiction.
 
 
 \subsection{Lambda-calculus}
@@ -92,7 +91,7 @@ namely the adequacy, which guaranties that we construct a consistent theory.
 \section{The main result}
 \label{s:FT}
 
-With our model constructed, and the proof that it describes a consistent theory done, we can describe the proof that this model satisfies $\FT$. We also show that $\WKL$ fails with a standard argument using Kleene tree.
+With our model constructed, and the proof that it describes a consistent theory done, we can describe the proof that this model satisfies $\WFT$. We also show that $\WKL$ fails with a standard argument using Kleene tree.
 
 \input{bestiaire.tex}
 
@@ -101,7 +100,7 @@ With our model constructed, and the proof that it describes a consistent theory 
 \section{A robust interpretation of the Fan Theorem}
 \label{s:robust}
 The realizability model developed in \Cref{s:FT} relies on the ideas
-of Lubarsky and Rathjen's work \cite{LubRat13} to prove $\FT$.
+of Lubarsky and Rathjen's work \cite{LubRat13} to prove $\WFT$.
 For the argument in this proof to work, the two main conditions that emerge are
 \begin{itemize}
 \item a notion of continuity for the individuals realized by a code %\emnote{of quantified relativization/individuals realized by a code}
@@ -133,7 +132,7 @@ the concrete structure we study will be introduced as an additional structure
 over EFs.
 
 This section ends with the statement of the \Cref{thm:main}, which is a more abstract
-variant of the \Cref{thm:FT}: in this version, the realizability structure realizing $\FT$ can have realizers of any form ($\lambda$-terms, Turing machines\ldots) as long as it gives an implementation of integers with its recursor, satisfies the two conditions mentioned above for the argument to work,
+variant of the \Cref{thm:FT}: in this version, the realizability structure realizing $\WFT$ can have realizers of any form ($\lambda$-terms, Turing machines\ldots) as long as it gives an implementation of integers with its recursor, satisfies the two conditions mentioned above for the argument to work,
 plus two additional technical conditions.
 
 \subsection{The induced Evidenced Frame}
@@ -150,11 +149,29 @@ plus two additional technical conditions.
 \input{application.tex}
 
 \section{Conclusion, future work}
-\tlnote{Conclusion : mini récap disant qu'on a défini un modèle séparant FT et WKL. On a identifié que les éléments essentiels sont [les conditions du thm]. On montre la robustesse de l'approche et on observe que le modèle concret qu'on a défini permet de donner à nos conditions une notion propre à FT, sans WKL.}
+%\tlnote{Conclusion : mini récap disant qu'on a défini un modèle séparant FT et WKL. On a identifié que les éléments essentiels sont [les conditions du thm]. On montre la robustesse de l'approche et on observe que le modèle concret qu'on a défini permet de donner à nos conditions une notion propre à FT, sans WKL.}
 
-\tlnote{Ouverture : - conditions suffisantes, est-ce qu'elles sont nécessaires ? On sait quand on fait sauter le 'chemin dans le futur' que ça ne marche plus, mais pour les autres on sait pas. - est-ce qu'on est capable de faire ça pour d'autres principes de choix et monter dans la hiérarchie de Nuria et Hugo ? Sur DC avec mémoization ? Sur König ? - est-ce qu'on peut traduire les variantes de FT dans notre approche ?}
+This article introduces a new model separating \WFT from \WKL based on $\lambda$-calculus. It is related to the model in \cite{LubRat13} in a similar way as standard $\lambda$-calculus realizability of Heyting Arithmetic is related to Kleene's first realizability algebra. However, the main contribution is that we outline the conditions for this proof to apply:
+\begin{itemize}
+\item the computational system has continuity
+\item it can be extended with infinite path for any computable tree
+\item it has explicite existential
+\item it has unbounded search
+\end{itemize}
+Formulated in the framework of evidenced frames, this result can apply to any realizability model exhibiting those properties. This generality implies that the computational content we outline is explicit and is not a degenerate case of a particular model.
 
-\cite{BreHer21}
+We know that the argument cannot work without the second property, because the Kleene tree in the standard realizability model (with no oracle) has a bar on the Kleene tree which is not uniform. Nonetheless, these conditions allow the construction of models (\textit{e.g.} the one explicitly constructed in this article) which satisfy \WKL without satisfying \WKL, indicating that they are parcimonious at least with regard to the hierarchy established in \cite{BreHer21}.
+
+This theorem is also robust by stating a statement of the form
+\emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''.
+
+%\tlnote{Ouverture : - conditions suffisantes, est-ce qu'elles sont nécessaires ? On sait quand on fait sauter le 'chemin dans le futur' que ça ne marche plus, mais pour les autres on sait pas. - est-ce qu'on est capable de faire ça pour d'autres principes de choix et monter dans la hiérarchie de Nuria et Hugo ? Sur DC avec mémoization ? Sur König ? - est-ce qu'on peut traduire les variantes de FT dans notre approche ?}
+
+Now, several further work can be opened. This article shows that choice principles can be stutied through a general realizability framework, namely evidenced frames, to give them a computational content. The natural extension of this work is thus to find similar theorems showing what computational behavior must be exhibited to show \textit{e.g.} \WKL, \KL, \DC or some other choice principles.
+
+Another interesting question arises when considering alternative versions of \FT. For example, it is possible to weaken the premisse that \emph{any bar must be uniform} by only considering bars on $\Pi_0^1$ trees or on computable trees. Is there a variation of the \Cref{thm:main} accounting for such weakenings?
+
+%\cite{BreHer21}
 \switch
 {\bibliographystyle{plainurl}}
 {\bibliographystyle{ACM-Reference-Format}}

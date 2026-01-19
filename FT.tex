@@ -1,6 +1,6 @@
-\subsection{Fan Theorem is realized}
+\subsection{Weak Fan Theorem is realized}
 
-Before proving that $\FT$ is realized, a continuity lemma is needed.
+Before proving that $\WFT$ is realized, a continuity lemma is needed.
 
 \begin{lemma}[Continuity]\label{lem:continuity}
   Let $\enviro\in\Oracle$ be a reduction context and $t \in \Lambda$ be a term such that
@@ -42,15 +42,15 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
   Thus, by induction, we deduce that there exists such a prefix.
 \end{proof}
 
-Using this lemma and the $\lambda$-terms from the previous subsection, we can now realize $\FT$.
+Using this lemma and the $\lambda$-terms from the previous subsection, we can now realize $\WFT$.
 
 \begin{theorem}[Realization of Fan Theorem]\label{thm:FT}
   Using our previous definitions:
-  \[\lambda b. n_{C_b} \realU \FT\]
+  \[\lambda b. n_{C_b} \realU \WFT\]
 \end{theorem}
 
 \begin{proof}
-  Let's prove that $\lambda b. n_{C_b} \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
+  Let's prove that $\lambda b. n_{C_b} \realU\WFT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
   \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
   for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
   \[n_{C_b} \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
@@ -73,7 +73,7 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
 
   This means that there is no case when $n_{C_b}$ diverges, so
   \[n_{C_b}\realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
-  which means that $\lambda b.n_{C_b}\realU \FT$.
+  which means that $\lambda b.n_{C_b}\realU \WFT$.
 \end{proof}
 
 \begin{theorem}

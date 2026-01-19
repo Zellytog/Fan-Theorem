@@ -1,6 +1,6 @@
 
 
-We will now generalize our proof of $\FT$ by abstracting its core over the
+We will now generalize our proof of $\WFT$ by abstracting its core over the
 abstract framework provided by evidenced frames.
 Scrutinizing the argument in the proof of \Cref{thm:FT},
 besides the whole Kripke-like structure of our model,
@@ -156,7 +156,7 @@ but extension to PCF or untyped settings naturally allow for such an operator.
 
 
 \subsubsection{The robust theorem}
-We can now state our generalized theorem about $\FT$. The conditions are the one introduced above, but they are not needed to be satisfied on every world. In the proof of \Cref{thm:FT}, there are two worlds: the one from which we get the bar, and the one in which we get the path avoiding $C(b)$. The continuity and explicit existential only need to be satisfied in the latter and, up to going to an even further future, can be checked only on a dense set of worlds. The unbounded search is used on the base world (the one containing our model), which is the only use of this hypothesis.
+We can now state our generalized theorem about $\WFT$. The conditions are the one introduced above, but they are not needed to be satisfied on every world. In the proof of \Cref{thm:FT}, there are two worlds: the one from which we get the bar, and the one in which we get the path avoiding $C(b)$. The continuity and explicit existential only need to be satisfied in the latter and, up to going to an even further future, can be checked only on a dense set of worlds. The unbounded search is used on the base world (the one containing our model), which is the only use of this hypothesis.
 
 \begin{theorem}\label{thm:main}
   Let $\EFE$ be an EFdata with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following conditions are satisfied:
@@ -164,7 +164,7 @@ We can now state our generalized theorem about $\FT$. The conditions are the one
   \item there is a dense subset $W' \subseteq W$ such that for any $w \in W', F(w)$ has continuity and explicit existential.
   \item for any $w \in W$, function $B : (\List(\bN) \to \bB) \to \bB$ with an infinite path and a code in $w$, there is an element $w' \geq w$, a code $e_\alpha$ of an infinite path $\alpha$ in $B$ and a code $e \in E_{w'}$ such that for any $n \in \bN$, $\relEF{e}{\cod n}{\restr \alpha n \in B}$
   \end{itemize}
-  then $\EFE \real \FT$.
+  then $\EFE \real \WFT$.
 \end{theorem}
 
 \begin{proof}
