@@ -1,34 +1,68 @@
-\subsection{HOL Model}
 
-The model we construct is based on higher order logic (HOL). This is a multi-sorted logic with a sort $\Prop$ denoting the set of propositions (hence the higher order qualification).
+The model we construct is based on higher-order logic (HOL). This is a multi-sorted logic with a sort $\Prop$ denoting the set of propositions (hence the higher order qualification).
+The choice of HOL as our syntax is mainly motivated by its expressiveness. In HOL, it is possible to easily talk about property about sets over a given sort $S$, by the sort $S \to \Prop$. Using this logic and the basic sorts $\Nat/\Bool/\List$ makes it easy to express statements about trees such as  $\FT$ and $\WKL$.
 
-The choice of HOL as our syntax is mainly motivated by its expressiveness. In HOL, it is possible to easily talk about property about sets over a given sort $S$, by the sort $S \to \Prop$. Using this logic and the basic sorts $\Nat/\Bool/\List$ makes it easy to state $\FT,\WKL$ and many other importants principles.
+
+In realizability models, universal quantifications are usually interpreted as intersections without computational content, for instance having truth values satisfying $|\forall x^\Nat,\varphi(x)|=\bigcap_{n\in\bN}|\varphi(n)|$. In particular, a realizer in $|\forall x^\Nat,\varphi|(x)$ should realize $\varphi(n)$ for any $n\in\bN$ \emph{without} knowing the value of $n$. Dually, realizers of existential statements witness the existence of a valid instantiation for the existentially quantified variable without actually computing its value.
+In turn, we seek a computational interpretation of the Fan Theorem such that \emph{its realizer actually computes} the uniform bound for the bar.
+To overcome this, we rely on a standard technique and use \emph{relativized quantifications}: instead of $\forall \varx^{\Nat},\varphi(\varx)$, we consider
+formulas of the shape $\forall \varx^{\Nat},\sortPredS{\Nat}{\varx} \to \varphi(\varx)$, where the proposition $\sortPredS{\Nat}{\varx}$ states that $x$ is indeed a natural. A realizer of this statement will now have to realize  $\sortPredS{\Nat}{n}\to \varphi(n)$, that is to realize $\varphi(n)$ provided a realizer of $\sortPredS{\Nat}{n}$, \emph{i.e.} a term computing the value of $n$. The realizability model is introduced in \Cref{s:realizability}, we begin with the definition of HOL formulas for our interpretation.
+
+In order for our realizers to compute with trees, that is with path (via functions in $\bN\to\bN$), prefixes of paths (\emph{i.e.} lists on naturals) and (decidable\emnote{c'est le cas non ?}) sets of lists, we therefore consider sorts accounting for natural numbers, lists, booleans, propositions and functions, while formulas are usual HOL propositions extended with a relativization predicate for each sort.
+
+% This last construction is used to underline the standard elements and to give them a computational meaning. For example, the difference between $\forall \varx^{\Nat},\varphi(\varx)$ and $\forall \varx^{\Nat},\sortPredS{\Nat}{\varx} \to \varphi(\varx)$ is that the second proposition can be proved by a computation depending on the integer $\varx$, meanwhile the first one must be proved by a proof of $\varphi$ uniform on $\varx$.
 
 \begin{definition}[Sorts]
-  We define the set of sorts $\Sort$ inductively by:
+  The set of sorts $\Sort$ is inductively defined by:
   \[S,T \Coloneq \Nat \mid \Bool \mid \List(S)\mid S \times T \mid S \to T \mid \Prop\]
+\end{definition}
+
+% \begin{definition}[HOL terms]
+%  HOL formulas are inductively defined by :
+%   \[\begin{array}{rcl}
+%   \termt,\termu &\Coloneq &\varx \mid  \termlam \varx.\termt \mid \termt(\termu) \mid  \langle \termt, \termu \rangle \mid \termpi_1(\termt)
+%   \mid \termpi_2(\termt)\\
+%   &\mid&
+%   \termZ \mid S(\termt)
+%   \mid \termrec_{\Nat}(\termt,\termu,\termv)\\
+%   &\mid&\termtt
+%   \mid \termff
+%   \mid \termrec_{\Bool}(\termt,\termu,\termv) \\
+%   &\mid& \termnil
+%   \mid \termt\termcons\termu
+%   \mid \termrec_{\List(S)}(\termt,\termu,\termv)
+%   \end{array}\]
+% \end{definition}
+
+
+
+\begin{definition}[Formulas]
+ Formulas are inductively defined by :
+  \[\varphi,\psi \Coloneq S(\termt) \mid \varphi\to\psi \mid \varphi \land \psi \mid \forall x^S,\varphi \mid \exists x^S,\varphi \eqno(S\in\Sort)\]
+where $\termt$ is a HOL-term \Cref{def:hol_terms}
 \end{definition}
 
 With this set of sorts, we give a syntax for well-typed terms. We use bold font for the syntactic HOL terms, to distinguish them from the $\lambda$-calculus terms we introduce later. The only exception is to denote an element in $\Prop$, for which we use $\varphi,\psi\ldots$
 
-The HOL term constructors are akin to system T: there is a constructor for abstraction and application for functions, constructors for pairing and projections, canonical constructors and recursor for our data types ($\Nat,\Bool,\List$). The main difference is on the logical aspect, as we also add propositional constructors. Those constructors are the conjunction $\land$, the implication $\to$, the two quantifications $\forall/\exists$ and the construction $\sortPred{\termt}$.
-
-This last construction is used to underline the standard elements and to give them a computational meaning. For example, the difference between $\forall \varx^{\Nat},\varphi(\varx)$ and $\forall \varx^{\Nat},\sortPredS{\Nat}{\varx} \to \varphi(\varx)$ is that the second proposition can be proved by a computation depending on the integer $\varx$, meanwhile the first one must be proved by a proof of $\varphi$ uniform on $\varx$.
-
-\tlnote{Maybe ignore this definition, it's straightforward.}
-\begin{definition}[HOL-context]
-  We fix a denumerable set $\Xt$ of variables which we denote by $\varx,\bvary,\ldots$ A (HOL-)context is a list of pairs $(\varx : S)$ where $\varx \in \Xt$ and $S \in \Sort$. We denote the set of (HOL-)contexts by $\Hctx$ and will write its elements $\Gamma,\Delta,\ldots$
-\end{definition}
+The HOL term constructors are akin to system T: there is a constructor for abstraction and application for functions, constructors for pairing and projections, canonical constructors and recursor for our data types ($\Nat,\Bool,\List$). The main difference is on the logical aspect, as we also add propositional constructors for the formula above.
+% Those constructors are the conjunction $\land$, the implication $\to$, the two quantifications $\forall/\exists$ and the construction $\sortPred{\termt}$.
+% \tlnote{Maybe ignore this definition, it's straightforward.}
+% \begin{definition}[HOL-context]
+  As usual, we fix a denumerable set $\Xt$ of variables which we denote by $\varx,\bvary,\ldots$ and we define \emph{(HOL-)contexts} as lists of pairs $(\varx : S)$ where $\varx \in \Xt$ and $S \in \Sort$. We denote the set of (HOL-)contexts by $\Hctx$ and will write its elements $\Gamma,\Delta,\ldots$
+% \end{definition}
 
 \begin{definition}[HOL-terms]
-  A well-typed (HOL-)term in a context $\Gamma$ is defined by the following inductive relation:
+  \label{def:hol_terms}
+  A well-typed (HOL-)term in a context $\Gamma$ is defined by the inductive relation in \Cref{fig:hol_terms}.
+  \end{definition}
+  \begin{figure}[t]
   \begin{center}
   \ruleUnary{$(\varx : S) \in \Gamma$}{$\Gamma\vdash \varx : S$}
   \qquad
   \ruleUnary{$\Gamma, \varx : S \vdash \termt : T$}{$\Gamma\vdash \termlam \varx.\termt : S \to T$}
   \qquad
   \ruleBinary{$\Gamma\vdash\termt : S \to T$}{$\Gamma\vdash\termu : S$}{$\Gamma\vdash \termt(\termu) : T$}
-  
+
   \vspace{0.2cm}
   \ruleBinary{$\Gamma \vdash \termt : S$}{$\Gamma\vdash \termu : T$}{$\Gamma \vdash \langle \termt, \termu \rangle : S \times T$}
   \qquad
@@ -48,7 +82,7 @@ This last construction is used to underline the standard elements and to give th
   \ruleAx{$\Gamma\vdash \termtt : \Bool$}
   \qquad
   \ruleAx{$\Gamma\vdash \termff : \Bool$}
-  
+
   \vspace{0.2cm}
   \ruleTernary{$\Gamma\vdash \termt : S$}{$\Gamma\vdash \termu : S$}{$\Gamma\vdash \termv : \Bool$}{$\Gamma\vdash \termrec_{\Bool}(\termt,\termu,\termv) : S$}
 
@@ -74,9 +108,12 @@ This last construction is used to underline the standard elements and to give th
   \vspace{0.2cm}
   \ruleUnary{$\Gamma\vdash : \termt : S$}{$\Gamma \vdash \sortPred{\termt} : \Prop$}
   \end{center}
-\end{definition}
+   \label{fig:hol_terms}
+   \caption{Well-typed HOL terms}   \emnote{put in a figure*?}
+  \end{figure}
+% \end{definition}
 
-A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and a function interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equiped with two functions $\powerset (H) \to H$. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
+A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and a function interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\powerset (H) \to H$. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
 The other sorts are given their natural set theoretic semantic.
 
 \begin{definition}[Semantic]

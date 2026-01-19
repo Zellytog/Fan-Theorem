@@ -46,27 +46,47 @@ the Fan Theorem from (Weak) \Konig’s Lemma}
 
 \input{introduction.tex}
 
+%
+% \emnote{je ferais peut-etre une division : section 2 - la logique (actuelle 2.1),
+% et le language des termes pour calculer avec les objets mathématiques,
+% en expliquant au préalable l'importance des quantifications relativisées
+% et donc notre envie de bien séparer ce langage}
+%
+% \emnote{ensuite je ferais sec 3 - réalisabilité, en donnant au préalable
+% une description avec les mains du réaliseur attendu (boucle, terminaison parce que
+% sinon chemin infini, on veut le calculer (oracles) et alors par continuité...), justifiant du coup le besoin
+% d'oracles et de kripke}
+
+\section{Computing with Trees: HOL and Sorts}
+\label{s:HOL}
+\emnote{titre à améliorer}
+\input{syntaxe_logique.tex}
+
+
+
 \section{The realizability model}
 \label{s:realizability}
 
-We give a detailed construction of the realizability model: the logic used, the lambda-calculus and the realizability relation. We also give the standard theorem for a realizability model, namely the adequacy, which guaranties that we construct a consistant theory.
-
-\emnote{je ferais peut-etre une division : section 2 - la logique (actuelle 2.1),
-et le language des termes pour calculer avec les objets mathématiques,
-en expliquant au préalable l'importance des quantifications relativisées
-et donc notre envie de bien séparer ce langage}
-
-\emnote{ensuite je ferais sec 3 - réalisabilité, en donnant au préalable
-une description avec les mains du réaliseur attendu (boucle, terminaison parce que
+\emnote{ici description informelle preuve et réaliseur attendu (boucle, terminaison parce que
 sinon chemin infini, on veut le calculer (oracles) et alors par continuité...), justifiant du coup le besoin
 d'oracles et de kripke}
 
-\input{syntaxe_logique.tex}
+We give a detailed construction of the realizability model: the logic used, the lambda-calculus and the realizability relation. We also give the standard theorem for a realizability model,
+namely the adequacy, which guaranties that we construct a consistent theory.
 
+
+
+
+\subsection{Lambda-calculus}
+\label{}
 \input{lambda_calculus.tex}
 
+\subsection{Realizability relation}
+\label{}
 \input{realizability_relation.tex}
 
+\subsection{Adequacy}
+\label{}
 \input{adequacy.tex}
 
 \section{The main result}
