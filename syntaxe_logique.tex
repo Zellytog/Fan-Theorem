@@ -128,13 +128,12 @@ The other sorts are given their natural set theoretic semantic.
   \item $\sem{\Prop} \defeq H$
   \end{itemize}
   \end{multicols}
-  Let
+  \noindent Let
   \[\begin{array}{ccccc}
   \cod - &:& \bigcup_{S \in \Sort} \sem{S} & \longrightarrow & H \\
   & & s &\longmapsto & \cod s
   \end{array}\]
   be a function associating to each object a set of codes (possibly empty).
-
   Each well-typed term $\Gamma \vdash \termt : S$ is mapped to its semantic
   \[
   \sem{\Gamma \vdash \termt : S} : \prod_{T \in \Gamma} \sem T \longrightarrow \sem S
@@ -142,7 +141,7 @@ The other sorts are given their natural set theoretic semantic.
   by the following interpretation:
   \begin{itemize}
   \item $\sem{\varx_1 : S_1,\cdots , \varx_n : S_n\vdash \varx_i : S_i} \defeq \pi_i^n$
-  \item
+  \item \emnote{à modifier}
     \begin{multline*}
       \sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq \\
       (x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)
