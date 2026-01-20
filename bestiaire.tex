@@ -132,11 +132,11 @@ where $\eval\varphi$ is the boolean truth value of $\varphi$, given $\varphi$ is
 Now, we define the following predicate
 \[C'_b(n) \defeq \eval (\forall \ell^{\List(\Bool)}, |\ell| = n \implies C(\ell))\]
 $C'$ is decidable as $C$ is and the quantification is bounded. If $C'(n)$ is realized, then $n$ is a uniform bound for $C$, hence for $B$. Thus, the term we construct is an unbounded search to find a $n$ satisfying $C'_b(n)$. Let $Y \defeq \lambda f.(\lambda x.f\;(x\;x))(\lambda x.f\;(x\;x))$, we define
-\[n_{C_b} \defeq Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\;0\]
-Ignoring the final $0$ in $n_{C_b}$, the defined function $f$ is such that
+\[n_{C_b} \defeq Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\]
+The defined function $n_{C_b}$ is such that
 \[\begin{cases}
-\text{if } C'_b(n)\text{ then } f\;n \redRT n\\
-\text{else } f\;n \redRT f\;(n+1)
+n_{C_b}\;n \redRT n \text{if } C'_b(n)\\
+n_{C_b}\;n \redRT n_{C_b}\;(n+1) \text{otherwize}
 \end{cases}\]
 so either $n_{C_b}$ runs infinitely many steps, and for every $n$, $C'_b(n)$ is false (meaning that there exists $\ell_n \notin C$ of size $n$) or $n_{C_b} \real \Nat$ and it is a uniform bound.
 
