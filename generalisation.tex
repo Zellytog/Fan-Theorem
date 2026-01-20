@@ -127,7 +127,7 @@ For the purpose of this work, we will only consider the following (weak) version
   \end{multline*}
 \end{definition}
 \begin{example}
-%
+Instead of oracles $\oracle_n$ interpreting functions $\bN \to \bN$, we could add as an oracle a program $\oracle$ such that $\oracle\;t$ reduces to $\rtt$ or $\rff$ depending on whether $t$ (weakly) terminates or not, supposing $t$ is closed and does not contain $\oracle$. In this case, it is possible to realize the function deciding if a path $\alpha : \bN \to \bB$ is the constant path $0$ by reading each bit of $\alpha$ until its first $1$. This function is not continuous, so the realizability model we could build on this computational system does not have continuity. For most reasonnable computational systems not adding non computable higher order function and without \texttt{quote} instruction, continuity is satisfied.
 \end{example}
 
 
