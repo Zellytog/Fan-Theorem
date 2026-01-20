@@ -1,0 +1,69 @@
+\documentclass{easychair}
+
+\usepackage{amsfonts}
+
+\title{Oracles just for Fan: an approach for a robust\\ computational interpretation of Fan Theorem}
+
+\author{
+  Titouan Leclercq\inst{1}
+  \and
+  \'Etienne Miquey\inst{2}
+}
+\institute{
+  Aix-Marseille Universit{\'e}, Marseille, France\\
+  \email{titouan.leclercq@univ-amu.fr}
+  \and
+  Aix-Marseille Universit{\'e}, Marseille, France\\
+  \email{etienne.miquey@univ-amu.fr}
+}
+
+\authorrunning{Leclercq and Miquey}
+\titlerunning{Blabla}
+
+\newcommand{\FT}{FT}
+\newcommand{\WKL}{WKL}
+\newcommand{\bN}{\mathbb N}
+
+\begin{document}
+
+\maketitle
+
+The program of reverse mathematics, first initiated by Friedman in the 70s,
+aims at answering questions of the form: ``\emph{what are the minimal axioms necessary to derive the theorem $T$?}''.
+In the case of classical logic, reverse mathematics identified a hierarchy of subsystems of second-order arithmetic classifying a large part of usual mathematical theorems~\cite{Simpson09}. In constructive reverse mathematics, however, the point of interest is to classify logical principles: several priniples compatible with constructive mathematics lead to logical inconsistencies when added together (\emph{e.g.}, Church’s thesis and the law of excluded-middle), leading to a more complex situation.
+
+More recently, Ishihara advocated for a constructive approach to reverse
+mathematics to overcome the limitations of classical reverse mathematics~\cite{Ishihara06}, but with
+purely logical considerations, without paying attention to the computational counterpart of constructive results.
+It is only during the last few years that works in that direction were developed, especially around Gödel's completeness theorem for first-order logic~\cite{HerIli22,ForKirWeh21}.
+We advocate for a generalization of this approach, which has shown to be very conducive over the past few years~\cite{KirZen25,CohEtAl24,HerKir24,Bauer22}.
+
+In this presentation, we outline the computational content of such a logical principle, namely the Fan Theorem, strictly weaker in constructive settings than \WKL.
+While \WKL states that a binary tree with infinitely many nodes has an infinite path, \FT states that for the complementary $C$ of a tree (hence a predicate on words which is stable by extension) such that any infinite path $\alpha$ is contained as the extension of a finite path $\alpha_n \in C$, there exists a uniform bound, \textit{i.e.} a number $n$ such that for any infinite path $\alpha \in C$, $\alpha_n \in C$.
+
+This principle belongs to the family of choice principles, for which Brede \& Herbelin constructed a hierarchy going from Weak K\"onig's Lemma to the Axiom of Choice. As the (strictly weaker) contrapositive of Weak K\"onig's Lemma, studying the computational content of Fan Theorem (\FT) is the starting point to answer the general question:
+\begin{center}
+ ``\emph{What is the computational content of each of these principles?}''
+\end{center}
+
+A sensible approach to answer this question lies in realizability interpretations. Indeed, the recent litterature shows that adding programing instructions to a programing language can lead to intepreting new reasoning principles~\cite{Krivine04,Miquel11,Miquey18a,Geoffroy18,CohFarTat19,Blot22}, meaning that computational properties of a programing language can reflect to the logical side of realizability models.
+
+The second difficulty is to be able to express computational properties for a realizability model in a broad sense. To that end, we suggest relying on \emph{evidenced frames}~\cite{CohMiqTat21}, which provide an algebraic representation of realizability models and allow us to express robust statements such as:
+\emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''.
+In our work, we show that such a statement can be given for \FT.
+
+In a first part, we construct an explicit and concrete model validating \FT (and separating it from \WKL). This model is based on the work of Lubarsky and Rathjen in~\cite{LubRat13}. The argument used by Lubarsky and Rathjen is a kind of relative realizability, close to a Kripke semantics with future worlds, together with oracles for various Turing degrees. The realizer of \FT by itself is not as important in this model as the argument showing that the realizer indeed computes well (\textit{i.e.} terminates). To show this, Lubarsky and Rathjen design their model such that a realizer $e$ of a tree $T$ can compute on any realizer $e'$ constructed in the future, where possibly more oracles are introduced. Applying the realizer $e$ to some $e'$ representing an infinite path in $T$ leads to a contradiction by continuity: $e(e')$ can be computed by only a finite part of $e'$ which is the same in any world (finite words are unchanged between worlds) and thus the infinite path already exists in $T$ at the initial world. To generalize this argument, let's first decompose the component of our model, offering a new perspective on this construction.
+
+First, we state the logic used to state (and realize) \FT. This is a variation of higher order logic (HOL) for which we add a relativization predicate. This predicate is mainly used to give a computational content to propositions. For example, the proposition $\forall x^{\bN}, \varphi(x)$ is realized by a term uniform in $x \in \bN$. To be able to produce computationaly relevant propositions, we need to replace this proposition by $\forall x^{\bN}, \bN(x) \implies \varphi(x)$ for which a realizer, through the premisse $\bN(x)$, can have access to the value of $x$.
+
+Then, as our computational system is interpreted in some Kripke-like semantics, we pa\-ra\-metrize the computational part by a set of functions working as oracles. For this, we add to our programing language (a variant of $\lambda$-calculus) a family $\xi_n$ of terms which will reduce depending on the functions given as parameters. Each world is then a list of oracle functions, and the realizability relation is defined in each world by the fact that a term must compute well not only in the current world, but also on any future world.
+
+This allows the construction of a realizer for \FT which, as in \cite{LubRat13}, follows an extensive search to find a uniform bound, and the termination of the realizer uses continuity applied on the computation of the tree in some future world.
+
+Using this model as a base, we generalize in a second time the argument. For this, we introduce a variation of evidenced frames accounting for basic computations, called \emph{evidenced frames with data} (EFdata). In these evidenced frames, only a few conditions need to be satisfied for \FT to be realized: the realizability model needs to be the root of a Kripke model on the category of EFdatas in which any path can be extended in a future world, to be able to conduct unbounded search over integer (similarly to Markov's Principle, but in a more computational way) and the future worlds need to have a continuity property and a notion of strong existential quantification (similar to $\Sigma$-types in type theory).
+
+These conditions can then be used as \emph{\emph{(a)}} to construct the statement
+\emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \FT}'', giving a general and robust computational interpretation of \FT.
+
+
+\end{document}

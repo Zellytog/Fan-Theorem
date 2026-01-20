@@ -119,6 +119,7 @@ a bar for this predicate is a realizer (in somme reduction context $\enviro$)
 \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, B(\restr \alpha n)\]
 Suppose given such a bar $b$.
 
+\emnote{insister sur comment b calcule et $\pi_1$ etc...}
 Remark that if $\restr\alpha{\pi_1(b(\alpha))}\ListInf\ell$, then by the realizer of the monotonicity of $B$ and the fact that $B(\restr\alpha{\pi_1(b(\alpha))})$, we can deduce (in the realizability sense) that $B(\ell)$ holds.
 
 Our goal is to construct a monotonous subset $C\subseteq B$ which is decidable. For this, it suffices to find a bounded formula such that any $\ell$ satisfying this formula is in $B$. From the previous remark, we only need to show that if $C(\ell)$, then there is a prefix of $\ell$ of the form $\restr{\alpha}{\pi_1(b(\alpha))}$.
@@ -132,8 +133,8 @@ where $\eval\varphi$ is the boolean truth value of $\varphi$, given $\varphi$ is
 Now, we define the following predicate
 \[C'_b(n) \defeq \eval (\forall \ell^{\List(\Bool)}, |\ell| = n \implies C(\ell))\]
 $C'$ is decidable as $C$ is and the quantification is bounded. If $C'(n)$ is realized, then $n$ is a uniform bound for $C$, hence for $B$. Thus, the term we construct is an unbounded search to find a $n$ satisfying $C'_b(n)$. Let $Y \defeq \lambda f.(\lambda x.f\;(x\;x))(\lambda x.f\;(x\;x))$, we define
-\[n_{C_b} \defeq Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\]
-The defined function $n_{C_b}$ is such that
+\[n_{C_b} \defeq Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\;0\]
+Ignoring the final $0$ in $n_{C_b}$, the defined function $f$ is such that\emnote{rewrite}
 \[\begin{cases}
 n_{C_b}\;n \redRT n \text{if } C'_b(n)\\
 n_{C_b}\;n \redRT n_{C_b}\;(n+1) \text{otherwize}

@@ -8,7 +8,7 @@ In turn, we seek a computational interpretation of the Fan Theorem such that \em
 To overcome this, we rely on a standard technique and use \emph{relativized quantifications}: instead of $\forall \varx^{\Nat},\varphi(\varx)$, we consider
 formulas of the shape $\forall \varx^{\Nat},\sortPredS{\Nat}{\varx} \to \varphi(\varx)$, where the proposition $\sortPredS{\Nat}{\varx}$ states that $x$ is indeed a natural. A realizer of this statement will now have to realize  $\sortPredS{\Nat}{n}\to \varphi(n)$, that is to realize $\varphi(n)$ provided a realizer of $\sortPredS{\Nat}{n}$, \emph{i.e.} a term computing the value of $n$. The realizability model is introduced in \Cref{s:realizability}, we begin with the definition of HOL formulas for our interpretation.
 
-In order for our realizers to compute with trees, that is with path (via functions in $\bN\to\bN$), prefixes of paths (\emph{i.e.} lists on naturals) and (decidable\emnote{c'est le cas non ?}) sets of lists, we therefore consider sorts accounting for natural numbers, lists, booleans, propositions and functions, while formulas are usual HOL propositions extended with a relativization predicate for each sort.
+In order for our realizers to compute with trees, that is with path (via functions in $\bN\to\bN$), prefixes of paths (\emph{i.e.} lists on naturals) and (decidable) sets of lists, we therefore consider sorts accounting for natural numbers, lists, booleans, propositions and functions, while formulas are usual HOL propositions extended with a relativization predicate for each sort.
 
 % This last construction is used to underline the standard elements and to give them a computational meaning. For example, the difference between $\forall \varx^{\Nat},\varphi(\varx)$ and $\forall \varx^{\Nat},\sortPredS{\Nat}{\varx} \to \varphi(\varx)$ is that the second proposition can be proved by a computation depending on the integer $\varx$, meanwhile the first one must be proved by a proof of $\varphi$ uniform on $\varx$.
 
@@ -112,7 +112,7 @@ The HOL term constructors are akin to system T: there is a constructor for abstr
   \end{figure}
 % \end{definition}
 
-A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and a function interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\powerset (H) \to H$. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
+A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and a function interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\powerset (H) \to H$ representing unions and intersections. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
 The other sorts are given their natural set theoretic semantic.
 
 \begin{definition}[Semantic]
@@ -141,36 +141,37 @@ The other sorts are given their natural set theoretic semantic.
   by the following interpretation:
   \begin{itemize}
   \item $\sem{\varx_1 : S_1,\cdots , \varx_n : S_n\vdash \varx_i : S_i} \defeq \pi_i^n$
-  \item \emnote{à modifier}
-    \begin{multline*}
-      \sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq \\
-      (x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)
-    \end{multline*}
+  \item $\sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq$\vspace{-1em}
+  \begin{flushright}
+     $(x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)$
+  \end{flushright}
+%     \begin{multline*}
+%       \vspace{-2em}\sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq \\
+%       (x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)
+%     \end{multline*}
+
   \item $\sem{\Gamma\vdash \termt(\termu) : T} \defeq \eval\circ \langle\sem{\Gamma\vdash \termt : S \to T}, \sem{\Gamma\vdash \termu : S}\rangle$
   \item $\sem{\Gamma\vdash \langle \termt,\termu\rangle : S \times T} \defeq \langle \sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : T}\rangle$
   \item $\sem{\Gamma\vdash \termpi_1(\termt) : S} \defeq \pi_1 \circ \sem{\Gamma\vdash \termt : S \times T}$
   \item $\sem{\Gamma\vdash \termpi_2(\termt) : S} \defeq \pi_2 \circ \sem{\Gamma\vdash \termt : S \times T}$
   \item $\sem{\Gamma\vdash \termZ : \Nat} \defeq (\overrightarrow{x} \in \sem\Gamma) \mapsto 0$
   \item $\sem{\Gamma\vdash S(\termt) : \Nat} \defeq (n \mapsto n + 1) \circ \sem{\Gamma\vdash \termt : \Nat}$
-  \item
-    \begin{multline*}
-      \sem{\Gamma\vdash \termrec_{\Nat}(\termt,\termu,\termv) : S} \defeq \\
-      \rec_{\bN}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : \Nat \to S \to S}, \sem{\Gamma\vdash \termv : \Nat}\rangle
-    \end{multline*}
+  \item$      \sem{\Gamma\vdash \termrec_{\Nat}(\termt,\termu,\termv) : S} \defeq$
+        \begin{flushright}
+        $\rec_{\bN}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : \Nat \to S \to S}, \sem{\Gamma\vdash \termv : \Nat}\rangle$
+        \end{flushright}
   \item $\sem{\Gamma\vdash \termtt : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \top$
   \item $\sem{\Gamma\vdash \termff : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bot$
-  \item
-    \begin{multline*}
-      \sem{\Gamma\vdash \termrec_{\Bool}(\termt,\termu,\termv) : S} \defeq \\
-      \rec_{\bB}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : S}, \sem{\Gamma\vdash \termv : \Bool}\rangle
-    \end{multline*}
+  \item $\sem{\Gamma\vdash \termrec_{\Bool}(\termt,\termu,\termv) : S} \defeq$
+      \begin{flushright}
+      $\rec_{\bB}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : S}, \sem{\Gamma\vdash \termv : \Bool}\rangle$
+        \end{flushright}
   \item $\sem{\Gamma\vdash \termnil : \List(S)} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \varepsilon$
   \item $\sem{\Gamma\vdash \termt \termcons \termu : \List(S)}\defeq \smallfrown \circ \langle\sem{\Gamma\vdash \termt : \List(S)},\sem{\Gamma\vdash\termu : S}\rangle$
-  \item
-    \begin{multline*}
-      \sem{\Gamma\vdash\termrec_{\List(S)}(\termt,\termu,\termv) : T} \defeq\\
-      \rec_{\bL}\circ\langle\sem{\Gamma\vdash \termt : T}, \sem{\Gamma\vdash \termu : S \to \List(S) \to T \to T}, \sem{\Gamma\vdash \termv : \List(S)}\rangle
-    \end{multline*}
+  \item $\sem{\Gamma\vdash\termrec_{\List(S)}(\termt,\termu,\termv) : T} \defeq$
+   \begin{flushright}
+      $ \rec_{\bL}\circ\langle\sem{\Gamma\vdash \termt : T}, \sem{\Gamma\vdash \termu : S \to \List(S) \to T \to T}, \sem{\Gamma\vdash \termv : \List(S)}\rangle$
+    \end{flushright}
   \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \implH\circ\langle\sem{\Gamma\vdash \varphi : \Prop},\sem{\Gamma\vdash \psi : \Prop}\rangle$
   \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \landH\circ\langle\sem{\Gamma\vdash \varphi : \Prop}, \sem{\Gamma\vdash \psi : \Prop}\rangle$
   \item $\displaystyle\sem{\Gamma\vdash \forall \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcap_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
