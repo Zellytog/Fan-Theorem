@@ -46,17 +46,17 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
 
 \begin{theorem}[Realization of Fan Theorem]\label{thm:FT}
   Using our previous definitions:
-  \[\lambda b. n_{C_b} \realU \WFT\]
+  \[\lambda b. n_{C_b}\;0 \realU \WFT\]
 \end{theorem}
 
 \begin{proof}
-  Let's prove that $\lambda b. n_{C_b} \realU\WFT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
+  Let's prove that $\lambda b. n_{C_b}\;0 \realU\WFT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
   \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
   for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
-  \[n_{C_b} \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
-  but we already know that $n_{C_b}$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}$ is a uniform bound for $B$.
+  \[n_{C_b}\;0 \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
+  but we already know that $n_{C_b}\;0$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}\;0$ is a uniform bound for $B$.
 
-  Now, suppose $n_{C_b}$ diverges. This means that for any $n \in \bN$, there exists some word $w_n \in \bB^\star$ such that $w_n \notin C$. By applying Weak König's Lemma (in our meta-theory), we find an infinite path
+  Now, suppose $n_{C_b}\;0$ diverges. This means that for any $n \in \bN$, there exists some word $w_n \in \bB^\star$ such that $w_n \notin C$. By applying Weak König's Lemma (in our meta-theory), we find an infinite path
   \[\alpha : \bN \to \bB\]
   such that for all $n \in \bN, \restr \alpha n \notin C$. We now enrich our reduction context with this alpha:
   \[\enviroT \defeq \enviro \smallfrown \alpha\]
@@ -76,8 +76,11 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
   which means that $\lambda b.n_{C_b}\realU \WFT$.
 \end{proof}
 
+Not only does the model satisfy $\FT$, but it also does not satisfy $\WKL$. By this, we mean that $\WKL\notin\ThRealU$, making our model a separating model between the two principles.
 
-\emnote{separation + eventuellement décrire ici l'arbre kleene}
+To prove that $\WKL$ is not realized, we use the Kleene tree construction (which can be relativized without issue). The tree, seen as a predicate over binary words, only contains those words which are different from any computable function in a finite time. For example, if $\ell$ is of length $n$, then we check whether $\ell_0$, its first value, is different from the value of $\Enum{0}(0)$ computed on $n$ steps (if it exists). This way, any finite path is computable, because a universal machine exists and can simulate the computation of a code on an input for a finite time. However, no infinite path can be found from a computable point of view: if $\alpha$ is an infinite path in $K$, this means that for any $\Enum{i}(i)\convcal$ (which means that it is computed in a finite time), we have that $\alpha_i \neq \Enum{i}(i)$, hence $\alpha$ is diagonaly non computable, hence non computable. In the realizability model, this implies that no path of $K$ is realized.
+
+%\emnote{separation + eventuellement décrire ici l'arbre kleene}
 
 \begin{theorem}
   There is no $t \in \Lambda$ such that $t \realU \WKL$.

@@ -116,30 +116,32 @@ We will now write the term realizing $\WFT$.
 Fix a monotonous predicate $B : \List(\Bool) \to \Prop$, \textit{i.e.} such that
 \[\forall \ell, \ell'^{\List(\Bool)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')\]
 a bar for this predicate is a realizer (in somme reduction context $\enviro$)
-\[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, B(\restr \alpha n)\]
+\[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists \varn^{\{\Nat\}}, B(\restr \alpha \varn)\]
 Suppose given such a bar $b$.
 
-\emnote{insister sur comment b calcule et $\pi_1$ etc...}
-Remark that if $\restr\alpha{\pi_1(b(\alpha))}\ListInf\ell$, then by the realizer of the monotonicity of $B$ and the fact that $B(\restr\alpha{\pi_1(b(\alpha))})$, we can deduce (in the realizability sense) that $B(\ell)$ holds.
+By the definition of realizing $\exists \varn^{\{\Nat\}}$, for any $\alpha \real \Nat \to \Nat$, we can retrieve $\pi_1(b(\alpha))\real \Nat(\varn)$ such that $\pi_2(b(\alpha))\real B(\restr \alpha \varn)$. To lighten the notations, we write $\restr\alpha b$ for $\restr{\alpha}{\pi_1(b(\alpha))}$, which is thus a realizer of some list $\ell \in \List(\Bool)$ coming with a realizer of $B(\restr \alpha b)$.
+%\emnote{insister sur comment b calcule et $\pi_1$ etc...}
+Remark that if $\alpha_b\ListInf\ell$, then by the realizer of the monotonicity of $B$ and the fact that $B(\restr \alpha b)$, we can deduce (in the realizability sense) that $B(\ell)$ holds.
 
-Our goal is to construct a monotonous subset $C\subseteq B$ which is decidable. For this, it suffices to find a bounded formula such that any $\ell$ satisfying this formula is in $B$. From the previous remark, we only need to show that if $C(\ell)$, then there is a prefix of $\ell$ of the form $\restr{\alpha}{\pi_1(b(\alpha))}$.
+Our goal is to construct a monotonous subset $C\subseteq B$ which is decidable. For this, it suffices to find a bounded formula such that any $\ell$ satisfying this formula is in $B$. From the previous remark, we only need to show that if $C(\ell)$, then there is a prefix of $\ell$ of the form $\restr\alpha b$.
 
-We then use this with a bounded quantification: we enumerate every list $\ell$ and, each time, add to $C$ the list $\restr{\ell0^\infty}{\pi_1(b(\ell0^\infty))}$ and every extension, as long as those extensions are of lower size than $\ell$. This can also be rewritten as follows: given a list $\ell$, checking whether $\ell \in C$ amounts to checking whether there exists a list $\ell'$ of size lower than $|\ell|$ such that $\restr{\ell'0^\infty}{\pi_1(b(\ell'0^\infty))}\ListInf \ell$.
+We then use this with a bounded quantification: we enumerate every list $\ell$ and, each time, add to $C$ the list $\restr{\ell0^\infty} b$ and every extension, as long as those extensions are of lower size than $\ell$. This can also be rewritten as follows: given a list $\ell$, checking whether $\ell \in C$ amounts to checking whether there exists a list $\ell'$ of size lower than $|\ell|$ such that $\restr{\ell'0^\infty}{b}\ListInf \ell$.
 
 This automatically gives a term
-\[C_b(\ell) \defeq \eval (\exists \ell'^{\List(\Bool)}, |\ell'| < |\ell| \land \restr{\ell'0^\infty}{\pi_1(b(\ell'0^\infty))} \ListInf \ell)\]
+\[C_b(\ell) \defeq \eval (\exists \ell'^{\List(\Bool)}, |\ell'| < |\ell| \land \restr{\ell'0^\infty} b \ListInf \ell)\]
 where $\eval\varphi$ is the boolean truth value of $\varphi$, given $\varphi$ is decidable (which is it by the previous arguments).
 
 Now, we define the following predicate
 \[C'_b(n) \defeq \eval (\forall \ell^{\List(\Bool)}, |\ell| = n \implies C(\ell))\]
 $C'$ is decidable as $C$ is and the quantification is bounded. If $C'(n)$ is realized, then $n$ is a uniform bound for $C$, hence for $B$. Thus, the term we construct is an unbounded search to find a $n$ satisfying $C'_b(n)$. Let $Y \defeq \lambda f.(\lambda x.f\;(x\;x))(\lambda x.f\;(x\;x))$, we define
-\[n_{C_b} \defeq Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\;0\]
-Ignoring the final $0$ in $n_{C_b}$, the defined function $f$ is such that\emnote{rewrite}
-\[\begin{cases}
-n_{C_b}\;n \redRT n \text{if } C'_b(n)\\
-n_{C_b}\;n \redRT n_{C_b}\;(n+1) \text{otherwize}
-\end{cases}\]
-so either $n_{C_b}$ runs infinitely many steps, and for every $n$, $C'_b(n)$ is false (meaning that there exists $\ell_n \notin C$ of size $n$) or $n_{C_b} \real \Nat$ and it is a uniform bound.
+\[n_{C_b} \defeq Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\]
+This function satisfies
+%\emnote{rewrite}
+\begin{align*}
+n_{C_b}\;n &\redRT n &\text{if } C'_b(n)\\
+n_{C_b}\;n &\redRT n_{C_b}\;(n+1) &\text{otherwize}
+\end{align*}
+so either $n_{C_b}\;0$ runs infinitely many steps, and for every $n$, $C'_b(n)$ is false (meaning that there exists $\ell_n \notin C$ of size $n$) or $n_{C_b} \real \Nat$ and it is a uniform bound.
 
 %For this, the idea is to consider every list by the order given by our enumeration. For a given list $\ell$, the bar $b$ can be applied to the function $\ell 0^\infty$ to have a list $\ell'$ (either a prefix of $\ell$ or $\ell$ followed by a finite number of $0$).
 %

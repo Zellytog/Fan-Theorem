@@ -1,6 +1,10 @@
-\emnote{intuition sur adequacy}
+%\emnote{intuition sur adequacy}
 
-To prove the adequacy, we first prove a substitution lemma.
+The main result to ensure a realizability model is sound is the adequacy lemma. This lemma has several implications, but is based on the idea that typed terms are realizers. If typing is seen as a syntactic and decidable specification on programs, then the adequacy means that programs satisfying the syntactic specification associated to a proposition $\varphi$ also satisfy the semantic specification associated to $\varphi$.
+
+From a logical point of view, the Curry-Howard correspondance also tells us that these typing rules translate to inference rules. Indeed, formal proofs of a proposition $\varphi$, based on natural deduction, can be associated to $\lambda$-terms $t$ such that $\vdash t : \varphi$. Using this correspondance, the adequacy lemma also means that, for any two statements $\varphi,\psi$ such that $\varphi$ is realized and $\psi$ is logically entailed by $\varphi$, $\psi$ is also realized. This makes the set $\ThReal{\enviro}$ of realized propositions at some context $\enviro$, and the set $\ThRealU$ of uniformly realized propositions, into a logical theory, closed by deduction. This also means that the theory is consistant, as there are predicates with no realizers. The adequacy lemma is essential to show that our model separates $\FT$ from $\WKL$, as this shows that there is a consistant theory (namely $\ThRealU$) containing $\FT$ and not contaning $\WKL$.
+
+The proof of the adequacy lemma is an induction on the typing relation. For the cases about universal (resp. existential) quantification, a lemma is needed to relate the realizability of $\varphi[\termt/\varx]$ and the realizability of $\varphi$ where $\rho$ is enriched by $\varx\mapsto \termt$.
 
 \begin{lemma}
   Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and the following typing derivations: $\Gamma, \varx : S \vdash \varphi : \Prop$, $\Gamma\vdash \termt : S$. The following equivalence holds:
@@ -18,7 +22,7 @@ To prove the adequacy, we first prove a substitution lemma.
 %  Hence the result.
 %\end{proof}
 
-To postulate the adequacy, we need to give a typing system with regard to which the realisability is indeed adequate.
+We also introduce the typing system we consider for this model. It can be seen as rules for logical deductions in HOL and rules describing the bevahior of $\Nat,\Bool,\List$, \textit{i.e.} constructor rules saying that standard elements are indeed in the expected sort, and induction principles.
 
 \begin{definition}[Typing system]
   We define a ($\lambda$-)context as a list $\Xi \in \List(\Xlam \times \Prop)$, whose elements we will write $(x : \varphi)$.
