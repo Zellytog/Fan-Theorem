@@ -4,10 +4,10 @@ The main result to ensure a realizability model is sound is the adequacy lemma. 
 
 From a logical point of view, the Curry-Howard correspondance also tells us that these typing rules translate to inference rules. Indeed, formal proofs of a proposition $\varphi$, based on natural deduction, can be associated to $\lambda$-terms $t$ such that $\vdash t : \varphi$. Using this correspondance, the adequacy lemma also means that, for any two statements $\varphi,\psi$ such that $\varphi$ is realized and $\psi$ is logically entailed by $\varphi$, $\psi$ is also realized. This makes the set $\ThReal{\enviro}$ of realized propositions at some context $\enviro$, and the set $\ThRealU$ of uniformly realized propositions, into a logical theory, closed by deduction. This also means that the theory is consistant, as there are predicates with no realizers. The adequacy lemma is essential to show that our model separates $\FT$ from $\WKL$, as this shows that there is a consistant theory (namely $\ThRealU$) containing $\FT$ and not contaning $\WKL$.
 
-The proof of the adequacy lemma is an induction on the typing relation. For the cases about universal (resp. existential) quantification, a lemma is needed to relate the realizability of $\varphi[\termt/\varx]$ and the realizability of $\varphi$ where $\rho$ is enriched by $\varx\mapsto \termt$.
+The proof of the adequacy lemma is an induction on the typing relation. For the cases about universal (resp. existential) quantification, a lemma is needed to relate the realizability of $\varphi[\termt/\varx]$ and the realizability of $\varphi$ where $\rho$ is enriched by $\varx\mapsto \rho(\termt)$.
 
 \begin{lemma}
-  Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and the following typing derivations: $\Gamma, \varx : S \vdash \varphi : \Prop$, $\Gamma\vdash \termt : S$. The following equivalence holds:
+  Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and suppose that $\Gamma, \varx : S \vdash \varphi : \Prop$ and $\Gamma\vdash \termt : S$. The following equivalence holds:
   \[t \realPP \varphi[\termt/\varx] \iff t \realP{\enviro}{\termenv[\varx\mapsto \termenv(\termt)]}\varphi \]
 \end{lemma}
 
@@ -60,7 +60,7 @@ We also introduce the typing system we consider for this model. It can be seen a
   \item case $\forall_\mathrm i$ with $t : \forall \varx^S, \psi$: by induction hypothesis, we know that for any $\termenv' \models \Gamma, \varx : S$, $t[t_i/x_i] \realP{\enviro}{\termenv'} \psi$. For any $s \in \bS, \termenv[\varx \mapsto s] \models \Gamma$, so $t[t_i/x_i] \realP{\enviro}{\termenv[\varx\mapsto s]} \psi$ which is, by definition, $t[t_i/x_i] \realPP \forall \varx^S,\psi$.
   \item case $\forall_\mathrm e$ with $t : \psi[\termt/\varx]$: by definition of realizing $\forall \varx^S, \psi$ and using the substitution lemma.
   \item case $\exists_\mathrm i$ with $t : \exists \varx^S, \varphi$: by induction hypothesis, we know that $\termenv(\termt) \in \bS$ and that $t \realP{\enviro}{\termenv[\varx \mapsto \termenv(\termt)]} \varphi$, so we indeed find some $s \in \bS$ (namely $\termenv(\termv)$) such that $t \realP{\enviro}{\termenv[\varx\mapsto s]}\varphi$, which is the expected result.
-  \item case $\exists_\mathrm i$ with $u\;t : \psi$: by induction hypothesis, we know that for any $\termenv\models \Gamma, \varx : S$, $u \realPP \varphi \to \psi$. In particular, there is by induction hypothesis some $s \in \bS$ such that $t \realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$, but then $\termenv[\varx\mapsto s]\models \Gamma, \varx : S$ so we can apply $t$ to $u$ to find that $u\;t\realPP \psi$.
+  \item case $\exists_\mathrm e$ with $u\;t : \psi$: by induction hypothesis, we know that for any $\termenv\models \Gamma, \varx : S$, $u \realPP \varphi \to \psi$. In particular, there is by induction hypothesis some $s \in \bS$ such that $t \realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$, but then $\termenv[\varx\mapsto s]\models \Gamma, \varx : S$ so we can apply $t$ to $u$ to find that $u\;t\realPP \psi$.
   \item we won't treat the cases $\Nat$ nor $\Bool$, as they are the same as the case $\List$.
   \item case $\List_\mathrm i^{\nil}$: indeed, $\nil \redERT \nil$.
   \item case $\List_\mathrm i^{\append}$: by induction hypothesis.

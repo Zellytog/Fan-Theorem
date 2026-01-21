@@ -1,4 +1,4 @@
-Now that we stated the theorem \ref{thm:main}, we give examples of a realizability models satisfying the conditions (and thus, realizing $\FT$).
+Now that we have stated the theorem \ref{thm:main}, we give examples of realizability models satisfying the conditions (and thus, realizing $\FT$).
 
 The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata $\EFSATE$ from \Cref{rmk:EFSigma}. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the EFdata $\EFSATE$ has continuity, explicit existential and unbounded search, hence the fact that it satisfies $\FT$.
 
@@ -10,7 +10,7 @@ The existence of a path in a possible future is essential. For example, taking t
 
 Finally, we advocate that the restriction of working on EFdatas instead of just EF is not a limitation in practice. The additionnal data, indeed, always exist inside the realizability topos given by an EF.
 
-Take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories, given by the assemblies which are the following data:
+Take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories given by the assemblies. In this category, objects are given by
 \begin{itemize}
 \item a set $X$
 \item a function $E_X : X \to \Phi$
@@ -24,4 +24,4 @@ This exactly corresponds to the way we define codes for system T types, so every
 
 %\tlnote{Ajouter une ref pour le NNO ? Ca vient de Lawvere 1963 apparemment, mais je sais pas si c'est pertinent de mettre une citation pour ça.}
 
-Hence, to get an EFdata from an EF $\EFE$, one needs to find a NNO inside the realizability topos of $\EFE$, for which the initial algebra property is assured in a uniform way (\textit{i.e.} by the same witness $e \in E$), and pull back the associated data to make $e_0,e_S,e_{\rec}$. In practice, any realizability model of interest possesses such an object, as logically relevant models need arithmetical language (and thus a NNO) and it is natural to keep the same constructor for every recursive definition.
+Hence, to get an EFdata from an EF $\EFE$, one needs to find a NNO inside the realizability topos of $\EFE$, for which the initial algebra property is assured in a uniform way (\textit{i.e.} by the same witness $e \in E$), and to pull back the associated data to make $e_0,e_S,e_{\rec}$. In practice, any realizability model of interest possesses such an object, as logically relevant models need arithmetical language (and thus a NNO) and it is natural to keep the same constructor for every recursive definition.

@@ -1,14 +1,14 @@
 
 The model we construct is based on higher-order logic (HOL). This is a multi-sorted logic with a sort $\Prop$ denoting the set of propositions (hence the higher order qualification).
-The choice of HOL as our syntax is mainly motivated by its expressiveness. In HOL, it is possible to easily talk about property about sets over a given sort $S$, by the sort $S \to \Prop$. Using this logic and the basic sorts $\Nat/\Bool/\List$ makes it easy to express statements about trees such as  $\FT$ and $\WKL$.
+The choice of HOL as our syntax is mainly motivated by its expressiveness. In HOL, it is possible to easily talk about predicates on sets over a given sort $S$, by the sort $S \to \Prop$. %Using this logic and the basic sorts $\Nat/\Bool/\List$ makes it easy to express statements about trees (which are predicates on lists) such as  $\FT$ and $\WKL$.
 
 
-In realizability models, universal quantifications are usually interpreted as intersections without computational content, for instance having truth values satisfying $|\forall x^\Nat,\varphi(x)|=\bigcap_{n\in\bN}|\varphi(n)|$. In particular, a realizer in $|\forall x^\Nat,\varphi|(x)$ should realize $\varphi(n)$ for any $n\in\bN$ \emph{without} knowing the value of $n$. Dually, realizers of existential statements witness the existence of a valid instantiation for the existentially quantified variable without actually computing its value.
+In realizability models, universal quantifications are usually interpreted as intersections without computational content, for instance having truth values satisfying $|\forall x^\Nat,\varphi(x)|=\bigcap_{n\in\bN}|\varphi(n)|$. In particular, a realizer in $|\forall x^\Nat,\varphi(x)|$ should realize $\varphi(n)$ for any $n\in\bN$ \emph{without} knowing the value of $n$. Dually, realizers of existential statements witness the existence of a valid instantiation for the existentially quantified variable without actually computing its value.
 In turn, we seek a computational interpretation of the Fan Theorem such that \emph{its realizer actually computes} the uniform bound for the bar.
 To overcome this, we rely on a standard technique and use \emph{relativized quantifications}: instead of $\forall \varx^{\Nat},\varphi(\varx)$, we consider
 formulas of the shape $\forall \varx^{\Nat},\sortPredS{\Nat}{\varx} \to \varphi(\varx)$, where the proposition $\sortPredS{\Nat}{\varx}$ states that $x$ is indeed a natural. A realizer of this statement will now have to realize  $\sortPredS{\Nat}{n}\to \varphi(n)$, that is to realize $\varphi(n)$ provided a realizer of $\sortPredS{\Nat}{n}$, \emph{i.e.} a term computing the value of $n$. The realizability model is introduced in \Cref{s:realizability}, we begin with the definition of HOL formulas for our interpretation.
 
-In order for our realizers to compute with trees, that is with path (via functions in $\bN\to\bN$), prefixes of paths (\emph{i.e.} lists on naturals) and (decidable) sets of lists, we therefore consider sorts accounting for natural numbers, lists, booleans, propositions and functions, while formulas are usual HOL propositions extended with a relativization predicate for each sort.
+In order for our realizers to compute with trees, that is with path (via functions in $\bN\to\bB$), prefixes of paths (\emph{i.e.} lists on booleans) and (decidable) sets of lists, we therefore consider sorts accounting for natural numbers, lists, booleans, propositions and functions, while formulas are usual HOL propositions extended with a relativization predicate for each sort.
 
 % This last construction is used to underline the standard elements and to give them a computational meaning. For example, the difference between $\forall \varx^{\Nat},\varphi(\varx)$ and $\forall \varx^{\Nat},\sortPredS{\Nat}{\varx} \to \varphi(\varx)$ is that the second proposition can be proved by a computation depending on the integer $\varx$, meanwhile the first one must be proved by a proof of $\varphi$ uniform on $\varx$.
 
@@ -38,7 +38,7 @@ In order for our realizers to compute with trees, that is with path (via functio
 \begin{definition}[Formulas]
  Formulas are inductively defined by :
   $$\varphi,\psi \Coloneq S(\termt) \mid \varphi\to\psi \mid \varphi \land \psi \mid \forall x^S,\varphi \mid \exists x^S,\varphi \eqno(S\in\Sort)$$
-where $\termt$ is a HOL-term \Cref{def:hol_terms}
+where $\termt$ is a HOL-term (\textit{c.f.} \Cref{def:hol_terms})
 \end{definition}
 
 With this set of sorts, we give a syntax for well-typed terms. We use bold font for the syntactic HOL terms, to distinguish them from the $\lambda$-calculus terms we introduce later. The only exception is to denote an element in $\Prop$, for which we use $\varphi,\psi\ldots$
@@ -112,11 +112,11 @@ The HOL term constructors are akin to system T: there is a constructor for abstr
   \end{figure}
 % \end{definition}
 
-A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and a function interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\powerset (H) \to H$ representing unions and intersections. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
+A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and functions interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\bigcap,\bigcup : \powerset (H) \to H$ representing unions and intersections. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
 The other sorts are given their natural set theoretic semantic.
 
 \begin{definition}[Semantic]
-  Let $(H,\leqH)$ be a Heyting algebra with an intersection and a union operations $\bigcup,\bigcap : \powerset (H) \to H$.
+  Let $(H,\leqH)$ be a Heyting pre-algebra with an intersection and a union operations $\bigcup,\bigcap : \powerset (H) \to H$.
   For each sort $S \in \Sort$, we associate a set $\sem S$:
   \begin{multicols}{2}
   \begin{itemize}
@@ -167,7 +167,7 @@ The other sorts are given their natural set theoretic semantic.
       $\rec_{\bB}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : S}, \sem{\Gamma\vdash \termv : \Bool}\rangle$
         \end{flushright}
   \item $\sem{\Gamma\vdash \termnil : \List(S)} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \varepsilon$
-  \item $\sem{\Gamma\vdash \termt \termcons \termu : \List(S)}\defeq \smallfrown \circ \langle\sem{\Gamma\vdash \termt : \List(S)},\sem{\Gamma\vdash\termu : S}\rangle$
+  \item $\sem{\Gamma\vdash \termt \termcons \termu : \List(S)}\defeq \smallfrown \circ \langle\sem{\Gamma\vdash\termu : \List(S)},\sem{\Gamma\vdash \termt : S}\rangle$
   \item $\sem{\Gamma\vdash\termrec_{\List(S)}(\termt,\termu,\termv) : T} \defeq$
    \begin{flushright}
       $ \rec_{\bL}\circ\langle\sem{\Gamma\vdash \termt : T}, \sem{\Gamma\vdash \termu : S \to \List(S) \to T \to T}, \sem{\Gamma\vdash \termv : \List(S)}\rangle$
@@ -178,7 +178,7 @@ The other sorts are given their natural set theoretic semantic.
   \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
   \item $\sem{\Gamma\vdash \sortPred{\termt} : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
   \end{itemize}
-  where $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recursors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a letter $a$ and a word $u$, appends $a$ to $u$ to make a new word, $\implH$ is the implication of $H$ and $\landH$ is its meet.
+  where $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recursors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a word $u$ and a letter $a$, appends $a$ to $u$ to make the new word $ua$, $\implH$ is the implication of $H$ and $\landH$ is its meet.
 
   For a given sort $S$, we will also write $\bS$ for $\sem S$.
 \end{definition}

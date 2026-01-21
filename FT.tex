@@ -1,6 +1,6 @@
 \subsection{Weak Fan Theorem is realized}
 
-Before proving that $\WFT$ is realized, a continuity lemma is needed.
+Before proving that $\FT$ is realized, a continuity lemma is needed.
 
 \begin{lemma}[Continuity]\label{lem:continuity}
   Let $\enviro\in\Oracle$ be a reduction context and $t \in \Lambda$ be a term such that
@@ -42,15 +42,15 @@ Before proving that $\WFT$ is realized, a continuity lemma is needed.
   Thus, by induction, we deduce that there exists such a prefix.
 \end{proof}
 
-Using this lemma and the $\lambda$-terms from the previous subsection, we can now realize $\WFT$.
+Using this lemma and the $\lambda$-terms from the previous subsection, we can now realize $\FT$.
 
 \begin{theorem}[Realization of Fan Theorem]\label{thm:FT}
   Using our previous definitions:
-  \[\lambda b. n_{C_b}\;0 \realU \WFT\]
+  \[\lambda b. n_{C_b}\;0 \realU \FT\]
 \end{theorem}
 
 \begin{proof}
-  Let's prove that $\lambda b. n_{C_b}\;0 \realU\WFT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
+  Let's prove that $\lambda b. n_{C_b}\;0 \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
   \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
   for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
   \[n_{C_b}\;0 \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
@@ -73,12 +73,12 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
 
   This means that there is no case when $n_{C_b}$ diverges, so
   \[n_{C_b}\realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
-  which means that $\lambda b.n_{C_b}\realU \WFT$.
+  which means that $\lambda b.n_{C_b}\realU \FT$.
 \end{proof}
 
 Not only does the model satisfy $\FT$, but it also does not satisfy $\WKL$. By this, we mean that $\WKL\notin\ThRealU$, making our model a separating model between the two principles.
 
-To prove that $\WKL$ is not realized, we use the Kleene tree construction (which can be relativized without issue). The tree, seen as a predicate over binary words, only contains those words which are different from any computable function in a finite time. For example, if $\ell$ is of length $n$, then we check whether $\ell_0$, its first value, is different from the value of $\Enum{0}(0)$ computed on $n$ steps (if it exists). This way, any finite path is computable, because a universal machine exists and can simulate the computation of a code on an input for a finite time. However, no infinite path can be found from a computable point of view: if $\alpha$ is an infinite path in $K$, this means that for any $\Enum{i}(i)\convcal$ (which means that it is computed in a finite time), we have that $\alpha_i \neq \Enum{i}(i)$, hence $\alpha$ is diagonaly non computable, hence non computable. In the realizability model, this implies that no path of $K$ is realized.
+To prove that $\WKL$ is not realized, we use the Kleene tree construction (which can be relativized without issue). The tree, seen as a predicate over binary words, only contains those words which are different from any computable function in a finite time. For example, if $\ell$ is of length $n$, then we check whether $\ell_0$, its first value, is different from the value of $\Enum{}{0}(0)$ computed on $n$ steps (if it exists). This way, any finite path is computable, because a universal machine exists and can simulate the computation of a code on an input for a finite time. However, no infinite path can be found from a computable point of view: if $\alpha$ is an infinite path in $K$, this means that for any $\Enum{}{i}(i)\convcal$ (which means that it is computed in a finite time), we have that $\alpha_i \neq \Enum{}{i}(i)$, hence $\alpha$ is diagonaly non computable, hence non computable. In the realizability model, this implies that no path of $K$ is realized.
 
 %\emnote{separation + eventuellement décrire ici l'arbre kleene}
 
@@ -87,7 +87,7 @@ To prove that $\WKL$ is not realized, we use the Kleene tree construction (which
 \end{theorem}
 
 \begin{proof}
-  Suppose that there is $t \realU \WKL$. Let $\enviro\in\Oracle$, then $t \realP{}{\enviro} \WKL$. Let $\EnumE{}$ be an enumeration of $\sigma$-computable functions given by fixing a Gödel encoding of terms $t$. The Kleene tree $K_\enviro$ is defined as the set of lists $\ell \in \List(\Bool)$ such that for $i < |\ell|$, if $\EnumE{i}(i)\convcal[i]$ (meaning that the computation of $\EnumE{i}$ terminate in less than $i$ steps) then $\EnumE{i}(i) \neq \ell_i$.
+  Suppose that there is $t \realU \WKL$. Let $\enviro\in\Oracle$, then $t \realP{}{\enviro} \WKL$. Let $\EnumE{}$ be an enumeration of $\sigma$-computable functions given by fixing a Gödel encoding of terms $t$. The Kleene tree $K_\enviro$ is defined as the set of lists $\ell \in \List(\Bool)$ such that for $i < |\ell|$, if $\EnumE{i}(i)\convcal[i]$ (meaning that the computation of $\EnumE{i}$ terminates in less than $i$ steps) then $\EnumE{i}(i) \neq \ell_i$.
   $K_\enviro$ is thus a tree with arbitrarily large finite sequences $\ell \in K$, but an finite path inside $K_\enviro$ cannot be $\enviro$-computable as it differs with every $\EnumE{i}$ on $i$. The realized functions $\Nat \to \Bool$ at context $\enviro$ being $\enviro$-computable, and taking a term $u$ encoding the premisses of $\WKL$ for $K_\enviro$ (the fact that $K_\enviro$ has arbitrarily large finite sequences), $t\;u$ should realize an infinite path in $K_\enviro$ at context $\enviro$, which is impossible.
 
   Hence $\WKL\notin\ThReal{\enviro}$, and $\WKL\notin\ThRealU$.

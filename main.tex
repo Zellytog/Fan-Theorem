@@ -56,9 +56,9 @@ the Fan Theorem from (Weak) \Konig’s Lemma}
 % sinon chemin infini, on veut le calculer (oracles) et alors par continuité...), justifiant du coup le besoin
 % d'oracles et de kripke}
 
-\section{Computing with Trees: HOL and Sorts}
+\section{A computably relevant syntax for trees}%{Computing with Trees: HOL and Sorts}
 \label{s:HOL}
-\emnote{titre à améliorer}
+%\emnote{titre à améliorer}
 
 \input{syntaxe_logique.tex}
 
@@ -71,15 +71,15 @@ the Fan Theorem from (Weak) \Konig’s Lemma}
 %sinon chemin infini, on veut le calculer (oracles) et alors par continuité...), justifiant du coup le besoin
 %d'oracles et de kripke}
 
-From a naive realizability model, the main issue to realize $\WFT$ is that a barred tree can be very ill-behaved. For example, a tree can have arbitrary long finite path, as long as any infinite path is non computable. The solution we adopt is to construct a realizability relation accounting for possible infinite path: using a semantic similar to Kripke semantic, the trees are forced to be compatible with possible non computable infinite path. To add infinite paths in the computational model, we fix primitives $\oracle$ and a reduction rule $\oracle\;\encode n \redi \encode{\alpha(n)}$ where $\alpha$ is the infinite path.
+From a naive realizability model, the main issue to realize $\FT$ is that a barred tree can be very ill-behaved. For example, a tree can have arbitrary long finite path, as long as any infinite path is non computable. The solution we adopt is to construct a realizability relation accounting for possibly non-computable infinite paths: using a semantic similar to Kripke semantic, the trees are forced to be compatible with paths yet to be defined. Then, we add infinite paths in the computational model by fixing primitives $\oracle$ and a reduction rule $\oracle\;\encode n \redi \encode{\alpha(n)}$ where $\alpha$ is the infinite path we wish to add in the model.
 
-Using this realizability notion, the algorithm realizing $\WFT$ is an extensive search among the finite binary words. For each integer $n$, the algorithm tests whether $n$ is a uniform bound for the predicate $B$.
+Using this realizability notion, the algorithm realizing $\FT$ is an extensive search among the finite binary words using the bar $b$ given as parameter. For each integer $n$, the algorithm tests whether $n$ is a uniform bound for the predicate $B$.
 Thus, two cases can appear:
 \begin{itemize}
 \item the algorithm can stop at some $n$. In this case, $n$ is a uniform bound, so the algorithm indeed realizes a uniform bound by returning $n$
-\item the algorithm can go on indefinitely. This means that for any $n$, not every word of size $n$ satisfy the predicate, hence that there is a word $w_n\notin B$ for any $n$. In the meta-theory, we can then extract an infinite path $\alpha \notin B$ (as $B$ is taken as the complementary of a tree, the words not in $B$ constitute a binary tree) using $\WKL$. This is the point where the oracles come into play: we can now use an oracle $\oracle$ to simulate $\alpha$, but this means that $B$ must be able to take as argument the term $\oracle$. This can be done by using a Kripke-like semantic where realizing $B$ means not only that the term computes as $B$ in some context, but also that it does so in any bigger context (taken as a notion of future world). Finally, using a continuity argument, computing the bar of $\oracle$ can be done only for a finite part of $\oracle$, which was already treated in the computation of the original algorithm, giving that both $B(\oracle)$ holds (because it extends the prefix given by a bar on $B$) and that $B(\oracle)$ does not hold (by our choice of $\alpha$).
+\item the algorithm can go on indefinitely. This means that for any $n$, not every word of size $n$ satisfy the predicate, hence that there is a word $w_n\in \bB^n \setminus B$ for any $n$. In the meta-theory, we can then extract an infinite path $\alpha \notin B$ using $\WKL$: as $B$ is taken as the complementary of a tree, the words not in $B$ constitute a binary tree. This is the point where the oracles come into play: we can now use an oracle $\oracle$ to simulate $\alpha$, and the Kripke semantic allows $b$ to take as argument the term $\oracle$. Thus, we wish our Kripke-like semantic to be defined such that $b$ realizing a bar on $B$ not only means that $b$ computes as a bar in some context, but also that it does so in any bigger context (taken as a notion of future world). Finally, using a continuity argument, computing $b(\oracle)$ can be done only for a finite part of $\oracle$, which was already treated in the computation of the original algorithm, giving that both $B(\oracle)$ holds (because it extends the prefix given by a bar on $B$) and that $B(\oracle)$ does not hold (by our choice of $\alpha$).
 \end{itemize}
-To build a realizability model replicating this argument, we thus need to implement oracles but also to structure the realizability relation in a Kripke-like way: realizing $\varphi \to \psi$ not only means that realizers of $\varphi$ are sent to realizers of $\psi$ for some given world (defined here as oracle contexts) but also for future worlds (extensions of this oracle context).
+To build a realizability model replicating this argument, we thus need to implement oracles but also to structure the realizability relation in a Kripke-like way: realizing $\varphi \to \psi$ not only means that realizers of $\varphi$ are sent to realizers of $\psi$ for some given world (taken here to be context of functions working as oracles) but also for future worlds (extensions of this context).
 
 
 \subsection{Lambda-calculus}
@@ -98,23 +98,23 @@ To build a realizability model replicating this argument, we thus need to implem
 \label{s:FT}
 
 
-With our model constructed, and the proof that it describes a consistent theory done, we can describe the proof that this model satisfies $\WFT$. We also show that $\WKL$ fails with a standard argument using Kleene tree.
+With our model constructed, and the proof that it describes a consistent theory done, we can describe the proof that this model satisfies $\FT$. We also show that $\WKL$ fails with a standard argument using Kleene tree.
 \subsection{Fan Theorem \& Weak \Konig's Lemma}
 %\emnote{def + discussion sur binaire ou non, et renvoi à ~\cite{BreHer21}}
 
 Now that we know both the logic we use and the model we consider, let's give a formal definition of $\FT$. We assume given the function $\restr \alpha \varn$ which is the prefix of the $n$ first values of $\alpha$, given in a list, and write $\ListInf$ for the prefix order on lists.
 
-As we mentionned before, $\FT$ applies to the complement of a tree. The way we formalize trees can vary, but in reverse mathematics and computability it is standard to consider a tree as a predicate $T \subseteq \List(\bN)$ (where $\List$ are considered as finite words) closed by prefix, meaning that $\ell \ListInf \ell' \implies \ell' \in T \implies \ell \in T$. This means that the complement of a tree must satisfy the converse, which we call a monotonous predicate:
+As we mentionned before, $\FT$ applies to the complement of a tree. The way we formalize trees can vary, but in reverse mathematics and computability it is standard to consider a tree as a predicate $T \subseteq \List(\bN)$ (where $\List$ is used in place of the set of finite words) closed by prefix, meaning that $\ell \ListInf \ell' \implies \ell' \in T \implies \ell \in T$. This means that the complement of a tree must satisfy the converse, which we call a monotonous predicate:
 \[\Mono^S(B) \defeq \forall \ell^{\List(S)}\,{\ell'}^{\List(S)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')\]
 Naturally, when writing $\forall B^{\Mono^S}, \varphi$, we use the same relativization procedure as before.
 
 The statement we use as $\FT$ is
 \begin{multline*}
-        \FT\defeq \forall B^{\Mono^\Bool}, (\forall \alpha^{\{\Nat \to \Bool\}}, \exists \varn^{\{\Nat\}}, \restr\alpha n \in B) \implies \\
-        \exists \varn^{\{\Nat\}}, \forall \alpha^{\{\Nat\to\Bool\}}, \restr \alpha n \in B
+        \FT\defeq \forall B^{\Mono^\Bool}, (\forall \alpha^{\{\Nat \to \Bool\}}, \exists \varn^{\{\Nat\}}, \restr\alpha \varn \in B) \implies \\
+        \exists \varn^{\{\Nat\}}, \forall \alpha^{\{\Nat\to\Bool\}}, \restr \alpha \varn \in B
 \end{multline*}
 
-$\FT$ is thus a rewriting of the contrapositive of $\WKL$, replacing a tree by its complement, a monotonous predicate. However, the statement of $\FT$ vary in the litterature. In \cite{LubRat13} on which we base our model, $\FT$ is given on binary tree the same way we do here. In \cite{BreHer21}, $\FT$ is stated with, instead of $\Bool$, a finite set: in fact, our construction perfectly works in this setting because there is no more computational difficulty in the finite case, as long as the bound on the finite set is known \textit{a priori}. Another statement, which would make $\FT$ dual to $\KL$, would be to consider $T : \List(\bN) \to \Prop$ (the complement of $B$, a tree) with a finite branching condition saying that $T \cap \bN^n$ is always a finite set.
+$\FT$ is thus a rewriting of the contrapositive of $\WKL$, replacing a tree by its complement, a monotonous predicate. However, the statement of $\FT$ vary in the litterature. In \cite{LubRat13} on which we base our model, $\FT$ is given on binary tree the same way we do here. In \cite{BreHer21}, however, $\FT$ is stated with a finite set instead of $\Bool$: in fact, our construction perfectly works in this setting because there is no more computational difficulty in the finite case, as long as the bound on the finite set is known \textit{a priori}. Another statement, which would make $\FT$ dual to $\KL$, would be to consider $T : \List(\bN) \to \Prop$ (the complement of $B$, a tree) with a finite branching condition saying that $T \cap \bN^n$ is always a finite set, in which case our models would not satisfy the principle.
 
 \input{bestiaire.tex}
 
@@ -123,7 +123,7 @@ $\FT$ is thus a rewriting of the contrapositive of $\WKL$, replacing a tree by i
 \section{A robust interpretation of the Fan Theorem}
 \label{s:robust}
 The realizability model developed in \Cref{s:FT} relies on the ideas
-of Lubarsky and Rathjen's work \cite{LubRat13} to prove $\WFT$.
+of Lubarsky and Rathjen's work \cite{LubRat13} to prove $\FT$.
 For the argument in this proof to work, the two main conditions that emerge are
 \begin{itemize}
 \item a notion of continuity for the individuals realized by a code %\emnote{of quantified relativization/individuals realized by a code}
@@ -155,7 +155,7 @@ the concrete structure we study will be introduced as an additional structure
 over EFs.
 
 This section ends with the statement of the \Cref{thm:main}, which is a more abstract
-variant of the \Cref{thm:FT}: in this version, the realizability structure realizing $\WFT$ can have realizers of any form ($\lambda$-terms, Turing machines\ldots) as long as it gives an implementation of integers with its recursor, satisfies the two conditions mentioned above for the argument to work,
+variant of the \Cref{thm:FT}: in this version, the realizability structure realizing $\FT$ can have realizers of any form ($\lambda$-terms, Turing machines\ldots) as long as it gives an implementation of integers with its recursor, satisfies the two conditions mentioned above for the argument to work,
 plus two additional technical conditions.
 
 \subsection{The induced Evidenced Frame}
@@ -174,16 +174,16 @@ plus two additional technical conditions.
 \section{Conclusion, future work}
 %\tlnote{Conclusion : mini récap disant qu'on a défini un modèle séparant FT et WKL. On a identifié que les éléments essentiels sont [les conditions du thm]. On montre la robustesse de l'approche et on observe que le modèle concret qu'on a défini permet de donner à nos conditions une notion propre à FT, sans WKL.}
 
-This article introduces a new model separating \WFT from \WKL based on $\lambda$-calculus. It is related to the model in \cite{LubRat13} in a similar way as standard $\lambda$-calculus realizability of Heyting Arithmetic is related to Kleene's first realizability algebra. However, the main contribution is that we outline the conditions for this proof to apply:
+This article introduces a new model separating \FT from \WKL based on $\lambda$-calculus. It is related to the model in \cite{LubRat13} in a similar way as standard $\lambda$-calculus realizability of Heyting Arithmetic is related to Kleene's first realizability algebra. However, the main contribution is that we outline the conditions for this proof to apply:
 \begin{itemize}
 \item the computational system has continuity
 \item it can be extended with infinite path for any computable tree
-\item it has explicite existential
+\item it has explicit existential
 \item it has unbounded search
 \end{itemize}
 Formulated in the framework of evidenced frames, this result can apply to any realizability model exhibiting those properties. This generality implies that the computational content we outline is explicit and is not a degenerate case of a particular model.
 
-We know that the argument cannot work without the second property, because the Kleene tree in the standard realizability model (with no oracle) has a bar on the Kleene tree which is not uniform. Nonetheless, these conditions allow the construction of models (\textit{e.g.} the one explicitly constructed in this article) which satisfy \WKL without satisfying \WKL, indicating that they are parcimonious at least with regard to the hierarchy established in \cite{BreHer21}.
+We know that the argument cannot work without the second property, because the Kleene tree in the standard realizability model (with no oracle) has a bar which is not uniform. Nonetheless, these conditions allow the construction of models (\textit{e.g.} the one explicitly constructed in this article) which satisfy \WKL without satisfying \WKL, indicating that they are parcimonious at least with regard to the hierarchy established in \cite{BreHer21}.
 
 This theorem is also robust by stating a statement of the form
 \emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''.
@@ -192,7 +192,7 @@ This theorem is also robust by stating a statement of the form
 
 %\tlnote{Ouverture : - conditions suffisantes, est-ce qu'elles sont nécessaires ? On sait quand on fait sauter le 'chemin dans le futur' que ça ne marche plus, mais pour les autres on sait pas. - est-ce qu'on est capable de faire ça pour d'autres principes de choix et monter dans la hiérarchie de Nuria et Hugo ? Sur DC avec mémoization ? Sur König ? - est-ce qu'on peut traduire les variantes de FT dans notre approche ?}
 
-Now, several further work can be opened. This article shows that choice principles can be stutied through a general realizability framework, namely evidenced frames, to give them a computational content. The natural extension of this work is thus to find similar theorems showing what computational behavior must be exhibited to show \textit{e.g.} \WKL, \KL, \DC or some other choice principles.
+Now, several further work can be opened. This article shows that choice principles can be studied through a general realizability framework, namely evidenced frames, to give them a computational content. The natural extension of this work is thus to find similar theorems showing what computational behavior must be exhibited to show \textit{e.g.} \WKL, \KL, \DC or some other choice principles.
 
 Another interesting question arises when considering alternative versions of \FT. For example, it is possible to weaken the premisse that \emph{any bar must be uniform} by only considering bars on $\Pi_0^1$ trees or on computable trees. Is there a variation of the \Cref{thm:main} accounting for such weakenings?
 

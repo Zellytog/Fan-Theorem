@@ -1,6 +1,6 @@
 
 
-We will now generalize our proof of $\WFT$ by abstracting its core over the
+We will now generalize our proof of $\FT$ by abstracting its core over the
 abstract framework provided by evidenced frames.
 Scrutinizing the argument in the proof of \Cref{thm:FT},
 besides the whole Kripke-like structure of our model,
@@ -27,7 +27,7 @@ Observe that the functions which the former conditions refer to
 are actually individuals witnessed by codes in our model.
 Technically, this was handled by means of HOL-terms of the appropriated sorts
 and the relativization predicate $\sortPred{\termt}$.
-Again, we would like maintain the distinction between terms witnessing individuals (the \emph{data types})
+Again, we would like to maintain the distinction between terms witnessing individuals (the \emph{data types})
 and realizers for formulas.
 Therefore, we extend the definition of evidenced frames to account for data types:
 those are evidenced frames for which we explicitly add a representation of $\bN$.
@@ -135,7 +135,8 @@ Instead of oracles $\oracle_n$ interpreting functions $\bN \to \bN$, we could ad
 % By analysing in details the proof of theorem \ref{thm:FT}, in addition to the two main conditions, two technical conditions are needed.
 
 %\emnote{todo: introductory sentence}
-Another principle that is used in the theorem \ref{thm:FT} but need not be realized in any EF is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}. This construction is not realized in some typed settings. For example, we can easily construct a realizability model of Heyting Arithmetic using system T functions: those functions are total and contain recursive primitive functions, hence they can't be stable under $\mu$.
+Another principle that is used in the theorem \ref{thm:FT} but need not be realized in any EF is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}.
+%This construction is not realized in some typed settings. For example, we can easily construct a realizability model of Heyting Arithmetic using system T functions: those functions are total and contain recursive primitive functions, hence they can't be stable under $\mu$.
 
 
 %These condition arise from two constructions quite natural but not always true for an arbitrary realizability model:
@@ -156,7 +157,7 @@ but extension to PCF or untyped settings naturally allow for such an operator.
 
 
 \subsubsection{The robust theorem}
-We can now state our generalized theorem about $\WFT$. The conditions are the one introduced above, but they are not needed to be satisfied on every world. In the proof of \Cref{thm:FT}, there are two worlds: the one from which we get the bar, and the one in which we get the path avoiding $C(b)$. The continuity and explicit existential only need to be satisfied in the latter and, up to going to an even further future, can be checked only on a dense set of worlds. The unbounded search is used on the base world (the one containing our model), which is the only use of this hypothesis.
+We can now state our generalized theorem about $\FT$. The conditions are the one introduced above, but they are not needed to be satisfied in every world. In the proof of \Cref{thm:FT}, there are two worlds: the one from which we get the bar, and the one in which we get the path avoiding $C(b)$. The continuity and explicit existential only need to be satisfied in the latter and, up to going to an even further future, can be checked only on a dense set of worlds. The unbounded search is used on the base world (the one containing our model), which is the only use of this hypothesis.
 
 \begin{theorem}\label{thm:main}
   Let $\EFE$ be an EFdata with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following conditions are satisfied:
@@ -168,7 +169,7 @@ We can now state our generalized theorem about $\WFT$. The conditions are the on
   and a code $e \in E_{w'}$ such that for any $n \in \bN$,
   $\relEF{e}{\cod n}{\restr \alpha n \in B}$
   \end{itemize}
-  then $\EFE \real \WFT$.
+  then $\EFE \real \FT$.
 \end{theorem}
 
 \begin{proof}
@@ -180,13 +181,13 @@ We can now state our generalized theorem about $\WFT$. The conditions are the on
     \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr \alpha n \in B
   \end{multline*}
   
-  We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we can't define the fixpoint by itself, but we can define the function which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. Call this function $F_C : \Nat \to \Bool$. This function has a code $e_{F_C}$.
+  We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we can't define the fixpoint by itself, but we can define the function $C'_b$ which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. This function has a code $e_{C'_b}$.
 
-  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ F_C$ (because we search for a $n$ such that $F_C(n) = 1$). Combining it with the code $e_{F_C}$, this gives an evidenced of a uniform bound. Thus, all that is left to prove is that $\lnot \circ F_C$ indeed has a $0$.
+  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ C'_b$ (because we search for a $n$ such that $C'_b(n) = 1$). Combining it with the code $e_{C'_b}$, this gives an evidenced of a uniform bound. Thus, all that is left to prove is that $\lnot \circ C'_b$ indeed has a $0$.
 
-  Suppose that $F_C(n) = 0$ for any $n$. This means that for any $n \in \bN$, there is a list of size $n$ avoiding $C$. Using Weak König's Lemma on $\complement C$ (which is a tree), we find a path $\alpha : \bN \to \bB$ such that $\restr \alpha n \notin C$ for any $n \in \bN$. By hypothesis on our functor $W \to \CatEFData$, we find $w' \in W$ and a code $e_\alpha \in \cod \alpha$ in $w'$. By the other hypothesis, we can assume (up to going to a future world) that $F(w')$ has continuity.
+  Suppose that $C'_b(n) = 0$ for any $n$. This means that for any $n \in \bN$, there is a list of size $n$ avoiding $C$. Using Weak König's Lemma on $\complement C$ (which is a tree), we find a path $\alpha : \bN \to \bB$ such that $\restr \alpha n \notin C$ for any $n \in \bN$. By hypothesis on our functor $W \to \CatEFData$, we find $w' \in W$ and a code $e_\alpha \in \cod \alpha$ in $w'$. By the other hypothesis, we can assume (up to going to a future world) that $F(w')$ has continuity.
 
-  Let $g$ be the morphism from $\EFE$ to $F(w')$. By construction of morphisms, we have that
+  Let $g$ be the morphism from $\EFE$ to $F(w')$. By construction of morphisms, we have
   \[g(b)\real g(\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B)\]
   but as $g$ commutes with $\cod -$, with $\implies$, and with quantification $\forall$, we deduce that
   \[g(b)\real \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]

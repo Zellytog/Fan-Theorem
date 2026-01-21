@@ -1,8 +1,12 @@
 
 
-The proof we adapt from \cite{LubRat13} uses the Turing-machine realizability relation over a Kripke model of IZF. This Kripke model is made on the frame $\omega^{<\omega}$ and every world in this frame is equiped with a finite family of oracles: the realizers then use only these oracles for their computation.
+%The proof we adapt from \cite{LubRat13} uses the Turing-machine realizability relation over a Kripke model of IZF. This Kripke model is made on the frame $\omega^{<\omega}$ and every world in this frame is equiped with a finite family of oracles: the realizers then use only these oracles for their computation.
 
-Simplifying this construction, we consider a lambda-calculus which, similarly to the realizers of the model mentionned above, is able to call a finite number of oracles. To implement the call to oracles primitive, we add a family of terms $\oracle_n$ representing the $n$-th oracle of our family.
+%Simplifying this construction, we consider a lambda-calculus which, similarly to the realizers of the model mentionned above, is able to call a finite number of oracles. To implement the call to oracles primitive, we add a family of terms $\oracle_n$ representing the $n$-th oracle of our family.
+
+In \cite{LubRat13}, the argument mentionned above is implemented by taking a Kripke model of IZF. In this model, a realizability model is constructed based on Turing machine with oracle. The Kripke model itself uses as frame the set $\omega^{<\omega}$, and each world $\enviro$ corresponds to a finite set of oracles. By well designed construction, Lubarsky and Rathjen manage to construct the model so that the realizability model taken at some world $\enviro$ are Turing machine computing with oracles in $\enviro$.
+
+To simplify this construction and avoid the use of a Kripke model for set theory, we consider a $\lambda$-calculus for which terms are allowed to call oracles. This is done by adding the family of terms $\oracle_k$, representing the function $f_k$ in the context $[f_1,\cdots ,f_n]$.
 
 \begin{definition}[Lambda-terms]
   We fix an enumerable set $\Xlam$ of $\lambda$-variables which will be written
@@ -20,7 +24,9 @@ Simplifying this construction, we consider a lambda-calculus which, similarly to
 
 We assume the usual convention of $\alpha$-renaming of bound variables.
 
-Using our multiple worlds analogy, we parametrize the reduction on terms by a list of functions $\bN \to \bB$. In place of the frame $\omega^{<\omega}$ previously mentionned, our set of worlds is $(\bN \to \bB)^{<\omega}$, but every definition can be restricted to a subset of $\bN \to \bB$, for example by taking only functions of some given degree. The model of \cite{LubRat13} is the case where we restrict the $i$-th element of the list to be in a degree $\degreeD_i$, where $(\degreeD_i)$ is a fixed countable family of strictly increasing Turing degrees.
+Using our multiple worlds analogy, we parametrize the reduction on terms by a list of functions $\bN \to \bB$. In place of the frame $\omega^{<\omega}$ previously mentionned, our set of worlds is $(\bN \to \bB)^{<\omega}$, but every definition can be restricted to a subset of $\bN \to \bB$, for example by taking only functions of some given degree. The model of \cite{LubRat13}
+can be obtained by taking the following restriction: fix a family $\{f_i\}_{i \in \bN}$ of functions $\bN \to \bB$ of strictly increasing Turing degrees, and only consider the contexts $\enviro$ where $\enviro_i$ agrees with $f_i$ on all but finitely many values.
+%is the case where we restrict the $i$-th element of the list to be in a degree $\degreeD_i$, where $(\degreeD_i)$ is a fixed countable family of strictly increasing Turing degrees.
 
 \begin{definition}[Reduction context]
   Let $\funB$ be the set of set-functions $\bN \to \bB$. We denote by $\Oracle$ the set of lists of set-functions $\bN \to \bB$:
@@ -31,7 +37,7 @@ Using our multiple worlds analogy, we parametrize the reduction on terms by a li
 We assume the usual convention for substitution without capture of free variables.
 
 \begin{notation}
-  Given a partial map $\rho : \Xlam \partialto \Lambda$ and a term $t$, the simultaneous substitution of $t$ by $\rho$ is denoted $\rho(t)$. If $\rho$ is the function defined on the only point $x \in \Xlam$ by $x \mapsto u$, then we will write $t[u/x]$.
+  Given a partial map $\rho : \Xlam \partialto \Lambda$ and a term $t$, the simultaneous substitution of $t$ by $\rho$ is denoted $\rho(t)$. If $\rho$ is the function defined on the only point $x \in \Xlam$ by $x \mapsto u$, then we will write $t[u/x]$. If $\rho$ is $x_1 \mapsto t_1, x_2 \mapsto t_2, \cdots, x_n \mapsto t_n$ then we write $t[t_i/x_i]$.
 \end{notation}
 
 The reduction itself is the expected $\beta$-reduction, enriched by the reduction, for
@@ -40,8 +46,8 @@ any set-function $f : \bN \to \bB$ in the $i$-th place of the reduction context:
 where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in this lambda-calculus, and the encoding of booleans is $\rtt$ and $\rff$, corresponding respectively to $1 \in \bB$ and $0 \in \bB$.
 
 \begin{definition}[Reduction]
-  Let $\oracle \in \Oracle$.
-  We define the relation $\mapsto_\sigma$ of immediate reduction by the following rules:
+  Let $\enviro \in \Oracle$.
+  We define the relation $\mapsto_\enviro$ of immediate reduction by the following rules:
   \[\begin{array}{lclr}
     (\lambda x.t)u & \rediE & t[u/x] \\
     \pi_i \langle t_1,t_2\rangle & \rediE & t_i & \forall i \in \{1,2\} \\
@@ -77,15 +83,17 @@ As the reduction depends on the reduction context, we show that extending the re
 \end{proof}
 
 \subsection{Saturated sets}
-\emnote{intuition}
-The standard interpretation of $\Prop$ in realizability is the set $\SAT$ of saturated sets. In our case, as saturation is a property about (anti)reduction, we parametrize the notion of saturation by a reduction context.
+%\emnote{intuition}
+The standard interpretation of $\Prop$ in realizability is the set $\SAT$ of saturated sets.
+The choice of saturated sets is due to the ambiguous notion of ``applying $\lambda x.t$ to $u$'' which can mean either $(\lambda x.t)\;u$ or $t[u/x]$. For practical reasons, this ambiguity appears when proving that realizability exhibits good logical behavior. Because of this, we assume that meaningful sets of terms are sets closed by antireduction.
+As saturation is a property about (anti)reduction, we parametrize the notion of saturation by a reduction context.
 
 The notion of truth value in our model is thus, in a world $\enviro$, the set of saturated sets for $\rediE$. This truth value is local, in the sense that it only speaks about $\enviro$, so the adapted notion of truth value (for the Kripke interpretation) is given by family of saturated sets, for each $\enviro$.
 
 \begin{definition}[Saturated set]
   Let $\enviro\in\Oracle$ and $A \subseteq \Lambda$.
-  We call $A$ a $\enviro$-saturated set if it is closed by anti-reduction for $\redE$, and write $\SATE$ the set of saturated sets:
-  \[A \in \SATE \defeq \forall t,u \in \Lambda, t \rediE u \implies u \in A \implies t \in A\]
+  We call $A$ a $\enviro$-saturated set if it is closed by anti-reduction for $\redE$, and write $\SATE$ the set of $\enviro$-saturated sets:
+  \[A \in \SATE \defeq \forall t,u \in \Lambda, t \redE u \implies u \in A \implies t \in A\]
   We define the set of global saturated subsets as follows:
   \[\SAT \defeq \left\{\left.(A_{\enviro}) \in \prod_{\enviro\in\Oracle} \SATE \right\vert
   \forall \enviro,\enviroT\in\Oracle, \enviro \infOr \enviroT \implies A_{\enviro} \subseteq A_{\enviroT}\right\}\]
@@ -139,7 +147,7 @@ The structure of Heyting pre-algebra on $\SATE$ is the expected one: $A \leq B$ 
 \end{proposition}
 
 \begin{proof}
-  The fact that the two operations are well defined is standard and uses the compatibility of the relation.
+  The fact that the operations are well defined is standard and uses the compatibility of the relation.
   
   Let's show that $\infSATE$ is the right adjoint to $\landSATE$. This means that for any $A,B,C \in \SATE$:
   \[A \infSATE B \impliesSATE C \iff A \landSATE B \infSATE C\]
@@ -149,9 +157,9 @@ The structure of Heyting pre-algebra on $\SATE$ is the expected one: $A \leq B$ 
   \end{itemize}
 
   We do the same for $\SAT$:
-  \[\varA \infSAT \varB \impliesSAT \varC \iff \varA\landSAT \infSAT \varC\]
+  \[\varA \infSAT \varB \impliesSAT \varC \iff \varA\landSAT \varB\infSAT \varC\]
   \begin{itemize}
-  \item suppose there is $t$ such that for any $\enviro,\enviroT\in\Oracle$, $u \in \termAE, v \in \termB{\enviroT}$ and such that $\enviro \infOr \enviroT$, $t\;u\;v \in \termC{\enviroT}$. Then, for $\enviro \in \Oracle$ and $u \in \termAE\landSAT\termBE$, $\pi_1\;u\in\termAE$ and $\pi_2\;u\in\termBE$, so $t\;(\pi_1\;u)\;(\pi_2\;u)\in\termCE$.
+  \item suppose there is $t$ such that for any $\enviro,\enviroT\in\Oracle$, $u \in \termAE, v \in \termB{\enviroT}$ and such that $\enviro \infOr \enviroT$, $t\;u\;v \in \termC{\enviroT}$. Then, for $\enviro \in \Oracle$ and $u \in \termAE\landSAT\termBE$, $\pi_1\;u\in\termAE$ and $\pi_2\;u\in\termBE$, so $t\;(\pi_1\;u)\;(\pi_2\;u)\in\termCE$ and by antireduction $\lambda x.t\;(\pi_1\;x)\;(\pi_2\;x)$ witnesses that $\varA \landSAT \varB \infSAT \varC$.
   \item suppose there is $t$ such that for any $\enviro\in\Oracle$ and $u \in \termAE \landSAT \termBE$, $tu \in \termCE$. Then, let $\enviro,\enviroT\in\Oracle$ such that $\enviro\infOr \enviroT$ and $u \in \termAE$. By inclusion, $u \in \termA{\enviroT}$, so for any $v \in \termB{\enviroT}$, $t\;\langle u,v\rangle \in \termC{\enviroT}$, so by antireduction $\lambda x\;y.t\;\langle x,y\rangle$ is a witness that $\varA\infSAT \varB \impliesSAT \varC$.
   \end{itemize}
 
