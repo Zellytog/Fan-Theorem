@@ -188,11 +188,19 @@ We know that the argument cannot work without the second property, because the K
 This theorem is also robust by stating a statement of the form
 \emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''.
 
+With this kind of statement, we expect to capture the exact computational content of $\FT$. More generaly, we expect that an exploration of logical principles in intuitionnistic reverse mathematics can be conducted by this methodology, that we can summarize as such to find the computational content of a logical principle $(b)$:
+\begin{itemize}
+\item a general definition of computational system must be given, and this computational system can be made into an EF (or another general realizability framework, like implicative algebra \cite{Miquel20})
+\item on this notion of computational system, we can define a condition $(a)$ such that a computational system satisfying $(a)$ always satisfies $(b)$ in its realizability model
+\item among the computational systems satisfying $(a)$, we can find ones that do not satisfy a strictly stronger principle than $(b)$.
+\end{itemize}
+This methodoly has been applied to $\FT$ in this methodoly, but can be transposed to any other logical principle: first, the hierarchy of choice principles in \cite{BreHer21} is a natural candidate, as it gives both a list of principles and a a good criterium to exhibit what strictly stronger principle we do not expect to satisfy (namely the principles above in the hierarchy, and the classical counterpart of intuitionnistic principles).
+
 %The argument we made can also be adapted to prove \FT, depending of the definition we consider. If we follow \cite{LubRat13}, what we call \WFT is directly \FT, which is expected as the argument is mostly the same. However, using the definition of \FT in \cite{BreHer21}, the same argument still works: working on a fixed finite branching is not computationaly harder than working on binary trees. The case where \FT is strictly stronger than what we study in this article is when considering a tree $T$ over $\bN^{<\bN}$ such that for any $n$, $T \cap \bN^n$ is finite. In this case, the tree can have an unbounded branching which cannot be checked computationally.
 
 %\tlnote{Ouverture : - conditions suffisantes, est-ce qu'elles sont nécessaires ? On sait quand on fait sauter le 'chemin dans le futur' que ça ne marche plus, mais pour les autres on sait pas. - est-ce qu'on est capable de faire ça pour d'autres principes de choix et monter dans la hiérarchie de Nuria et Hugo ? Sur DC avec mémoization ? Sur König ? - est-ce qu'on peut traduire les variantes de FT dans notre approche ?}
 
-Now, several further work can be opened. This article shows that choice principles can be studied through a general realizability framework, namely evidenced frames, to give them a computational content. The natural extension of this work is thus to find similar theorems showing what computational behavior must be exhibited to show \textit{e.g.} \WKL, \KL, \DC or some other choice principles.
+%Now, several further work can be opened. This article shows that choice principles can be studied through a general realizability framework, namely evidenced frames, to give them a computational content. The natural extension of this work is thus to find similar theorems showing what computational behavior must be exhibited to show \textit{e.g.} \WKL, \KL, \DC or some other choice principles.
 
 Another interesting question arises when considering alternative versions of \FT. For example, it is possible to weaken the premisse that \emph{any bar must be uniform} by only considering bars on $\Pi_0^1$ trees or on computable trees. Is there a variation of the \Cref{thm:main} accounting for such weakenings?
 
