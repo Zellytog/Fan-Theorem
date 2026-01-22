@@ -8,21 +8,21 @@ The only thing left to be defined is the $\cod -$ operation.
   We define by induction, for any $S \in \Sort$ and any element $s \in \bS$, the set $\cod s \in \SAT$:
   \begin{itemize}
   \item if $S = \Nat$, then for $n \in \bN$,
-    \[\cod{n} \defeq \enviro \mapsto \{ t \in \Lambda \mid t \redERT \overline n\}\]
+    $\cod{n} \defeq \enviro \mapsto \{ t \in \Lambda \mid t \redERT \overline n\}$
   \item if $S = \Bool$, then
-    \[\cod{\top} \defeq \enviro \mapsto \{ t \in \Lambda \mid t \redERT \rtt\}\quad\text{ and }\quad\cod{\bot} \defeq \enviro\mapsto \{ t \in \Lambda \mid t \redERT \rff\}\]
+    $\cod{\top} \defeq \enviro \mapsto \{ t \in \Lambda \mid t \redERT \rtt\}\quad\text{ and }\quad\cod{\bot} \defeq \enviro\mapsto \{ t \in \Lambda \mid t \redERT \rff\}$
   \item if $S = \List(T)$, then
-    \[\cod{\varepsilon} \defeq \enviro \mapsto\{ t \in \Lambda \mid t \redERT \nil \}\]
+    $\cod{\varepsilon} \defeq \enviro \mapsto\{ t \in \Lambda \mid t \redERT \nil \}$
     and for all $x \in \bT^\star$, $y \in \bT$,
-    \[\cod{x \smallfrown y} \defeq \enviro\mapsto \{ t \in \Lambda \mid \exists u \in \codE x, \exists v \in \codE y, t \redERT v \append u\}\]
+    $\cod{x \smallfrown y} \defeq \enviro\mapsto \{ t \in \Lambda \mid \exists u \in \codE x, \exists v \in \codE y, t \redERT v \append u\}$
   \item if $S = T \times U$, then for all $x \in \bT$, $y \in \bU$,
-    \[\cod{(x,y)} \defeq \cod{x} \landSAT \cod{y}\]
+    $\cod{(x,y)} \defeq \cod{x} \landSAT \cod{y}$
     %\[\codE{(x,y)} \defeq \{ t \in \Lambda \mid (\pi_1\;t \in \codE x) \land (\pi_2\;t \in \codE y)\}\]
   \item if $S = T \to U$, then for all $f : \bT \to \bU$,
-    \[\cod f \defeq \bigcap_{x \in \bT} \cod x \impliesSAT \cod{f(x)}\]
+    $\cod f \defeq \bigcap_{x \in \bT} \cod x \impliesSAT \cod{f(x)}$
     %\[\codE f \defeq \{ t \in \Lambda \mid \forall s \in \bT, \forall \enviroT \supOr\enviro,\forall u \in \codP s \enviroT, tu \in \codP{f(s)}\enviroT\}\]
   \item if $S = \Prop$, then for all $\varA \in \SAT$,
-    \[\cod{\varA} \defeq \varA\]
+    $\cod{\varA} \defeq \varA$
   \end{itemize}
 
   For each $\enviro\in\Oracle$, we define $\codE s$ by $\codE s \defeq (\cod s)_\enviro$.
@@ -30,55 +30,56 @@ The only thing left to be defined is the $\cod -$ operation.
 
 The fact that $\codE s \in\SATE$ is a straightforward induction on the set of sorts. We postpone the proof that $\enviro\infOr \enviroT \implies \codE s \subseteq \codP s {\enviroT}$ to the proposition \ref{prop.monotonicity}, as it is a particular case of a proposition on realizability.
 
-We now have a semantic interpretation of our initial HOL syntax, where propositions are sets of terms. The realizability relation then defines, for a syntactic proposition $\vdash \varphi : \Prop$, an object $\sem{\varphi} \in \sem{\Prop}$. In a way, the relation is simply $t \in \cod{\rho(\varphi)}$ for $\Gamma\vdash \varphi : \Prop$ and $\rho\models \Gamma$, but we prefer to give an explicit definition of this relation.
+We now have a semantic interpretation of our initial HOL syntax, where propositions are sets of terms. The realizability relation then defines, for a syntactic proposition $\vdash \varphi : \Prop$, an object $\sem{\varphi} \in \sem{\Prop}$. If we unfold the definition of $\sem{\varphi}$, we find that it is defined as an element of $\SAT$ the way we expect in the usual realizability construction, except for our altered definition of $\impliesSAT$.%In a way, the relation is simply $t \in \cod{\rho(\varphi)}$ for $\Gamma\vdash \varphi : \Prop$ and $\rho\models \Gamma$, but we prefer to give an explicit definition of this relation.
 
 \begin{definition}[Realizability relation]\label{def:real}
-  Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma\vdash \varphi : \Prop$. We define by induction the realizability relation:
-  \begin{itemize}
-  \item $t \realPP \sortPred{\termt} \defeq t \in \codE{\termenv(\termt)}$
-  \item $t \realPP \varphi \to \psi \defeq \forall \enviroT \supOr\enviro, u \realP{\enviroT}{\termenv} \varphi \implies tu \realP{\enviroT}{\termenv}\psi$
-  \item $t \realPP \varphi \land \psi \defeq (\pi_1\;t \realPP \varphi) \land (\pi_2\;t \realPP \psi)$
-  \item $t \realPP \forall \varx^S, \varphi \defeq \forall s \in \bS, t\realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$
-  \item $t \realPP \exists \varx^S, \varphi \defeq \exists s \in \bS, t \realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$
-  \end{itemize}
-
+  Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma\vdash \varphi : \Prop$. We define by the realizability relation by
+  $t\realPP \varphi \defeq t \in \codE{\rho(\varphi)}$.
+  %\begin{itemize}
+  %\item $t \realPP \sortPred{\termt} \defeq t \in \codE{\termenv(\termt)}$
+  %\item $t \realPP \varphi \to \psi \defeq \forall \enviroT \supOr\enviro, u \realP{\enviroT}{\termenv} \varphi \implies tu \realP{\enviroT}{\termenv}\psi$
+  %\item $t \realPP \varphi \land \psi \defeq (\pi_1\;t \realPP \varphi) \land (\pi_2\;t \realPP \psi)$
+  %\item $t \realPP \forall \varx^S, \varphi \defeq \forall s \in \bS, t\realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$
+  %\item $t \realPP \exists \varx^S, \varphi \defeq \exists s \in \bS, t \realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$
+  %\end{itemize}
+  %
   If $\termenv = \varnothing$ (in which case $\Gamma = \nil$), then we only write $t \realP{\enviro}{} \varphi$.
 
-  We also define the universal realizability relation:
-  \[t \realUP{\termenv} \varphi \defeq \forall \enviro \in \Oracle, t \realP{\enviro}{\termenv}\varphi\]
+  We also define the universal realizability relation by $t\realUP{\termenv} \varphi \defeq t\in\cod{\rho(\varphi)}$. Remark that it is equivalent to saying that for any $\enviro\in\Oracle, t\realPP\varphi$.
+  %\[t \realUP{\termenv} \varphi \defeq \forall \enviro \in \Oracle, t \realP{\enviro}{\termenv}\varphi\]
 \end{definition}
 
 The following proposition justifies that the definitions give saturated sets, in the sense that they are monotonous with regard to the order on reduction contexts.
 
 \begin{proposition}\label{prop.monotonicity}
-  let $\enviro, \enviroT \in \Oracle$, $\enviro \infOr \enviroT$, $\Gamma \in \Hctx, \termenv \models \Gamma, \Gamma \vdash \varphi : \Prop$. Then, for every $t$, we have the following implication:
-  \[t \realPP \varphi \implies t \realP{\enviroT}{\termenv} \varphi\]
+  let $\enviro, \enviroT \in \Oracle$, $\enviro \infOr \enviroT$, $\Gamma \in \Hctx, \termenv \models \Gamma, \Gamma \vdash \varphi : \Prop$. Then, for every $t$, we have the following implication: $t \realPP \varphi \implies t \realP{\enviroT}{\termenv} \varphi$.
 \end{proposition}
 
-\begin{proof}
-  We prove this by induction on $\varphi$ (and thus, for the case where $\varphi = \sortPred{\termt}$, by induction on $S$):
-  \begin{itemize}
-  \item if $S = \Nat$, then $t \realPP \sortPredS{\Nat}{\termt}$ means that $t \redERT \overline n$, thus $t \redRTP{\enviroT} \overline n$, so $t \realP{\enviroT}{\termenv} \sortPredS{\Nat}{\termt}$.
-  \item if $S \in \{\Bool, \List(T), T \times U, \Prop\}$, the argument is the same.
-  \item if $S = T \to U$, then this is just a consequence of the case of implication and universal quantification.
-  \item if $\varphi = \psi \to \chi$, then let $\enviroTT \supOr\enviroT$ and $u \realP{\enviroTT}{\termenv} \psi$. By transitivity, $\enviro \infOr \enviroTT$, so by hypothesis on $t$, $tu \realP{\enviroTT}{\termenv} \psi$
-  \item if $\varphi = \psi \land \chi$, then we can conclude directly by induction hypothesis
-  \item the cases $\forall, \exists$ are the same: the induction hypothesis goes through without issue
-  \end{itemize}
-  Hence the monotonicity of realizability with regard to order on reduction contexts.
-\end{proof}
+%\begin{proof}
+%  We prove this by induction on $\varphi$ (and thus, for the case where $\varphi = \sortPred{\termt}$, by induction on $S$):
+%  \begin{itemize}
+%  \item if $S = \Nat$, then $t \realPP \sortPredS{\Nat}{\termt}$ means that $t \redERT \overline n$, thus $t \redRTP{\enviroT} \overline n$, so $t \realP{\enviroT}{\termenv} \sortPredS{\Nat}{\termt}$.
+%  \item if $S \in \{\Bool, \List(T), T \times U, \Prop\}$, the argument is the same.
+%  \item if $S = T \to U$, then this is just a consequence of the case of implication and universal quantification.
+%  \item if $\varphi = \psi \to \chi$, then let $\enviroTT \supOr\enviroT$ and $u \realP{\enviroTT}{\termenv} \psi$. By transitivity, $\enviro \infOr \enviroTT$, so by hypothesis on $t$, $tu \realP{\enviroTT}{\termenv} \psi$
+%  \item if $\varphi = \psi \land \chi$, then we can conclude directly by induction hypothesis
+%  \item the cases $\forall, \exists$ are the same: the induction hypothesis goes through without issue
+%  \end{itemize}
+%  Hence the monotonicity of realizability with regard to order on reduction contexts.
+%\end{proof}
 
-\begin{notation}
-  For a formula $\varphi$, we write
-  \begin{align*}
-    \realFP{\varphi}{\termenv}{} &\defeq \{ t \in \Lambda \mid t \realUP{\termenv} \varphi \}\\
-    \realF{\varphi} &\defeq \{ t \in \Lambda \mid t \realU \varphi\}
-  \end{align*}
+%\begin{notation}
+%  For a formula $\varphi$, we write
+%  \[
+%    \realFP{\varphi}{\termenv}{} \defeq \{ t \in \Lambda \mid t \realUP{\termenv} \varphi \}\qquad
+%    \realF{\varphi} \defeq \{ t \in \Lambda \mid t \realU \varphi\}
+%  \]
+%  it is an alternative writing for $\cod{\varphi}$.
 %  \begin{align*}
 %    \realFE{\varphi} &\defeq \{ t \in \Lambda \mid t \realPP \varphi \}\\
 %    \realUFE{\varphi} &\defeq (\realFE{\varphi})_{\enviro \in \Oracle} \\
 %  \end{align*}
-\end{notation}
+%\end{notation}
 
 %\begin{proposition}
 %  For every $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma \vdash \varphi : \Prop$, $\realFE{\varphi} \in \SAT$ and $\realUFE{\varphi} \in \SAT$.
@@ -98,12 +99,12 @@ The following proposition justifies that the definitions give saturated sets, in
 
 \begin{notation}
   We define the relativised universal quantification of a proposition, $\forall \varx^{\{S\}}, \varphi$, as
-  \[\forall \varx^{\{S\}}, \varphi \defeq \forall \varx^S, S(\varx) \to \varphi\]
+  $\forall \varx^{\{S\}}, \varphi \defeq \forall \varx^S, S(\varx) \to \varphi$.
   Thus, when realizing a formula like $\forall \varx^{\{S\}}, \varphi$, it suffices to suppose that there is an objet $s \in \bS$ with a code $t$ and to prove $\varphi$ using the data $t$.
 
   The relativised existantial quantification is defined by
-  \[\exists \varx^{\{S\}}, \varphi \defeq \exists \varx^{S}, S(\varx) \land \varphi\]
+  $\exists \varx^{\{S\}}, \varphi \defeq \exists \varx^{S}, S(\varx) \land \varphi$.
   This type is naturally equiped with both
-  \[\pi_1 \realU \varphi \land \psi \to \varphi \qquad \pi_2 \realU \varphi \land \psi \to \psi\]
+  $\pi_1 \realU \varphi \land \psi \to \varphi \qquad \pi_2 \realU \varphi \land \psi \to \psi$.
   This means that, if $t\realP{\enviro}{\termenv} \exists\varx^{\{S\}}, \varphi(\varx)$, then there exists some $s \in \bS$ such that $\pi_1\;t$ is a code of $s$ (for the reduction context $\enviro$) and $\pi_2\;t \realP{\enviro}{\termenv[\bvary\mapsto s]} \varphi(\bvary)$ with $\bvary$ a fresh variable.
 \end{notation}

@@ -24,18 +24,14 @@ are themselves decidables, as soon as $t$ and $u$ are typed in a sort $S$ which 
 
 Bounded formulas are defined in a similar way as for $\Sigma_0^1$ formulas of arithmetic, but with only relativized quantification (we want to be able to access the data we quantify on).  Using the recursors of $\Nat$, $\Bool$ and $\List$, as well as projections, any bounded formula implying only quantifications on discrete sorts and atomic formulas on discrete sorts (parameters can be functions) is decidable.
 
-For a decidable formula $\varphi(\varx^S)$, we write $\eval\varphi$ for a term deciding $\varphi$. This is a term with witnesses that for $s \in \bS$ and $t \in \cod s$, $\eval\varphi t$ realizes either
-\begin{itemize}
-\item $\varphi(s)$ if it reduces to $\rtt$, or
-\item $\lnot\varphi(s)$ if it reduces to $\rff$.
-\end{itemize}
+For a decidable formula $\varphi(\varx^S)$, we write $\eval\;\varphi$ for a term deciding $\varphi$. This is a term with witnesses that for $s \in \bS$ and $t \in \cod s$, $\eval\;\varphi \;t$ realizes either $\varphi(s)$ if it reduces to $\rtt$, or $\lnot\varphi(s)$ if it reduces to $\rff$.
 
 \subsubsection{Binary lists}
 
 However, for lists, the quantification $\forall \ell \ListInf \ell'$ with parameter $\ell'$ is not the one we will use. We wish to quantify for lists of length below some fixed integer. To be able to define $\forall \ell, |\ell| \leq n \implies \varphi$, we define a function $\ListEnum$ given by the binary decomposition of the number $n$. If $\IntBaseD n$ is the binary decomposition of $n$ in base $2$ as a list of booleans, then let $\ListEnum(n)$ be the list $\IntBaseD{n+1}$ in which we leave out the strongest bit $1$. The function $\ListEnum$ is a bijection from $\bN$ to $\List(\bB)$ which goes by increasing size, allowing the use of the quantification
-\[\forall \ell^{\List(\Bool)}, |\ell| \leq n \implies \varphi(\ell)\]
+$\forall \ell^{\List(\Bool)}, |\ell| \leq n \implies \varphi(\ell)$
 by the encoding
-\[\forall m^{\Nat}, m \leq 2^n \implies \varphi(\ListEnum(m))\]
+$\forall m^{\Nat}, m \leq 2^n \implies \varphi(\ListEnum(m))$
 
 \subsubsection{Finite and infinite path}
 
@@ -120,9 +116,9 @@ Given a function $\alpha : \Nat \to \Bool$ and a number $n$, we write $\restr \a
 
 We will now write the term realizing $\WFT$.
 Fix a monotonous predicate $B : \List(\Bool) \to \Prop$, \textit{i.e.} such that
-\[\forall \ell, \ell'^{\List(\Bool)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')\]
-a bar for this predicate is a realizer (in somme reduction context $\enviro$)
-\[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists \varn^{\{\Nat\}}, B(\restr \alpha \varn)\]
+$\forall \ell, \ell'^{\List(\Bool)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')$.
+A bar for this predicate is a realizer (in somme reduction context $\enviro$)
+$b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists \varn^{\{\Nat\}}, B(\restr \alpha \varn)$.
 Suppose given such a bar $b$.
 
 By the definition of realizing $\exists \varn^{\{\Nat\}}$, for any $\alpha \real \Nat \to \Nat$, we can retrieve $\pi_1(b(\alpha))\real \Nat(\varn)$ such that $\pi_2(b(\alpha))\real B(\restr \alpha \varn)$. To lighten the notations, we write $\restr\alpha b$ for $\restr{\alpha}{\pi_1(b(\alpha))}$, which is thus a realizer of some list $\ell \in \List(\Bool)$ coming with a realizer of $B(\restr \alpha b)$.
@@ -134,18 +130,15 @@ Our goal is to construct a monotonous subset $C\subseteq B$ which is decidable. 
 We then use this with a bounded quantification: we enumerate every list $\ell$ and, each time, add to $C$ the list $\restr{\ell0^\infty} b$ and every extension, as long as those extensions are of lower size than $\ell$. This can also be rewritten as follows: given a list $\ell$, checking whether $\ell \in C$ amounts to checking whether there exists a list $\ell'$ of size lower than $|\ell|$ such that $\restr{\ell'0^\infty}{b}\ListInf \ell$.
 
 This automatically gives a term
-\[C_b(\ell) \defeq \eval (\exists \ell'^{\{\List(\Bool)\}}, |\ell'| < |\ell| \land \restr{\ell'0^\infty} b \ListInf \ell)\ell\]
+\[C_b(\ell) \defeq \eval\;(\exists \ell'^{\{\List(\Bool)\}}, |\ell'| < |\ell| \land \restr{\ell'0^\infty} b \ListInf \ell)\;\ell\]
 Now, we define the following predicate
-\[C'_b(n) \defeq \eval (\forall \ell^{\{\List(\Bool)\}}, |\ell| = n \implies C(\ell))n\]
+\[C'_b(n) \defeq \eval\;(\forall \ell^{\{\List(\Bool)\}}, |\ell| = n \implies C(\ell))\;n\]
 $C'$ is decidable as $C$ is and the quantification is bounded. If $C'(n)$ is realized, then $n$ is a uniform bound for $C$, hence for $B$. Thus, the term we construct is an unbounded search to find a $n$ satisfying $C'_b(n)$. Let $Y \defeq \lambda f.(\lambda x.f\;(x\;x))(\lambda x.f\;(x\;x))$, we define
 \[n_{C_b} \defeq Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\]
-This function satisfies
-%\emnote{rewrite}
-\begin{align*}
-n_{C_b}\;n &\redRT n &\text{if } C'_b(n)\\
-n_{C_b}\;n &\redRT n_{C_b}\;(n+1) &\text{otherwize}
-\end{align*}
-so either $n_{C_b}\;0$ runs infinitely many steps, and for every $n$, $C'_b(n)$ is false (meaning that there exists $\ell_n \notin C$ of size $n$) or $n_{C_b} \real \Nat$ and it is a uniform bound.
+This function satisfies that
+$n_{C_b}\;n \redRT n$ if $C'_b(n)$ and
+$n_{C_b}\;n \redRT n_{C_b}\;(n+1)$ otherwize,
+so either $n_{C_b}\;0$ runs infinitely many steps, and for every $n$, $C'_b(n)$ is false (meaning that there exists $\ell_n \notin C$ of size $n$); or $n_{C_b} \real \Nat$ and it is a uniform bound.
 
 %For this, the idea is to consider every list by the order given by our enumeration. For a given list $\ell$, the bar $b$ can be applied to the function $\ell 0^\infty$ to have a list $\ell'$ (either a prefix of $\ell$ or $\ell$ followed by a finite number of $0$).
 %

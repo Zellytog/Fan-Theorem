@@ -1,35 +1,35 @@
 
 
-We first recall the definition of an Evidenced Frame~\cite{CohMiqTat21}.
+We refer to \cite{CohMiqTat21} for a definition of evidenced frame. For our purpose, an EF is given by a tuple $(E,\Phi,\relEFdot)$ for which there exist in propositions a $\top$ element, a $\land$ operation, an $\implies$ operation and an intersection operation $\bigcap$, as well as evidences $e\in E$ satisfying what we denoted before as a Heyting pre-algebra with intersection.
 
-\begin{definition}[Evidenced frame]
-  An Evidenced Frame $\EFE$ is a pair of sets $(\Phi,E)$ equiped with:\emnote{can be compacted if needed}
-  \begin{itemize}
-  \item a ternary relation $\relEFdot \subseteq E \times \Phi \times \Phi$
-  \item an element $\witID$ such that
-    \[\forall \varphi \in \Phi, \relEF \witID \varphi \varphi\]
-  \item there exists a function $\witCompDot : E \times E \to E$ such that
-    \[\forall \varphi, \psi, \chi \in \Phi, \forall \witx, \wity \in E, \relEF\witx\varphi\psi \implies \relEF\wity\psi\chi \implies \relEF{\witComp\witx\wity}{\varphi}{\chi}\]
-  \item an element $\PropTop \in \Phi$ such that there exists an element $\witTop \in E$ such that
-    \[\forall \varphi \in \Phi, \relEF\witTop\varphi\PropTop\]
-  \item a function $\PropAndDot : \Phi \times \Phi \to \Phi$ such that there exist a function $\witPairDot : E \times E \to E$ and two elements $\witFst,\witSnd \in E$ such that
-    \[\begin{array}{l}
-    \forall \varphi, \psi \in \Phi, \relEF\witFst{\PropAnd\varphi\psi}\varphi\\
-    
-    \forall \varphi, \psi \in \Phi, \relEF\witSnd{\PropAnd\varphi\psi}\varphi\\
-    
-    \forall \varphi, \psi, \chi \in \Phi,\forall \witx,\wity \in E, \relEF\witx\varphi\psi \implies \relEF\wity\varphi\chi\implies \relEF{\witPair\witx\wity}\varphi{\PropAnd\psi\chi}
-    \end{array}\]
-  \item a function $\PropImplDot : \Phi \times \powerset(\Phi) \to \Phi$ such that there exist a function $\witLam{} : E \to E$ and an element $\witEval$ such that
-    \[\begin{array}{l}
-    \forall \varphi,\psi \in \Phi, \forall \vec{\chi}\in \powerset(\Phi), \forall \witx \in E, (\forall \chi \in \vec \chi, \relEF\witx{\PropAnd\varphi\psi}\chi) \implies \relEF{\witLam\witx}\varphi{\PropImpl\psi{\vec{\chi}}}\\
-    \forall \varphi \in \Phi, \forall \vec{\psi} \in \powerset(\Phi),\forall \psi \in \vec{\psi}, \relEF{\witEval}{\PropAnd{(\PropImpl{\varphi}{\vec\psi})}\varphi}\psi
-    \end{array}\]
-  \end{itemize}
-\end{definition}
+%\begin{definition}[Evidenced frame]
+%  An Evidenced Frame $\EFE$ is a pair of sets $(\Phi,E)$ equiped with:\emnote{can be compacted if needed}
+%  \begin{itemize}
+%  \item a ternary relation $\relEFdot \subseteq E \times \Phi \times \Phi$
+%  \item an element $\witID$ such that
+%    \[\forall \varphi \in \Phi, \relEF \witID \varphi \varphi\]
+%  \item there exists a function $\witCompDot : E \times E \to E$ such that
+%    \[\forall \varphi, \psi, \chi \in \Phi, \forall \witx, \wity \in E, \relEF\witx\varphi\psi \implies \relEF\wity\psi\chi \implies \relEF{\witComp\witx\wity}{\varphi}{\chi}\]
+%  \item an element $\PropTop \in \Phi$ such that there exists an element $\witTop \in E$ such that
+%    \[\forall \varphi \in \Phi, \relEF\witTop\varphi\PropTop\]
+%  \item a function $\PropAndDot : \Phi \times \Phi \to \Phi$ such that there exist a function $\witPairDot : E \times E \to E$ and two elements $\witFst,\witSnd \in E$ such that
+%    \[\begin{array}{l}
+%    \forall \varphi, \psi \in \Phi, \relEF\witFst{\PropAnd\varphi\psi}\varphi\\
+%    
+%    \forall \varphi, \psi \in \Phi, \relEF\witSnd{\PropAnd\varphi\psi}\varphi\\
+%    
+%    \forall \varphi, \psi, \chi \in \Phi,\forall \witx,\wity \in E, \relEF\witx\varphi\psi \implies \relEF\wity\varphi\chi\implies \relEF{\witPair\witx\wity}\varphi{\PropAnd\psi\chi}
+%    \end{array}\]
+%  \item a function $\PropImplDot : \Phi \times \powerset(\Phi) \to \Phi$ such that there exist a function $\witLam{} : E \to E$ and an element $\witEval$ such that
+%    \[\begin{array}{l}
+%    \forall \varphi,\psi \in \Phi, \forall \vec{\chi}\in \powerset(\Phi), \forall \witx \in E, (\forall \chi \in \vec \chi, \relEF\witx{\PropAnd\varphi\psi}\chi) \implies \relEF{\witLam\witx}\varphi{\PropImpl\psi{\vec{\chi}}}\\
+%    \forall \varphi \in \Phi, \forall \vec{\psi} \in \powerset(\Phi),\forall \psi \in \vec{\psi}, \relEF{\witEval}{\PropAnd{(\PropImpl{\varphi}{\vec\psi})}\varphi}\psi
+%    \end{array}\]
+%  \end{itemize}
+%\end{definition}
 
 As we want to generalize the argument of \Cref{thm:FT} to Evidenced Frames,
-we first show that the model we defined indeed induces one. As a corollary,
+we first show that the model we defined indeed induces one, which is a consequence of $\SAT$ being a Heyting pre-algebra with intersection. As a corollary,
 this shows besides that our model also gives rise to a tripos and a topos~\cite{CohMiqTat21}.
 
 \begin{proposition}\label{prop:EF_notre}
@@ -38,18 +38,18 @@ this shows besides that our model also gives rise to a tripos and a topos~\cite{
   Then the triple $(\Phi,E,\relEFdot)$ is an evidenced frame.
 \end{proposition}
 
-\begin{proof}
-Observe that $\varA \infSAT \varB$ is exactly the proposition $\relEF t {\varA}{\varB}$
-for which we erase the witness $t$.
- The different components are thus defined by using the structure of $\SAT$ (but taking care of evidences provided
- by the expectedd $\lambda$-terms),
- which is a Heyting pre-algebra with intersection,
- and those properties (including the remark \ref{rmk:inclusion})
- suffice to show that $\EFSAT$ is an Evidenced Frame.
- As an example, the conjunction function is simply provided by
-$\PropAndDot \defeq \cdot \landSAT \cdot$ while
-the pairing function is defined by $\witPair t u \defeq \lambda x. \langle t\;x,u\;x \rangle$
-    together with $\witFst \defeq \pi_1$ and $\witSnd \defeq \pi_2$.
+%\begin{proof}
+%Observe that $\varA \infSAT \varB$ is exactly the proposition $\relEF t {\varA}{\varB}$
+%for which we erase the witness $t$.
+% The different components are thus defined by using the structure of $\SAT$ (but taking care of evidences provided
+% by the expectedd $\lambda$-terms),
+% which is a Heyting pre-algebra with intersection,
+% and those properties (including the remark \ref{rmk:inclusion})
+% suffice to show that $\EFSAT$ is an Evidenced Frame.
+% As an example, the conjunction function is simply provided by
+%$\PropAndDot \defeq \cdot \landSAT \cdot$ while
+%the pairing function is defined by $\witPair t u \defeq \lambda x. \langle t\;x,u\;x \rangle$
+%    together with $\witFst \defeq \pi_1$ and $\witSnd \defeq \pi_2$.
 %\emnote{put full proof in appendix}
 %   We need to prove the properties of each element:
 %   \begin{itemize}
@@ -61,7 +61,7 @@ the pairing function is defined by $\witPair t u \defeq \lambda x. \langle t\;x,
 %   \item for any $\varA,\varB \in \Phi$, for any set $\FamC\in\powerset(\Phi)$ and evidences $t \in \Lambda$, if $\forall \varC \in \FamC, \relEF t{\PropAnd{\varA}{\varB}}{\varC}$ then $\relEF{\witLam t}{\varA}{\PropImpl{\varB}{\FamC}}$: let $\enviro \in \Oracle, u \in \termAE$, let's prove that $\witLam t\;u \in \PropImpl{\varB}{\FamC}$. Let $\varC \in \FamC$, and $\enviroT \in \cyl\enviro$. It suffices to show that for any $v \in \termB\enviroT$, $\witLam t\;u\;v \in \termC\enviroT$, but as $\langle u,v\rangle \in (\PropAnd{\varA}{\varB})_\enviro$ (because $A_\enviro \subseteq A_\enviroT$), we deduce that $t\;\langle u,v\rangle \in \termC\enviroT$. Moreover, $\witLam t\;u\;v \redE^2 t\;\langle u,v\rangle$, hence the result by saturation.
 %   \item for any $\varA \in \Phi, \FamB \in \powerset(\Phi)$ and $\varB \in \FamB$, $\relEF{\witEval}{\PropAnd{(\PropImpl{\varA}{\FamB})}{\varA}}{\varB}$: let $\enviro \in \Oracle$ and $t \in (\PropAnd{(\PropImpl{\varA}{\FamB})}{\varA})_\enviro$, then $\pi_1\;t \in (\PropImpl{\varA}{\FamB})_\enviro$ and $\pi_2\;t \in \termAE$, so for $\varB \in \FamB$, $\pi_1\;t\;(\pi_2\;t) \in \termBE$, hence the result by saturation as $\witEval\;t \redE \pi_1\;t\;(\pi_2\;t)$.
 %   \end{itemize}
-\end{proof}
+%\end{proof}
 %
 % \begin{proposition}\label{prop:EF_notre}
 %   Using our previous convention, we define the two sets
@@ -95,8 +95,8 @@ the pairing function is defined by $\witPair t u \defeq \lambda x. \langle t\;x,
 
 \begin{remark}\label{rmk:EFSigma}
   For any $\enviro \in \Oracle$, it is possible to construct the Evidenced Frame $\EFSATE$ given by
-  \[E \defeq \Lambda \qquad \Phi \defeq \left\{\left.\varA\in\prod_{\enviroT \supOr \enviro} \SATP\enviroT\right\vert \forall \enviroT, \enviroTT\supOr \enviro, \enviroT \infOr \enviroTT \implies \termA{\enviroT} \subseteq \termA{\enviroTT} \right\}\]
-  with the same functions and evidenced.
+  $E \defeq \Lambda$ and $\Phi \defeq \left\{\left.\varA\in\prod_{\enviroT \supOr \enviro} \SATP\enviroT\right\vert \forall \enviroT, \enviroTT\supOr \enviro, \enviroT \infOr \enviroTT \implies \termA{\enviroT} \subseteq \termA{\enviroTT} \right\}$
+  with the same functions and evidences.
 \end{remark}
 
 %\begin{definition}[Morphism of Evidenced Frame]
@@ -149,9 +149,9 @@ the pairing function is defined by $\witPair t u \defeq \lambda x. \langle t\;x,
 %\end{remark}
 
 From our definition, the second sanity check to do is to show that for any proposition $\vdash\varphi : \Prop$ in HOL,
-$t \realU \varphi$ if and only if $\relEF{\lambda\_.t}{\top}{\realF{\varphi}}$.%\emnote{il faut pas $\lambda\_.t$ ?}
-The proof is by induction on $\varphi$, and is mostly straightforward. The only issue is for the existentiel quantifier.
+$t \realU \varphi$ if and only if $\relEF{\lambda\_.t}{\top}{\cod{\varphi}}$.%\emnote{il faut pas $\lambda\_.t$ ?}
+The proof is by induction on $\varphi$, and is mostly straightforward.
 
-Indeed, in EFs, the way to encode $\exists x^S, \varphi(x)$ is to consider the impredicative encoding $\forall \psi^{\Prop}, (\forall x^S, \varphi(x) \to \psi) \to \psi$, while our interpretation of $t\realU \exists x^S, \varphi(x)$ is given by a union on a family in $\SAT$: this is why the fact that $\EFSAT$ is an EF did not use the union operation of $\SAT$. Nonetheless, the two notions coincide in our case, as is standard in realizability without effects.
+%Indeed, in EFs, the way to encode $\exists x^S, \varphi(x)$ is to consider the impredicative encoding $\forall \psi^{\Prop}, (\forall x^S, \varphi(x) \to \psi) \to \psi$, while our interpretation of $t\realU \exists x^S, \varphi(x)$ is given by a union on a family in $\SAT$: this is why the fact that $\EFSAT$ is an EF did not use the union operation of $\SAT$. Nonetheless, the two notions coincide in our case, as is standard in realizability without effects.
 
-\emnote{Peut-on plutôt l'énoncer sous la forme: les réalisers du modèle correspondent aux evidences dans l'EF induite en particulier si $t\Vvdash \varphi$ alors ...}
+%\emnote{Peut-on plutôt l'énoncer sous la forme: les réalisers du modèle correspondent aux evidences dans l'EF induite en particulier si $t\Vvdash \varphi$ alors ...}

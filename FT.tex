@@ -4,75 +4,75 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
 
 \begin{lemma}[Continuity]\label{lem:continuity}
   Let $\enviro\in\Oracle$ be a reduction context and $t \in \Lambda$ be a term such that
-  \[t \realP{\enviro}{} (\Nat \to \Nat) \to \Nat\]
+  $t \realP{\enviro}{} (\Nat \to \Nat) \to \Nat$
   Then for any $\alpha \realP{\enviro}{} \Nat \to \Nat$, there exists $n\in \bN$ such that
-  \[\forall (\beta \realP{\enviro}{} \Nat \to \Nat), (\forall i < n, \beta\;\overline i \eqredE \alpha\;\overline i) \implies t\;\beta \eqredE t\;\alpha\]
+  $\forall (\beta \realP{\enviro}{} \Nat \to \Nat), (\forall i < n, \beta\;\overline i \eqredE \alpha\;\overline i) \implies t\;\beta \eqredE t\;\alpha$
 \end{lemma}
 
-\begin{proof}\emnote{seulement si besoin}\ciseau
-  By hypothesis, we know that $t\;\alpha \redERT \overline n$ for some $n \in \bN$. By confluence, it is possible to chose any reduction strategy which is normalizing. In particular, we can chose the leftmost reduction strategy:
-  \[t\;\alpha \stratETP l \overline n\]
-  Without loss of generality, we assume $t$ to be of the form $\lambda x.u$ as $t$ will reduce to such a term, given it realizes a function and, applied to $\alpha$, returns a value.
-
-  Thus, we are left to prove the result with $t[\alpha/x] \stratETP l \overline n$. By induction on the number of reduction steps, we prove that there exists a finite prefix such that for all $\beta$ with this prefix, $t[\beta/x] \stratETP l \overline n$. Let's proceed by case analysis on the first step reduction:
-  \begin{itemize}
-  \item the redex can be outside $\alpha$, meaning that there is $u$ such that $t[\alpha/x] \stratE l u[\alpha/x]$, then $t[\beta/x] \stratE l u[\beta/x]$ for any $\beta$. Using the induction hypothesis, the result follows.
-  \item the redex can involve $\alpha$. In this case, because of the reduction strategy, we find a right context $E[\;]$ and a term $u$ such that
-    \[t[\alpha/x] = E[\alpha\;u[\alpha/x]][\alpha/x]\]
-    By regrouping reductions, we only focus on the inner term, namely $\alpha\;u[\alpha/x]$: the induction hypothesis will be applied to the resulting term because $\alpha\;u[\alpha/x]$ reduces at least once. Let $v \defeq u[\alpha/x]$.
-
-    We claim that $v \redERT \overline i$ for some $i \in \bN$. Indeed, we can assume without loss of generality that $\alpha$ does not reduce on a term which does not realizes $\Nat$: it suffices to replace the term $\alpha$ with the term
-    \[\rec_{\Nat}\;(\alpha\;0)\;(\lambda n\;x. \alpha(S\;n))\]
-    to have a function which still realizes $\Nat \to \Nat$ but no longer reduces on terms which do not realize $\Nat$.
-
-    Thus, $v \redERT \overline i$, which implies that $\alpha\;v \redERT \alpha \;\overline i$, but then $\alpha\;\overline i \redERT \overline{\alpha(i)}$ so, in the end,
-    $\alpha\;v \redERT \overline{\alpha(i)}$ and (by confluence)
-    \[\alpha\;v \stratETP l \overline{\alpha(i)}\]
-
-    Now, by induction hypothesis, we find a prefix such that for any $\beta$ with this prefix, $E[\overline{\alpha(i)}][\beta/x] \stratETP l \overline n$ and $u[\beta/x] \stratETP l \overline i$. If needed, we can strengthen the condition by taking a longer prefix of alpha such that $\alpha(i)$ is contained in it. Then, for $\beta$ with this prefix:
-    \begin{align*}
-      t[\beta/x] &= E[\beta\;u[\beta/x]][\beta/x] \\
-      &\redERT E[\beta\;\overline i][\beta/x] \\
-      &\stratETP l E[\overline{\alpha(i)}][\beta/x] \\
-      t[\beta/x] &\stratETP l \overline{n}
-    \end{align*}
-    hence the result.
-  \end{itemize}
-
-  Thus, by induction, we deduce that there exists such a prefix.
-\end{proof}
+%\begin{proof}\emnote{seulement si besoin}\ciseau
+%  By hypothesis, we know that $t\;\alpha \redERT \overline n$ for some $n \in \bN$. By confluence, it is possible to chose any reduction strategy which is normalizing. In particular, we can chose the leftmost reduction strategy:
+%  \[t\;\alpha \stratETP l \overline n\]
+%  Without loss of generality, we assume $t$ to be of the form $\lambda x.u$ as $t$ will reduce to such a term, given it realizes a function and, applied to $\alpha$, returns a value.
+%
+%  Thus, we are left to prove the result with $t[\alpha/x] \stratETP l \overline n$. By induction on the number of reduction steps, we prove that there exists a finite prefix such that for all $\beta$ with this prefix, $t[\beta/x] \stratETP l \overline n$. Let's proceed by case analysis on the first step reduction:
+%  \begin{itemize}
+%  \item the redex can be outside $\alpha$, meaning that there is $u$ such that $t[\alpha/x] \stratE l u[\alpha/x]$, then $t[\beta/x] \stratE l u[\beta/x]$ for any $\beta$. Using the induction hypothesis, the result follows.
+%  \item the redex can involve $\alpha$. In this case, because of the reduction strategy, we find a right context $E[\;]$ and a term $u$ such that
+%    \[t[\alpha/x] = E[\alpha\;u[\alpha/x]][\alpha/x]\]
+%    By regrouping reductions, we only focus on the inner term, namely $\alpha\;u[\alpha/x]$: the induction hypothesis will be applied to the resulting term because $\alpha\;u[\alpha/x]$ reduces at least once. Let $v \defeq u[\alpha/x]$.
+%
+%    We claim that $v \redERT \overline i$ for some $i \in \bN$. Indeed, we can assume without loss of generality that $\alpha$ does not reduce on a term which does not realizes $\Nat$: it suffices to replace the term $\alpha$ with the term
+%    \[\rec_{\Nat}\;(\alpha\;0)\;(\lambda n\;x. \alpha(S\;n))\]
+%    to have a function which still realizes $\Nat \to \Nat$ but no longer reduces on terms which do not realize $\Nat$.
+%
+%    Thus, $v \redERT \overline i$, which implies that $\alpha\;v \redERT \alpha \;\overline i$, but then $\alpha\;\overline i \redERT \overline{\alpha(i)}$ so, in the end,
+%    $\alpha\;v \redERT \overline{\alpha(i)}$ and (by confluence)
+%    \[\alpha\;v \stratETP l \overline{\alpha(i)}\]
+%
+%    Now, by induction hypothesis, we find a prefix such that for any $\beta$ with this prefix, $E[\overline{\alpha(i)}][\beta/x] \stratETP l \overline n$ and $u[\beta/x] \stratETP l \overline i$. If needed, we can strengthen the condition by taking a longer prefix of alpha such that $\alpha(i)$ is contained in it. Then, for $\beta$ with this prefix:
+%    \begin{align*}
+%      t[\beta/x] &= E[\beta\;u[\beta/x]][\beta/x] \\
+%      &\redERT E[\beta\;\overline i][\beta/x] \\
+%      &\stratETP l E[\overline{\alpha(i)}][\beta/x] \\
+%      t[\beta/x] &\stratETP l \overline{n}
+%    \end{align*}
+%    hence the result.
+%  \end{itemize}
+%
+%  Thus, by induction, we deduce that there exists such a prefix.
+%\end{proof}
 
 Using this lemma and the $\lambda$-terms from the previous subsection, we can now realize $\FT$.
 
 \begin{theorem}[Realization of Fan Theorem]\label{thm:FT}
   Using our previous definitions:
-  \[\lambda b. n_{C_b}\;0 \realU \FT\]
+  $\lambda b. n_{C_b}\;0 \realU \FT$
 \end{theorem}
 
 \begin{proof}
   Let's prove that $\lambda b. n_{C_b}\;0 \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
-  \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
+  $b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B$
   for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
-  \[n_{C_b}\;0 \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
+  $n_{C_b}\;0 \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B$
   but we already know that $n_{C_b}\;0$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}\;0$ is a uniform bound for $B$.
 
   Now, suppose $n_{C_b}\;0$ diverges. This means that for any $n \in \bN$, there exists some word $w_n \in \bB^\star$ such that $w_n \notin C$. By applying Weak König's Lemma (in our meta-theory), we find an infinite path
-  \[\alpha : \bN \to \bB\]
+  $\alpha : \bN \to \bB$
   such that for all $n \in \bN, \restr \alpha n \notin C$. We now enrich our reduction context with this alpha:
-  \[\enviroT \defeq \enviro \smallfrown \alpha\]
+  $\enviroT \defeq \enviro \smallfrown \alpha$
   so that $\oracle_m \realP{\enviroT}{} (\Nat \to \Bool)(\alpha)$. By definition of $b$, we know that
-  \[b\;\oracle_m\realP{\enviroT}{} \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
+  $b\;\oracle_m\realP{\enviroT}{} \exists n^{\{\Nat\}}, \restr \alpha n \in B$
   which we can destruct as some $n \in \bN$ such that
-  \[\pi_1\;(b\;\oracle_m) \redRTP{\enviroT} n \qquad \pi_2\;(b\;\oracle_m)\realP{\enviroT}{} \restr \alpha n \in B\]
+  $\pi_1\;(b\;\oracle_m) \redRTP{\enviroT} n \qquad \pi_2\;(b\;\oracle_m)\realP{\enviroT}{} \restr \alpha n \in B$.
   Using lemma \ref{lem:continuity}, we can find an index $p\in \bN$ such that
-  \[\forall (\beta \realP{\enviroT}{} \Nat \to \Bool), (\forall i < p, \beta\;\overline i \redRTP{\enviroT} \overline{\alpha(i)}) \implies \pi_1(b\;\beta) \redRTP{\enviroT} n\]
+  $\forall (\beta \realP{\enviroT}{} \Nat \to \Bool), (\forall i < p, \beta\;\overline i \redRTP{\enviroT} \overline{\alpha(i)}) \implies \pi_1(b\;\beta) \redRTP{\enviroT} n$
 
   Let
-  \[M \defeq \max(n,p)\]
+  $M \defeq \max(n,p)$.
   by continuity, we know that $\pi_1\;(b\;\alpha_M) \redRTP{\enviroT}{} n$, so when computing $C_b\;\alpha_M$, there exists a list $\ell$ of length $\leq M$ such that $\restr\alpha{{\pi_1\;(b\;\ell 0^\infty)}}$ is a prefix of $\restr{\alpha}{M}$, so $\restr{\alpha}{M} \in C$. But by hypothesis, $\restr{\alpha}{M} \notin C$; hence a contradiction.
 
   This means that there is no case when $n_{C_b}$ diverges, so
-  \[n_{C_b}\realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
+  $n_{C_b}\realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B$,
   which means that $\lambda b.n_{C_b}\realU \FT$.
 \end{proof}
 
@@ -86,9 +86,9 @@ To prove that $\WKL$ is not realized, we use the Kleene tree construction (which
   There is no $t \in \Lambda$ such that $t \realU \WKL$.
 \end{theorem}
 
-\begin{proof}
-  Suppose that there is $t \realU \WKL$. Let $\enviro\in\Oracle$, then $t \realP{}{\enviro} \WKL$. Let $\EnumE{}$ be an enumeration of $\sigma$-computable functions given by fixing a Gödel encoding of terms $t$. The Kleene tree $K_\enviro$ is defined as the set of lists $\ell \in \List(\Bool)$ such that for $i < |\ell|$, if $\EnumE{i}(i)\convcal[i]$ (meaning that the computation of $\EnumE{i}$ terminates in less than $i$ steps) then $\EnumE{i}(i) \neq \ell_i$.
-  $K_\enviro$ is thus a tree with arbitrarily large finite sequences $\ell \in K$, but an finite path inside $K_\enviro$ cannot be $\enviro$-computable as it differs with every $\EnumE{i}$ on $i$. The realized functions $\Nat \to \Bool$ at context $\enviro$ being $\enviro$-computable, and taking a term $u$ encoding the premisses of $\WKL$ for $K_\enviro$ (the fact that $K_\enviro$ has arbitrarily large finite sequences), $t\;u$ should realize an infinite path in $K_\enviro$ at context $\enviro$, which is impossible.
-
-  Hence $\WKL\notin\ThReal{\enviro}$, and $\WKL\notin\ThRealU$.
-\end{proof}
+%\begin{proof}
+%  Suppose that there is $t \realU \WKL$. Let $\enviro\in\Oracle$, then $t \realP{}{\enviro} \WKL$. Let $\EnumE{}$ be an enumeration of $\sigma$-computable functions given by fixing a Gödel encoding of terms $t$. The Kleene tree $K_\enviro$ is defined as the set of lists $\ell \in \List(\Bool)$ such that for $i < |\ell|$, if $\EnumE{i}(i)\convcal[i]$ (meaning that the computation of $\EnumE{i}$ terminates in less than $i$ steps) then $\EnumE{i}(i) \neq \ell_i$.
+%  $K_\enviro$ is thus a tree with arbitrarily large finite sequences $\ell \in K$, but an finite path inside $K_\enviro$ cannot be $\enviro$-computable as it differs with every $\EnumE{i}$ on $i$. The realized functions $\Nat \to \Bool$ at context $\enviro$ being $\enviro$-computable, and taking a term $u$ encoding the premisses of $\WKL$ for $K_\enviro$ (the fact that $K_\enviro$ has arbitrarily large finite sequences), $t\;u$ should realize an infinite path in $K_\enviro$ at context $\enviro$, which is impossible.
+%
+%  Hence $\WKL\notin\ThReal{\enviro}$, and $\WKL\notin\ThRealU$.
+%\end{proof}

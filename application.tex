@@ -11,15 +11,9 @@ The existence of a path in a possible future is essential. For example, taking t
 Finally, we advocate that the restriction of working on EFdatas instead of just EF is not a limitation in practice. The additionnal data, indeed, always exist inside the realizability topos given by an EF.
 
 Take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories given by the assemblies. In this category, objects are given by
-\begin{itemize}
-\item a set $X$
-\item a function $E_X : X \to \Phi$
-\end{itemize}
+a set $X$ and a function $E_X : X \to \Phi$,
 and morphisms $(X,E_X) \to (Y,E_Y)$ are given by
-\begin{itemize}
-\item a function $f : X \to Y$
-\item an evidence $\relEF{e}{E_X(x)}{E_Y(f(x))}$ uniform on $x \in X$
-\end{itemize}
+a function $f : X \to Y$ with an evidence $\relEF{e}{E_X(x)}{E_Y(f(x))}$ uniform on $x \in X$.
 This exactly corresponds to the way we define codes for system T types, so every construction in the EFdata can be translated inside the realizability topos. The object associated to $(\bN,\cod -)$ in the realizability topos is a natural number object (NNO) \cite{Lawvere1963}: $e_0$ defines the element $0 \in \bN$, $e_S$ defines the function $\bN \to \bN$ and $e_{\rec}$ ensures the initiality of $1+\bN \xrightarrow{[0,S]} \bN$ among the algebras for $X\mapsto 1+X$.
 
 %\tlnote{Ajouter une ref pour le NNO ? Ca vient de Lawvere 1963 apparemment, mais je sais pas si c'est pertinent de mettre une citation pour ça.}

@@ -112,13 +112,13 @@ The HOL term constructors are akin to system T: there is a constructor for abstr
   \end{figure}
 % \end{definition}
 
-A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and functions interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\bigcap,\bigcup : \powerset (H) \to H$ representing unions and intersections. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
+A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and functions interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\bigcap,\bigcup : \powerset (H) \to H$ representing unions and intersections, and interpreting respectively the quantification $\forall$ and $\exists$. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
 The other sorts are given their natural set theoretic semantic.
 
 \begin{definition}[Semantic]
   Let $(H,\leqH)$ be a Heyting pre-algebra with an intersection and a union operations $\bigcup,\bigcap : \powerset (H) \to H$.
   For each sort $S \in \Sort$, we associate a set $\sem S$:
-  \begin{multicols}{2}
+  \begin{multicols}{3}
   \begin{itemize}
   \item $\sem{\Nat} \defeq \bN$
   \item $\sem{\Bool} \defeq \bB$
@@ -129,56 +129,57 @@ The other sorts are given their natural set theoretic semantic.
   \end{itemize}
   \end{multicols}
   \noindent Let
-  \[\begin{array}{ccccc}
+  $\displaystyle\begin{array}{ccccc}
   \cod - &:& \bigcup_{S \in \Sort} \sem{S} & \longrightarrow & H \\
-  & & s &\longmapsto & \cod s
-  \end{array}\]
+   & & s &\longmapsto & \cod s
+  \end{array}$
   be a function associating to each object a set of codes (possibly empty).
   Each well-typed term $\Gamma \vdash \termt : S$ is mapped to its semantic
-  \[
+  $
   \sem{\Gamma \vdash \termt : S} : \prod_{T \in \Gamma} \sem T \longrightarrow \sem S
-  \]
-  by the following interpretation:\ciseau
-  \begin{itemize}
-  \item $\sem{\varx_1 : S_1,\cdots , \varx_n : S_n\vdash \varx_i : S_i} \defeq \pi_i^n$
-  \item $\sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq$\vspace{-1em}
-  \begin{flushright}
-     $(x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)$
-  \end{flushright}
+  $
+  where we interpret each term by its natural meaning. For the case of $\Gamma\vdash \sortPred{\termt} : \Prop$, the semantic is given by $\cod - \circ \sem{\Gamma\vdash \termt : S}$.
+  %by the following interpretation:\ciseau
+  %\begin{itemize}
+  %\item $\sem{\varx_1 : S_1,\cdots , \varx_n : S_n\vdash \varx_i : S_i} \defeq \pi_i^n$
+  %\item $\sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq$\vspace{-1em}
+  %\begin{flushright}
+  %   $(x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)$
+  %\end{flushright}
 %     \begin{multline*}
 %       \vspace{-2em}\sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq \\
 %       (x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)
 %     \end{multline*}
 
-  \item $\sem{\Gamma\vdash \termt(\termu) : T} \defeq \eval\circ \langle\sem{\Gamma\vdash \termt : S \to T}, \sem{\Gamma\vdash \termu : S}\rangle$
-  \item $\sem{\Gamma\vdash \langle \termt,\termu\rangle : S \times T} \defeq \langle \sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : T}\rangle$
-  \item $\sem{\Gamma\vdash \termpi_1(\termt) : S} \defeq \pi_1 \circ \sem{\Gamma\vdash \termt : S \times T}$
-  \item $\sem{\Gamma\vdash \termpi_2(\termt) : S} \defeq \pi_2 \circ \sem{\Gamma\vdash \termt : S \times T}$
-  \item $\sem{\Gamma\vdash \termZ : \Nat} \defeq (\overrightarrow{x} \in \sem\Gamma) \mapsto 0$
-  \item $\sem{\Gamma\vdash S(\termt) : \Nat} \defeq (n \mapsto n + 1) \circ \sem{\Gamma\vdash \termt : \Nat}$
-  \item$      \sem{\Gamma\vdash \termrec_{\Nat}(\termt,\termu,\termv) : S} \defeq$
-        \begin{flushright}
-        $\rec_{\bN}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : \Nat \to S \to S}, \sem{\Gamma\vdash \termv : \Nat}\rangle$
-        \end{flushright}
-  \item $\sem{\Gamma\vdash \termtt : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \top$
-  \item $\sem{\Gamma\vdash \termff : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bot$
-  \item $\sem{\Gamma\vdash \termrec_{\Bool}(\termt,\termu,\termv) : S} \defeq$
-      \begin{flushright}
-      $\rec_{\bB}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : S}, \sem{\Gamma\vdash \termv : \Bool}\rangle$
-        \end{flushright}
-  \item $\sem{\Gamma\vdash \termnil : \List(S)} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \varepsilon$
-  \item $\sem{\Gamma\vdash \termt \termcons \termu : \List(S)}\defeq \smallfrown \circ \langle\sem{\Gamma\vdash\termu : \List(S)},\sem{\Gamma\vdash \termt : S}\rangle$
-  \item $\sem{\Gamma\vdash\termrec_{\List(S)}(\termt,\termu,\termv) : T} \defeq$
-   \begin{flushright}
-      $ \rec_{\bL}\circ\langle\sem{\Gamma\vdash \termt : T}, \sem{\Gamma\vdash \termu : S \to \List(S) \to T \to T}, \sem{\Gamma\vdash \termv : \List(S)}\rangle$
-    \end{flushright}
-  \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \implH\circ\langle\sem{\Gamma\vdash \varphi : \Prop},\sem{\Gamma\vdash \psi : \Prop}\rangle$
-  \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \landH\circ\langle\sem{\Gamma\vdash \varphi : \Prop}, \sem{\Gamma\vdash \psi : \Prop}\rangle$
-  \item $\displaystyle\sem{\Gamma\vdash \forall \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcap_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
-  \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
-  \item $\sem{\Gamma\vdash \sortPred{\termt} : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
-  \end{itemize}
-  where $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recursors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a word $u$ and a letter $a$, appends $a$ to $u$ to make the new word $ua$, $\implH$ is the implication of $H$ and $\landH$ is its meet.
+  %\item $\sem{\Gamma\vdash \termt(\termu) : T} \defeq \eval\circ \langle\sem{\Gamma\vdash \termt : S \to T}, \sem{\Gamma\vdash \termu : S}\rangle$
+  %\item $\sem{\Gamma\vdash \langle \termt,\termu\rangle : S \times T} \defeq \langle \sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : T}\rangle$
+  %\item $\sem{\Gamma\vdash \termpi_1(\termt) : S} \defeq \pi_1 \circ \sem{\Gamma\vdash \termt : S \times T}$
+  %\item $\sem{\Gamma\vdash \termpi_2(\termt) : S} \defeq \pi_2 \circ \sem{\Gamma\vdash \termt : S \times T}$
+  %\item $\sem{\Gamma\vdash \termZ : \Nat} \defeq (\overrightarrow{x} \in \sem\Gamma) \mapsto 0$
+  %\item $\sem{\Gamma\vdash S(\termt) : \Nat} \defeq (n \mapsto n + 1) \circ \sem{\Gamma\vdash \termt : \Nat}$
+  %\item$      \sem{\Gamma\vdash \termrec_{\Nat}(\termt,\termu,\termv) : S} \defeq$
+  %      \begin{flushright}
+  %      $\rec_{\bN}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : \Nat \to S \to S}, \sem{\Gamma\vdash \termv : \Nat}\rangle$
+  %      \end{flushright}
+  %\item $\sem{\Gamma\vdash \termtt : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \top$
+  %\item $\sem{\Gamma\vdash \termff : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bot$
+  %\item $\sem{\Gamma\vdash \termrec_{\Bool}(\termt,\termu,\termv) : S} \defeq$
+  %    \begin{flushright}
+  %    $\rec_{\bB}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : S}, \sem{\Gamma\vdash \termv : \Bool}\rangle$
+  %      \end{flushright}
+  %\item $\sem{\Gamma\vdash \termnil : \List(S)} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \varepsilon$
+  %\item $\sem{\Gamma\vdash \termt \termcons \termu : \List(S)}\defeq \smallfrown \circ \langle\sem{\Gamma\vdash\termu : \List(S)},\sem{\Gamma\vdash \termt : S}\rangle$
+  %\item $\sem{\Gamma\vdash\termrec_{\List(S)}(\termt,\termu,\termv) : T} \defeq$
+  % \begin{flushright}
+  %    $ \rec_{\bL}\circ\langle\sem{\Gamma\vdash \termt : T}, \sem{\Gamma\vdash \termu : S \to \List(S) \to T \to T}, \sem{\Gamma\vdash \termv : \List(S)}\rangle$
+  %  \end{flushright}
+  %\item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \implH\circ\langle\sem{\Gamma\vdash \varphi : \Prop},\sem{\Gamma\vdash \psi : \Prop}\rangle$
+  %\item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \landH\circ\langle\sem{\Gamma\vdash \varphi : \Prop}, \sem{\Gamma\vdash \psi : \Prop}\rangle$
+  %\item $\displaystyle\sem{\Gamma\vdash \forall \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcap_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
+  %\item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
+  %\item $\sem{\Gamma\vdash \sortPred{\termt} : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
+  %\end{itemize}
+  %where $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recursors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a word $u$ and a letter $a$, appends $a$ to $u$ to make the new word $ua$, $\implH$ is the implication of $H$ and $\landH$ is its meet.
 
   For a given sort $S$, we will also write $\bS$ for $\sem S$.
 \end{definition}
@@ -187,6 +188,6 @@ In all generality, the syntactic terms are given in a typing context, like $\Gam
 
 \begin{notation}
   Given a HOL-context $\Gamma$ and a function $\displaystyle\termenv : \Xt \partialto \bigcup_{S \in \Sort} \bS$, we define
-  \[\termenv\models \Gamma \defeq \forall (\varx : S) \in \Gamma, \termenv(\varx) \in \bS\]
+  $\termenv\models \Gamma \defeq \forall (\varx : S) \in \Gamma, \termenv(\varx) \in \bS$.
   If $\Gamma \vdash \termt : S$ and $\termenv\models \Gamma$, then we write $\termenv(\termt)$ for the canonical element in $\bS$ associatied to this term.
 \end{notation}

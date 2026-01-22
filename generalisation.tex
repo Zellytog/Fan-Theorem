@@ -44,13 +44,13 @@ of functions, and thus a minimal system T types syntax.
   \begin{itemize}
   \item $(\Phi,E,\relEFdot)$ is an evidenced frame.
   \item $\cod \cdot : \bN \to \Phi$ is an encoding function. We extend it naturally for types on
-    \[T,U \Coloneq \bN \mid T \to U\]
-    by, for any $f : T \to U$:
-    \[\cod f \defeq \prod_{x \in T} \PropImpl{\cod x}{\cod{f(x)}}\]
+    $T,U \Coloneq \bN \mid T \to U$
+    by, for any $f : T \to U$,
+    $\cod f \defeq \prod_{x \in T} \PropImpl{\cod x}{\cod{f(x)}}$
   \item $\relEF{e_0}{\top}{\cod 0}$
   \item for all $n \in \bN$, $\relEF{e_S}{\cod n}{\cod{n + 1}}$
   \item for all functions $f : \bN \to \Phi$,
-    \[\relEF{e_{\rec}}{\top}{\PropImpl{f(0)}{\PropImpl{\left(\prod_{n \in \bN}\PropImpl{\cod n}{\PropImpl{f(n)}{f(n+1)}}\right)}{\prod_{n \in \bN} \PropImpl{\cod n}{f(n)}}}}\]
+    $\relEF{e_{\rec}}{\top}{\PropImpl{f(0)}{\PropImpl{\left(\prod_{n \in \bN}\PropImpl{\cod n}{\PropImpl{f(n)}{f(n+1)}}\right)}{\prod_{n \in \bN} \PropImpl{\cod n}{f(n)}}}}$
   %\item for all type $T$ as previously defined, let $\rec_T$ be the recursor $T \to (\bN \to T \to T) \to \bN \to T$, then $\relEF{e_{\rec}}{\top}{\cod{\rec_T}}$
   \end{itemize}
 \end{definition}
@@ -68,27 +68,27 @@ For example, EF morphisms as defined in \cite{CohMiqTat21} do not require
 the constructions and morphism to commute on the nose.
 
 \begin{definition}[EFdata morphism]
-  Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$). A morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) such that~:\ciseau
-  \begin{itemize}
-  \item $\forall \varphi, \psi \in \Phi_1, \forall e \in E_1, \relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
-  \item $F(\PropTop_1) = \PropTop_2$
-  \item $F({\witTop}_1) = {\witTop}_2$
-  \item $\forall \varphi, \psi \in \Phi_1, F({(\PropAnd \varphi \psi)}_1) = {(\PropAnd \varphi \psi)}_2$
-  \item $\forall e, e' \in E_1, F({\witPair e {e'}}_1) = \witPair{F(e)}{F(e')}_2$
-  \item $F({\witFst}_1) = {\witFst}_2$
-  \item $F({\witSnd}_1) = {\witSnd}_2$
-  \item $\forall \varphi \in \Phi_1, \forall \vec \psi \in \powerset(\Phi_1),F({(\PropImpl{\varphi}{\vec\psi})}_1) = {(\PropImpl{F(\varphi)}{\{F(\psi)\mid \psi \in \vec \psi\}})}_2$
-  \item $\forall e \in E_1, F({\witLam e}_1) = {\witLam{F(e)}}_2$
-  \item $F({\witEval}_1) = {\witEval}_2$
+  Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$). A morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) commuting with every construction from the EFdatas.
+%  \begin{itemize}
+%  \item $\forall \varphi, \psi \in \Phi_1, \forall e \in E_1, \relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
+%  \item $F(\PropTop_1) = \PropTop_2$
+%  \item $F({\witTop}_1) = {\witTop}_2$
+%  \item $\forall \varphi, \psi \in \Phi_1, F({(\PropAnd \varphi \psi)}_1) = {(\PropAnd \varphi \psi)}_2$
+%  \item $\forall e, e' \in E_1, F({\witPair e {e'}}_1) = \witPair{F(e)}{F(e')}_2$
+%  \item $F({\witFst}_1) = {\witFst}_2$
+%  \item $F({\witSnd}_1) = {\witSnd}_2$
+%  \item $\forall \varphi \in \Phi_1, \forall \vec \psi \in \powerset(\Phi_1),F({(\PropImpl{\varphi}{\vec\psi})}_1) = {(\PropImpl{F(\varphi)}{\{F(\psi)\mid \psi \in \vec \psi\}})}_2$
+%  \item $\forall e \in E_1, F({\witLam e}_1) = {\witLam{F(e)}}_2$
+%  \item $F({\witEval}_1) = {\witEval}_2$
   %\item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
   %    \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
   %    \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
   %\end{cases}$
-  \item $F({e_{0}}_1) = {e_{0}}_2$
-  \item $F({e_{S}}_1) = {e_S}_2$
-  \item $F({e_{\rec}}_1) = {e_{\rec}}_2$
-  \item for all $n \in \bN$, $F_{\Phi}({\cod n}_1) = {\cod n}_2$
-  \end{itemize}
+%  \item $F({e_{0}}_1) = {e_{0}}_2$
+%  \item $F({e_{S}}_1) = {e_S}_2$
+%  \item $F({e_{\rec}}_1) = {e_{\rec}}_2$
+%  \item for all $n \in \bN$, $F_{\Phi}({\cod n}_1) = {\cod n}_2$
+%  \end{itemize}
 
   We define $\CatEFData$ as the category whose objects are EFdatas, and morphisms are those defined above.
 \end{definition}
@@ -108,7 +108,7 @@ this explicit existential not realized \cite{Herbelin05}.
 The explicit existential is thus a natural condition: when taking the relativized version of $\exists$, we expect the proof to be able to give an explicit witness by its code, and explicit existential ensures that this code of witness indeed retrieves the witness.
 \begin{definition}[Explicit existential]
   An EFdata is said to have explicit existential if there is an evidence $e$ such that for any system T type $\tau$ and any function $\varphi(-) : \tau \to \Prop$ there exists $a \in \tau$ such that
-  \[\relEF{e}{\exists x^\tau, \cod x \land \varphi(x)}{\cod a \land \varphi(a)}\]
+  $\relEF{e}{\exists x^\tau, \cod x \land \varphi(x)}{\cod a \land \varphi(a)}$
 \end{definition}
 
 
@@ -120,11 +120,9 @@ For the purpose of this work, we will only consider the following (weak) version
 
 \begin{definition}[Continuity]
   Let $(\Phi,E,\relEFdot, \cod\cdot, e_0,e_S,e_{\rec})$ be an EFdata. This EFdata is said to have continuity if
-  \begin{multline*}
-    \forall f : (\bN \to \bN) \to \bN, \forall \alpha : \bN \to \bN, \forall \relEF{t}{\top}{\cod f},
-    \\\forall \relEF{u}{\top}{\cod \alpha}, \exists n \in \bN,
-    \forall \beta:\bN\to\bN,\restr \alpha n = \restr \beta n \implies f(\alpha) = f(\beta)
-  \end{multline*}
+  $\forall f : (\bN \to \bN) \to \bN, \forall \alpha : \bN \to \bN, \forall \relEF{t}{\top}{\cod f},
+  \forall \relEF{u}{\top}{\cod \alpha}, \exists n \in \bN,
+  \forall \beta:\bN\to\bN,\restr \alpha n = \restr \beta n \implies f(\alpha) = f(\beta)$
 \end{definition}
 \begin{example}
 Instead of oracles $\oracle_n$ interpreting functions $\bN \to \bN$, we could add as an oracle a program $\oracle$ such that $\oracle\;t$ reduces to $\rtt$ or $\rff$ depending on whether $t$ (weakly) terminates or not, supposing $t$ is closed and does not contain $\oracle$. In this case, it is possible to realize the function deciding if a path $\alpha : \bN \to \bB$ is the constant path $0$ by reading each bit of $\alpha$ until its first $1$. This function is not continuous, so the realizability model we could build on this computational system does not have continuity. For most reasonnable computational systems not adding non computable higher order function and without \texttt{quote} instruction, continuity is satisfied.
@@ -135,7 +133,7 @@ Instead of oracles $\oracle_n$ interpreting functions $\bN \to \bN$, we could ad
 % By analysing in details the proof of theorem \ref{thm:FT}, in addition to the two main conditions, two technical conditions are needed.
 
 %\emnote{todo: introductory sentence}
-Another principle that is used in the theorem \ref{thm:FT} but need not be realized in any EF is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}.
+Another principle that is used in the theorem \ref{thm:FT} but need not be realized in any EF is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}. This is a reasonnable assumption: for instance, every PCA implements unbounded search thanks to the fixpoint combinator $Y$.
 %This construction is not realized in some typed settings. For example, we can easily construct a realizability model of Heyting Arithmetic using system T functions: those functions are total and contain recursive primitive functions, hence they can't be stable under $\mu$.
 
 
@@ -147,7 +145,7 @@ Another principle that is used in the theorem \ref{thm:FT} but need not be reali
 
 \begin{definition}[Unbounded search]
   An EFdata is said to have unbounded search if there exists $e$ such that, for any $f : \bN \to \bN$ having at least one zero,
-  \[\relEF{e}{\cod f}{(\exists (n : \bN), \cod n \land f(n) = 0)}\]
+  $\relEF{e}{\cod f}{(\exists (n : \bN), \cod n \land f(n) = 0)}$
 \end{definition}
 \begin{example}
 Typed realizability settings based on the $\lambda$-calculus or any other computational system where all realizers have to be
@@ -172,24 +170,24 @@ We can now state our generalized theorem about $\FT$. The conditions are the one
   then $\EFE \real \FT$.
 \end{theorem}
 
-\begin{proof}
-  We apply the proof of theorem \ref{thm:FT} in the general setting. To make the proof easier to read, we consider the types $\Bool$ and $\List(\Bool)$, as they can be encoded inside integers and the usual manipulations can be simulated on the encodings.
-
-  The proposition we want to prove is that there exists $\witx \in E$ such that for any predicate $B : \List(\Bool) \to \Phi$ closed by extension,
-  \begin{multline*}
-    \witx\real (\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B) \implies\\
-    \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr \alpha n \in B
-  \end{multline*}
-  
-  We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we can't define the fixpoint by itself, but we can define the function $C'_b$ which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. This function has a code $e_{C'_b}$.
-
-  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ C'_b$ (because we search for a $n$ such that $C'_b(n) = 1$). Combining it with the code $e_{C'_b}$, this gives an evidenced of a uniform bound. Thus, all that is left to prove is that $\lnot \circ C'_b$ indeed has a $0$.
-
-  Suppose that $C'_b(n) = 0$ for any $n$. This means that for any $n \in \bN$, there is a list of size $n$ avoiding $C$. Using Weak König's Lemma on $\complement C$ (which is a tree), we find a path $\alpha : \bN \to \bB$ such that $\restr \alpha n \notin C$ for any $n \in \bN$. By hypothesis on our functor $W \to \CatEFData$, we find $w' \in W$ and a code $e_\alpha \in \cod \alpha$ in $w'$. By the other hypothesis, we can assume (up to going to a future world) that $F(w')$ has continuity.
-
-  Let $g$ be the morphism from $\EFE$ to $F(w')$. By construction of morphisms, we have
-  \[g(b)\real g(\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B)\]
-  but as $g$ commutes with $\cod -$, with $\implies$, and with quantification $\forall$, we deduce that
-  \[g(b)\real \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
-  hence, $g(b) e_{\alpha} \real \exists n^{\{\Nat\}}, \restr \alpha n \in g(B)$. Using the fact that $g(b)$ is a code of a function $(\bN \to \bN) \to \bN$, we can apply continuity to find $m$ such that $\restr \alpha m = \restr \beta m \implies g(b) \alpha = g(b) \beta$ for any $\beta : \bN \to \bN$ with a code. This means that we can apply the same argument as in theorem \ref{thm:FT} to have a contradiction~: taking $M$ the maximum of this $m$ and of the encoded $n^{\{\Nat\}}$ by $g(b) e_{\alpha}$ (that we can take by explicit existential), we get $\restr \alpha M \in C(b)$, which is contradicting the fact that $\alpha$ always avoids $C(b)$.
-\end{proof}
+%\begin{proof}
+%  We apply the proof of theorem \ref{thm:FT} in the general setting. To make the proof easier to read, we consider the types $\Bool$ and $\List(\Bool)$, as they can be encoded inside integers and the usual manipulations can be simulated on the encodings.
+%
+%  The proposition we want to prove is that there exists $\witx \in E$ such that for any predicate $B : \List(\Bool) \to \Phi$ closed by extension,
+%  \begin{multline*}
+%    \witx\real (\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B) \implies\\
+%    \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr \alpha n \in B
+%  \end{multline*}
+%  
+%  We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we can't define the fixpoint by itself, but we can define the function $C'_b$ which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. This function has a code $e_{C'_b}$.
+%
+%  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ C'_b$ (because we search for a $n$ such that $C'_b(n) = 1$). Combining it with the code $e_{C'_b}$, this gives an evidenced of a uniform bound. Thus, all that is left to prove is that $\lnot \circ C'_b$ indeed has a $0$.
+%
+%  Suppose that $C'_b(n) = 0$ for any $n$. This means that for any $n \in \bN$, there is a list of size $n$ avoiding $C$. Using Weak König's Lemma on $\complement C$ (which is a tree), we find a path $\alpha : \bN \to \bB$ such that $\restr \alpha n \notin C$ for any $n \in \bN$. By hypothesis on our functor $W \to \CatEFData$, we find $w' \in W$ and a code $e_\alpha \in \cod \alpha$ in $w'$. By the other hypothesis, we can assume (up to going to a future world) that $F(w')$ has continuity.
+%
+%  Let $g$ be the morphism from $\EFE$ to $F(w')$. By construction of morphisms, we have
+%  \[g(b)\real g(\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B)\]
+%  but as $g$ commutes with $\cod -$, with $\implies$, and with quantification $\forall$, we deduce that
+%  \[g(b)\real \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
+%  hence, $g(b) e_{\alpha} \real \exists n^{\{\Nat\}}, \restr \alpha n \in g(B)$. Using the fact that $g(b)$ is a code of a function $(\bN \to \bN) \to \bN$, we can apply continuity to find $m$ such that $\restr \alpha m = \restr \beta m \implies g(b) \alpha = g(b) \beta$ for any $\beta : \bN \to \bN$ with a code. This means that we can apply the same argument as in theorem \ref{thm:FT} to have a contradiction~: taking $M$ the maximum of this $m$ and of the encoded $n^{\{\Nat\}}$ by $g(b) e_{\alpha}$ (that we can take by explicit existential), we get $\restr \alpha M \in C(b)$, which is contradicting the fact that $\alpha$ always avoids $C(b)$.
+%\end{proof}
