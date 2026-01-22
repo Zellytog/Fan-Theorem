@@ -128,43 +128,23 @@ As for usual saturated set, the different notions of saturated sets are complete
 %  and $u \in \displaystyle\bigcap_{\enviro \in \Oracle} A_\enviro$. Then for any $\enviro \in \Oracle$, $u \in A_\enviro$ so (as $A_\enviro$ is saturated) $t \in A_\enviro$. So $t \in \displaystyle\bigcap_{\enviro\in\Oracle} A_\enviro$.
 %\end{proof}
 
-The fact that each $\SATE$ and $\SAT$ are taken to be truth value means that we will use them to interpret $\Prop$ in the semantic interpretation of our HOL syntax. We thus show that those sets can be equiped with a Heyting pre-algebra structure.
+The fact that $\SAT$ is taken to be the set of truth values means that we will use it to interpret $\Prop$ in the semantic interpretation of our HOL syntax. We thus show that this set can be equiped with a Heyting pre-algebra structure.
 
-The structure of Heyting pre-algebra on $\SATE$ is the expected one: $A \leq B$ means that there is a uniform mapping of elements of $A$ to elements of $B$, and the set of those mapping (is saturated and) constitutes the set $A \implies B$. For the structure of $\SAT$, however, the structure is defined in a more subtle way. $\varA\leq \varB$ means that the mapping witnessing the inequality is also uniform on $\enviro$. The implication $\implies$ in $\SAT$ is then defined in a Kripke-style way, as the elements inside a world $\enviro$ also have to work for any future world $\enviroT\supOr \enviro$. This definition of $\implies$ is the reason why we impose monotonicity in the family $\varA\in \SAT$.
+%The structure of Heyting pre-algebra on $\SATE$ is the expected one: $A \leq B$ means that there is a uniform mapping of elements of $A$ to elements of $B$, and the set of those mapping (is saturated and) constitutes the set $A \implies B$. For the structure of $\SAT$, however, the structure is defined in a more subtle way. $\varA\leq \varB$ means that the mapping witnessing the inequality is also uniform on $\enviro$. The implication $\implies$ in $\SAT$ is then defined in a Kripke-style way, as the elements inside a world $\enviro$ also have to work for any future world $\enviroT\supOr \enviro$. This definition of $\implies$ is the reason why we impose monotonicity in the family $\varA\in \SAT$.
 
-\begin{proposition}
+\begin{proposition}\label{prop:SAT}
   Let $\enviro \in \Oracle$.
-  Let $A,B \in \SATE$ and $\varA,\varB \in \SAT$. Then let
+  Let $\varA,\varB \in \SAT$. Then let
   \begin{align*}
-    A \infSATE B &\defeq \exists t \in \Lambda, \forall u \in A, tu \in B\\
-    A \impliesSATE B &\defeq \{t \in \Lambda \mid \forall u \in A, tu \in B\}\\
-    A \landSATE B &\defeq \{t \in \Lambda\mid (\pi_1\;t \in A)\land (\pi_2\;t \in B)\}\\
+    %A \infSATE B &\defeq \exists t \in \Lambda, \forall u \in A, tu \in B\\
+    %A \impliesSATE B &\defeq \{t \in \Lambda \mid \forall u \in A, tu \in B\}\\
+    %A \landSATE B &\defeq \{t \in \Lambda\mid (\pi_1\;t \in A)\land (\pi_2\;t \in B)\}\\
     \varA \infSAT \varB &\defeq \exists t \in \Lambda, \forall \enviro \in \Oracle, \forall u \in \termAE, tu \in \termBE\\
     \varA \impliesSAT \varB &\defeq \enviro \mapsto \{ t \in \Lambda \mid \forall \enviroT \supOr \enviro, \forall u \in \termA{\enviroT}, tu \in \termB{\enviroT}\}\\
     \varA\landSAT\varB &\defeq \enviro \mapsto \{ t \in \Lambda \mid (\pi_1\;t\in \termAE) \land (\pi_2\;t \in \termBE)\}
   \end{align*}
   This defines a Heyting pre-algebra.
 \end{proposition}
-
-\begin{proof}\ciseau
-  The fact that the operations are well defined is standard and uses the compatibility of the relation.
-  
-  Let's show that $\infSATE$ is the right adjoint to $\landSATE$. This means that for any $A,B,C \in \SATE$:
-  \[A \infSATE B \impliesSATE C \iff A \landSATE B \infSATE C\]
-  \begin{itemize}
-  \item suppose there is $t$ such that for any $u \in A$, $tu \in B \impliesSATE C$. Thus, the function $(\lambda x. t\;(\pi_1\;x)\;(\pi_2\;x))$ is a witness that $A \landSATE B \infSATE C$
-  \item conversely, if there is $t$ such that for any $u \in A \landSATE B$, $tu \in C$, then the function $\lambda x.\lambda y.t \langle x,y\rangle$ is a witness that $A \infSATE B \impliesSATE C$.
-  \end{itemize}
-
-  We do the same for $\SAT$:
-  \[\varA \infSAT \varB \impliesSAT \varC \iff \varA\landSAT \varB\infSAT \varC\]
-  \begin{itemize}
-  \item suppose there is $t$ such that for any $\enviro,\enviroT\in\Oracle$, $u \in \termAE, v \in \termB{\enviroT}$ and such that $\enviro \infOr \enviroT$, $t\;u\;v \in \termC{\enviroT}$. Then, for $\enviro \in \Oracle$ and $u \in \termAE\landSAT\termBE$, $\pi_1\;u\in\termAE$ and $\pi_2\;u\in\termBE$, so $t\;(\pi_1\;u)\;(\pi_2\;u)\in\termCE$ and by antireduction $\lambda x.t\;(\pi_1\;x)\;(\pi_2\;x)$ witnesses that $\varA \landSAT \varB \infSAT \varC$.
-  \item suppose there is $t$ such that for any $\enviro\in\Oracle$ and $u \in \termAE \landSAT \termBE$, $tu \in \termCE$. Then, let $\enviro,\enviroT\in\Oracle$ such that $\enviro\infOr \enviroT$ and $u \in \termAE$. By inclusion, $u \in \termA{\enviroT}$, so for any $v \in \termB{\enviroT}$, $t\;\langle u,v\rangle \in \termC{\enviroT}$, so by antireduction $\lambda x\;y.t\;\langle x,y\rangle$ is a witness that $\varA\infSAT \varB \impliesSAT \varC$.
-  \end{itemize}
-
-  Hence $\SATE$ and $\SAT$ are Heyting pre-algebras.
-\end{proof}
 
 \begin{remark}\label{rmk:inclusion}
   The pre-order $\infSATE$ contains $\subseteq$ with the witness $t = \lambda x.x$. For this reason, $\bigcap$ defines a lower bound, even though not the greatest.

@@ -150,8 +150,8 @@ the pairing function is defined by $\witPair t u \defeq \lambda x. \langle t\;x,
 
 From our definition, the second sanity check to do is to show that for any proposition $\vdash\varphi : \Prop$ in HOL,
 $t \realU \varphi$ if and only if $\relEF{\lambda\_.t}{\top}{\realF{\varphi}}$.%\emnote{il faut pas $\lambda\_.t$ ?}
-The proof is by induction on $\varphi$, and is mostly straightforward. The only issue is for the existentiel quantifier.
+The proof is by induction on $\varphi$, and is mostly straightforward. %The only issue is for the existentiel quantifier.
 
-Indeed, in EFs, the way to encode $\exists x^S, \varphi(x)$ is to consider the impredicative encoding $\forall \psi^{\Prop}, (\forall x^S, \varphi(x) \to \psi) \to \psi$, while our interpretation of $t\realU \exists x^S, \varphi(x)$ is given by a union on a family in $\SAT$: this is why the fact that $\EFSAT$ is an EF did not use the union operation of $\SAT$. Nonetheless, the two notions coincide in our case, as is standard in realizability without effects.
+%Indeed, in EFs, the way to encode $\exists x^S, \varphi(x)$ is to consider the impredicative encoding $\forall \psi^{\Prop}, (\forall x^S, \varphi(x) \to \psi) \to \psi$, while our interpretation of $t\realU \exists x^S, \varphi(x)$ is given by a union on a family in $\SAT$: this is why the fact that $\EFSAT$ is an EF did not use the union operation of $\SAT$. Nonetheless, the two notions coincide in our case, as is standard in realizability without effects.
 
-\emnote{Peut-on plutôt l'énoncer sous la forme: les réalisers du modèle correspondent aux evidences dans l'EF induite en particulier si $t\Vvdash \varphi$ alors ...}
+%\emnote{Peut-on plutôt l'énoncer sous la forme: les réalisers du modèle correspondent aux evidences dans l'EF induite en particulier si $t\Vvdash \varphi$ alors ...}

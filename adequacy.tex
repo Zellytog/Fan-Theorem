@@ -35,7 +35,8 @@ We also introduce the typing system we consider for this model. It can be seen a
  \caption{Typing rules}
  \label{fig:typing_rules}
 \end{figure*}
-\begin{theorem}[Adequacy]
+
+\begin{theorem}[Adequacy]\label{thm:adequacy}
   Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$, formulas
   \[\begin{cases}
   \Gamma\vdash \varphi_i : \Prop \qquad \forall i = 1,\ldots,n\\
@@ -49,63 +50,35 @@ We also introduce the typing system we consider for this model. It can be seen a
   then $t[t_i/x_i] \realPP \varphi$.
 \end{theorem}
 
-\begin{proof}\ciseau
-  The proof is by induction on the typing derivation:
-  \begin{itemize}
-  \item case Ax with $t = x_i$: the result is by hypothesis.
-  \item case $\to_\mathrm i$ with $\lambda x.t : \psi \to \chi$: let $\enviroT \supOr\enviro$ and $u \realP{\enviroT}{\termenv} \psi$, let's prove that $(\lambda x.t)u \realP{\enviroT}{\termenv} \chi$. By hypothesis, $t[t_i/x_i][u/x] \realP{\enviroT}{\termenv} \chi$, but then it suffices to use the fact that $\realFP{\chi}{\termenv}{\enviroT}$ is closed by antireduction.
-  \item case $\to_\mathrm e$ is straightforward by definition of realizing $\psi \to \chi$.
-  \item case $\land_\mathrm i$ with $\langle t,u \rangle : \psi \land \chi$: we know by induction hypothesis that $t[t_i/x_i] \realPP \psi$ and that $u[t_i/x_i] \realPP \chi$. Moreover, $\pi_1\; \langle t,u \rangle \redE t$ and $\pi_2\;\langle t,u \rangle \redE u$, so $\pi_1\;(\langle t,u\rangle[t_i/x_i]) \realPP\psi$ and $\pi_2\;(\langle t,u\rangle[t_i/x_i]) \realPP \chi$ by saturation, hence $\langle t,u\rangle [t_i/x_i] \realPP \psi\land \chi$.
-  \item both cases $\land_\mathrm e$ are straightforward by definition of realizing a conjunction.
-  \item case $\forall_\mathrm i$ with $t : \forall \varx^S, \psi$: by induction hypothesis, we know that for any $\termenv' \models \Gamma, \varx : S$, $t[t_i/x_i] \realP{\enviro}{\termenv'} \psi$. For any $s \in \bS, \termenv[\varx \mapsto s] \models \Gamma$, so $t[t_i/x_i] \realP{\enviro}{\termenv[\varx\mapsto s]} \psi$ which is, by definition, $t[t_i/x_i] \realPP \forall \varx^S,\psi$.
-  \item case $\forall_\mathrm e$ with $t : \psi[\termt/\varx]$: by definition of realizing $\forall \varx^S, \psi$ and using the substitution lemma.
-  \item case $\exists_\mathrm i$ with $t : \exists \varx^S, \varphi$: by induction hypothesis, we know that $\termenv(\termt) \in \bS$ and that $t \realP{\enviro}{\termenv[\varx \mapsto \termenv(\termt)]} \varphi$, so we indeed find some $s \in \bS$ (namely $\termenv(\termv)$) such that $t \realP{\enviro}{\termenv[\varx\mapsto s]}\varphi$, which is the expected result.
-  \item case $\exists_\mathrm e$ with $u\;t : \psi$: by induction hypothesis, we know that for any $\termenv\models \Gamma, \varx : S$, $u \realPP \varphi \to \psi$. In particular, there is by induction hypothesis some $s \in \bS$ such that $t \realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$, but then $\termenv[\varx\mapsto s]\models \Gamma, \varx : S$ so we can apply $t$ to $u$ to find that $u\;t\realPP \psi$.
-  \item we won't treat the cases $\Nat$ nor $\Bool$, as they are the same as the case $\List$.
-  \item case $\List_\mathrm i^{\nil}$: indeed, $\nil \redERT \nil$.
-  \item case $\List_\mathrm i^{\append}$: by induction hypothesis.
-  \item case $\List_\mathrm e$: let $X$ be a predicate on $\List(S)$, $\enviroT \supOr\enviro$ and
-    \[\begin{cases}
-    u \realP{\enviroT}{\termenv} X(\termnil)\\
-    v \realP{\enviroT}{\termenv} \forall \varx^{\{X\}}, \forall \bvary^{\{\List(S)\}}, X(\bvary) \to X(\varx \termcons \bvary)\\
-    w \realP{\enviroT}{\termenv} \List(S)(\varx)
-    \end{cases}\]
-    we want to prove that $t = \rec_{\List}\;u\;v\;w$ realizes $X(\varx)$.
+The proof of adequacy is done by an induction on the typing relation $\Gamma\mid \Xi\vdash t : \varphi$ and is standard in realizability methods.
 
-    The object $\termenv(\varx)$ is a list. By induction, it is either $\nil$ or $s \smallfrown s'$ for two elements $s \in \bS^\star, s' \in \bS$:
-    \begin{itemize}
-    \item if $\termenv(\varx) = \nil$, then $w \redRTP{\enviroT} \nil$, $\rec_{\List}\;u\;v\;w \redRTP{\enviroT} u$ and $u \realP{\enviroT}{\termenv} X(\termnil)$, so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\termnil)$.
-    \item if $\termenv(\varx) = s \smallfrown s'$, then $w \redRTP{\enviroT} w_1\append w_2$ for $w_1 \in \codP{s'}{\enviroT}$ and $w_2\in\codP{s}{\enviroT}$. In this case, by induction hypothesis, $\rec_{\List}\;u\;v\;w_2 \realP{\enviroT}{\termenv[\bvary \mapsto s']} \List(S)(\bvary)$, and
-      \[\rec_{\List}\;u\;v\;w \redRTP{\enviroT} \rec_{\List}\;u\;v\;(w_1\append w_2) \redRTP{\enviroT} v\;w_2\;(\rec_{\List}\;u\;v\;w_2)\]
-      so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\varx)$.
-    \end{itemize}
-  \end{itemize}
-  Hence the result, by induction.
-\end{proof}
+As the adequacy is defined for any $\enviro\in\Oracle$, it is straightforward that $\realU$ is also adequate.
+
+%\begin{corollary}
+%  Let $\Gamma\in \Hctx, \termenv \models \Gamma$, formulas
+%  \[\begin{cases}
+%  \Gamma\vdash \varphi_i : \Prop \qquad \forall i = 1,\ldots,n\\
+%  \Gamma\vdash \varphi : \Prop
+%  \end{cases}\]
+%  and terms
+%  \[\begin{cases}
+%  t_i \realUP{\termenv} \varphi_i \qquad \forall i = 1, \ldots, n \\
+%  \Gamma\mid x_1 : \varphi_1,\ldots,x_n : \varphi_n \vdash t : \varphi
+%  \end{cases}\]
+%  then $t[t_i/x_i] \realUP{\termenv} \varphi$.
+%\end{corollary}
 
 \begin{corollary}
-  Let $\Gamma\in \Hctx, \termenv \models \Gamma$, formulas
-  \[\begin{cases}
-  \Gamma\vdash \varphi_i : \Prop \qquad \forall i = 1,\ldots,n\\
-  \Gamma\vdash \varphi : \Prop
-  \end{cases}\]
-  and terms
-  \[\begin{cases}
-  t_i \realUP{\termenv} \varphi_i \qquad \forall i = 1, \ldots, n \\
-  \Gamma\mid x_1 : \varphi_1,\ldots,x_n : \varphi_n \vdash t : \varphi
-  \end{cases}\]
-  then $t[t_i/x_i] \realUP{\termenv} \varphi$.
-\end{corollary}
-
-Thus, for any $\enviro\in\Oracle$, the sets
+For any $\enviro\in\Oracle$, the sets
 %\[\ThRealU \defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}\]
 \begin{align*}
-  \ThReal{\enviro} &\defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realP{\enviro}{} \varphi\} \\
-  \ThRealU &\defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}
+\ThReal{\enviro} &\defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realP{\enviro}{} \varphi\} \\
+\ThRealU &\defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}
 \end{align*}
 are closed by logical consequence. Moreover, as $\SAT$ contains $\varnothing$,
 \[\bot \defeq \forall \varphi^{\Prop}, \varphi\]
 is not realized, so $\ThRealU$ (resp. $\ThReal{\enviro}$) is consistent.
+\end{corollary}
 
 \begin{notation}
   A lot of functions of our model are not described by any HOL-term but can have a realizer. Thus, we introduce the following notation for $t \in \Lambda, S \in \Sort, s \in \bS$:
