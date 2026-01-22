@@ -12,18 +12,25 @@ We first recall the definition of an Evidenced Frame~\cite{CohMiqTat21}.
     \[\forall \varphi, \psi, \chi \in \Phi, \forall \witx, \wity \in E, \relEF\witx\varphi\psi \implies \relEF\wity\psi\chi \implies \relEF{\witComp\witx\wity}{\varphi}{\chi}\]
   \item an element $\PropTop \in \Phi$ such that there exists an element $\witTop \in E$ such that
     \[\forall \varphi \in \Phi, \relEF\witTop\varphi\PropTop\]
-  \item a function $\PropAndDot : \Phi \times \Phi \to \Phi$ such that there exist a function $\witPairDot : E \times E \to E$ and two elements $\witFst,\witSnd \in E$ such that
+  \item a function $\PropAndDot : \Phi \times \Phi \to \Phi$
+  such that there exist a function $\witPairDot : E \times E \to E$
+  and $\witFst,\witSnd \in E$ such that
+  for all $\varphi, \psi, \chi \in \Phi$:
     \[\begin{array}{l}
-    \forall \varphi, \psi \in \Phi, \relEF\witFst{\PropAnd\varphi\psi}\varphi\\
+\relEF\witFst{\PropAnd\varphi\psi}\varphi\qquad\qquad\qquad
     
-    \forall \varphi, \psi \in \Phi, \relEF\witSnd{\PropAnd\varphi\psi}\varphi\\
+\relEF\witSnd{\PropAnd\varphi\psi}\varphi\\
     
-    \forall \varphi, \psi, \chi \in \Phi,\forall \witx,\wity \in E, \relEF\witx\varphi\psi \implies \relEF\wity\varphi\chi\implies \relEF{\witPair\witx\wity}\varphi{\PropAnd\psi\chi}
+    \forall \witx,\wity \in E, \relEF\witx\varphi\psi \implies \relEF\wity\varphi\chi\implies \relEF{\witPair\witx\wity}\varphi{\PropAnd\psi\chi}
+
     \end{array}\]
-  \item a function $\PropImplDot : \Phi \times \powerset(\Phi) \to \Phi$ such that there exist a function $\witLam{} : E \to E$ and an element $\witEval$ such that
+  \item a function $\PropImplDot : \Phi \times \powerset(\Phi) \to \Phi$
+  such that there exist a function $\witLam{} : E \to E$ and an element $\witEval$ such that
+  for all $\varphi,\chi \in \Phi$ and $\vec{\psi}\in \powerset(\Phi)$:
     \[\begin{array}{l}
-    \forall \varphi,\psi \in \Phi, \forall \vec{\chi}\in \powerset(\Phi), \forall \witx \in E, (\forall \chi \in \vec \chi, \relEF\witx{\PropAnd\varphi\psi}\chi) \implies \relEF{\witLam\witx}\varphi{\PropImpl\psi{\vec{\chi}}}\\
-    \forall \varphi \in \Phi, \forall \vec{\psi} \in \powerset(\Phi),\forall \psi \in \vec{\psi}, \relEF{\witEval}{\PropAnd{(\PropImpl{\varphi}{\vec\psi})}\varphi}\psi
+ \forall \witx \in E, (\forall \psi \in \vec \psi, \relEF\witx{\PropAnd\varphi\chi}\psi)
+ \implies \relEF{\witLam\witx}\varphi{\PropImpl\chi{\vec{\psi}}}\\
+    \forall \psi \in \vec{\psi}, \relEF{\witEval}{\PropAnd{(\PropImpl{\varphi}{\vec\psi})}\varphi}\psi
     \end{array}\]
   \end{itemize}
 \end{definition}
@@ -95,7 +102,7 @@ the pairing function is defined by $\witPair t u \defeq \lambda x. \langle t\;x,
 
 \begin{remark}\label{rmk:EFSigma}
   For any $\enviro \in \Oracle$, it is possible to construct the Evidenced Frame $\EFSATE$ given by
-  \[E \defeq \Lambda \qquad \Phi \defeq \left\{\left.\varA\in\prod_{\enviroT \supOr \enviro} \SATP\enviroT\right\vert \forall \enviroT, \enviroTT\supOr \enviro, \enviroT \infOr \enviroTT \implies \termA{\enviroT} \subseteq \termA{\enviroTT} \right\}\]
+  \[E \defeq \Lambda \quad~ \Phi \defeq \left\{\left.\varA\in\prod_{\enviroT \supOr \enviro} \SATP\enviroT\right\vert \forall \enviroT, \enviroTT\supOr \enviro, \enviroT \infOr \enviroTT \implies \termA{\enviroT} \subseteq \termA{\enviroTT} \right\}\]
   with the same functions and evidenced.
 \end{remark}
 
