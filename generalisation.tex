@@ -68,7 +68,7 @@ For example, EF morphisms as defined in \cite{CohMiqTat21} do not require
 the constructions and morphism to commute on the nose.
 
 \begin{definition}[EFdata morphism]
-  Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$). A morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) such that~:
+  Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$). A morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) such that~:\ciseau
   \begin{itemize}
   \item $\forall \varphi, \psi \in \Phi_1, \forall e \in E_1, \relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
   \item $F(\PropTop_1) = \PropTop_2$
@@ -105,7 +105,7 @@ To generalize our argument in the setting of EF, we need some computational cond
 have a strong notion underlying the quantifier $\exists$, that we call explicit existential. The explicit existential allows one to use a proof of $\exists x, \varphi$ to extract an object $a$ such that $\varphi$ is true on $a$. In the presence of effects, and even more so with classical logic,
 the witness used to prove $\exists x, \varphi$ can be impossible to retrieve, making
 this explicit existential not realized \cite{Herbelin05}.
-The explicit existentiel is thus a natural condition: when taking the relativized version of $\exists$, we expect the proof to be able to give an explicit witness by its code, and explicit existential ensures that this code of witness indeed retrieves the witness.
+The explicit existential is thus a natural condition: when taking the relativized version of $\exists$, we expect the proof to be able to give an explicit witness by its code, and explicit existential ensures that this code of witness indeed retrieves the witness.
 \begin{definition}[Explicit existential]
   An EFdata is said to have explicit existential if there is an evidence $e$ such that for any system T type $\tau$ and any function $\varphi(-) : \tau \to \Prop$ there exists $a \in \tau$ such that
   \[\relEF{e}{\exists x^\tau, \cod x \land \varphi(x)}{\cod a \land \varphi(a)}\]

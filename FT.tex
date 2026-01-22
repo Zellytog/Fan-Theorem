@@ -9,7 +9,7 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
   \[\forall (\beta \realP{\enviro}{} \Nat \to \Nat), (\forall i < n, \beta\;\overline i \eqredE \alpha\;\overline i) \implies t\;\beta \eqredE t\;\alpha\]
 \end{lemma}
 
-\begin{proof}
+\begin{proof}\emnote{seulement si besoin}\ciseau
   By hypothesis, we know that $t\;\alpha \redERT \overline n$ for some $n \in \bN$. By confluence, it is possible to chose any reduction strategy which is normalizing. In particular, we can chose the leftmost reduction strategy:
   \[t\;\alpha \stratETP l \overline n\]
   Without loss of generality, we assume $t$ to be of the form $\lambda x.u$ as $t$ will reduce to such a term, given it realizes a function and, applied to $\alpha$, returns a value.

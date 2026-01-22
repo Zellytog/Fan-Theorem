@@ -2,7 +2,7 @@
 
 The main result to ensure a realizability model is sound is the adequacy lemma. This lemma has several implications, but is based on the idea that typed terms are realizers. If typing is seen as a syntactic and decidable specification on programs, then the adequacy means that programs satisfying the syntactic specification associated to a proposition $\varphi$ also satisfy the semantic specification associated to $\varphi$.
 
-From a logical point of view, the Curry-Howard correspondance also tells us that these typing rules translate to inference rules. Indeed, formal proofs of a proposition $\varphi$, based on natural deduction, can be associated to $\lambda$-terms $t$ such that $\vdash t : \varphi$. Using this correspondance, the adequacy lemma also means that, for any two statements $\varphi,\psi$ such that $\varphi$ is realized and $\psi$ is logically entailed by $\varphi$, $\psi$ is also realized. This makes the set $\ThReal{\enviro}$ of realized propositions at some context $\enviro$, and the set $\ThRealU$ of uniformly realized propositions, into a logical theory, closed by deduction. This also means that the theory is consistant, as there are predicates with no realizers. The adequacy lemma is essential to show that our model separates $\FT$ from $\WKL$, as this shows that there is a consistant theory (namely $\ThRealU$) containing $\FT$ and not contaning $\WKL$.
+From a logical point of view, the Curry-Howard correspondence also tells us that these typing rules translate to inference rules. Indeed, formal proofs of a proposition $\varphi$, based on natural deduction, can be associated to $\lambda$-terms $t$ such that $\vdash t : \varphi$. Using this correspondence, the adequacy lemma also means that, for any two statements $\varphi,\psi$ such that $\varphi$ is realized and $\psi$ is logically entailed by $\varphi$, $\psi$ is also realized. This makes the set $\ThReal{\enviro}$ of realized propositions at some context $\enviro$, and the set $\ThRealU$ of uniformly realized propositions, into a logical theory, closed by deduction. This also means that the theory is consistent, as there are predicates with no realizers. The adequacy lemma is essential to show that our model separates $\FT$ from $\WKL$, as this shows that there is a consistent theory (namely $\ThRealU$) containing $\FT$ and not containing $\WKL$.
 
 The proof of the adequacy lemma is an induction on the typing relation. For the cases about universal (resp. existential) quantification, a lemma is needed to relate the realizability of $\varphi[\termt/\varx]$ and the realizability of $\varphi$ where $\rho$ is enriched by $\varx\mapsto \rho(\termt)$.
 
@@ -22,7 +22,7 @@ The proof of the adequacy lemma is an induction on the typing relation. For the 
 %  Hence the result.
 %\end{proof}
 
-We also introduce the typing system we consider for this model. It can be seen as rules for logical deductions in HOL and rules describing the bevahior of $\Nat,\Bool,\List$, \textit{i.e.} constructor rules saying that standard elements are indeed in the expected sort, and induction principles.
+We also introduce the typing system we consider for this model. It can be seen as rules for logical deductions in HOL and rules describing the behavior of $\Nat,\Bool,\List$, \textit{i.e.} constructor rules saying that standard elements are indeed in the expected sort, and induction principles.
 
 \begin{definition}[Typing system]
   We define a ($\lambda$-)context as a list $\Xi \in \List(\Xlam \times \Prop)$, whose elements we will write $(x : \varphi)$.
@@ -49,7 +49,7 @@ We also introduce the typing system we consider for this model. It can be seen a
   then $t[t_i/x_i] \realPP \varphi$.
 \end{theorem}
 
-\begin{proof}
+\begin{proof}\ciseau
   The proof is by induction on the typing derivation:
   \begin{itemize}
   \item case Ax with $t = x_i$: the result is by hypothesis.
@@ -103,9 +103,9 @@ Thus, for any $\enviro\in\Oracle$, the sets
   \ThReal{\enviro} &\defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realP{\enviro}{} \varphi\} \\
   \ThRealU &\defeq \{ \varphi \in \Prop \mid \exists t \in \Lambda, t \realU \varphi\}
 \end{align*}
-are closed by logical consequence. Morever, as $\SAT$ contains $\varnothing$,
+are closed by logical consequence. Moreover, as $\SAT$ contains $\varnothing$,
 \[\bot \defeq \forall \varphi^{\Prop}, \varphi\]
-is not realized, so $\ThRealU$ (resp. $\ThReal{\enviro}$) is consistant.
+is not realized, so $\ThRealU$ (resp. $\ThReal{\enviro}$) is consistent.
 
 \begin{notation}
   A lot of functions of our model are not described by any HOL-term but can have a realizer. Thus, we introduce the following notation for $t \in \Lambda, S \in \Sort, s \in \bS$:

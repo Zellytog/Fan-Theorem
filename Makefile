@@ -5,9 +5,16 @@ SUBFILES := $(wildcard *.tex)
 PDFFILES    := $(patsubst %.tex, %.pdf, $(TEXFILES))
 PSFILES    := $(patsubst %.tex, %.ps, $(TEXFILES))
 
-all: lics fscd article
+all: lics fscd article types
 
-
+types: Types/types_abstract.tex
+	cd Types
+	pdflatex types_abstract.tex
+	bibtex types_abstract.aux
+	pdflatex types_abstract.tex
+	pdflatex types_abstract.tex
+	cd ..
+	
 article: $(SUBFILES) $(BIBFILES)
 	pdflatex "\newcommand\mode{-1}\input{main}"
 	bibtex main.aux
