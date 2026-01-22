@@ -55,19 +55,6 @@ The following proposition justifies that the definitions give saturated sets, in
   \[t \realPP \varphi \implies t \realP{\enviroT}{\termenv} \varphi\]
 \end{proposition}
 
-\begin{proof}
-  We prove this by induction on $\varphi$ (and thus, for the case where $\varphi = \sortPred{\termt}$, by induction on $S$):
-  \begin{itemize}
-  \item if $S = \Nat$, then $t \realPP \sortPredS{\Nat}{\termt}$ means that $t \redERT \overline n$, thus $t \redRTP{\enviroT} \overline n$, so $t \realP{\enviroT}{\termenv} \sortPredS{\Nat}{\termt}$.
-  \item if $S \in \{\Bool, \List(T), T \times U, \Prop\}$, the argument is the same.
-  \item if $S = T \to U$, then this is just a consequence of the case of implication and universal quantification.
-  \item if $\varphi = \psi \to \chi$, then let $\enviroTT \supOr\enviroT$ and $u \realP{\enviroTT}{\termenv} \psi$. By transitivity, $\enviro \infOr \enviroTT$, so by hypothesis on $t$, $tu \realP{\enviroTT}{\termenv} \psi$
-  \item if $\varphi = \psi \land \chi$, then we can conclude directly by induction hypothesis
-  \item the cases $\forall, \exists$ are the same: the induction hypothesis goes through without issue
-  \end{itemize}
-  Hence the monotonicity of realizability with regard to order on reduction contexts.
-\end{proof}
-
 \begin{notation}
   For a formula $\varphi$, we write
   \begin{align*}

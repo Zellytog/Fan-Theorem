@@ -12,12 +12,12 @@ To simplify this construction and avoid the use of a Kripke model for set theory
   We fix an enumerable set $\Xlam$ of $\lambda$-variables which will be written
   $x,y,\ldots$ and define inductively the set $\Lambda$ of lambda-terms by:
   \begin{align*}
-    t,u  &\Coloneq  x \mid \lambda x.t \mid t\;u \\
-    & \mid \langle t,u\rangle \mid \pi_1\;t \mid \pi_2\;t \\
-    & \mid \lamZ \mid \lamS\;t \mid \rec_{\Nat}\;t\;u\;v\\
-    & \mid \rtt \mid \rff \mid \rec_{\Bool}\;t\;u\;v\\
-    & \mid \nil \mid t\append u \mid \rec_{\List}\;t\;u\;v\\
-    & \mid \oracle_n
+    t,u  &\Coloneq  x \mid \lambda x.t \mid t\;u
+     \mid \langle t,u\rangle \mid \pi_1\;t \mid \pi_2\;t \\
+    & \mid \lamZ \mid \lamS\;t \mid \rec_{\Nat}\;t\;u\;v
+     \mid \rtt \mid \rff \mid \rec_{\Bool}\;t\;u\;v\\
+    & \mid \nil \mid t\append u \mid \rec_{\List}\;t\;u\;v
+     \mid \oracle_n
   \end{align*}
   where $n$ ranges over $\bN$.
 \end{definition}
