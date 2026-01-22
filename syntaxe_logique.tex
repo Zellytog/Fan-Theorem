@@ -54,54 +54,49 @@ The HOL term constructors are akin to system T: there is a constructor for abstr
   \label{def:hol_terms}
   A well-typed (HOL-)term $\termt$ of sort $S$ in a context $\Gamma$, which we denote by $\Gamma\vdash \termt:S$, is defined by the inductive relation given in \Cref{fig:hol_terms}.
   \end{definition}
-  \begin{figure}[t]
+  \begin{figure*}[t]
   \begin{center}
   \ruleUnary{$(\varx : S) \in \Gamma$}{$\Gamma\vdash \varx : S$}
-  \qquad
+  \quad
   \ruleUnary{$\Gamma, \varx : S \vdash \termt : T$}{$\Gamma\vdash \termlam \varx.\termt : S \to T$}
-  \qquad
+  \quad
   \ruleBinary{$\Gamma\vdash\termt : S \to T$}{$\Gamma\vdash\termu : S$}{$\Gamma\vdash \termt(\termu) : T$}
 
   \vspace{0.2cm}
   \ruleBinary{$\Gamma \vdash \termt : S$}{$\Gamma\vdash \termu : T$}{$\Gamma \vdash \langle \termt, \termu \rangle : S \times T$}
-  \qquad
+  \quad
   \ruleUnary{$\Gamma\vdash \termt : S \times T$}{$\Gamma\vdash \termpi_1(\termt) : S$}
-  \qquad
+  \quad
   \ruleUnary{$\Gamma\vdash \termt : S \times T$}{$\Gamma\vdash \termpi_2(\termt) : T$}
 
   \vspace{0.2cm}
   \ruleAx{$\Gamma\vdash \termZ : \Nat$}
-  \qquad
+  \quad
   \ruleUnary{$\Gamma\vdash \termt : \Nat$}{$\Gamma\vdash \termS(\termt) : \Nat$}
-
-  \vspace{0.2cm}
+  \quad%\vspace{0.2cm}
   \ruleTernary{$\Gamma\vdash \termt : S$}{$\Gamma\vdash \termu : \Nat \to S \to S$}{$\Gamma\vdash \termv : \Nat$}{$\Gamma\vdash \termrec_{\Nat}(\termt,\termu,\termv) : S$}
 
   \vspace{0.2cm}
   \ruleAx{$\Gamma\vdash \termtt : \Bool$}
-  \qquad
+  \quad
   \ruleAx{$\Gamma\vdash \termff : \Bool$}
-
-  \vspace{0.2cm}
+  \quad%\vspace{0.2cm}
   \ruleTernary{$\Gamma\vdash \termt : S$}{$\Gamma\vdash \termu : S$}{$\Gamma\vdash \termv : \Bool$}{$\Gamma\vdash \termrec_{\Bool}(\termt,\termu,\termv) : S$}
 
   \vspace{0.2cm}
   \ruleAx{$\Gamma\vdash \termnil : \List(S)$}
-  \qquad
+  \quad
   \ruleBinary{$\Gamma\vdash \termt : S$}{$\Gamma\vdash \termu : \List(S)$}{$\Gamma\vdash \termt\termcons\termu : \List(S)$}
-
-  \vspace{0.2cm}
+  \quad%\vspace{0.2cm}
   \ruleTernary{$\Gamma\vdash \termt : T$}{$\Gamma\vdash \termu : S \to \List(S) \to T \to T$}{$\Gamma\vdash \termv : \List(S)$}{$\Gamma\vdash \termrec_{\List(S)}(\termt,\termu,\termv) : T$}
 
   \vspace{0.2cm}
   \ruleBinary{$\Gamma\vdash \varphi : \Prop$}{$\Gamma\vdash \psi : \Prop$}{$\Gamma\vdash \varphi \to \psi : \Prop$}
-
-  \vspace{0.2cm}
+  \quad%\vspace{0.2cm}
   \ruleBinary{$\Gamma\vdash \varphi : \Prop$}{$\Gamma\vdash \psi : \Prop$}{$\Gamma\vdash \varphi \land \psi : \Prop$}
-
-  \vspace{0.2cm}
+  \quad%\vspace{0.2cm}
   \ruleUnary{$\Gamma, \varx : S \vdash \varphi : \Prop$}{$\Gamma\vdash \forall \varx^S, \varphi : \Prop$}
-  \qquad
+  \quad
   \ruleUnary{$\Gamma, \varx : S \vdash \varphi : \Prop$}{$\Gamma\vdash \exists \varx^S, \varphi : \Prop$}
 
   \vspace{0.2cm}
@@ -109,7 +104,7 @@ The HOL term constructors are akin to system T: there is a constructor for abstr
   \end{center}
    \label{fig:hol_terms}
    \caption{Well-typed HOL terms}   %\emnote{put in a figure*?}
-  \end{figure}
+  \end{figure*}
 % \end{definition}
 
 A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and functions interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\bigcap,\bigcup : \powerset (H) \to H$ representing unions and intersections. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
