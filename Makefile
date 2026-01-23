@@ -5,7 +5,7 @@ SUBFILES := $(wildcard *.tex)
 PDFFILES    := $(patsubst %.tex, %.pdf, $(TEXFILES))
 PSFILES    := $(patsubst %.tex, %.ps, $(TEXFILES))
 
-all: lics fscd article types
+all: lics fscd article 
 
 types: Types/types_abstract.tex
 	cd Types
