@@ -1,4 +1,4 @@
-Now that we have stated the theorem \ref{thm:main}, we give examples of realizability models satisfying the conditions (and thus, realizing $\FT$).
+Having Theorem \ref{thm:main} at hands, we give examples of realizability models satisfying the conditions (and thus, realizing $\FT$).
 
 The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata $\EFSATE$ from \Cref{rmk:EFSigma}. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the EFdata $\EFSATE$ has continuity, explicit existential and unbounded search, hence the fact that it satisfies $\FT$.
 
@@ -9,11 +9,10 @@ A third example is the model we based our generalization on: the model by Lubars
 The existence of a path in a possible future is essential. For example, taking the realizability model given by $\SATE$, with local computation at some context $\enviro\in\Oracle$, the model does not realize $\FT$. To show this, we use the Kleene tree relativized to $\enviro$-computable functions. For any $\enviro$-computable path, given by a code $e$, we can simulate $e$ for increasing time duration until the finite path gets out of the tree, which will always happen because the infinite path in the Kleene tree are all uncomputable. This thus gives a bar for the Kleene tree, but this bar can't be uniform as the length of lists in this tree is unbounded.
 
 Finally, we advocate that the restriction of working on EFdatas instead of just EF is not a limitation in practice. The additionnal data, indeed, always exist inside the realizability topos given by an EF.
-
-Take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories given by the assemblies. In this category, objects are given by
+To see this, take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories given by the assemblies. In this category, objects are given by
 \begin{itemize}
-\item a set $X$
-\item a function $E_X : X \to \Phi$
+\item a set $X$\hspace{2cm}
+$\bullet$ a function $E_X : X \to \Phi$
 \end{itemize}
 and morphisms $(X,E_X) \to (Y,E_Y)$ are given by
 \begin{itemize}

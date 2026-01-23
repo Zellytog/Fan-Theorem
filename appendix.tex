@@ -77,10 +77,10 @@ We give the whole semantic interpretation mentionned in \Cref{def:sem}:
   This defines a Heyting pre-algebra.
 \end{proposition}
 \endgroup
-\begin{proof}\textsc{Of \Cref{prop:SAT}.}
+\begin{proof}%\textsc{Of \Cref{prop:SAT}.}
   The fact that the operations are well defined is standard and uses the compatibility of the relation.
 
-  %Let's show that $\infSATE$ is the right adjoint to $\landSATE$. This means that for any $A,B,C \in \SATE$:
+  %Let us show that $\infSATE$ is the right adjoint to $\landSATE$. This means that for any $A,B,C \in \SATE$:
   %\[A \infSATE B \impliesSATE C \iff A \landSATE B \infSATE C\]
   %\begin{itemize}
   %\item suppose there is $t$ such that for any $u \in A$, $tu \in B \impliesSATE C$. Thus, the function $(\lambda x. t\;(\pi_1\;x)\;(\pi_2\;x))$ is a witness that $A \landSATE B \infSATE C$
@@ -139,11 +139,11 @@ We give the whole semantic interpretation mentionned in \Cref{def:sem}:
 
 \endgroup
 
-\begin{proof}\textsc{Of \Cref{thm:adequacy}.}
+\begin{proof}%\textsc{Of \Cref{thm:adequacy}.}
   The proof is by induction on the typing derivation:
   \begin{itemize}
   \item case Ax with $t = x_i$: the result is by hypothesis.
-  \item case $\to_\mathrm i$ with $\lambda x.t : \psi \to \chi$: let $\enviroT \supOr\enviro$ and $u \realP{\enviroT}{\termenv} \psi$, let's prove that $(\lambda x.t)u \realP{\enviroT}{\termenv} \chi$. By hypothesis, $t[t_i/x_i][u/x] \realP{\enviroT}{\termenv} \chi$, but then it suffices to use the fact that $\realFP{\chi}{\termenv}{\enviroT}$ is closed by antireduction.
+  \item case $\to_\mathrm i$ with $\lambda x.t : \psi \to \chi$: let $\enviroT \supOr\enviro$ and $u \realP{\enviroT}{\termenv} \psi$, let us prove that $(\lambda x.t)u \realP{\enviroT}{\termenv} \chi$. By hypothesis, $t[t_i/x_i][u/x] \realP{\enviroT}{\termenv} \chi$, but then it suffices to use the fact that $\realFP{\chi}{\termenv}{\enviroT}$ is closed by antireduction.
   \item case $\to_\mathrm e$ is straightforward by definition of realizing $\psi \to \chi$.
   \item case $\land_\mathrm i$ with $\langle t,u \rangle : \psi \land \chi$: we know by induction hypothesis that $t[t_i/x_i] \realPP \psi$ and that $u[t_i/x_i] \realPP \chi$. Moreover, $\pi_1\; \langle t,u \rangle \redE t$ and $\pi_2\;\langle t,u \rangle \redE u$, so $\pi_1\;(\langle t,u\rangle[t_i/x_i]) \realPP\psi$ and $\pi_2\;(\langle t,u\rangle[t_i/x_i]) \realPP \chi$ by saturation, hence $\langle t,u\rangle [t_i/x_i] \realPP \psi\land \chi$.
   \item both cases $\land_\mathrm e$ are straightforward by definition of realizing a conjunction.
@@ -186,12 +186,12 @@ We give the whole semantic interpretation mentionned in \Cref{def:sem}:
   \[\forall (\beta \realP{\enviro}{} \Nat \to \Nat), (\forall i < n, \beta\;\overline i \eqredE \alpha\;\overline i) \implies t\;\beta \eqredE t\;\alpha\]
 \end{lemma}
 \endgroup
-\begin{proof}\textsc{Of \Cref{lem:continuity}.}
+\begin{proof}%\textsc{Of \Cref{lem:continuity}.}
   By hypothesis, we know that $t\;\alpha \redERT \overline n$ for some $n \in \bN$. By confluence, it is possible to chose any reduction strategy which is normalizing. In particular, we can chose the leftmost reduction strategy:
   \[t\;\alpha \stratETP l \overline n\]
   Without loss of generality, we assume $t$ to be of the form $\lambda x.u$ as $t$ will reduce to such a term, given it realizes a function and, applied to $\alpha$, returns a value.
 
-  Thus, we are left to prove the result with $t[\alpha/x] \stratETP l \overline n$. By induction on the number of reduction steps, we prove that there exists a finite prefix such that for all $\beta$ with this prefix, $t[\beta/x] \stratETP l \overline n$. Let's proceed by case analysis on the first step reduction:
+  Thus, we are left to prove the result with $t[\alpha/x] \stratETP l \overline n$. By induction on the number of reduction steps, we prove that there exists a finite prefix such that for all $\beta$ with this prefix, $t[\beta/x] \stratETP l \overline n$. Let us proceed by case analysis on the first step reduction:
   \begin{itemize}
   \item the redex can be outside $\alpha$, meaning that there is $u$ such that $t[\alpha/x] \stratE l u[\alpha/x]$, then $t[\beta/x] \stratE l u[\beta/x]$ for any $\beta$. Using the induction hypothesis, the result follows.
   \item the redex can involve $\alpha$. In this case, because of the reduction strategy, we find a right context $E[\;]$ and a term $u$ such that

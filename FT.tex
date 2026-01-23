@@ -20,7 +20,7 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
 \end{theorem}
 
 \begin{proof}
-  Let's prove that $\lambda b. n_{C_b}\;0 \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
+  Let us prove that $\lambda b. n_{C_b}\;0 \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
   \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
   for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
   \[n_{C_b}\;0 \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr\alpha n \in B\]
