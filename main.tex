@@ -26,9 +26,12 @@
 
 }
 
+\usepackage{refcount}
+
 \usepackage{macros}
 \newcommand{\ciseau}{\ccnote{\ding{33}}}
 
+\Crefname{proposition}{Proposition}{Definitions}
 \begin{document}
 \title[Oracles Just for Fan]{Oracles Just for Fan:\\ A Robust
 Computational Interpretation of the Fan Theorem}
@@ -71,15 +74,46 @@ Computational Interpretation of the Fan Theorem}
 %sinon chemin infini, on veut le calculer (oracles) et alors par continuité...), justifiant du coup le besoin
 %d'oracles et de kripke}
 
-From a naive realizability model, the main issue to realize $\FT$ is that a barred tree can be very ill-behaved. For example, a tree can have arbitrary long finite path, as long as any infinite path is non computable. The solution we adopt is to construct a realizability relation accounting for possibly non-computable infinite paths: using a semantic similar to Kripke semantic, the trees are forced to be compatible with paths yet to be defined. Then, we add infinite paths in the computational model by fixing primitives $\oracle$ and a reduction rule $\oracle\;\encode n \redi \encode{\alpha(n)}$ where $\alpha$ is the infinite path we wish to add in the model.
+From a naive realizability model, the main issue to realize $\FT$ is
+that a barred tree can be very ill-behaved.
+For example, a tree can have arbitrary long finite paths,
+as long as any infinite path is non computable.
+The solution we adopt is to construct a realizability relation accounting
+for possibly non-computable infinite paths:
+using a semantics similar to Kripke semantic, the trees are forced to be
+compatible with paths yet to be defined.
+Then, we add infinite paths in the computational model by fixing
+primitives $\oracle$ and a reduction rule $\oracle\;\encode n \redi \encode{\alpha(n)}$
+where $\alpha$ is the infinite path we wish to add in the model.
 
-Using this realizability notion, the algorithm realizing $\FT$ is an extensive search among the finite binary words using the bar $b$ given as parameter. For each integer $n$, the algorithm tests whether $n$ is a uniform bound for the predicate $B$.
+Using this realizability notion, the algorithm realizing $\FT$ is an extensive
+search among the finite binary words using the bar $b$ given as parameter.
+For each natural number $n$, the algorithm tests whether $n$ is a uniform bound
+for the predicate $B$.
 Thus, two cases can appear:
 \begin{itemize}
-\item the algorithm can stop at some $n$. In this case, $n$ is a uniform bound, so the algorithm indeed realizes a uniform bound by returning $n$
-\item the algorithm can go on indefinitely. This means that for any $n$, not every word of size $n$ satisfy the predicate, hence that there is a word $w_n\in \bB^n \setminus B$ for any $n$. In the meta-theory, we can then extract an infinite path $\alpha \notin B$ using $\WKL$: as $B$ is taken as the complementary of a tree, the words not in $B$ constitute a binary tree. This is the point where the oracles come into play: we can now use an oracle $\oracle$ to simulate $\alpha$, and the Kripke semantic allows $b$ to take as argument the term $\oracle$. Thus, we wish our Kripke-like semantic to be defined such that $b$ realizing a bar on $B$ not only means that $b$ computes as a bar in some context, but also that it does so in any bigger context (taken as a notion of future world). Finally, using a continuity argument, computing $b(\oracle)$ can be done only for a finite part of $\oracle$, which was already treated in the computation of the original algorithm, giving that both $B(\oracle)$ holds (because it extends the prefix given by a bar on $B$) and that $B(\oracle)$ does not hold (by our choice of $\alpha$).
+\item the algorithm can stop at some $n$.
+In this case, $n$ is a uniform bound, so the algorithm indeed realizes a uniform bound by returning $n$
+\item the algorithm can go on indefinitely.
+This means that for any $n$, not every word of size $n$ satisfies the predicate,
+hence that there is a word $w_n\in \bB^n \setminus B$ for any $n$.
+In the meta-theory, we can then extract an infinite path $\alpha \notin B$
+using $\WKL$: as $B$ is taken as the complementary of a tree,
+the words not in $B$ constitute a binary tree.
+This is the point where the oracles come into play:
+we can now use an oracle $\oracle$ to simulate $\alpha$,
+and the Kripke semantic allows $b$ to take as argument the term $\oracle$.
+Thus, we wish our Kripke-like semantic to be defined such that $b$ realizing
+a bar on $B$ not only means that $b$ computes as a bar in some context,
+but also that it does so in any bigger context
+(taken as a notion of future world). Finally, using a continuity argument, computing $b(\oracle)$ can be done only for a finite part of $\oracle$, which was already treated in the computation of the original algorithm, giving that both $B(\oracle)$ holds (because it extends the prefix given by a bar on $B$) and that $B(\oracle)$ does not hold (by our choice of $\alpha$).
 \end{itemize}
-To build a realizability model replicating this argument, we thus need to implement oracles but also to structure the realizability relation in a Kripke-like way: realizing $\varphi \to \psi$ not only means that realizers of $\varphi$ are sent to realizers of $\psi$ for some given world (taken here to be context of functions working as oracles) but also for future worlds (extensions of this context).
+To build a realizability model replicating this argument, we thus need to
+implement oracles but also to structure the realizability relation
+in a Kripke-like way: realizing $\varphi \to \psi$ not only means
+that realizers of $\varphi$ are sent to realizers of $\psi$
+for some given world (taken here to be context of functions working as oracles)
+but also for future worlds (extensions of this context).
 
 
 \subsection{Lambda-calculus}
@@ -94,17 +128,30 @@ To build a realizability model replicating this argument, we thus need to implem
 \label{}
 \input{adequacy.tex}
 
-\section{The main result}
+\section{A Realizer for the Fan Theorem}
 \label{s:FT}
-
-
-With our model constructed, and the proof that it describes a consistent theory done, we can describe the proof that this model satisfies $\FT$. We also show that $\WKL$ fails with a standard argument using Kleene tree.
+With our model constructed, and the proof that it describes
+a consistent theory done, we are now ready to prove
+that this model satisfies $\FT$. We also show
+that $\WKL$ fails with a standard argument using a Kleene tree.
+We start by defining precisely these principles, before going through a comprehensive
+construction of the program that we use to realize \FT.
 \subsection{Fan Theorem \& Weak \Konig's Lemma}
 %\emnote{def + discussion sur binaire ou non, et renvoi à ~\cite{BreHer21}}
 
-Now that we know both the logic we use and the model we consider, let's give a formal definition of $\FT$. We assume given the function $\restr \alpha \varn$ which is the prefix of the $n$ first values of $\alpha$, given in a list, and write $\ListInf$ for the prefix order on lists.
+Now that we know both the logic we use and the model we consider,
+let us give a formal definition of $\FT$.
+We assume given the function $\restr \alpha \varn$ which is the
+prefix of the $n$ first values of $\alpha$, given in a list,
+and write $\ListInf$ for the prefix order on lists.
 
-As we mentionned before, $\FT$ applies to the complement of a tree. The way we formalize trees can vary, but in reverse mathematics and computability it is standard to consider a tree as a predicate $T \subseteq \List(\bN)$ (where $\List$ is used in place of the set of finite words) closed by prefix, meaning that $\ell \ListInf \ell' \implies \ell' \in T \implies \ell \in T$. This means that the complement of a tree must satisfy the converse, which we call a monotonous predicate:
+As we mentionned before, $\FT$ applies to the complement of a tree.
+The way we formalize trees can vary, but in reverse mathematics and computability
+it is standard to consider a tree as a predicate $T \subseteq \List(\bN)$
+(where $\List$ is used in place of the set of finite words) closed by prefix,
+meaning that $\ell \ListInf \ell' \implies \ell' \in T \implies \ell \in T$.
+This means that the complement of a tree must satisfy the converse,
+which we call a monotonous predicate:
 \[\Mono^S(B) \defeq \forall \ell^{\List(S)}\,{\ell'}^{\List(S)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')\]
 Naturally, when writing $\forall B^{\Mono^S}, \varphi$, we use the same relativization procedure as before.
 
@@ -174,27 +221,63 @@ plus two additional technical conditions.
 \section{Conclusion, future work}
 %\tlnote{Conclusion : mini récap disant qu'on a défini un modèle séparant FT et WKL. On a identifié que les éléments essentiels sont [les conditions du thm]. On montre la robustesse de l'approche et on observe que le modèle concret qu'on a défini permet de donner à nos conditions une notion propre à FT, sans WKL.}
 
-This article introduces a new model separating \FT from \WKL based on $\lambda$-calculus. It is related to the model in \cite{LubRat13} in a similar way as standard $\lambda$-calculus realizability of Heyting Arithmetic is related to Kleene's first realizability algebra. However, the main contribution is that we outline the conditions for this proof to apply:
+This article introduces a realizability model separating \FT from \WKL
+based on a $\lambda$-calculus extended with oracles.
+
+% It is related to the model in \cite{LubRat13} in a similar way
+% as standard $\lambda$-calculus realizability of Heyting Arithmetic
+% is related to Kleene's first realizability algebra.
+We provide a concrete realizer for \FT, which performs a naive extensive search for
+a uniform bound. More importantly, we identify the key features of this realizability
+interpretation that allow to satisfy \FT:
 \begin{itemize}
-\item the computational system has continuity
-\item it can be extended with infinite path for any computable tree
-\item it has explicit existential
-\item it has unbounded search
+\item realizers are continuous,
+\item the computational system can be extended with infinite paths
+for any computable tree,
+\item it accounts for strong existential,
+\item it features an unbounded search.
 \end{itemize}
-Formulated in the framework of evidenced frames, this result can apply to any realizability model exhibiting those properties. This generality implies that the computational content we outline is explicit and is not a degenerate case of a particular model.
+To support our claim that this computational interpretation is indeed robust, in
+the sense that it does not really on other peculiarities of the underlying $\lambda$-calculus,
+we formulate it in the general framework of evidenced frames.
+This provides us with in a result which applies to any realizability model
+exhibiting those properties.
+This generality implies that the computational content we outline
+is explicit and is not a degenerate case of a particular model.
 
-We know that the argument cannot work without the second property, because the Kleene tree in the standard realizability model (with no oracle) has a bar which is not uniform. Nonetheless, these conditions allow the construction of models (\textit{e.g.} the one explicitly constructed in this article) which satisfy \WKL without satisfying \WKL, indicating that they are parcimonious at least with regard to the hierarchy established in \cite{BreHer21}.
-
-This theorem is also robust by stating a statement of the form
-\emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''.
-
-With this kind of statement, we expect to capture the exact computational content of $\FT$. More generaly, we expect that an exploration of logical principles in intuitionnistic reverse mathematics can be conducted by this methodology, that we can summarize as such to find the computational content of a logical principle $(b)$:
+Besides, we know that the argument cannot work without the second property,
+because the Kleene tree in the standard realizability model (with no oracle)
+has a bar which is not uniform. Nonetheless, these conditions allow the
+construction of models (\textit{e.g.} the one explicitly constructed in this
+article) which satisfy \WKL without satisfying \WKL\emnote{?????}, indicating that they are
+parcimonious at least with regard to the hierarchy established in \cite{BreHer21}.
+%
+%
+% This theorem is also robust by stating a statement of the form
+% \emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''.
+Beyond the specific case of the Fan Theorem, we advocate for a computational approach
+to constructive reverse maths, and we expect that an exploration of logical principles
+can be conducted by this methodology.
+Especially, we believe that a reasonable answer to the problem of
+finding the computational content of a logical
+principle $(b)$ should follow the same path:
 \begin{itemize}
-\item a general definition of computational system must be given, and this computational system can be made into an EF (or another general realizability framework, like implicative algebra \cite{Miquel20})
-\item on this notion of computational system, we can define a condition $(a)$ such that a computational system satisfying $(a)$ always satisfies $(b)$ in its realizability model
-\item among the computational systems satisfying $(a)$, we can find ones that do not satisfy a strictly stronger principle than $(b)$.
+\item a general definition of computational system must be given,
+and this computational system can be made into an EF
+(or another general realizability framework, like implicative algebra \cite{Miquel20})
+\item on this notion of computational system, we can define a condition $(a)$
+such that a computational system satisfying $(a)$ always satisfies $(b)$ in the
+induced realizability model
+\item among the computational systems satisfying $(a)$, we can find ones
+that do not satisfy a strictly stronger principle than $(b)$.
 \end{itemize}
-This methodoly has been applied to $\FT$ in this article, but can be transposed to any other logical principle: first, the hierarchy of choice principles in \cite{BreHer21} is a natural candidate, as it gives both a list of principles and a a good criterium to exhibit what strictly stronger principle we do not expect to satisfy (namely the principles above in the hierarchy, and the classical counterpart of intuitionnistic principles).
+This methodology has been applied to $\FT$ in this article,
+but can be transposed to any other logical principle:
+first, the hierarchy of choice principles in \cite{BreHer21} is a natural
+candidate, as it gives both a list of principles and a a good criterium
+to exhibit what strictly stronger principle we do not expect to satisfy
+(namely the principles above in the hierarchy, and the classical counterpart
+of intuitionistic principles).
 
 %The argument we made can also be adapted to prove \FT, depending of the definition we consider. If we follow \cite{LubRat13}, what we call \WFT is directly \FT, which is expected as the argument is mostly the same. However, using the definition of \FT in \cite{BreHer21}, the same argument still works: working on a fixed finite branching is not computationaly harder than working on binary trees. The case where \FT is strictly stronger than what we study in this article is when considering a tree $T$ over $\bN^{<\bN}$ such that for any $n$, $T \cap \bN^n$ is finite. In this case, the tree can have an unbounded branching which cannot be checked computationally.
 
@@ -214,185 +297,5 @@ Another interesting question arises when considering alternative versions of \FT
 \newpage
 \onecolumn
 \appendix
-
-\section{More details on some definitions and proofs}
-
-We give here some more in depth definitions and proofs.
-
-\begin{definition}[Well-typed terms]
-We give the whole semantic interpretation mentionned in \Cref{def:sem}:
-\begin{itemize}
-  \item $\sem{\varx_1 : S_1,\cdots , \varx_n : S_n\vdash \varx_i : S_i} \defeq \pi_i^n$
-  \item $\sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq%$\vspace{-1em}
-  %\begin{flushright}
-  %   $
-     (x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)$
-  %\end{flushright}
-%     \begin{multline*}
-%       \vspace{-2em}\sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq \\
-%       (x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)
-%     \end{multline*}
-
-  \item $\sem{\Gamma\vdash \termt(\termu) : T} \defeq \eval\circ \langle\sem{\Gamma\vdash \termt : S \to T}, \sem{\Gamma\vdash \termu : S}\rangle$
-  \item $\sem{\Gamma\vdash \langle \termt,\termu\rangle : S \times T} \defeq \langle \sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : T}\rangle$
-  \item $\sem{\Gamma\vdash \termpi_1(\termt) : S} \defeq \pi_1 \circ \sem{\Gamma\vdash \termt : S \times T}$
-  \item $\sem{\Gamma\vdash \termpi_2(\termt) : S} \defeq \pi_2 \circ \sem{\Gamma\vdash \termt : S \times T}$
-  \item $\sem{\Gamma\vdash \termZ : \Nat} \defeq (\overrightarrow{x} \in \sem\Gamma) \mapsto 0$
-  \item $\sem{\Gamma\vdash S(\termt) : \Nat} \defeq (n \mapsto n + 1) \circ \sem{\Gamma\vdash \termt : \Nat}$
-  \item$      \sem{\Gamma\vdash \termrec_{\Nat}(\termt,\termu,\termv) : S} \defeq%$
-        %\begin{flushright}
-        %$
-        \rec_{\bN}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : \Nat \to S \to S}, \sem{\Gamma\vdash \termv : \Nat}\rangle$
-        %\end{flushright}
-  \item $\sem{\Gamma\vdash \termtt : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \top$
-  \item $\sem{\Gamma\vdash \termff : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bot$
-  \item $\sem{\Gamma\vdash \termrec_{\Bool}(\termt,\termu,\termv) : S} \defeq%$
-      %\begin{flushright}
-      %$
-      \rec_{\bB}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : S}, \sem{\Gamma\vdash \termv : \Bool}\rangle$
-        %\end{flushright}
-  \item $\sem{\Gamma\vdash \termnil : \List(S)} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \varepsilon$
-  \item $\sem{\Gamma\vdash \termt \termcons \termu : \List(S)}\defeq \smallfrown \circ \langle\sem{\Gamma\vdash\termu : \List(S)},\sem{\Gamma\vdash \termt : S}\rangle$
-  \item $\sem{\Gamma\vdash\termrec_{\List(S)}(\termt,\termu,\termv) : T} \defeq%$
-   %\begin{flushright}
-      %$
-      \rec_{\bL}\circ\langle\sem{\Gamma\vdash \termt : T}, \sem{\Gamma\vdash \termu : S \to \List(S) \to T \to T}, \sem{\Gamma\vdash \termv : \List(S)}\rangle$
-    %\end{flushright}
-  \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \implH\circ\langle\sem{\Gamma\vdash \varphi : \Prop},\sem{\Gamma\vdash \psi : \Prop}\rangle$
-  \item $\sem{\Gamma\vdash \varphi \land \psi : \Prop} \defeq \landH\circ\langle\sem{\Gamma\vdash \varphi : \Prop}, \sem{\Gamma\vdash \psi : \Prop}\rangle$
-  \item $\displaystyle\sem{\Gamma\vdash \forall \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcap_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
-  \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
-  \item $\sem{\Gamma\vdash \sortPred{\termt} : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
-  \end{itemize}
-  Here $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recursors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a word $u$ and a letter $a$, appends $a$ to $u$ to make the new word $ua$, $\implH$ is the implication of $H$ and $\landH$ is its meet.
-\end{definition}
-
-\begin{proof}\textsc{Of \Cref{prop:SAT}.}
-  The fact that the operations are well defined is standard and uses the compatibility of the relation.
-  
-  %Let's show that $\infSATE$ is the right adjoint to $\landSATE$. This means that for any $A,B,C \in \SATE$:
-  %\[A \infSATE B \impliesSATE C \iff A \landSATE B \infSATE C\]
-  %\begin{itemize}
-  %\item suppose there is $t$ such that for any $u \in A$, $tu \in B \impliesSATE C$. Thus, the function $(\lambda x. t\;(\pi_1\;x)\;(\pi_2\;x))$ is a witness that $A \landSATE B \infSATE C$
-  %\item conversely, if there is $t$ such that for any $u \in A \landSATE B$, $tu \in C$, then the function $\lambda x.\lambda y.t \langle x,y\rangle$ is a witness that $A \infSATE B \impliesSATE C$.
-  %\end{itemize}
-
-  We show that $\infSAT$ and $\landSAT$ are adjoints, meaning the following:
-  \[\varA \infSAT \varB \impliesSAT \varC \iff \varA\landSAT \varB\infSAT \varC\]
-  \begin{itemize}
-  \item suppose there is $t$ such that for any $\enviro,\enviroT\in\Oracle$, $u \in \termAE, v \in \termB{\enviroT}$ and such that $\enviro \infOr \enviroT$, $t\;u\;v \in \termC{\enviroT}$. Then, for $\enviro \in \Oracle$ and $u \in \termAE\landSAT\termBE$, $\pi_1\;u\in\termAE$ and $\pi_2\;u\in\termBE$, so $t\;(\pi_1\;u)\;(\pi_2\;u)\in\termCE$ and by antireduction $\lambda x.t\;(\pi_1\;x)\;(\pi_2\;x)$ witnesses that $\varA \landSAT \varB \infSAT \varC$.
-  \item suppose there is $t$ such that for any $\enviro\in\Oracle$ and $u \in \termAE \landSAT \termBE$, $tu \in \termCE$. Then, let $\enviro,\enviroT\in\Oracle$ such that $\enviro\infOr \enviroT$ and $u \in \termAE$. By inclusion, $u \in \termA{\enviroT}$, so for any $v \in \termB{\enviroT}$, $t\;\langle u,v\rangle \in \termC{\enviroT}$, so by antireduction $\lambda x\;y.t\;\langle x,y\rangle$ is a witness that $\varA\infSAT \varB \impliesSAT \varC$.
-  \end{itemize}
-
-  Hence $\SATE$ and $\SAT$ are Heyting pre-algebras.
-\end{proof}
-
-
-\begin{proof}\textsc{Of \Cref{prop.monotonicity}.}
-  We prove this by induction on $\varphi$ (and thus, for the case where $\varphi = \sortPred{\termt}$, by induction on $S$):
-  \begin{itemize}
-  \item if $S = \Nat$, then $t \realPP \sortPredS{\Nat}{\termt}$ means that $t \redERT \overline n$, thus $t \redRTP{\enviroT} \overline n$, so $t \realP{\enviroT}{\termenv} \sortPredS{\Nat}{\termt}$.
-  \item if $S \in \{\Bool, \List(T), T \times U, \Prop\}$, the argument is the same.
-  \item if $S = T \to U$, then this is just a consequence of the case of implication and universal quantification.
-  \item if $\varphi = \psi \to \chi$, then let $\enviroTT \supOr\enviroT$ and $u \realP{\enviroTT}{\termenv} \psi$. By transitivity, $\enviro \infOr \enviroTT$, so by hypothesis on $t$, $tu \realP{\enviroTT}{\termenv} \psi$
-  \item if $\varphi = \psi \land \chi$, then we can conclude directly by induction hypothesis
-  \item the cases $\forall, \exists$ are the same: the induction hypothesis goes through without issue
-  \end{itemize}
-  Hence the monotonicity of realizability with regard to order on reduction contexts.
-\end{proof}
-
-
-
-\begin{proof}\textsc{Of \Cref{thm:adequacy}.}
-  The proof is by induction on the typing derivation:
-  \begin{itemize}
-  \item case Ax with $t = x_i$: the result is by hypothesis.
-  \item case $\to_\mathrm i$ with $\lambda x.t : \psi \to \chi$: let $\enviroT \supOr\enviro$ and $u \realP{\enviroT}{\termenv} \psi$, let's prove that $(\lambda x.t)u \realP{\enviroT}{\termenv} \chi$. By hypothesis, $t[t_i/x_i][u/x] \realP{\enviroT}{\termenv} \chi$, but then it suffices to use the fact that $\realFP{\chi}{\termenv}{\enviroT}$ is closed by antireduction.
-  \item case $\to_\mathrm e$ is straightforward by definition of realizing $\psi \to \chi$.
-  \item case $\land_\mathrm i$ with $\langle t,u \rangle : \psi \land \chi$: we know by induction hypothesis that $t[t_i/x_i] \realPP \psi$ and that $u[t_i/x_i] \realPP \chi$. Moreover, $\pi_1\; \langle t,u \rangle \redE t$ and $\pi_2\;\langle t,u \rangle \redE u$, so $\pi_1\;(\langle t,u\rangle[t_i/x_i]) \realPP\psi$ and $\pi_2\;(\langle t,u\rangle[t_i/x_i]) \realPP \chi$ by saturation, hence $\langle t,u\rangle [t_i/x_i] \realPP \psi\land \chi$.
-  \item both cases $\land_\mathrm e$ are straightforward by definition of realizing a conjunction.
-  \item case $\forall_\mathrm i$ with $t : \forall \varx^S, \psi$: by induction hypothesis, we know that for any $\termenv' \models \Gamma, \varx : S$, $t[t_i/x_i] \realP{\enviro}{\termenv'} \psi$. For any $s \in \bS, \termenv[\varx \mapsto s] \models \Gamma$, so $t[t_i/x_i] \realP{\enviro}{\termenv[\varx\mapsto s]} \psi$ which is, by definition, $t[t_i/x_i] \realPP \forall \varx^S,\psi$.
-  \item case $\forall_\mathrm e$ with $t : \psi[\termt/\varx]$: by definition of realizing $\forall \varx^S, \psi$ and using the substitution lemma.
-  \item case $\exists_\mathrm i$ with $t : \exists \varx^S, \varphi$: by induction hypothesis, we know that $\termenv(\termt) \in \bS$ and that $t \realP{\enviro}{\termenv[\varx \mapsto \termenv(\termt)]} \varphi$, so we indeed find some $s \in \bS$ (namely $\termenv(\termv)$) such that $t \realP{\enviro}{\termenv[\varx\mapsto s]}\varphi$, which is the expected result.
-  \item case $\exists_\mathrm e$ with $u\;t : \psi$: by induction hypothesis, we know that for any $\termenv\models \Gamma, \varx : S$, $u \realPP \varphi \to \psi$. In particular, there is by induction hypothesis some $s \in \bS$ such that $t \realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$, but then $\termenv[\varx\mapsto s]\models \Gamma, \varx : S$ so we can apply $t$ to $u$ to find that $u\;t\realPP \psi$.
-  \item we won't treat the cases $\Nat$ nor $\Bool$, as they are the same as the case $\List$.
-  \item case $\List_\mathrm i^{\nil}$: indeed, $\nil \redERT \nil$.
-  \item case $\List_\mathrm i^{\append}$: by induction hypothesis.
-  \item case $\List_\mathrm e$: let $X$ be a predicate on $\List(S)$, $\enviroT \supOr\enviro$ and
-    \[\begin{cases}
-    u \realP{\enviroT}{\termenv} X(\termnil)\\
-    v \realP{\enviroT}{\termenv} \forall \varx^{\{X\}}, \forall \bvary^{\{\List(S)\}}, X(\bvary) \to X(\varx \termcons \bvary)\\
-    w \realP{\enviroT}{\termenv} \List(S)(\varx)
-    \end{cases}\]
-    we want to prove that $t = \rec_{\List}\;u\;v\;w$ realizes $X(\varx)$.
-
-    The object $\termenv(\varx)$ is a list. By induction, it is either $\nil$ or $s \smallfrown s'$ for two elements $s \in \bS^\star, s' \in \bS$:
-    \begin{itemize}
-    \item if $\termenv(\varx) = \nil$, then $w \redRTP{\enviroT} \nil$, $\rec_{\List}\;u\;v\;w \redRTP{\enviroT} u$ and $u \realP{\enviroT}{\termenv} X(\termnil)$, so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\termnil)$.
-    \item if $\termenv(\varx) = s \smallfrown s'$, then $w \redRTP{\enviroT} w_1\append w_2$ for $w_1 \in \codP{s'}{\enviroT}$ and $w_2\in\codP{s}{\enviroT}$. In this case, by induction hypothesis, $\rec_{\List}\;u\;v\;w_2 \realP{\enviroT}{\termenv[\bvary \mapsto s']} \List(S)(\bvary)$, and
-      \[\rec_{\List}\;u\;v\;w \redRTP{\enviroT} \rec_{\List}\;u\;v\;(w_1\append w_2) \redRTP{\enviroT} v\;w_2\;(\rec_{\List}\;u\;v\;w_2)\]
-      so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\varx)$.
-    \end{itemize}
-  \end{itemize}
-  Hence the result, by induction.
-\end{proof}
-
-
-\begin{proof}\textsc{Of \Cref{lem:continuity}.}
-  By hypothesis, we know that $t\;\alpha \redERT \overline n$ for some $n \in \bN$. By confluence, it is possible to chose any reduction strategy which is normalizing. In particular, we can chose the leftmost reduction strategy:
-  \[t\;\alpha \stratETP l \overline n\]
-  Without loss of generality, we assume $t$ to be of the form $\lambda x.u$ as $t$ will reduce to such a term, given it realizes a function and, applied to $\alpha$, returns a value.
-
-  Thus, we are left to prove the result with $t[\alpha/x] \stratETP l \overline n$. By induction on the number of reduction steps, we prove that there exists a finite prefix such that for all $\beta$ with this prefix, $t[\beta/x] \stratETP l \overline n$. Let's proceed by case analysis on the first step reduction:
-  \begin{itemize}
-  \item the redex can be outside $\alpha$, meaning that there is $u$ such that $t[\alpha/x] \stratE l u[\alpha/x]$, then $t[\beta/x] \stratE l u[\beta/x]$ for any $\beta$. Using the induction hypothesis, the result follows.
-  \item the redex can involve $\alpha$. In this case, because of the reduction strategy, we find a right context $E[\;]$ and a term $u$ such that
-    \[t[\alpha/x] = E[\alpha\;u[\alpha/x]][\alpha/x]\]
-    By regrouping reductions, we only focus on the inner term, namely $\alpha\;u[\alpha/x]$: the induction hypothesis will be applied to the resulting term because $\alpha\;u[\alpha/x]$ reduces at least once. Let $v \defeq u[\alpha/x]$.
-
-    We claim that $v \redERT \overline i$ for some $i \in \bN$. Indeed, we can assume without loss of generality that $\alpha$ does not reduce on a term which does not realizes $\Nat$: it suffices to replace the term $\alpha$ with the term
-    \[\rec_{\Nat}\;(\alpha\;0)\;(\lambda n\;x. \alpha(S\;n))\]
-    to have a function which still realizes $\Nat \to \Nat$ but no longer reduces on terms which do not realize $\Nat$.
-
-    Thus, $v \redERT \overline i$, which implies that $\alpha\;v \redERT \alpha \;\overline i$, but then $\alpha\;\overline i \redERT \overline{\alpha(i)}$ so, in the end,
-    $\alpha\;v \redERT \overline{\alpha(i)}$ and (by confluence)
-    \[\alpha\;v \stratETP l \overline{\alpha(i)}\]
-
-    Now, by induction hypothesis, we find a prefix such that for any $\beta$ with this prefix, $E[\overline{\alpha(i)}][\beta/x] \stratETP l \overline n$ and $u[\beta/x] \stratETP l \overline i$. If needed, we can strengthen the condition by taking a longer prefix of alpha such that $\alpha(i)$ is contained in it. Then, for $\beta$ with this prefix:
-    \begin{align*}
-      t[\beta/x] &= E[\beta\;u[\beta/x]][\beta/x] \\
-      &\redERT E[\beta\;\overline i][\beta/x] \\
-      &\stratETP l E[\overline{\alpha(i)}][\beta/x] \\
-      t[\beta/x] &\stratETP l \overline{n}
-    \end{align*}
-    hence the result.
-  \end{itemize}
-
-  Thus, by induction, we deduce that there exists such a prefix.
-\end{proof}
-
-\begin{definition}[Strict EFdata morphism]
-  We give the full conditions that a strict morphism $\EFE_1 \to \EFE_2$ must satisfy:
-  \begin{itemize}
-  \item $\forall \varphi, \psi \in \Phi_1, \forall e \in E_1, \relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
-  \item $F(\PropTop_1) = \PropTop_2$
-  \item $F({\witTop}_1) = {\witTop}_2$
-  \item $\forall \varphi, \psi \in \Phi_1, F({(\PropAnd \varphi \psi)}_1) = {(\PropAnd \varphi \psi)}_2$
-  \item $\forall e, e' \in E_1, F({\witPair e {e'}}_1) = \witPair{F(e)}{F(e')}_2$
-  \item $F({\witFst}_1) = {\witFst}_2$
-  \item $F({\witSnd}_1) = {\witSnd}_2$
-  \item $\forall \varphi \in \Phi_1, \forall \vec \psi \in \powerset(\Phi_1),F({(\PropImpl{\varphi}{\vec\psi})}_1) = {(\PropImpl{F(\varphi)}{\{F(\psi)\mid \psi \in \vec \psi\}})}_2$
-  \item $\forall e \in E_1, F({\witLam e}_1) = {\witLam{F(e)}}_2$
-  \item $F({\witEval}_1) = {\witEval}_2$
-  %\item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
-  %    \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
-  %    \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
-  %\end{cases}$
-  \item $F({e_{0}}_1) = {e_{0}}_2$
-  \item $F({e_{S}}_1) = {e_S}_2$
-  \item $F({e_{\rec}}_1) = {e_{\rec}}_2$
-  \item for all $n \in \bN$, $F_{\Phi}({\cod n}_1) = {\cod n}_2$
-  \end{itemize}
-\end{definition}
-
+\input{appendix}
 \end{document}

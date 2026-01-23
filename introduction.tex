@@ -3,7 +3,7 @@
 
 % \paragraph{Reverse maths}
 The program of reverse mathematics, first initiated by Friedman in the 70s,
-aims at answering questions of the form: ``\emph{what are the minimal axioms necessary to derive the theorem $T$?}''.
+aims at answering questions of the form: ``\emph{what are the minimal axioms necessary to derive the theorem $\varphi$?}''.
 To do so, formulas are classified via their logical equivalence classes over the ambient theory $\T$, which has then to be chosen carefully.
 Indeed, $\T$ has to be expressive enough for usual mathematical statements to have meaning, while a too strong theory would identify all the provable formulas. Classical reverse mathematics has now identified a well-
 established hierarchy of subsystems of second-order arithmetic serving this purpose~\cite{Simpson09}, but the literature in constructive reverse mathematics is much more recent and the situation is more complex: several principles compatible with constructive mathematics lead to logical inconsistencies when added together (\emph{e.g.}, Church’s thesis and the law of excluded-middle).
@@ -27,12 +27,12 @@ We advocate for a generalization of this approach, which has shown to be very co
 
 
 % \paragraph{Choice principles}
-In a recent paper, Brede \& Herbelin put forward a generalized variant of the dependent choice $\GDC_{ABT}$, and its contrapositive bar induction principle $\GBI_{ABT}$, expressed in terms of tree~\cite{BreHer21}.
+In a recent paper, Brede \& Herbelin put forward a generalized variant of the dependent choice $\GDC_{ABT}$, and its contrapositive bar induction principle $\GBI_{ABT}$, expressed in terms of trees~\cite{BreHer21}.
 % named $\GDC_{ABT}$ and $\GBI_{ABT}$.
 Different instantiations of the parameters $A$, $B$, $T$, which refer to the objects they apply to, allow to capture
 a structured hierarchy of choice principles, ranging from Weak K\"onig's Lemma
 (when $A$ is the type $\bN$ of natural numbers and $B$ is the type $\mathbb{B}$ of Booleans)
-to the relational variant of the Axiom of Choice
+to the Axiom of Choice
 (when $T$ is a filter induced by the considered relation), together with their contrapositive.
 Following the recent advances in constructive reverse mathematics, we suggest to consider these principles with a computational point of view, and especially the question:
 \begin{center}
@@ -46,18 +46,18 @@ Following the recent advances in constructive reverse mathematics, we suggest to
 
 
 % \paragraph{Realizability interpretations}
-Adressing such a question raises several difficulties.
+Addressing such a question raises several difficulties.
 First and foremost, we need to understand how to relate advanced logical principles with computational features.
-To that end, we rely on realizability interpretations, and especially on the recent literature in lines with Krivine approach which unveiled that adding programing instructions to a programing language can lead to interpreting new reasoning principles~\cite{Krivine04,Miquel11,Miquey18a,Geoffroy18,CohFarTat19,Blot22}
+To that end, we rely on realizability interpretations, and especially on the recent literature in lines with Krivine approach which unveiled that adding programming instructions to a programming language can lead to interpreting new reasoning principles~\cite{Griffin90,Krivine04,Miquel11,Miquey18a,Geoffroy18,CohFarTat19,Blot22}
 
 Besides, we need to figure out what it means to  capture \emph{exactly} the computational content of a logical principle. We believe that a satisfying answer to that question should address the three following points.
 First, is the computational content exhibited enough? It should be the fact that the expected principle is validated not because of some implicit restrictions, but in a setting that is also compatible with further computational extensions.
-For instance, the relational variant of the Axiom of Choice is trivially valid in a setting with strong existential (such as Martin-Löf Type Theory or intuitionistic realizability interpretations based on a purely functional language) but this is due to the implicit restrictions that a realizer of $A\to B$ is necesarily a function. This does not survive to extension with effects, allowing for a coin flip is enough to refute it~\cite{CohFarTat19}. In contrast, several works show how Countable Choice can be validated using memoization techniques in presence of effects~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
+For instance, the Axiom of Choice is trivially valid in a setting with strong existential (such as Martin-Löf Type Theory or intuitionistic realizability interpretations based on a purely functional language) but this is due to the implicit restrictions that a realizer of $A\to B$ is necessarily a function. This does not survive to extension with effects, allowing for a coin flip is enough to refute it~\cite{CohFarTat19}. In contrast, several works show how Countable Choice can be validated using memoization techniques in presence of effects~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
 
 Secondly, how can we know that the computational features we consider are not too much? For instance, it is clear that if memoization techniques allow to validate Countable Choice in presence of classical logic, such settings will also entail \Konig's Lemma and the Fan Theorem. We therefore suggest to look for realizability models providing separation results: \emph{e.g.}, to capture the exact computational content of Countable Choice, one should aim for a model refuting Dependent Choice.
 
 Thirdly, we should aim to offer robust interpretations, \emph{i.e.} to ensure that the validity of the interpretation is only a consequence of the studied computational features (say, memoization) and not peculiar to specificities of the underlying language of realizers (say, some $\lambda$-calculus). To that end, we suggest relying on \emph{evidenced frames}~\cite{CohMiqTat21}, which provide an algebraic representation of realizability models and allow us to express robust statements such as:
-\emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''. In particukar, Cohen \emph{et al.} proved that memoization techniques (a) in any of a variety of computational systems would lead to a realizability model of Countable Choice (b), which is a much stronger result than the definition of a specific model of the same axiom in ~\cite{Herbelin12,Miquey18a} based on an ad-hoc variant of the $\lambda$-calculus with some implementation of memoization.
+\emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''. In particular, Cohen \emph{et al.} proved that memoization techniques (a) in any of a variety of computational systems would lead to a realizability model of Countable Choice (b)~\cite{CohFarTat19,CohMiqTat21s}, which is a much stronger result than the definition of a specific model of the same axiom in ~\cite{Herbelin12,Miquey18a} based on an ad-hoc variant of the $\lambda$-calculus with some implementation of memoization.
 
 
 
@@ -69,7 +69,7 @@ Thirdly, we should aim to offer robust interpretations, \emph{i.e.} to ensure th
 \paragraph{The computational content of the Fan Theorem}
 
 
-In this paper, we focus on the lowest principles of Brede-Herbelin hierarchy, namely Brouwer's Fan Theorem (\FT). Considering trees as prefix-closed sets of lists of booleans
+In this paper, we focus on the lowest principle of Brede-Herbelin hierarchy, namely Brouwer's Fan Theorem (\FT). Considering trees as prefix-closed sets of lists of booleans
 %natural numbers,
 a set $C$ whose complement is a
 %finitely branching
@@ -87,9 +87,11 @@ As explained, constructive reverse mathematics are much more subtle than classic
 \paragraph{Contributions of this paper}
 In this work, we aim to provide a computational interpretation of the Fan Theorem while following our manifesto: we therefore provide a robust realizability interpretation satisfying \FT while refuting \WKL.
 To do so, we take inspiration from Lubarsky \& Rathjen work~\cite{LubRat13}, where they sketch the definition of such a model based on a mix of a Kripke semantics and realizability: a sequence of reals of increasing Turing degree over the worlds is used as an oracle, and at each world the computable functions are used to define a PCA-based realizability model.
-\emnote{make it a bit more 1) a concrete model 2) abstraction to get a robust statement which the model actually satisfies}
-Here, in order to better stress the computational behavior of realizers, in \Cref{s:realizability} we rather consider a $\lambda$-calculus extended with oracles and we use it to to define a realizability interpretation in the spirit of relative realizability~\cite{VanOosten08}. In \Cref{s:FT}, we prove that our system satisfies a continuity property and use it to exhibit a simple $\lambda$-term which realizes \FT. We also show that our model refutes \WKL, thus providing a separation result.
-Last, we identify in \Cref{s:robust} the computational features of our construction, namely a continuity property, strong existentials and unbounded search, and we provide a robust version of the validity of \FT using evidenced frames.
+
+To highlight a robust computation interpretation of the Fan Theorem, we proceed as follows. First, in order to better stress the computational behavior of realizers, we introduce in \Cref{s:HOL} a computationally meaningful syntax for logical statements on trees,
+and we consider in \Cref{s:realizability}  a $\lambda$-calculus extended with oracles. We use it to define a realizability interpretation in the spirit of relative realizability~\cite{VanOosten08}. In \Cref{s:FT}, we prove that our system satisfies a continuity property and use it to exhibit a simple $\lambda$-term which realizes \FT. We also show that our model refutes \WKL, thus providing a separation result.
+
+In a second phase, we identify in \Cref{s:robust} the computational features of our construction, namely a continuity property for the realizers, strong existentials and unbounded search, and we provide a robust version of the validity of \FT using evidenced frames, emphasizing that any other computational system featuring the same ingredients would induce a valid interpretation of \FT.
 
 
 

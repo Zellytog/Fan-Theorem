@@ -84,9 +84,10 @@ As the reduction depends on the reduction context, we show that extending the re
 
 \subsection{Saturated sets}
 %\emnote{intuition}
-The standard interpretation of $\Prop$ in realizability is the set $\SAT$ of saturated sets.
-The choice of saturated sets is due to the ambiguous notion of ``applying $\lambda x.t$ to $u$'' which can mean either $(\lambda x.t)\;u$ or $t[u/x]$. For practical reasons, this ambiguity appears when proving that realizability exhibits good logical behavior. Because of this, we assume that meaningful sets of terms are sets closed by antireduction.
-As saturation is a property about (anti)reduction, we parametrize the notion of saturation by a reduction context.
+Propositions in realizability models are interpreted via the set of their realizers. Following the Brouwer-Heyting-Kolmogorov, realizers of a formula are expected to \emph{compute} accordingly to the formula they realize. In particular, the interpretation of propositions is usually made in terms of \emph{saturated} set of terms, \emph{i.e.} closed under anti-reduction.
+%
+% The choice of saturated sets is due to the ambiguous notion of ``applying $\lambda x.t$ to $u$'' which can mean either $(\lambda x.t)\;u$ or $t[u/x]$. For practical reasons, this ambiguity appears when proving that realizability exhibits good logical behavior. Because of this, we assume that meaningful sets of terms are sets closed by antireduction.
+In this setting, we therefore parametrize the notion of saturation by a reduction context.
 
 The notion of truth value in our model is thus, in a world $\enviro$, the set of saturated sets for $\rediE$. This truth value is local, in the sense that it only speaks about $\enviro$, so the adapted notion of truth value (for the Kripke interpretation) is given by family of saturated sets, for each $\enviro$.
 
@@ -131,8 +132,8 @@ As for usual saturated set, the different notions of saturated sets are complete
 The fact that $\SAT$ is taken to be the set of truth values means that we will use it to interpret $\Prop$ in the semantic interpretation of our HOL syntax. We thus show that this set can be equiped with a Heyting pre-algebra structure.
 
 %The structure of Heyting pre-algebra on $\SATE$ is the expected one: $A \leq B$ means that there is a uniform mapping of elements of $A$ to elements of $B$, and the set of those mapping (is saturated and) constitutes the set $A \implies B$. For the structure of $\SAT$, however, the structure is defined in a more subtle way. $\varA\leq \varB$ means that the mapping witnessing the inequality is also uniform on $\enviro$. The implication $\implies$ in $\SAT$ is then defined in a Kripke-style way, as the elements inside a world $\enviro$ also have to work for any future world $\enviroT\supOr \enviro$. This definition of $\implies$ is the reason why we impose monotonicity in the family $\varA\in \SAT$.
-
-\begin{proposition}\label{prop:SAT}
+\begin{proposition}
+\label{prop:SAT}
   Let $\enviro \in \Oracle$.
   Let $\varA,\varB \in \SAT$. Then let
   \begin{align*}
@@ -145,6 +146,9 @@ The fact that $\SAT$ is taken to be the set of truth values means that we will u
   \end{align*}
   This defines a Heyting pre-algebra.
 \end{proposition}
+\begin{proof}
+ The main point is show that $\infSAT$ and $\landSAT$ are adjoints, see Appendix \ref{app:realizability}.
+\end{proof}
 
 \begin{remark}\label{rmk:inclusion}
   The pre-order $\infSATE$ contains $\subseteq$ with the witness $t = \lambda x.x$. For this reason, $\bigcap$ defines a lower bound, even though not the greatest.

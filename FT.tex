@@ -8,8 +8,9 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
   Then for any $\alpha \realP{\enviro}{} \Nat \to \Nat$, there exists $n\in \bN$ such that
   \[\forall (\beta \realP{\enviro}{} \Nat \to \Nat), (\forall i < n, \beta\;\overline i \eqredE \alpha\;\overline i) \implies t\;\beta \eqredE t\;\alpha\]
 \end{lemma}
-
-The continuity is proved by analyzing carefully the reduction sequence from $t(\alpha)$: this reduction can call $\alpha$ only a finite number of times as the reduction itself is finite, so $\alpha$ returns a finite number of values, and any other function returning the same values on the same input will give the same reduction sequence.
+\begin{proof}
+The continuity is proved by analyzing carefully the reduction sequence from $t(\alpha)$: this reduction can call $\alpha$ only a finite number of times as the reduction itself is finite, so $\alpha$ returns a finite number of values, and any other function returning the same values on the same input will give the same reduction sequence. See Appendix \ref{app:FT} for a complete proof.
+\end{proof}
 
 Using this lemma and the $\lambda$-terms from the previous subsection, we can now realize $\FT$.
 
@@ -45,7 +46,7 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
   which means that $\lambda b.n_{C_b}\realU \FT$.
 \end{proof}
 
-Not only does the model satisfy $\FT$, but it also does not satisfy $\WKL$. By this, we mean that $\WKL\notin\ThRealU$, making our model a separating model between the two principles.
+Not only does the model satisfy $\FT$, but it also refutes $\WKL$. By this, we mean that $\WKL\notin\ThRealU$, making our model a separating model between the two principles.
 
 To prove that $\WKL$ is not realized, we use the Kleene tree construction (which can be relativized without issue). The tree, seen as a predicate over binary words, only contains those words which are different from any computable function in a finite time. For example, if $\ell$ is of length $n$, then we check whether $\ell_0$, its first value, is different from the value of $\Enum{}{0}(0)$ computed on $n$ steps (if it exists). This way, any finite path is computable, because a universal machine exists and can simulate the computation of a code on an input for a finite time. However, no infinite path can be found from a computable point of view: if $\alpha$ is an infinite path in $K$, this means that for any $\Enum{}{i}(i)\convcal$ (which means that it is computed in a finite time), we have that $\alpha_i \neq \Enum{}{i}(i)$, hence $\alpha$ is diagonaly non computable, hence non computable. In the realizability model, this implies that no path of $K$ is realized.
 

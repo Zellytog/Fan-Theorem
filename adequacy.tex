@@ -49,8 +49,9 @@ We also introduce the typing system we consider for this model. It can be seen a
   \end{cases}\]
   then $t[t_i/x_i] \realPP \varphi$.
 \end{theorem}
-
-The proof of adequacy is done by an induction on the typing relation $\Gamma\mid \Xi\vdash t : \varphi$ and is standard in realizability methods.
+\begin{proof}
+ The proof of adequacy is done by an induction on the typing relation $\Gamma\mid \Xi\vdash t : \varphi$ and is standard in realizability methods, see Appendix \ref{app:realizability} for a complete proof.
+ \end{proof}
 
 As the adequacy is defined for any $\enviro\in\Oracle$, it is straightforward that $\realU$ is also adequate.
 
