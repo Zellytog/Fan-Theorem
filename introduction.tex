@@ -85,13 +85,12 @@ As explained, constructive reverse mathematics are much more subtle than classic
 
 
 \paragraph{Contributions of this paper}
-In this work, we aim to provide a computational interpretation of the Fan Theorem while following our manifesto: we therefore provide a robust realizability interpretation satisfying \FT while refuting \WKL.
-To do so, we take inspiration from Lubarsky \& Rathjen work~\cite{LubRat13}, where they sketch the definition of such a model based on a mix of a Kripke semantics and realizability: a sequence of reals of increasing Turing degree over the worlds is used as an oracle, and at each world the computable functions are used to define a PCA-based realizability model.
+In this work, we provide a computational interpretation of the Fan Theorem in line with our manifesto. To this end, we construct a robust realizability interpretation that validates \FT while refuting \WKL, and we subsequently show that this interpretation is itself robust.
+Our construction is inspired by the work of Lubarsky and Rathjen~\cite{LubRat13}, who sketch a model combining Kripke semantics with realizability. Their approach relies on a sequence of reals of strictly increasing Turing degree assigned to the worlds, which serve as oracles; at each world, the computable functions relative to the corresponding oracle are used to define a PCA-based realizability model.
 
-To highlight a robust computation interpretation of the Fan Theorem, we proceed as follows. First, in order to better stress the computational behavior of realizers, we introduce in \Cref{s:HOL} a computationally meaningful syntax for logical statements on trees,
-and we consider in \Cref{s:realizability}  a $\lambda$-calculus extended with oracles. We use it to define a realizability interpretation in the spirit of relative realizability~\cite{VanOosten08}. In \Cref{s:FT}, we prove that our system satisfies a continuity property and use it to exhibit a simple $\lambda$-term which realizes \FT. We also show that our model refutes \WKL, thus providing a separation result.
+To unveil a robust computational content of the Fan Theorem, we proceed as follows. First, in \Cref{s:HOL}, we introduce a computationally meaningful syntax for logical statements about trees, designed to better capture the computational behavior of realizers. In \Cref{s:realizability}, we then define a realizability interpretation based on a $\lambda$-calculus extended with oracles, in the spirit of relativized realizability~\cite{Goodman1978}. In \Cref{s:FT}, we establish a continuity property of this system and use it to exhibit a simple $\lambda$-term realizing \FT. We also show that our model refutes \WKL, thereby obtaining a separation result.
 
-In a second phase, we identify in \Cref{s:robust} the computational features of our construction, namely a continuity property for the realizers, strong existentials and unbounded search, and we provide a robust version of the validity of \FT using evidenced frames, emphasizing that any other computational system featuring the same ingredients would induce a valid interpretation of \FT.
+In a second phase, presented in \Cref{s:robust}, we isolate the key computational features of our construction—namely, continuity of realizers, strong existential quantification, and unbounded search. Using the notion of evidenced frames, we then prove a robust version of the validity of \FT, showing that any computational system exhibiting these same features yields a valid interpretation of the Fan Theorem
 
 
 
