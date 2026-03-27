@@ -151,7 +151,7 @@ it is standard to consider a tree as a predicate $T \subseteq \List(\bN)$
 (where $\List$ is used in place of the set of finite words) closed by prefix,
 meaning that $\ell \ListInf \ell' \implies \ell' \in T \implies \ell \in T$.
 This means that the complement of a tree must satisfy the converse,
-which we call a monotonous predicate:
+which we call a monotone predicate:
 \[\Mono^S(B) \defeq \forall \ell^{\List(S)}\,{\ell'}^{\List(S)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')\]
 Naturally, when writing $\forall B^{\Mono^S}, \varphi$, we use the same relativization procedure as before.
 
@@ -161,7 +161,7 @@ The statement we use as $\FT$ is
         \exists \varn^{\{\Nat\}}, \forall \alpha^{\{\Nat\to\Bool\}}, \restr \alpha \varn \in B
 \end{multline*}
 
-$\FT$ is thus a rewriting of the contrapositive of $\WKL$, replacing a tree by its complement, a monotonous predicate. However, the statement of $\FT$ vary in the litterature. In \cite{LubRat13} on which we base our model, $\FT$ is given on binary tree the same way we do here. In \cite{BreHer21}, however, $\FT$ is stated with a finite set instead of $\Bool$: in fact, our construction perfectly works in this setting because there is no more computational difficulty in the finite case, as long as the bound on the finite set is known \textit{a priori}. Another statement, which would make $\FT$ dual to $\KL$, would be to consider $T : \List(\bN) \to \Prop$ (the complement of $B$, a tree) with a finite branching condition saying that $T \cap \bN^n$ is always a finite set, in which case our models would not satisfy the principle.
+$\FT$ is thus a rewriting of the contrapositive of $\WKL$, replacing a tree by its complement, a monotone predicate. However, the statement of $\FT$ vary in the litterature. In \cite{LubRat13} on which we base our model, $\FT$ is given on binary tree the same way we do here. In \cite{BreHer21}, however, $\FT$ is stated with a finite set instead of $\Bool$: in fact, our construction perfectly works in this setting because there is no more computational difficulty in the finite case, as long as the bound on the finite set is known \textit{a priori}. Another statement, which would make $\FT$ dual to $\KL$, would be to consider $T : \List(\bN) \to \Prop$ (the complement of $B$, a tree) with a finite branching condition saying that $T \cap \bN^n$ is always a finite set, in which case our models would not satisfy the principle.
 
 \input{bestiaire.tex}
 

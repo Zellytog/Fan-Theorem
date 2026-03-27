@@ -48,7 +48,7 @@ We now have a semantic interpretation of our initial HOL syntax, where propositi
   \[t \realUP{\termenv} \varphi \defeq \forall \enviro \in \Oracle, t \realP{\enviro}{\termenv}\varphi\]
 \end{definition}
 
-The following proposition justifies that the definitions give saturated sets, in the sense that they are monotonous with regard to the order on reduction contexts.
+The following proposition justifies that the definitions give saturated sets, in the sense that they are monotone with regard to the order on reduction contexts.
 
 \begin{proposition}\label{prop.monotonicity}
   let $\enviro, \enviroT \in \Oracle$, $\enviro \infOr \enviroT$, $\Gamma \in \Hctx, \termenv \models \Gamma, \Gamma \vdash \varphi : \Prop$. Then, for every $t$, we have the following implication:
