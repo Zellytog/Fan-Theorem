@@ -347,13 +347,15 @@ Indeed, that's a typo, it should be [] : (List(𝑆))([]).
 
 
 > l823 What is "WFT"?
+
 We are sorry about that, we inadvertently switched the terminology during the writing of the paper. In the literature, most of the time the principle we consider is called FT, but in a few places, as it is the contrapositive of WKL, it is also called WFT (with FT being then the contrapositive of KL). We have not been cautious enough when reverting the notations, this was our mistake.
 
 
 > l871 "Weak Fan Theorem"
 > Why are we  suddenly talking about "weak" Fan Theorem? This has never been
 > mentioned, and it is not clear what distinguishes it from the "strong" Fan
-> Theorem. 
+> Theorem.
+
 This was an oversight (see above), which we will correct.
 
 > l880ff I checked the proof in the appendix but it still feels very
