@@ -1,10 +1,4 @@
-First and foremost, we would like to thank the reviewers for their feedback and
-valuable comments. We intend this paper to be a first step in a long-term
-research program using similar methods to study the precise computational
-content of various choice principles. Therefore, we share your interest in
-studying WKL and aim to develop a framework in which such results can be
-formalized; we definitely had these on our to-do list for future work. You will
-find below detailed answers to your specific questions and comments. 
+First and foremost, we would like to thank the reviewers for their feedback and valuable comments. We intend this paper to be a first step in a long-term research program using similar methods to study the precise computational content of various choice principles. Therefore, we share your interest in studying WKL and aim to develop a framework in which such results can be formalized; we definitely had these on our to-do list for future work. You will find below detailed answers to your specific questions and comments. 
 
 
 ===================
@@ -20,21 +14,14 @@ Review #302A
 > to be ordered in a regimented fashion, but rather any sequence of oracles can
 > be extended arbitrarily, so that the ones that are necessary are not a bar but
 > are merely dense. 
-
 > Others I consider unimportant: namely, that the model is
 > said to be of higher-order logic instead of IZF, and that the computability
 > used in the realizability part is a lambda-calculus instead of integer codes
 > for Turing machines. 
 
-We ourselves agree with this analysis. Indeed the specifics of higher-order
-logic or the λ-calculus are not crucial to the construction (Section 5
-explicitly emphasizes this). Nonetheless, it seemed to us that using the 
-λ-calculus as a language for the realizers has interesting benefits: 
-- first, it provides an easier framework (in our opinion) for writing explicit
-realizers (as if it were a programming exercise), 
-- second, it is closer to what the type theory and realizability communities are
-used to (as it requires fewer subtle computability arguments), thus hopefully
-reaching a broader audience for this line of research. 
+We ourselves agree with this analysis. Indeed the specifics of higher-order logic or the λ-calculus are not crucial to the construction (Section 5 explicitly emphasizes this). Nonetheless, it seemed to us that using the λ-calculus as a language for the realizers has interesting benefits: 
+- first, it provides an easier framework (in our opinion) for writing explicit realizers (as if it were a programming exercise), 
+- second, it is closer to what the type theory and realizability communities are used to (as it requires fewer subtle computability arguments), thus hopefully reaching a broader audience for this line of  research. 
 
 
 > This all leads to my sense that the paper lacks a focus. Is it about the
@@ -42,50 +29,24 @@ reaching a broader audience for this line of research.
 > holds? I would be more enthusiastic about the work if it were about a general
 > setting in which FT and WKL are distinguished. 
 
-Regarding our focus, the main question we want to address is: "How can we
-capture the computational content of FT?". This perspective guides the structure
-of the paper: our goal is not to fully characterize WKL, but rather to isolate
-and understand the computational content of FT. To that end, we are interested in:
-- a) making sure that we understand a computational content providing realizers
-  for FT, i.e. a robust statement (Thm. 38) giving abstract conditions for a
-  realizability model (stated as an algebraic structure via EF) to satisfy FT, 
-- b) ensuring that this computational content is not too strong, in the sense
-  that we can have *a* concrete model that satisfies it but does not realize WKL
-  (or stronger choice principles). 
+Regarding our focus, the main question we want to address is: "How can we capture the computational content of FT?". This perspective guides the structure of the paper: our goal is not to fully characterize WKL, but rather to isolate and understand the computational content of FT. To that end, we are interested in:
+- a) making sure that we understand a computational content providing realizers for FT, i.e. a robust statement (Thm. 38) giving abstract conditions for a realizability model (stated as an algebraic structure via EF) to satisfy FT, 
+- b) ensuring that this computational content is not too strong, in the sense that we can have *a* concrete model that satisfies it but does not realize WKL (or stronger choice principles). 
 
-Therefore, we only present the separation result between WKL and FT for the
-concrete model (in Section 4) as evidence that (b) holds, which suffices to
-answer our question. 
+Therefore, we only present the separation result between WKL and FT for the concrete model (in Section 4) as evidence that (b) holds, which suffices to answer our question. 
 
 
 > How easily could you extend sec. 5 to include realizing the failure of WKL?
 
-Nonetheless, this is actually a very interesting question in its own right. We
-can comment that:
-- one relatively easy approach would be to provide additional conditions over
-  Thm. 38 to ensure that WKL is not realized, for instance using the same trick
-  with the Kleene tree (by stating that at each world, there is a tree for which
-  no infinite path has a code, or some finer statement allowing to define the
-  Kleene tree); 
-- providing a result similar to Thm. 38 to describe sufficient condition for
-  *any* realizability model to validate or refute  WKL is much more difficult,
-  and it is actually one of the next problems we plan to study, but it is beyond
-  the scope of the present paper.
+Nonetheless, this is actually a very interesting question in its own right. We can comment that:
+- one relatively easy approach would be to provide additional conditions over Thm. 38 to ensure that WKL is not realized, for instance using the same trick with the Kleene tree (by stating that at each world, there is a tree for which no infinite path has a code, or some finer statement allowing to define the Kleene tree); 
+- providing a result similar to Thm. 38 to describe sufficient condition for *any* realizability model to validate or refute  WKL is much more difficult, and it is actually one of the next problems we plan to study, but it is beyond the scope of the present paper.
   
-Moreover, studying conditions under which a statement is not validated seems
-harder than conditions to validate a statement, because it might be the case
-that a principle is not valid in a model because of some computational feature
-(e.g., non-determinism can invalidate countable choice [9]) but an extension of
-the same system may validate the same principle (e.g., adding state to
-non-determinism yields a model validating countable choice [9]). 
+Moreover, studying conditions under which a statement is not validated seems harder than conditions to validate a statement, because it might be the case that a principle is not valid in a model because of some computational feature (e.g., non-determinism can invalidate countable choice [9]) but an extension of the same system may validate the same principle (e.g., adding state to non-determinism yields a model validating countable choice [9]). 
 
 
 
 ### Comments for authors
-
-> In many spots, the word "monotonous" is used when "monotone" is meant.
-
-Fixed.
 
 > sec. 4.1, p. 7, def of FT: $x \in B$ was never defined. Presumably $B(x)$ is
 > what is meant.
@@ -95,50 +56,39 @@ Indeed, we will make our notations consistent.
 > sec. 4.2.1: By "relativized quantification," do you mean "bounded
 > quantification"?
 
-We followed the terminology used in the realm of Krivine realizability, by
-calling the quantifications
+We followed the terminology used in the realm of Krivine realizability, by calling the quantifications
 
      ∀xᴬ.B ≜ ∀ x. A(x) ⇒ B           ∃xᴬ.B ≜ ∃x. A(x) ∧ B
 
-which may be called bounded as well in other contexts (we are only aware of
-contexts where "bounded" corresponds to predicate A(x) of the shapeform "x ≤ n", but
-this is indeed a particular case of what we want). 
+which may be called bounded as well in other contexts (we are only aware of contexts where "bounded" corresponds to predicate A(x) of the shapeform "x ≤ n", but this is indeed a particular case of what we want). 
 
 
 > p. 8, 4.2.4, par. 2, line 1: $\alpha \vdash$ is ungrammatical; I believe what
 >is meant is $\alpha :$ (although I'm still concerned about the lack of a
 >context). Also, $\alpha$ goes from Nat to Bool, not to Nat.
 
-We fixed the typo "Bool" instead of "Nat". Regarding the notation, as explained
-p8 in Notation 25, we introduce the notations 
+We fixed the typo "Bool" instead of "Nat". Regarding the notation, as explained p8 in Notation 25, we introduce the notations 
    𝑡 ⊩ 𝑆 (𝑠)  (resp.  𝑡 ⊩ 𝑆 )
 to denote that 𝑡 is a code for 𝑠 (resp. some 𝑠) in 𝕊. 
-You are right about the lack of context, we will indeed define this for a fixed
-context σ and write ⊩_σ accordingly.
+You are right about the lack of context, we will indeed define this for a fixed context σ and write ⊩_σ accordingly.
 
 
 
 > 4.3: What is Weak FT, as opposed to FT?
 
-We are sorry about that, we inadvertently switched the terminology during the
-writing of the paper. In the literature, most of the time the principle we
-consider is called FT, but in a few places, as it is the contrapositive of WKL,
-it is also called WFT (with FT being then the contrapositive of KL). We have not
-been cautious enough when reverting the notations, this was our mistake.
+We are sorry about that, we inadvertently switched the terminology during the writing of the paper. In the literature, most of the time the principle we consider is called FT, but in a few places, as it is the contrapositive of WKL, it is also called WFT (with FT being then the contrapositive of KL). We have not been cautious enough when reverting the notations, this was our mistake.
 
 
 > lemma 26: $t \vdash_\sigma (Nat \rightarrow Nat) \rightarrow Nat$ is not
 > defined, as what's right of the turnstile is not a proposition. Perhaps what
 > is meant is $t \vdash_\sigma \alpha : (...)$. 
 
-Same remark as before about the notation 𝑡 ⊩ 𝑆, which we do introduce but should
-have explicitly annotated with the context σ.
+Same remark as before about the notation 𝑡 ⊩ 𝑆, which we do introduce but should have explicitly annotated with the context σ.
 
 
 > p. 8, line -12: define m
 
-The m on line -12 is defined in the beginning of the proof as the length of the
-context σ.
+The m on line -12 is defined in the beginning of the proof as the length of the context σ.
 
 > p. 8, line -4: The notation $\alpha_M$ is new. Perhaps what is meant is
 >$\alpha \upharpoonright M \frown 0^\infty$.
@@ -151,8 +101,7 @@ It should have been α↾M indeed.
 >it's built). Also, it is later referred to as K, without K being defined as
 >such.
 
-Thanks for the feedback, we will follow your suggestion and likely only give
-its essential properties while providing a reference for its definition.
+Thanks for the feedback, we will follow your suggestion and likely only give its essential properties while providing a reference for its definition.
 
 
 > thm 28: Since you stated FT, state WKL. 
@@ -164,34 +113,26 @@ It is an oversight indeed, we will definitely add it.
 > weakly. It's not just that no t realizes WKL everywhere; rather, no t realizes
 > WKL anywhere: for all $\sigma$ there is no $t$ with $t \vdash_\sigma$ WKL.
 
-Indeed, we can give the theorem in its stronger version (correcting the typo, of
-course, we meant infinite). 
+Indeed, we can give the theorem in its stronger version (correcting the typo, of course, we meant infinite). 
 
 
 > p. 9, col. 1, end: The meaning behind $\rightarrow$ in an EF is described, but
 > $\rightarrow$ is not part of the signature of an EF.
 
-Sorry about that, it should have been · ⊩ · ≤ ·  (which is written with a → in
-the original paper about EFs, hence the mistake). 
+Sorry about that, it should have been · ⊩ · ≤ ·  (which is written with a → in the original paper about EFs, hence the mistake). 
 
 
 > sec. 5.2, beginning, (2): I don't know what it means to say $f$ "can be called
 > on a function $g$". Perhaps "$f$ can call on $g$"? "New functions are
 > introduced at later stages"?
 
-We meant that f is called with g as an argument. And what we are trying to
-express is that, as in the concrete model where constants for oracles are present
-from the beginning but only compute only in sufficiently defined contexts σ, some
-functions of the model are only computationally witnessed in future worlds τ≥σ. 
+We meant that f is called with g as an argument. And what we are trying to express is that, as in the concrete model where constants for oracles are present from the beginning but only compute only in sufficiently defined contexts σ, some functions of the model are only computationally witnessed in future worlds τ≥σ. 
 
 
 > After the list (1)-(4), the next sentence is awkward to the point of
 > unclarity. What fact and what property are you talking about?
 
-The sentence is missing a "that" and was unclear anyway indeed, we will
-rephrase. We only wanted to stress that the structure of the concrete model,
-and the definition of the · ⊩_σ · relation in terms of future worlds naturally
-leads us to an abstract setting generalizing Kripke semantics.
+The sentence is missing a "that" and was unclear anyway indeed, we will rephrase. We only wanted to stress that the structure of the concrete model, and the definition of the · ⊩_σ · relation in terms of future worlds naturally leads us to an abstract setting generalizing Kripke semantics.
 
 
 > def. 34: What does it mean to say that a morphism is "the data of two
@@ -209,9 +150,6 @@ Yes, indeed, a pair of functions, one acting on propositions, the other on evide
 Absolutely, fixed.
 
 
-> p. 11, line 1255: The notation $\complement C$ was never defined.
-
-Fixed.
 
 
 
@@ -226,16 +164,10 @@ Fixed.
 > realizability for the analysis of computational interpretations of Fan Theorem
 > and more generally of choice principles.
 
-Thank you for these comments, we are pleased to see that you share our enthusiasm
-regarding this approach to investigating the computational content of choice
-principles using realizability techniques.
+Thank you for these comments, we are pleased to see that you share our enthusiasm regarding this approach to investigating the computational content of choice principles using realizability techniques.
 
 
 ### Comments for authors
-> - Line 12 (abstract) "unable to..." instead of "unable do..." , same typo on
->   line 76
-
-Fixed.
 
 > - line 69-71, ''several principles compatible with constructive mathematics
 >   lead to logical inconsistencies when added together (e.g. Church's thesis
@@ -246,105 +178,60 @@ Fixed.
 
 Thanks for this observation, we will rephrase.
 
+
 > - line 105, the author(s) say(s) they rely on realizability interpretations in
 >   line with Krivine's approach, but Krivine's realizability is classical while
 >   the results presented in this paper are not, it would be interesting to
 >   compare this approach with Krivine's classical realizability
 
-Here, we refer to Krivine's approach in the sense that he proposed (indeed with
-the case of classical logic and control operators) to interpret more reasoning
-principles with extra computational features. It is indeed the case that all of
-his work is done in a classical setting, but he also paid attention to other
-principles/computational features: quote for dependent choice, bar-recursion à
-la Berardi-Bezem-Coquand for dependent choice as welo, monotone memory for forcing,
-etc.
+Here, we refer to Krivine's approach in the sense that he proposed (indeed with the case of classical logic and control operators) to interpret more reasoning principles with extra computational features. It is indeed the case that all of his work is done in a classical setting, but he also paid attention to other principles/computational features: quote for dependent choice, bar-recursion à la Berardi-Bezem-Coquand for dependent choice as well, monotone memory for forcing, etc.
 
-In our case, it is indeed interesting to ask whether (sub?)classical systems
-could be compatible with the hypothesis of Thm 38. The main obstacle is likely
-to be the requirement of an explicit existential. Still, in the classical case,
-FT and WKL are equivalent, so the question could be reframed as understanding
-the computational content of WKL, which is precisely the question we intend to
-tackle next (following a similar approach but in a framework that encompasses
-classical realizability models such as Krivine realizability). 
+In our case, it is indeed interesting to ask whether (sub?)classical systems could be compatible with the hypothesis of Thm 38. The main obstacle is likely to be the requirement of an explicit existential. Still, in the classical case, FT and WKL are equivalent, so the question could be reframed as understanding the computational content of WKL, which is precisely the question we intend to tackle next (following a similar approach but in a framework that encompasses classical realizability models such as Krivine realizability). 
 
-> - line 319 "while we interpret ..." instead of  "while we interpretation ..." 
-Fixed.
-
-> -line 379 "...constructed based on a Turing machine ...." instead of
-> "...constructed based on Turing machine ...."
-Fixed.
 
 > - line 610 - 612 "This means that the theory is consistent as there are
 >   predicates with no realizers". Maybe it should be explained why the fact
 >   that there are predicates with no realizers implies that the theory is
 >   consistent. 
-This is precisely what Corollary 24 expresses, but we may add a forward
-reference to it.
 
-> - line 827 "...(in some reduction context...)" instead of "(in somme reduction
->   context...)"
-Fixed.
+This is precisely what Corollary 24 expresses, but we may add a forward reference to it.
+
 
 > - line 901 "we already know that n_{C_b} 0 either reduces to an integer or it
 >   diverges ", it would help the reader to remind that this was explained at
 >   the end of subsection 4.2.4; actually I think it would be nicer to state
 >   this as a remark or lemma at the end of subsection 4.2.4
-Thanks for the suggestion; clarifying this point will improve the readability of
-the paper. 
 
-> - line 947 "diagonally" instead of "diagonaly"
-Fixed.
-
-> - line 958 "a finite path" instead of "an finite path"
-Fixed.
-
-> - line 1168 "continuity ...is a well studied notion", instead of  "continuity
-> ...is well studied notion"  
-Fixed.
+Thanks for the suggestion; clarifying this point will improve the readability of the paper. 
 
 > - line 1169-1170 since, as the author(s) say(s), there is a wide literature on
 >   continuity, maybe it would be interesting to have more than just one
 >   reference 
+
 This is a good suggestion indeed, we will do so.
 
 > - line 1254-1255 "Using Weak König's Lemma on ? (which is a tree)", is this
 >   notation for the complement of C? Please, clarify the notation
 
-This is the only use of the notation, we will remove it and explicitly write
-'the complement of C'.
+This is the only use of the notation, we will remove it and explicitly write 'the complement of C'.
 
 
-> - line 1307 "The additional data..." instead of "The addionnal data..."
-Fixed.
 
 > - line 1309 Please explain of indicate some reference for "the UFam
 > construction"   
-This is the construction used to define a tripos from an evidenced frame [13],
-but the name UFam is also used in the literature, for instance, in "Categorical
-Logic and Type Theory" of Jacobs, we will add these references.
+
+This is the construction used to define a tripos from an evidenced frame [13], but the name UFam is also used in the literature, for instance, in "Categorical Logic and Type Theory" of Jacobs, we will add these references.
 
 > - line 1330 "In practice, any realizability model of interest possesses such
 >   an object" (referring to a NNO), I find this claim too vague and too strong,
 >   I suggest you rephrase this sentence 
 
-You are right, we will make it more precise and refer to concrete examples (for
-instance the realizability topos arising from PCAs or λ-calculus where Church
-encodings of natural numbers are available).
+You are right, we will make it more precise and refer to concrete examples (for instance the realizability topos arising from PCAs or λ-calculus where Church encodings of natural numbers are available).
 
-
-> - line 1350 "...it does not rely on other peculiarities..." instead of "...it
->   does not really on other peculiarities..."
-Fixed.
-
-> - line 1352 "... it provides us with a result..." instead of "... it provides
->   us with in a result..."
-Fixed.
 
 > - line 1389 "...by only considering bars on Pi_0^1 trees ..." Please explain why Pi_0^1-trees?
 
-This question was already present in [32] as one possible way of weakening the
-premise of Ft, it comes from the fact that these trees correspond to the
-intersection of a family of computable trees.
+This question was already present in [32] as one possible way of weakening the premise of Ft, it comes from the fact that these trees correspond to the intersection of a family of computable trees.
 
 
 ===================
@@ -356,29 +243,19 @@ Review #302C
 > proof reading and some spell checking.  Some definitions (e.g. Notation 19)
 > were incomprehensible.
 
-We apologize for the typos, and will make sure that all notations are introduced
-with sufficient intuition.
+We apologize for the typos, and will make sure that all notations are introduced with sufficient intuition.
 
 > The proofs are very rigorous up to including Section 3 but then become more
 > informal; I could not check the latter ones for correctness. 
 
-We tried to stay in the page limit while not skipping over too much important
-details of the proofs, but we would be happy to include more details on specific
-proofs where you think they are missing.
+We tried to stay in the page limit while not skipping over too much important details of the proofs, but we would be happy to include more details on specific proofs where you think they are missing.
 
 
 > In my opinion, the paper would benefit from a formalization in a proof
 > assistant, as it employs proofs about reduction sequences of terms and there
 > could be subtle issues. 
 
-We agree that a formalization would be a valuable addition to this work,
-especially for technical proofs such as those involving reduction
-sequences. This is in fact part of a longer-term research program: as explained
-in the paper, we intend to study additional choice principles and their
-computational content, and to develop a sufficiently general framework to
-formalize these results. However, since the present work is only a first step in
-this direction, we currently lack sufficient perspective on the most appropriate
-setting for such a formalization. 
+We agree that a formalization would be a valuable addition to this work, especially for technical proofs such as those involving reduction sequences. This is in fact part of a longer-term research program: as explained in the paper, we intend to study additional choice principles and their computational content, and to develop a sufficiently general framework to formalize these results. However, since the present work is only a first step in this direction, we currently lack sufficient perspective on the most appropriate setting for such a formalization. 
 
 
 > Questions for authors’ response
@@ -386,13 +263,9 @@ setting for such a formalization.
 >   Could you work with a certain class of CCCs instead?
 >  (Which would be a more standard notion.)
 
-Evidenced frames were introduced as a framework more suitable for the
-algebrization of realizability than CCC in that:
-- it allows to separate the treatment of propositions and evidences, as is the
-  case in many realizability models, 
-- unlike CCC, EF does not impose any kind of equations on the different object
-  at play, and thus no restriction on the operational semantics of the
-  evidences.
+Evidenced frames were introduced as a framework more suitable for the algebrization of realizability than CCC in that:
+- it allows to separate the treatment of propositions and evidences, as is the case in many realizability models, 
+- unlike CCC, EF does not impose any kind of equations on the different object at play, and thus no restriction on the operational semantics of the evidences.
   
   
 
@@ -401,23 +274,21 @@ algebrization of realizability than CCC in that:
 > There are many misspellings in this paper.  Using a spell-checker would have
 > paid off!
 
-We apologize for the many misspellings.
+We apologize for the misspellings.
 
 > l150ff  I misunderstood this description of the Fan Theorem on the first
 > reading. Try explain a bit more carefully the concept of the "complement of a
 > tree". In particular, this complement is closed under prefix dropping and
 > under list extension. 
 
-At this stage, we intended to provide intuitions without being too technical,
-but we can make this point clearer if it felt too informal.
+At this stage, we intended to provide intuitions without being too technical, but we can make this point clearer if it felt too informal.
 
 > "A set C whose complement is a tree".  A complement can only be taken with
 > respect to a totality or universe, so you should say what C is a subset of.
 
 We meant that C is a subset of the set of lists of booleans.
 
-> l259 Spurious ":" in "Γ ⊢[:] t : S"
-Fixed.
+
 
 > l322 "need an environment ρ which covers Γ"
 > You need that already to define ⟦Γ ⊢ t : S⟧, so you should discuss
@@ -442,32 +313,19 @@ This is a good suggestion indeed.
 
 Thanks for the feedback, we will make our best to improve it.
 
-> l403 "mention[n]ed"
-
-Fixed.
-
 
 > l405 What is meant by "degree"?  And does it matter for this paper?
 
-We should have written Turing degrees. This is not important for our
-construction, but this is useful to connect our work to Lubarsky and Rathjen's
-paper [32]. In particular, the other results that they get could be retrieved in
-our settings by enforcing these extra assumptions.
+We should have written Turing degrees. This is not important for our construction, but this is useful to connect our work to Lubarsky and Rathjen's paper [32]. In particular, the other results that they get could be retrieved in our settings by enforcing these extra assumptions.
 
-> l460 "Following the Brouwer-Heyting-Kolmogorov [interpretation]"
-
-Fixed.
 
 > l493 Is the "∀σ ∈ O" intended?  σ is already bound (in l492).
 
-The 'Let σ∈O' should be removed from the statement, the A_σ/B_σ are families
-indexed by σ.
-
-> l510 "equip[p]ed"
-Fixed.
+The 'Let σ∈O' should be removed from the statement, the A_σ/B_σ are families indexed by σ.
 
 
 > l539 Is anything won by introducing notation ⌜s⌝_σ for ⌜s⌝^σ ?
+
 We felt that this notation ease the reading, but this is subjective.
 
 
@@ -475,42 +333,22 @@ We felt that this notation ease the reading, but this is subjective.
 > φ : Prop, an object ⟦φ⟧ ∈ ⟦Prop⟧." That does not sound right.  Realizability
 > rather produces t ∈ ⟦φ⟧. 
 
-We should have phrased this differently. The realizability relation
-produces a realizer t ⊩ φ, and this is equivalent here to the statement t∈〚φ〛.
-By this point of view, defining the relation · ⊩ φ amounts to defining 〚φ〛.
+We should have phrased this differently. The realizability relation produces a realizer t ⊩ φ, and this is equivalent here to the statement t∈〚φ〛. By this point of view, defining the relation · ⊩ φ amounts to defining 〚φ〛.
 
 
 > l574f It is unclear what is being defined here, since ⊪ is undefined yet, so
 > it cannot be used to define ⟦φ⟧.
 
-The notation ⊪ without ρ should have been defined indeed (this is for empty ρ,
-i.e. for pure propositions), while ⊪^ρ is defined before in Definition 17. 
-⟦φ⟧ is then only defined as a notation based on this.
-
-
-> l582 "obje[c]t"
-Fixed.
+The notation ⊪ without ρ should have been defined indeed (this is for empty ρ, i.e. for pure propositions), while ⊪^ρ is defined before in Definition 17. ⟦φ⟧ is then only defined as a notation based on this.
 
 
 > l712 "[] : S(List(S))[]"  looks wrong..
 Indeed, that's a typo, it should be [] : (List(𝑆))([]).
 
 
-> l739 "canonical[l]y"
-Fixed.
-
-> l785 "proposition[n]al"
-Fixed.
-
 > l823 What is "WFT"?
-We are sorry about that, we inadvertently switched the terminology during the
-writing of the paper. In the literature, most of the time the principle we
-consider is called FT, but in a few places, as it is the contrapositive of WKL,
-it is also called WFT (with FT being then the contrapositive of KL). We have not
-been cautious enough when reverting the notations, this was our mistake.
+We are sorry about that, we inadvertently switched the terminology during the writing of the paper. In the literature, most of the time the principle we consider is called FT, but in a few places, as it is the contrapositive of WKL, it is also called WFT (with FT being then the contrapositive of KL). We have not been cautious enough when reverting the notations, this was our mistake.
 
-> l827 "som[m]e"
-Fixed.
 
 > l871 "Weak Fan Theorem"
 > Why are we  suddenly talking about "weak" Fan Theorem? This has never been
@@ -522,21 +360,7 @@ This was an oversight (see above), which we will correct.
 > non-rigorous. Is reasoning about reduction sequences the best way to establish
 > continuity? 
 
-We do not claim that this is the "best" way of proving it, we wanted to avoid
-appealing to techniques relying on domains semantics or other involved
-techniques just for the purpose of this lemma. We could precise the details if
-needed, and another approach would be to introduce an operational semantics via
-an abstract machine to restrict the possible reductions (and impose a weak-head
-reduction strategy) and make this proof easier, but it would impose unnecessary
-constraints to the rest of our model. 
+We do not claim that this is the "best" way of proving it, we wanted to avoid appealing to techniques relying on domains semantics or other involved techniques just for the purpose of this lemma. We could precise the details if needed, and another approach would be to introduce an operational semantics via an abstract machine to restrict the possible reductions (and impose a weak-head reduction strategy) and make this proof easier, but it would impose unnecessary constraints to the rest of our model. 
 
 
-> l1408 "Begr[u]ündung"
-Fixed.
-
-> l1451 Why is this paper title in UPPERCASE?
-This is a typo.
-
-> l1734 "cho[o]se", twice
-Fixed.
 
