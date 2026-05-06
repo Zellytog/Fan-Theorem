@@ -109,7 +109,7 @@ The HOL term constructors are akin to system T: there is a constructor for abstr
   \ruleUnary{$\Gamma, \varx : S \vdash \varphi : \Prop$}{$\Gamma\vdash \exists \varx^S, \varphi : \Prop$}
 
   \vspace{0.2cm}
-  \ruleUnary{$\Gamma\vdash : \termt : S$}{$\Gamma \vdash \sortPred{\termt} : \Prop$}
+  \ruleUnary{$\Gamma\vdash \termt : S$}{$\Gamma \vdash \sortPred{\termt} : \Prop$}
   \end{center}
    \label{fig:hol_terms}
    \caption{Well-typed HOL terms}   %\emnote{put in a figure*?}
@@ -145,9 +145,9 @@ The other sorts are given their natural set theoretic semantics.
   by the usual set-theoretic interpretation (the complete definition is given in \Cref{app:hol_semantic}). For example,
   \begin{multline*}
   \sem{\Gamma\vdash \termlam\varx.\termt : S \to T} \defeq\\
-  (x \in \sem S) \mapsto \overrightarrow{x} \in \sem\Gamma) \mapsto \sem{\Gamma,\varx : S\vdash \termt : T}(\overrightarrow{x},x)
+  (s \in \sem S) \mapsto \termenv \in \sem\Gamma \mapsto \sem{\Gamma,\varx : S\vdash \termt : T}(\termenv,s)
   \end{multline*}
-  while we interpretation $\Gamma\vdash \sortPred \termt : \Prop$ as $\cod - \circ \sem{\Gamma\vdash \termt : S}$.
+  while we interpret $\Gamma\vdash \sortPred \termt : \Prop$ as $\cod - \circ \sem{\Gamma\vdash \termt : S}$.
 
   For a given sort $S$, we will also write $\bS$ for $\sem S$.
 \end{definition}
@@ -157,5 +157,6 @@ In all generality, the syntactic terms are given in a typing context, like $\Gam
 \begin{notation}
   Given a HOL-context $\Gamma$ and a function $\displaystyle\termenv : \Xt \partialto \bigcup_{S \in \Sort} \bS$, we define
   \[\termenv\models \Gamma \defeq \forall (\varx : S) \in \Gamma, \termenv(\varx) \in \bS\]
-  If $\Gamma \vdash \termt : S$ and $\termenv\models \Gamma$, then we write $\termenv(\termt)$ for the canonical element in $\bS$ associatied to this term.
+  If $\Gamma \vdash \termt : S$ and $\termenv\models \Gamma$, then we write %$\termenv(\termt)$
+  $\sem{\termt}(\rho)$ for the canonical element in $\bS$ associatied to this term.
 \end{notation}

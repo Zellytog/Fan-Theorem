@@ -8,18 +8,19 @@ we identify the following key ingredients:
 \begin{enumerate}
 \item the realizability model accounts at least for system T functions (for instance,
 encodings allow one to talk about functions $\List(\Nat) \to \Bool$),
-\item a function $f$ in the model can be called on a function $g$ defined later, $g$ can be non computable at the stage where $f$ is defined.
+\item a function $f$ realized in some context $\enviro$ can be applied to an argument $x$ realized in some extension of the context, $\enviroT \supOr \enviro$, where $x$ is possibly non realized in $\enviro$.
 \item the functions $(\Nat \to \Nat) \to \Nat$ are continuous, in the sense that for any $f : (\Nat \to \Nat) \to \Nat$ and $\alpha : \Nat \to \Nat$ with a code, there exists a modulus $n$ such that $\forall \beta, \restr\alpha n = \restr \beta n \implies f(\alpha) = f(\beta)$.
 \item realizers can do an unbounded search,
 as long as the meta-theory can prove that the search will terminate.
 \end{enumerate}
 
-The Kripke-like semantic realizability relation we gave, and the fact we state a property
-about a possible future, strongly leads us to a generalization on some Kripke model.
-The category semantic way of giving a Kripke model is to consider a category $\bC$,
+%The Kripke-like semantic realizability relation we gave, and the fact we state a property
+%about a possible future, strongly leads us to a generalization on some Kripke model.
+A first step to the generalization is to account for the Kripke semantics we used in our model.
+In fact, the category semantic way of giving a Kripke model is to consider a category $\bC$,
 a pre-ordered set $(W, \leq)$ and to give a functor $F : W \to \bC$.
-We will follow this guideline by constructing a well-designed category for our work,
-where morphisms preserve the information we expect.
+This gives a guideline for our generalization: we construct a well-designed category for our work,
+where morphisms preserve the information we expect, and consider a functor from a pre-order to such a category.
 
 
 \subsubsection{Evidenced frames with data types}
@@ -94,7 +95,7 @@ The explicit existential is thus a natural condition: when taking the relativize
 
 \subsubsection{Continuity}
 Now, we formalize the continuity condition in the setting of EFdatas.
-Continuity in computable systems is well-studied notion, for which a wide literature exists especially
+Continuity in computable systems is a well-studied notion, for which a wide literature exists especially
 in constructive settings \cite{these_baillon}.
 For the purpose of this work, we will only consider the following (weak) version of continuity.
 
@@ -115,7 +116,7 @@ Instead of oracles $\oracle_n$ interpreting functions $\bN \to \bN$, we could ad
 % By analysing in details the proof of theorem \ref{thm:FT}, in addition to the two main conditions, two technical conditions are needed.
 
 %\emnote{todo: introductory sentence}
-Another principle that is used in the theorem \ref{thm:FT} but need not be realized in any EF is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}. This is a reasonnable assumption: for instance, every PCA implements unbounded search thanks to the fixpoint combinator $Y$.
+Another principle that is used in the theorem \ref{thm:FT} but need not be realized in an arbitrary EF is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}. This is a reasonnable assumption: for instance, every PCA implements unbounded search thanks to the fixpoint combinator $Y$.
 %This construction is not realized in some typed settings. For example, we can easily construct a realizability model of Heyting Arithmetic using system T functions: those functions are total and contain recursive primitive functions, hence they can't be stable under $\mu$.
 
 

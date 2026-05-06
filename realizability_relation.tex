@@ -30,12 +30,12 @@ The only thing left to be defined is the $\cod -$ operation.
 
 The fact that $\codE s \in\SATE$ is a straightforward induction on the set of sorts. We postpone the proof that $\enviro\infOr \enviroT \implies \codE s \subseteq \codP s {\enviroT}$ to the proposition \ref{prop.monotonicity}, as it is a particular case of a proposition on realizability.
 
-We now have a semantic interpretation of our initial HOL syntax, where propositions are sets of terms. The realizability relation then defines, for a syntactic proposition $\vdash \varphi : \Prop$, an object $\sem{\varphi} \in \sem{\Prop}$. In a way, the relation is simply $t \in \cod{\rho(\varphi)}$ for $\Gamma\vdash \varphi : \Prop$ and $\rho\models \Gamma$, but we prefer to give an explicit definition of this relation.
+We now have a semantic interpretation of our initial HOL syntax, where propositions are sets of terms. The realizability relation then defines, for a syntactic proposition $\vdash \varphi : \Prop$, an object $\sem{\varphi} \in \sem{\Prop}$. In a way, the relation is simply $t \in \cod{\sem{\varphi}(\termenv)}$ for $\Gamma\vdash \varphi : \Prop$ and $\rho\models \Gamma$, but we prefer to give an explicit definition of this relation.
 
 \begin{definition}[Realizability relation]\label{def:real}
   Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma\vdash \varphi : \Prop$. We define by induction the realizability relation:
   \begin{itemize}
-  \item $t \realPP \sortPred{\termt} \defeq t \in \codE{\termenv(\termt)}$
+  \item $t \realPP \sortPred{\termt} \defeq t \in \codE{\sem{\termt}(\termenv)}$
   \item $t \realPP \varphi \to \psi \defeq \forall \enviroT \supOr\enviro, u \realP{\enviroT}{\termenv} \varphi \implies tu \realP{\enviroT}{\termenv}\psi$
   \item $t \realPP \varphi \land \psi \defeq (\pi_1\;t \realPP \varphi) \land (\pi_2\;t \realPP \psi)$
   \item $t \realPP \forall \varx^S, \varphi \defeq \forall s \in \bS, t\realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$
@@ -87,7 +87,7 @@ The following proposition justifies that the definitions give saturated sets, in
 \begin{notation}
   We define the relativised universal quantification of a proposition, $\forall \varx^{\{S\}}, \varphi$, as
   \[\forall \varx^{\{S\}}, \varphi \defeq \forall \varx^S, S(\varx) \to \varphi\]
-  Thus, when realizing a formula like $\forall \varx^{\{S\}}, \varphi$, it suffices to suppose that there is an objet $s \in \bS$ with a code $t$ and to prove $\varphi$ using the data $t$.
+  Thus, when realizing a formula like $\forall \varx^{\{S\}}, \varphi$, it suffices to suppose that there is an object $s \in \bS$ with a code $t$ and to prove $\varphi$ using the data $t$.
 
   The relativised existantial quantification is defined by
   \[\exists \varx^{\{S\}}, \varphi \defeq \exists \varx^{S}, S(\varx) \land \varphi\]

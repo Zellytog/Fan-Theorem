@@ -8,8 +8,8 @@ A third example is the model we based our generalization on: the model by Lubars
 
 The existence of a path in a possible future is essential. For example, taking the realizability model given by $\SATE$, with local computation at some context $\enviro\in\Oracle$, the model does not realize $\FT$. To show this, we use the Kleene tree relativized to $\enviro$-computable functions. For any $\enviro$-computable path, given by a code $e$, we can simulate $e$ for increasing time duration until the finite path gets out of the tree, which will always happen because the infinite path in the Kleene tree are all uncomputable. This thus gives a bar for the Kleene tree, but this bar can't be uniform as the length of lists in this tree is unbounded.
 
-Finally, we advocate that the restriction of working on EFdatas instead of just EF is not a limitation in practice. The additionnal data, indeed, always exist inside the realizability topos given by an EF.
-To see this, take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories given by the assemblies. In this category, objects are given by
+Finally, we advocate that the restriction of working on EFdatas instead of just EF is not a limitation in practice. The additional data, indeed, always exist inside the realizability topos given by an EF.
+To see this, take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction \cite{CohMiqTat21,JacobsCLTT} to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories given by the assemblies. In this category, objects are given by
 \begin{itemize}
 \item a set $X$\hspace{2cm}
 $\bullet$ a function $E_X : X \to \Phi$
@@ -23,4 +23,4 @@ This exactly corresponds to the way we define codes for system T types, so every
 
 %\tlnote{Ajouter une ref pour le NNO ? Ca vient de Lawvere 1963 apparemment, mais je sais pas si c'est pertinent de mettre une citation pour ça.}
 
-Hence, to get an EFdata from an EF $\EFE$, one needs to find a NNO inside the realizability topos of $\EFE$, for which the initial algebra property is assured in a uniform way (\textit{i.e.} by the same witness $e \in E$), and to pull back the associated data to make $e_0,e_S,e_{\rec}$. In practice, any realizability model of interest possesses such an object, as logically relevant models need arithmetical language (and thus a NNO) and it is natural to keep the same constructor for every recursive definition.
+Hence, to get an EFdata from an EF $\EFE$, one needs to find a NNO inside the realizability topos of $\EFE$, for which the initial algebra property is assured in a uniform way (\textit{i.e.} by the same witness $e \in E$), and to pull back the associated data to make $e_0,e_S,e_{\rec}$. In practice, any realizability model with an implementation of integers (such as Church integers) possesses such an object, which is already a broad class of models.

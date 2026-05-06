@@ -1,6 +1,6 @@
 \subsection{First exploration of the model}
 
-Given our model, any closed term typable in system T can be written as a closed term and be realized by a term canonicaly associated to it. This means that, for example, the functions $+$ or $\times$ can be expressed both as objects of the sort $\Nat \to \Nat \to \Nat$ and as realizers computing these functions.
+Given our model, any closed term typable in system T can be written as a closed term and be realized by a term canonically associated to it. This means that, for example, the functions $+$ or $\times$ can be expressed both as objects of the sort $\Nat \to \Nat \to \Nat$ and as realizers computing these functions.
 
 For example, every boolean operation $\land,\lor,\lnot$ can be written using $\rec_{\Bool}$. Similarly, functions on lists that can be defined by a fold function can be written inside our system both in HOL and as realizer. We thus assume given functions like the length $|\ell|$ of a list $\ell$.
 
@@ -118,10 +118,10 @@ Given a function $\alpha : \Nat \to \Bool$ and a number $n$, we write $\restr \a
 
 \subsubsection{Predicate given a bar}
 
-We will now write the term realizing $\WFT$.
+We will now write the term realizing $\FT$.
 Fix a monotone predicate $B : \List(\Bool) \to \Prop$, \textit{i.e.} such that
 \[\forall \ell, \ell'^{\List(\Bool)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')\]
-a bar for this predicate is a realizer (in somme reduction context $\enviro$)
+a bar for this predicate is a realizer (in some reduction context $\enviro$)
 \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists \varn^{\{\Nat\}}, B(\restr \alpha \varn)\]
 Suppose given such a bar $b$.
 
@@ -139,13 +139,16 @@ Now, we define the following predicate
 \[C'_b(n) \defeq \eval (\forall \ell^{\{\List(\Bool)\}}, |\ell| = n \implies C(\ell))n\]
 $C'$ is decidable as $C$ is and the quantification is bounded. If $C'(n)$ is realized, then $n$ is a uniform bound for $C$, hence for $B$. Thus, the term we construct is an unbounded search to find a $n$ satisfying $C'_b(n)$. Let $Y \defeq \lambda f.(\lambda x.f\;(x\;x))(\lambda x.f\;(x\;x))$, we define
 \[n_{C_b} \defeq Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\]
-This function satisfies
-%\emnote{rewrite}
-\begin{align*}
-n_{C_b}\;n &\redRT n &\text{if } C'_b(n)\\
-n_{C_b}\;n &\redRT n_{C_b}\;(n+1) &\text{otherwize}
-\end{align*}
-so either $n_{C_b}\;0$ runs infinitely many steps, and for every $n$, $C'_b(n)$ is false (meaning that there exists $\ell_n \notin C$ of size $n$) or $n_{C_b} \real \Nat$ and it is a uniform bound.
+
+\begin{remark}\label{rmk:termin_FT}
+  This function satisfies
+  %\emnote{rewrite}
+  \begin{align*}
+    n_{C_b}\;n &\redRT n &\text{if } C'_b(n)\\
+    n_{C_b}\;n &\redRT n_{C_b}\;(n+1) &\text{otherwize}
+  \end{align*}
+  so either $n_{C_b}\;0$ runs infinitely many steps, and for every $n$, $C'_b(n)$ is false (meaning that there exists $\ell_n \notin C$ of size $n$) or $n_{C_b} \real \Nat$ and it is a uniform bound.
+\end{remark}
 
 %For this, the idea is to consider every list by the order given by our enumeration. For a given list $\ell$, the bar $b$ can be applied to the function $\ell 0^\infty$ to have a list $\ell'$ (either a prefix of $\ell$ or $\ell$ followed by a finite number of $0$).
 %

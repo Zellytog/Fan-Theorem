@@ -2,7 +2,7 @@
 
 The main result to ensure a realizability model is sound is the adequacy lemma. This lemma has several implications, but is based on the idea that typed terms are realizers. If typing is seen as a syntactic and decidable specification on programs, then the adequacy means that programs satisfying the syntactic specification associated to a proposition $\varphi$ also satisfy the semantic specification associated to $\varphi$.
 
-From a logical point of view, the Curry-Howard correspondence also tells us that these typing rules translate to inference rules. Indeed, formal proofs of a proposition $\varphi$, based on natural deduction, can be associated to $\lambda$-terms $t$ such that $\vdash t : \varphi$. Using this correspondence, the adequacy lemma also means that, for any two statements $\varphi,\psi$ such that $\varphi$ is realized and $\psi$ is logically entailed by $\varphi$, $\psi$ is also realized. This makes the set $\ThReal{\enviro}$ of realized propositions at some context $\enviro$, and the set $\ThRealU$ of uniformly realized propositions, into a logical theory, closed by deduction. This also means that the theory is consistent, as there are predicates with no realizers. The adequacy lemma is essential to show that our model separates $\FT$ from $\WKL$, as this shows that there is a consistent theory (namely $\ThRealU$) containing $\FT$ and not containing $\WKL$.
+From a logical point of view, the Curry-Howard correspondence also tells us that these typing rules translate to inference rules. Indeed, formal proofs of a proposition $\varphi$, based on natural deduction, can be associated to $\lambda$-terms $t$ such that $\vdash t : \varphi$. Using this correspondence, the adequacy lemma also means that, for any two statements $\varphi,\psi$ such that $\varphi$ is realized and $\psi$ is logically entailed by $\varphi$, $\psi$ is also realized. This makes the set $\ThReal{\enviro}$ of realized propositions at some context $\enviro$, and the set $\ThRealU$ of uniformly realized propositions, into a logical theory, closed by deduction. This also means that the theory is consistent, as there are predicates with no realizers (hence non realized formulas, in particular $\bot$). The adequacy lemma is essential to show that our model separates $\FT$ from $\WKL$, as this shows that there is a consistent theory (namely $\ThRealU$) containing $\FT$ and not containing $\WKL$.
 
 The proof of the adequacy lemma is an induction on the typing relation. For the cases about universal (resp. existential) quantification, a lemma is needed to relate the realizability of $\varphi[\termt/\varx]$ and the realizability of $\varphi$ where $\rho$ is enriched by $\varx\mapsto \rho(\termt)$.
 
@@ -83,7 +83,8 @@ is not realized, so $\ThRealU$ (resp. $\ThReal{\enviro}$) is consistent.
 
 \begin{notation}
   A lot of functions of our model are not described by any HOL-term but can have a realizer. Thus, we introduce the following notation for $t \in \Lambda, S \in \Sort, s \in \bS$:
-  \[t \real S(s) \defeq t \realP{}{[\varx \mapsto s]} S(\varx)\]
+  \[t \realU S(s) \defeq t \realUP{[\varx \mapsto s]} S(\varx)\]
   Given a $\lambda$-term $t$, there can be several objects $s,s' \in S$ such that $t$ is a code of $s$ (resp. $s'$): however, the intended behavior of $s$ (resp. $s'$) is given by the term $t$, and the choice of the object will not be relevant. For this reason, we will write
-  \[t \real S \defeq \exists s \in \bS, t \real S(s)\]
+  \[t \realU S \defeq \exists s \in \bS, t \realU S(s)\]
+  These notations can also be used with a reduction context, writing \textit{e.g.} $t\realP{\enviro}{} S$ for $\exists s \in \bS, t \realP{\enviro}{} S(s)$.
 \end{notation}

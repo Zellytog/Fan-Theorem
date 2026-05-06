@@ -6,7 +6,7 @@ The program of reverse mathematics, first initiated by Friedman in the 70s,
 aims at answering questions of the form: ``\emph{what are the minimal axioms necessary to derive the theorem $\varphi$?}''.
 To do so, formulas are classified via their logical equivalence classes over the ambient theory $\T$, which has then to be chosen carefully.
 Indeed, $\T$ has to be expressive enough for usual mathematical statements to have meaning, while a too strong theory would identify all the provable formulas. Classical reverse mathematics has now identified a well-
-established hierarchy of subsystems of second-order arithmetic serving this purpose~\cite{Simpson09}, but the literature in constructive reverse mathematics is much more recent and the situation is more complex: several principles compatible with constructive mathematics lead to logical inconsistencies when added together (\emph{e.g.}, Church’s thesis and the law of excluded-middle).
+established hierarchy of subsystems of second-order arithmetic serving this purpose~\cite{Simpson09}, but the literature in constructive reverse mathematics is much more recent and the situation is more complex: several principles compatible with theories used in constructive mathematics lead to logical inconsistencies when added together (\emph{e.g.}, Church’s thesis and the law of excluded-middle).
 
 
 
@@ -16,7 +16,7 @@ established hierarchy of subsystems of second-order arithmetic serving this purp
 % \emnote{Choice principles,Brede-Herbelin, intuitionistic logic}
 Among the various limitations that classical reverse mathematics present
 from a constructive point of view,  they are for instance intrinsically
-bound to classify theorems that are compatible with classical logic (which is not the case for all intuitionistic theorems), or unable do distinguish between a statement and its contrapositive.
+bound to classify theorems that are compatible with classical logic (which is not the case for all intuitionistic theorems), or unable to distinguish between a statement and its contrapositive.
 More recently, Ishihara advocated for a constructive approach to reverse
 mathematics to overcome such limitations~\cite{Ishihara06}, but with
 purely logical considerations, without paying attention to the computational counterpart of constructive results.
@@ -51,13 +51,20 @@ First and foremost, we need to understand how to relate advanced logical princip
 To that end, we rely on realizability interpretations, and especially on the recent literature in lines with Krivine approach which unveiled that adding programming instructions to a programming language can lead to interpreting new reasoning principles~\cite{Griffin90,Krivine04,Miquel11,Miquey18a,Geoffroy18,CohFarTat19,Blot22}
 
 Besides, we need to figure out what it means to  capture \emph{exactly} the computational content of a logical principle. We believe that a satisfying answer to that question should address the three following points.
-First, is the computational content exhibited enough? It should be the fact that the expected principle is validated not because of some implicit restrictions, but in a setting that is also compatible with further computational extensions.
+
+\begin{itemize}
+\item First, is the computational content exhibited enough? It should be the fact that the expected principle is validated not because of some implicit restrictions, but in a setting that is also compatible with further computational extensions.
 For instance, the Axiom of Choice is trivially valid in a setting with strong existential (such as Martin-Löf Type Theory or intuitionistic realizability interpretations based on a purely functional language) but this is due to the implicit restrictions that a realizer of $A\to B$ is necessarily a function. This does not survive to extension with effects, allowing for a coin flip is enough to refute it~\cite{CohFarTat19}. In contrast, several works show how Countable Choice can be validated using memoization techniques in presence of effects~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
 
-Secondly, how can we know that the computational features we consider are not too much? For instance, it is clear that if memoization techniques allow to validate Countable Choice in presence of classical logic, such settings will also entail \Konig's Lemma and the Fan Theorem. We therefore suggest to look for realizability models providing separation results: \emph{e.g.}, to capture the exact computational content of Countable Choice, one should aim for a model refuting Dependent Choice.
+\item Secondly, how can we know that the computational features we consider are not too much? For instance, it is clear that if memoization techniques allow to validate Countable Choice in presence of classical logic, such settings will also entail \Konig's Lemma and the Fan Theorem. We therefore suggest to look for realizability models providing separation results: \emph{e.g.}, to capture the exact computational content of Countable Choice, one should aim for a model refuting Dependent Choice. As the computational content does not, by itself, give a separation result, we want the following statement to hold for a computational content (a) to characterize the logical principle (b):
+\begin{center}
+\emph{`` there exists a model exhibiting (a) and separating (b) from its stronger variants''}
+\end{center}
+which, in the case studied here, means that we search for a model separating $\FT$ from $\WKL$.
 
-Thirdly, we should aim to offer robust interpretations, \emph{i.e.} to ensure that the validity of the interpretation is only a consequence of the studied computational features (say, memoization) and not peculiar to specificities of the underlying language of realizers (say, some $\lambda$-calculus). To that end, we suggest relying on \emph{evidenced frames}~\cite{CohMiqTat21}, which provide an algebraic representation of realizability models and allow us to express robust statements such as:
+\item Thirdly, we should aim to offer robust interpretations, \emph{i.e.} to ensure that the validity of the interpretation is only a consequence of the studied computational features (say, memoization) and not peculiar to specificities of the underlying language of realizers (say, some $\lambda$-calculus). To that end, we suggest relying on \emph{evidenced frames}~\cite{CohMiqTat21}, which provide an algebraic representation of realizability models and allow us to express robust statements such as:
 \emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''. In particular, Cohen \emph{et al.} proved that memoization techniques (a) in any of a variety of computational systems would lead to a realizability model of Countable Choice (b)~\cite{CohFarTat19,CohMiqTat21}, which is a much stronger result than the definition of a specific model of the same axiom in ~\cite{Herbelin12,Miquey18a} based on an ad-hoc variant of the $\lambda$-calculus with some implementation of memoization.
+\end{itemize}
 
 
 
@@ -69,11 +76,11 @@ Thirdly, we should aim to offer robust interpretations, \emph{i.e.} to ensure th
 \paragraph{The computational content of the Fan Theorem}
 
 
-In this paper, we focus on the lowest principle of Brede-Herbelin hierarchy, namely Brouwer's Fan Theorem (\FT). Considering trees as prefix-closed sets of lists of booleans
+In this paper, we focus on the lowest principle of Brede-Herbelin hierarchy, namely Brouwer's Fan Theorem (\FT). Considering trees as prefix-closed sets of lists of booleans, let $C$ be a set whose complement is a tree (hence, a set closed by list extension).
 %natural numbers,
-a set $C$ whose complement is a
+%a set $C$ whose complement is a
 %finitely branching
-tree is said to be \emph{barred} if it contains a finite prefix $\restr \alpha n$ of any infinite sequence %$\alpha\in\bN^\bN$.
+$C$ is said to be \emph{barred} if it contains a finite prefix $\restr \alpha n$ of any infinite sequence %$\alpha\in\bN^\bN$.
 $\alpha\in\bB^\bN$. It is \emph{uniformly barred} if there exists a natural number $n$ such that for any
 %$\alpha\in\bN^\bN$,
 $\alpha\in\bB^\bN$, $\restr\alpha n\in C$.

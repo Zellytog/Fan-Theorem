@@ -4,9 +4,14 @@
 
 %Simplifying this construction, we consider a lambda-calculus which, similarly to the realizers of the model mentionned above, is able to call a finite number of oracles. To implement the call to oracles primitive, we add a family of terms $\oracle_n$ representing the $n$-th oracle of our family.
 
-In \cite{LubRat13}, the argument mentionned above is implemented by taking a Kripke model of IZF. In this model, a realizability model is constructed based on Turing machine with oracle. The Kripke model itself uses as frame the set $\omega^{<\omega}$, and each world $\enviro$ corresponds to a finite set of oracles. By well designed construction, Lubarsky and Rathjen manage to construct the model so that the realizability model taken at some world $\enviro$ are Turing machine computing with oracles in $\enviro$.
+In \cite{LubRat13}, the argument mentioned above is implemented by taking a Kripke model of IZF. In this model, a realizability model is constructed based on Turing machines with oracle. The Kripke model itself uses as frame the set $\omega^{<\omega}$, and each world $\enviro$ corresponds to a finite set of oracles. By well designed construction, Lubarsky and Rathjen manage to construct the model so that the realizability model taken at some world $\enviro$ are Turing machine computing with oracles in $\enviro$.
 
-To simplify this construction and avoid the use of a Kripke model for set theory, we consider a $\lambda$-calculus for which terms are allowed to call oracles. This is done by adding the family of terms $\oracle_k$, representing the function $f_k$ in the context $[f_1,\cdots ,f_n]$.
+In comparison, our model relies on $\lambda$-calculus, mainly to allow more explicit constructions (\textit{e.g.} real concrete terms can be given and proved to realize some given sentences).
+
+
+%we avoid using Kripke models for IZF and, instead, embed the Kripke interpretation directly into our computations. For this, we use a $\lambda$-calculus enriched with constants playing the role of oracle. The use of $\lambda$-calculus makes it easier to write explicit terms in comparison to Turing machines.
+
+%To simplify this construction and avoid the use of a Kripke model for set theory, we consider a $\lambda$-calculus for which terms are allowed to call oracles. This is done by adding the family of terms $\oracle_k$, representing the function $f_k$ in the context $[f_1,\cdots ,f_n]$.
 
 \begin{definition}[Lambda-terms]
   We fix an enumerable set $\Xlam$ of $\lambda$-variables which will be written
@@ -84,7 +89,7 @@ As the reduction depends on the reduction context, we show that extending the re
 
 \subsection{Saturated sets}
 %\emnote{intuition}
-Propositions in realizability models are interpreted via the set of their realizers. Following the Brouwer-Heyting-Kolmogorov, realizers of a formula are expected to \emph{compute} accordingly to the formula they realize. In particular, the interpretation of propositions is usually made in terms of \emph{saturated} set of terms, \emph{i.e.} closed under anti-reduction.
+Propositions in realizability models are interpreted via the set of their realizers. Following the Brouwer-Heyting-Kolmogorov interpretation, realizers of a formula are expected to \emph{compute} accordingly to the formula they realize. In particular, the interpretation of propositions is usually made in terms of \emph{saturated} set of terms, \emph{i.e.} closed under anti-reduction.
 %
 % The choice of saturated sets is due to the ambiguous notion of ``applying $\lambda x.t$ to $u$'' which can mean either $(\lambda x.t)\;u$ or $t[u/x]$. For practical reasons, this ambiguity appears when proving that realizability exhibits good logical behavior. Because of this, we assume that meaningful sets of terms are sets closed by antireduction.
 In this setting, we therefore parametrize the notion of saturation by a reduction context.
@@ -134,7 +139,6 @@ The fact that $\SAT$ is taken to be the set of truth values means that we will u
 %The structure of Heyting pre-algebra on $\SATE$ is the expected one: $A \leq B$ means that there is a uniform mapping of elements of $A$ to elements of $B$, and the set of those mapping (is saturated and) constitutes the set $A \implies B$. For the structure of $\SAT$, however, the structure is defined in a more subtle way. $\varA\leq \varB$ means that the mapping witnessing the inequality is also uniform on $\enviro$. The implication $\implies$ in $\SAT$ is then defined in a Kripke-style way, as the elements inside a world $\enviro$ also have to work for any future world $\enviroT\supOr \enviro$. This definition of $\implies$ is the reason why we impose monotonicity in the family $\varA\in \SAT$.
 \begin{proposition}
 \label{prop:SAT}
-  Let $\enviro \in \Oracle$.
   Let $\varA,\varB \in \SAT$. Then let
   \begin{align*}
     %A \infSATE B &\defeq \exists t \in \Lambda, \forall u \in A, tu \in B\\
