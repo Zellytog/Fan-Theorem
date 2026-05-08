@@ -440,8 +440,8 @@
    \fi
    \ifx\@hideLIPIcs\@undefined
      \ifx\@DOIPrefix\@empty\else
-      \@empty % \vskip\topmattervskip\baselineskip\noindent
-       % \doiHeading\href{https://doi.org/\@lipicsdoi}{\@lipicsdoi}%
+       \vskip\topmattervskip\baselineskip\noindent
+       \doiHeading\href{https://doi.org/\@lipicsdoi}{\@lipicsdoi}%
      \fi
    \fi
    \ifx\@category\@empty\else

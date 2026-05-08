@@ -1,47 +1,53 @@
-% \providecommand{\mode}{-1} %% Neutre
-% \providecommand{\mode}{0} %% FSCD
-\providecommand{\mode}{1} %% LICS
 
-
-
-\newcommand\switch[3]{%
-  \ifcase\mode\relax
-    #1
-  \or
-    #2
-  \or
-\else
-    #3
-  \fi
-}
-\newcommand\iflics[2]{\ifcase\mode\relax #2 \or #1 \else #2\fi}
-
-
-\switch{
-\input{header_fscd}
-}{
-\input{header_lics}
-}{
-\input{header}
-
-}
+\documentclass[a4paper,UKenglish,cleveref, autoref, thm-restate]{lipics-v2021}
+\bibliographystyle{plainurl}
 
 \usepackage{refcount}
-
+\usepackage{amssymb}
+\usepackage{dsfont}
+\usepackage{prelude}
 \usepackage{macros}
+
+
+\EventEditors{Claudia Faggian and Joost-Pieter Katoen}
+\EventNoEds{2}
+\EventLongTitle{41st Annual Symposium on Logic in Computer Science (LICS 2026)}
+\EventShortTitle{LICS 2026}
+\EventAcronym{LICS}
+\EventYear{2026}
+\EventDate{July 20--23, 2026}
+\EventLocation{Lisbon, Portugal}
+\EventLogo{}
+\SeriesVolume{380}
+\ArticleNo{75}
+
+\title{Oracles Just for Fan}
+\subtitle{A Robust Computational Interpretation of the Fan Theorem}
+\authorrunning{Leclercq, Miquey}
+\Copyright{Leclercq and Miquey} %TODO mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
+\author{Titouan Leclercq}{Aix Marseille University, CNRS, I2M, Marseille, France}{titouan.leclercq@univ-amu.fr	}{}{}
+\author{\'{E}tienne Miquey}{Aix Marseille University, CNRS, I2M, Marseille, France}{etienne.miquey@univ-amu.fr	}{0000-0002-5987-6547}{}
+\ccsdesc[500]{Theory of computation}
+%\ccsdesc[500]{Theory of computation~Proof theory}
+% \ccsdesc[300]{Theory of computation~Linear logic}
+\keywords{Combinatory algebras, Monads, Effects, Realizability, Evidenced frames} %TODO mandatory; please add comma-separated list of keywords
+\funding{This work was supported by the ANR-23-CE48-0016 CHoICE project.}
+\acknowledgements{}
+\nolinenumbers
+
+\newtheorem{notation}[definition]{Notation}
+\newcommand{\vary}{\mathbf{y}}
+
 \newcommand{\ciseau}{\ccnote{\ding{33}}}
 
 \Crefname{proposition}{Proposition}{Definitions}
 \begin{document}
-\title[Oracles Just for Fan: A Robust Computational Interpretation of the Fan Theorem]{Oracles Just for Fan:\\ A Robust
-Computational Interpretation of the Fan Theorem}
-
-\iflics{\input{authorLICS}}{}
 
 \maketitle
-\iflics{}{\begin{abstract}
+
+\begin{abstract}
  \input{abstract}
-\end{abstract}}
+\end{abstract}
 
 
 \section{Introduction}
@@ -295,10 +301,7 @@ Another interesting question arises when considering alternative versions of \FT
 Is there a variation of the Theorem \ref{thm:main} accounting for such weakenings?
 
 %\cite{BreHer21}
-\switch
-{\bibliographystyle{plainurl}}
-{\bibliographystyle{ACM-Reference-Format}}
-{\bibliographystyle{plainurl}}
+
 \bibliography{biblio}
 
 \newpage
