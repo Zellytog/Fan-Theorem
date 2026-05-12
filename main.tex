@@ -9,6 +9,9 @@
 \usepackage{macros}
 \usepackage{mathpartir}
 
+\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
+% \newcommand{\vlong}[1]{}
+% \newcommand{\vshort}[1]{#1}
 
 \EventEditors{Claudia Faggian and Joost-Pieter Katoen}
 \EventNoEds{2}
@@ -31,7 +34,7 @@
 \ccsdesc[500]{Theory of computation}
 %\ccsdesc[500]{Theory of computation~Proof theory}
 % \ccsdesc[300]{Theory of computation~Linear logic}
-\keywords{Combinatory algebras, Monads, Effects, Realizability, Evidenced frames} %TODO mandatory; please add comma-separated list of keywords
+\keywords{Constructive Mathematics, Reverse mathematics, Fan Theorem, Oracles, Realizability, Evidenced frames} %TODO mandatory; please add comma-separated list of keywords
 \funding{This work was supported by the ANR-23-CE48-0016 CHoICE project.}
 \acknowledgements{}
 \nolinenumbers
@@ -318,13 +321,62 @@ The other sorts are given their natural set theoretic semantics.
   be a function associating to each object a set of codes (possibly empty).
   Each well-typed term $\Gamma \vdash \termt : S$ is mapped to its semantics
   $ \sem{\Gamma \vdash \termt : S} : \prod_{T \in \Gamma} \sem T \longrightarrow \sem S$
-  by the usual set-theoretic interpretation (the complete definition is given in \Cref{app:hol_semantic}). For example,
+  by the usual set-theoretic interpretation.
+  \vshort{For example,
   \[  \sem{\Gamma\vdash \termlam\varx.\termt : S \to T} ~~\defeq~~
   (s \in \sem S) \mapsto \termenv \in \sem\Gamma \mapsto \sem{\Gamma,\varx : S\vdash \termt : T}(\termenv,s)
   \]
   while we interpret $\Gamma\vdash \sortPred \termt : \Prop$ as $\cod - \circ \sem{\Gamma\vdash \termt : S}$.
-
+}
   For a given sort $S$, we will also write $\bS$ for $\sem S$.
+  \vlong{
+  \begin{itemize}
+  \item $\sem{\varx_1 : S_1,\cdots , \varx_n : S_n\vdash \varx_i : S_i} \defeq \pi_i^n$
+  \item $\sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq%$\vspace{-1em}
+  %\begin{flushright}
+  %   $
+     (x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)$
+  %\end{flushright}
+%     \begin{multline*}
+%       \vspace{-2em}\sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq \\
+%       (x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)
+%     \end{multline*}
+
+  \item $\sem{\Gamma\vdash \termt(\termu) : T} \defeq \eval\circ \langle\sem{\Gamma\vdash \termt : S \to T}, \sem{\Gamma\vdash \termu : S}\rangle$
+  \item $\sem{\Gamma\vdash \langle \termt,\termu\rangle : S \times T} \defeq \langle \sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : T}\rangle$
+  \item $\sem{\Gamma\vdash \termpi_1(\termt) : S} \defeq \pi_1 \circ \sem{\Gamma\vdash \termt : S \times T}$
+  \item $\sem{\Gamma\vdash \termpi_2(\termt) : S} \defeq \pi_2 \circ \sem{\Gamma\vdash \termt : S \times T}$
+  \item $\sem{\Gamma\vdash \termZ : \Nat} \defeq (\overrightarrow{x} \in \sem\Gamma) \mapsto 0$
+  \item $\sem{\Gamma\vdash S(\termt) : \Nat} \defeq (n \mapsto n + 1) \circ \sem{\Gamma\vdash \termt : \Nat}$
+  \item$      \sem{\Gamma\vdash \termrec_{\Nat}(\termt,\termu,\termv) : S} \defeq%$
+        %\begin{flushright}
+        %$
+        \rec_{\bN}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : \Nat \to S \to S}, \sem{\Gamma\vdash \termv : \Nat}\rangle$
+        %\end{flushright}
+  \item $\sem{\Gamma\vdash \termtt : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \top$
+  \item $\sem{\Gamma\vdash \termff : \Bool} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bot$
+  \item $\sem{\Gamma\vdash \termrec_{\Bool}(\termt,\termu,\termv) : S} \defeq%$
+      %\begin{flushright}
+      %$
+      \rec_{\bB}\circ\langle\sem{\Gamma\vdash \termt : S}, \sem{\Gamma\vdash \termu : S}, \sem{\Gamma\vdash \termv : \Bool}\rangle$
+        %\end{flushright}
+  \item $\sem{\Gamma\vdash \termnil : \List(S)} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \varepsilon$
+  \item $\sem{\Gamma\vdash \termt \termcons \termu : \List(S)}\defeq \smallfrown \circ \langle\sem{\Gamma\vdash\termu : \List(S)},\sem{\Gamma\vdash \termt : S}\rangle$
+  \item $\sem{\Gamma\vdash\termrec_{\List(S)}(\termt,\termu,\termv) : T} \defeq%$
+   %\begin{flushright}
+      %$
+      \rec_{\bL}\circ\langle\sem{\Gamma\vdash \termt : T}, \sem{\Gamma\vdash \termu : S \to \List(S) \to T \to T}, \sem{\Gamma\vdash \termv : \List(S)}\rangle$
+    %\end{flushright}
+  \item $\sem{\Gamma\vdash \varphi \to \psi : \Prop} \defeq \implH\circ\langle\sem{\Gamma\vdash \varphi : \Prop},\sem{\Gamma\vdash \psi : \Prop}\rangle$
+  \item $\sem{\Gamma\vdash \varphi \land \psi : \Prop} \defeq \landH\circ\langle\sem{\Gamma\vdash \varphi : \Prop}, \sem{\Gamma\vdash \psi : \Prop}\rangle$
+  \item $\displaystyle\sem{\Gamma\vdash \forall \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcap_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
+  \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
+  \item $\sem{\Gamma\vdash \sortPred{\termt} : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
+  \end{itemize}
+  Here $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recursors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a word $u$ and a letter $a$, appends $a$ to $u$ to make the new word $ua$, $\implH$ is the implication of $H$ and $\landH$ is its meet.
+\end{definition}
+
+  }
 \end{definition}
 
 In all generality, the syntactic terms are given in a typing context, like $\Gamma\vdash \termt : S$. Thus, to construct an element of $\bS$, we need an environment $\rho$ which covers $\Gamma$.
@@ -512,14 +564,14 @@ As for usual saturated set, the different notions of saturated sets are complete
 
 %We now look at the relation between inclusion of reduction contexts and reductions.
 
-%\begin{proposition}
+% \begin{proposition}
 %  For $\enviro\infOr\enviroT$, the following inclusion holds:
 %  \[\SATP{\enviroT}\subseteq \SATP{\enviro}\]
-%\end{proposition}
-
-%\begin{proof}
+% \end{proposition}
+%
+% \begin{proof}
 %  Let $\enviro,\enviroT \in \Oracle$ such that $\enviro\infOr\enviroT$. Let $A \in \SATP{\enviroT}$, $t,u \in \Lambda$ such that $\forall \enviroTT \in \cyl{\enviro}, t \redP{\enviroTT} u$ and $u \in A$. Then, we know that for any $\enviroTT \in \cyl{\enviroT}, t \redP{\enviroTT} u$ as $\cyl{\enviroT}\subseteq \cyl{\enviro}$, so $t \in A$ as $A$ is $\enviroT$-saturated.
-%\end{proof}
+% \end{proof}
 
 %We also give a lemma which simplfies some proofs of saturation.
 
@@ -550,7 +602,24 @@ The fact that $\SAT$ is taken to be the set of truth values means that we will u
   This defines a Heyting pre-algebra.
 \end{proposition}
 \begin{proof}
- The main point is show that $\infSAT$ and $\landSAT$ are adjoints, see Appendix \ref{app:realizability}.
+%  The main point is to show that $\infSAT$ and $\landSAT$ are adjoints, see Appendix \ref{app:realizability}.
+The fact that the operations are well defined is standard and uses the compatibility of the relation.
+
+  %Let us show that $\infSATE$ is the right adjoint to $\landSATE$. This means that for any $A,B,C \in \SATE$:
+  %\[A \infSATE B \impliesSATE C \iff A \landSATE B \infSATE C\]
+  %\begin{itemize}
+  %\item suppose there is $t$ such that for any $u \in A$, $tu \in B \impliesSATE C$. Thus, the function $(\lambda x. t\;(\pi_1\;x)\;(\pi_2\;x))$ is a witness that $A \landSATE B \infSATE C$
+  %\item conversely, if there is $t$ such that for any $u \in A \landSATE B$, $tu \in C$, then the function $\lambda x.\lambda y.t \langle x,y\rangle$ is a witness that $A \infSATE B \impliesSATE C$.
+  %\end{itemize}
+
+  We show that $\infSAT$ and $\landSAT$ are adjoints, meaning the following:
+  \[\varA \infSAT \varB \impliesSAT \varC \iff \varA\landSAT \varB\infSAT \varC\]
+  \begin{itemize}
+  \item suppose there is $t$ such that for any $\enviro,\enviroT\in\Oracle$, $u \in \termAE, v \in \termB{\enviroT}$ and such that $\enviro \infOr \enviroT$, $t\;u\;v \in \termC{\enviroT}$. Then, for $\enviro \in \Oracle$ and $u \in \termAE\landSAT\termBE$, $\pi_1\;u\in\termAE$ and $\pi_2\;u\in\termBE$, so $t\;(\pi_1\;u)\;(\pi_2\;u)\in\termCE$ and by antireduction $\lambda x.t\;(\pi_1\;x)\;(\pi_2\;x)$ witnesses that $\varA \landSAT \varB \infSAT \varC$.
+  \item suppose there is $t$ such that for any $\enviro\in\Oracle$ and $u \in \termAE \landSAT \termBE$, $tu \in \termCE$. Then, let $\enviro,\enviroT\in\Oracle$ such that $\enviro\infOr \enviroT$ and $u \in \termAE$. By inclusion, $u \in \termA{\enviroT}$, so for any $v \in \termB{\enviroT}$, $t\;\langle u,v\rangle \in \termC{\enviroT}$, so by antireduction $\lambda x\;y.t\;\langle x,y\rangle$ is a witness that $\varA\infSAT \varB \impliesSAT \varC$.
+  \end{itemize}
+
+  Hence $\SATE$ and $\SAT$ are Heyting pre-algebras.
 \end{proof}
 
 \begin{remark}\label{rmk:inclusion}
@@ -595,6 +664,7 @@ The fact that $\codE s \in\SATE$ is a straightforward induction on the set of so
 We now have a semantic interpretation of our initial HOL syntax, where propositions are sets of terms. The realizability relation then defines, for a syntactic proposition $\vdash \varphi : \Prop$, an object $\sem{\varphi} \in \sem{\Prop}$. In a way, the relation is simply $t \in \cod{\sem{\varphi}(\termenv)}$ for $\Gamma\vdash \varphi : \Prop$ and $\rho\models \Gamma$, but we prefer to give an explicit definition of this relation.
 
 \begin{definition}[Realizability relation]\label{def:real}
+\todo{2 colonnes}
   Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and $\Gamma\vdash \varphi : \Prop$. We define by induction the realizability relation:
   \begin{itemize}
   \item $t \realPP \sortPred{\termt} \defeq t \in \codE{\sem{\termt}(\termenv)}$
@@ -613,9 +683,19 @@ We now have a semantic interpretation of our initial HOL syntax, where propositi
 The following proposition justifies that the definitions give saturated sets, in the sense that they are monotone with regard to the order on reduction contexts.
 
 \begin{proposition}\label{prop.monotonicity}
-  let $\enviro, \enviroT \in \Oracle$, $\enviro \infOr \enviroT$, $\Gamma \in \Hctx, \termenv \models \Gamma, \Gamma \vdash \varphi : \Prop$. Then, for every $t$, we have the following implication: $t \realPP \varphi \implies t \realP{\enviroT}{\termenv} \varphi$.
+  Let $\enviro, \enviroT \in \Oracle$, $\enviro \infOr \enviroT$, $\Gamma \in \Hctx, \termenv \models \Gamma, \Gamma \vdash \varphi : \Prop$. Then, for every $t$, we have the following implication: $t \realPP \varphi \implies t \realP{\enviroT}{\termenv} \varphi$.
 \end{proposition}
-\begin{proof}See Appendix \ref{app:realizability}.
+\begin{proof}
+We prove this by induction on $\varphi$ (and thus, for the case where $\varphi = \sortPred{\termt}$, by induction on $S$):
+  \begin{itemize}
+  \item if $S = \Nat$, then $t \realPP \sortPredS{\Nat}{\termt}$ means that $t \redERT \overline n$, thus $t \redRTP{\enviroT} \overline n$, so $t \realP{\enviroT}{\termenv} \sortPredS{\Nat}{\termt}$.
+  \item if $S \in \{\Bool, \List(T), T \times U, \Prop\}$, the argument is the same.
+  \item if $S = T \to U$, then this is just a consequence of the case of implication and universal quantification.
+  \item if $\varphi = \psi \to \chi$, then let $\enviroTT \supOr\enviroT$ and $u \realP{\enviroTT}{\termenv} \psi$. By transitivity, $\enviro \infOr \enviroTT$, so by hypothesis on $t$, $tu \realP{\enviroTT}{\termenv} \psi$
+  \item if $\varphi = \psi \land \chi$, then we can conclude directly by induction hypothesis
+  \item the cases $\forall, \exists$ are the same: the induction hypothesis goes through without issue
+  \end{itemize}
+  Hence the monotonicity of realizability with regard to order on reduction contexts.
 \end{proof}
 \begin{notation}
   For a formula $\varphi$, we write
@@ -669,14 +749,14 @@ The proof of the adequacy lemma is an induction on the typing relation. For the 
 
 %\tlnote{J'ai mis la preuve en commentaire parce qu'elle est vraiment pas intéressante.}
 
-%\begin{proof}
-%  We must first prove by induction on terms $\termu$ that $\termenv(\termu[\termt/\varx]) = \termenv[\varx \mapsto \termenv(\termt)](\termu)$. Then, by induction on $\varphi$:
-%  \begin{itemize}
-%  \item if $\varphi = \sortPred{\termt}$, then we use the equality on terms to have $t \in \codE{\termenv(\termt)} \iff t \in \codE{\termenv(\termt)}$
-%  \item the other four cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.
-%  \end{itemize}
+\begin{proof}\todo{couper si besoin}
+ We must first prove by induction on terms $\termu$ that $\termenv(\termu[\termt/\varx]) = \termenv[\varx \mapsto \termenv(\termt)](\termu)$. Then, by induction on $\varphi$:
+ \begin{itemize}
+ \item if $\varphi = \sortPred{\termt}$, then we use the equality on terms to have $t \in \codE{\termenv(\termt)} \iff t \in \codE{\termenv(\termt)}$
+ \item the other four cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.
+ \end{itemize}
 %  Hence the result.
-%\end{proof}
+\end{proof}
 
 We also introduce the typing system we consider for this model. It can be seen as rules for logical deductions in HOL and rules describing the behavior of $\Nat,\Bool,\List$, \textit{i.e.} constructor rules saying that standard elements are indeed in the expected sort, and induction principles.
 
@@ -687,7 +767,48 @@ We also introduce the typing system we consider for this model. It can be seen a
 
 \end{definition}
 \begin{figure*}[t]
- \input{typing_rules}
+
+  \begin{mathpar}
+    \ruleUnaryL{$(x : \varphi) \in \Xi$}{$\Gamma\mid \Xi \vdash x : \varphi$}{Ax}
+
+    \ruleUnaryL{$\Gamma\mid \Xi, x : \varphi \vdash t : \psi$}{$\Gamma\mid \Xi \vdash \lambda x.t : \varphi \to \psi$}{$\to_\mathrm i$}
+
+    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \varphi \to \psi$}{$\Gamma\mid \Xi \vdash u : \varphi$}{$\Gamma\mid\Xi\vdash t\;u : \psi$}{$\to_\mathrm e$}
+
+    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \varphi$}{$\Gamma\mid \Xi \vdash u : \psi$}{$\Gamma\mid\Xi \vdash \langle t,u \rangle : \varphi \land \psi$}{$\land_\mathrm i$}
+
+    \ruleUnaryL{$\Gamma\mid \Xi \vdash t : \varphi \land \psi$}{$\Gamma\mid\Xi \vdash \pi_1\;t : \varphi$}{$\land_\mathrm e^1$}
+
+    \ruleUnaryL{$\Gamma\mid \Xi \vdash t : \varphi \land \psi$}{$\Gamma\mid \Xi \vdash \pi_2\;t : \psi$}{$\land_\mathrm e^2$}
+
+     \ruleUnaryL{$\Gamma, \varx : S \mid \Xi \vdash t : \varphi$}{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}{$\forall_\mathrm i$}
+
+    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \forall \varx^S, \varphi$}{$\Gamma\vdash \termt : S$}{$\Gamma\mid \Xi \vdash t : \varphi[\termt / \varx]$}{$\forall_\mathrm e$}
+
+    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \varphi[\termt/\varx]$}{$\Gamma\vdash \termt : S$}{$\Gamma\mid \Xi \vdash t : \exists \varx^S, \varphi$}{$\exists_\mathrm i$}
+
+    \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \exists \varx^S, \varphi$}{$\Gamma, \varx : S \mid \Xi \vdash u : \varphi \to \psi$}{$\Gamma\mid \Xi \vdash u\;t : \psi$}{$\exists_\mathrm e$}
+
+    \ruleAxL{$\Gamma\mid \Xi \vdash 0 : \sortPredS{\Nat}{\termZ}$}{$\Nat_\mathrm i^0$}
+    \quad
+    \ruleUnaryL{$\Gamma\mid\Xi\vdash t : \sortPredS{\Nat}{\termt}$}{$\Gamma\mid\Xi\vdash S\;t : \sortPredS{\Nat}{S(\termt})$}{$\Nat_\mathrm i^S$}
+
+    \ruleAxL{$\Gamma\mid \Xi\vdash \rec_{\Nat} : \forall X^{\Nat \to \Prop},\sortPredS{X}{\termZ} \to (\forall \varn^{\{\Nat\}}, \sortPredS{X}{\varn} \to \sortPredS{X}{\termS(\varn})) \to \forall \varn^{\{\Nat\}}, \sortPredS{X}{\varn}$}{$\Nat_\mathrm e$}
+
+    \ruleAxL{$\Gamma\mid\Xi\vdash \rtt : \sortPredS{\Bool}{\termtt}$}{$\Bool_\mathrm i^\top$}
+
+    \ruleAxL{$\Gamma\mid\Xi\vdash \rff : \sortPredS{\Bool}{\termff}$}{$\Bool_\mathrm i^\bot$}
+
+    \ruleAxL{$\Gamma\mid\Xi\vdash \rec_{\Bool} : \forall X^{\Bool \to \Prop}, \sortPredS{X}{\termtt} \to \sortPredS{X}{\termff} \to \forall \varx^{\{\Bool\}}, \sortPredS{X}{\varx}$}{$\Bool_\mathrm e$}
+
+    \ruleAxL{$\Gamma\mid\Xi\vdash \nil : \sortPredS{\List(S)}{\termnil}$}{$\List_\mathrm i^{\nil}$}
+
+    \ruleBinaryL{$\Gamma\mid\Xi\vdash t : \sortPred{\termt}$}{$\Gamma\mid \Xi\vdash u : \sortPredS{\List(S)}{\termu}$}{$\Gamma\mid\Xi\vdash t\append u : \sortPredS{\List(S)}{\termt \termcons \termu}$}{$\List_\mathrm i^{\append}$}
+
+    \ruleAxL{$\Gamma\mid\Xi \vdash \rec_{\List} : \forall X^{\List(S) \to \Prop}, \sortPredS{X}{\termnil} \to (\forall \varx^{\{S\}}, \forall \vary^{\{\List(S)\}}, \sortPredS{X}{\vary} \to \sortPredS{X}{\varx \termcons \vary}) \to \forall \varx^{\{\List(S)\}}, \sortPredS{X}{\varx}$}{$\List_\mathrm e$}
+
+  \end{mathpar}
+
  \caption{Typing rules}
  \label{fig:typing_rules}
 \end{figure*}
@@ -706,12 +827,43 @@ We also introduce the typing system we consider for this model. It can be seen a
   then $t[t_i/x_i] \realPP \varphi$.
 \end{theorem}
 \begin{proof}
- The proof of adequacy is done by an induction on the typing relation $\Gamma\mid \Xi\vdash t : \varphi$ and is standard in realizability methods, see Appendix \ref{app:realizability} for a complete proof.
+%  The proof of adequacy is done by an induction on the typing relation $\Gamma\mid \Xi\vdash t : \varphi$ and is standard in realizability methods, see Appendix \ref{app:realizability} for a complete proof.
+ The proof is by induction on the typing derivation:\todo{"case" en italique, etc..}
+  \begin{itemize}
+  \item case Ax with $t = x_i$: the result is by hypothesis.
+  \item case $\to_\mathrm i$ with $\lambda x.t : \psi \to \chi$: let $\enviroT \supOr\enviro$ and $u \realP{\enviroT}{\termenv} \psi$, let us prove that $(\lambda x.t)u \realP{\enviroT}{\termenv} \chi$. By hypothesis, $t[t_i/x_i][u/x] \realP{\enviroT}{\termenv} \chi$, but then it suffices to use the fact that $\realFP{\chi}{\termenv}{\enviroT}$ is closed by antireduction.
+  \item case $\to_\mathrm e$ is straightforward by definition of realizing $\psi \to \chi$.
+  \item case $\land_\mathrm i$ with $\langle t,u \rangle : \psi \land \chi$: we know by induction hypothesis that $t[t_i/x_i] \realPP \psi$ and that $u[t_i/x_i] \realPP \chi$. Moreover, $\pi_1\; \langle t,u \rangle \redE t$ and $\pi_2\;\langle t,u \rangle \redE u$, so $\pi_1\;(\langle t,u\rangle[t_i/x_i]) \realPP\psi$ and $\pi_2\;(\langle t,u\rangle[t_i/x_i]) \realPP \chi$ by saturation, hence $\langle t,u\rangle [t_i/x_i] \realPP \psi\land \chi$.
+  \item both cases $\land_\mathrm e$ are straightforward by definition of realizing a conjunction.
+  \item case $\forall_\mathrm i$ with $t : \forall \varx^S, \psi$: by induction hypothesis, we know that for any $\termenv' \models \Gamma, \varx : S$, $t[t_i/x_i] \realP{\enviro}{\termenv'} \psi$. For any $s \in \bS, \termenv[\varx \mapsto s] \models \Gamma$, so $t[t_i/x_i] \realP{\enviro}{\termenv[\varx\mapsto s]} \psi$ which is, by definition, $t[t_i/x_i] \realPP \forall \varx^S,\psi$.
+  \item case $\forall_\mathrm e$ with $t : \psi[\termt/\varx]$: by definition of realizing $\forall \varx^S, \psi$ and using the substitution lemma.
+  \item case $\exists_\mathrm i$ with $t : \exists \varx^S, \varphi$: by induction hypothesis, we know that $\sem{\termt}(\termenv) \in \bS$ and that $t \realP{\enviro}{\termenv[\varx \mapsto \sem{\termt}(\termenv)]} \varphi$, so we indeed find some $s \in \bS$ (namely $\sem{\termt}(\termenv)$) such that $t \realP{\enviro}{\termenv[\varx\mapsto s]}\varphi$, which is the expected result.
+  \item case $\exists_\mathrm e$ with $u\;t : \psi$: by induction hypothesis, we know that for any $\termenv\models \Gamma, \varx : S$, $u \realPP \varphi \to \psi$. In particular, there is by induction hypothesis some $s \in \bS$ such that $t \realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$, but then $\termenv[\varx\mapsto s]\models \Gamma, \varx : S$ so we can apply $t$ to $u$ to find that $u\;t\realPP \psi$.
+  \item we won't treat the cases $\Nat$ nor $\Bool$, as they are the same as the case $\List$.
+  \item case $\List_\mathrm i^{\nil}$: indeed, $\nil \redERT \nil$.
+  \item case $\List_\mathrm i^{\append}$: by induction hypothesis.
+  \item case $\List_\mathrm e$: let $X$ be a predicate on $\List(S)$, $\enviroT \supOr\enviro$ and
+    \[%\begin{cases}
+    u \realP{\enviroT}{\termenv} X(\termnil)\qquad
+    v \realP{\enviroT}{\termenv} \forall \varx^{\{X\}}, \forall \bvary^{\{\List(S)\}}, X(\bvary) \to X(\varx \termcons \bvary)\qquad
+    w \realP{\enviroT}{\termenv} \List(S)(\varx)
+    %\end{cases}
+    \]
+    we want to prove that $t = \rec_{\List}\;u\;v\;w$ realizes $X(\varx)$.
+
+    The object $\sem{\varx}(\termenv)$ is a list. By induction, it is either $\nil$ or $s \smallfrown s'$ for two elements $s \in \bS^\star, s' \in \bS$:
+    \begin{itemize}
+    \item if $\sem{\varx}(\termenv) = \nil$, then $w \redRTP{\enviroT} \nil$, $\rec_{\List}\;u\;v\;w \redRTP{\enviroT} u$ and $u \realP{\enviroT}{\termenv} X(\termnil)$, so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\termnil)$.
+    \item if $\sem{\varx}(\termenv) = s \smallfrown s'$, then $w \redRTP{\enviroT} w_1\append w_2$ for $w_1 \in \codP{s'}{\enviroT}$ and $w_2\in\codP{s}{\enviroT}$. In this case, by induction hypothesis, $\rec_{\List}\;u\;v\;w_2 \realP{\enviroT}{\termenv[\bvary \mapsto s']} \List(S)(\bvary)$, and
+      \[\rec_{\List}\;u\;v\;w \redRTP{\enviroT} \rec_{\List}\;u\;v\;(w_1\append w_2) \redRTP{\enviroT} v\;w_2\;(\rec_{\List}\;u\;v\;w_2)\qedhere\]
+      %so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\varx)$.
+    \end{itemize}
+  \end{itemize}
  \end{proof}
 
 As the adequacy is defined for any $\enviro\in\Oracle$, it is straightforward that $\realU$ is also adequate.
 
-%\begin{corollary}
+% \begin{corollary}
 %  Let $\Gamma\in \Hctx, \termenv \models \Gamma$, formulas
 %  \[\begin{cases}
 %  \Gamma\vdash \varphi_i : \Prop \qquad \forall i = 1,\ldots,n\\
@@ -723,7 +875,7 @@ As the adequacy is defined for any $\enviro\in\Oracle$, it is straightforward th
 %  \Gamma\mid x_1 : \varphi_1,\ldots,x_n : \varphi_n \vdash t : \varphi
 %  \end{cases}\]
 %  then $t[t_i/x_i] \realUP{\termenv} \varphi$.
-%\end{corollary}
+% \end{corollary}
 
 \begin{corollary}
 For any $\enviro\in\Oracle$, the sets
@@ -821,6 +973,7 @@ For a decidable formula $\varphi(\varx^S)$, we write $\eval\varphi$ for a term d
 \item $\varphi(s)$ if it reduces to $\rtt$, or
 \item $\lnot\varphi(s)$ if it reduces to $\rff$.
 \end{itemize}
+\todo{2 colonnes}
 
 \subsubsection{Binary lists}
 
@@ -926,11 +1079,11 @@ Our goal is to construct a monotone subset $C\subseteq B$ which is decidable. Fo
 We then use this with a bounded quantification: we enumerate every list $\ell$ and, each time, add to $C$ the list $\restr{\ell0^\infty} b$ and every extension, as long as those extensions are of lower size than $\ell$. This can also be rewritten as follows: given a list $\ell$, checking whether $\ell \in C$ amounts to checking whether there exists a list $\ell'$ of size lower than $|\ell|$ such that $\restr{\ell'0^\infty}{b}\ListInf \ell$.
 
 This automatically gives a term
-\[C_b(\ell) \defeq \eval (\exists \ell'^{\{\List(\Bool)\}}, |\ell'| < |\ell| \land \restr{\ell'0^\infty} b \ListInf \ell)\ell\]
+\[C_b(\ell) ~~\defeq~~ \eval (\exists \ell'^{\{\List(\Bool)\}}, |\ell'| < |\ell| \land \restr{\ell'0^\infty} b \ListInf \ell)\ell\]
 Now, we define the following predicate
-\[C'_b(n) \defeq \eval (\forall \ell^{\{\List(\Bool)\}}, |\ell| = n \implies C(\ell))n\]
+\[C'_b(n) ~~\defeq~~ \eval (\forall \ell^{\{\List(\Bool)\}}, |\ell| = n \implies C(\ell))n\]
 $C'$ is decidable as $C$ is and the quantification is bounded. If $C'(n)$ is realized, then $n$ is a uniform bound for $C$, hence for $B$. Thus, the term we construct is an unbounded search to find a $n$ satisfying $C'_b(n)$. Let $Y \defeq \lambda f.(\lambda x.f\;(x\;x))(\lambda x.f\;(x\;x))$, we define
-\[n_{C_b} \defeq Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\]
+\[n_{C_b} ~~\defeq~~ Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\]
 
 \begin{remark}\label{rmk:termin_FT}
   By computing reduction, we see that $n_{C_b} \redRT n$ if $C'_b(n)$ holds, and $n_{C_b} \redRT n_{C_b}\;(n+1)$ otherwise.
@@ -977,7 +1130,38 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
   \[\forall (\beta \realP{\enviro}{} \Nat \to \Nat), (\forall i < n, \beta\;\overline i \eqredE \alpha\;\overline i) \implies t\;\beta \eqredE t\;\alpha\]
 \end{lemma}
 \begin{proof}
-The continuity is proved by analyzing carefully the reduction sequence from $t(\alpha)$: this reduction can call $\alpha$ only a finite number of times as the reduction itself is finite, so $\alpha$ returns a finite number of values, and any other function returning the same values on the same input will give the same reduction sequence. See Appendix \ref{app:FT} for a complete proof.
+% The continuity is proved by analyzing carefully the reduction sequence from $t(\alpha)$: this reduction can call $\alpha$ only a finite number of times as the reduction itself is finite, so $\alpha$ returns a finite number of values, and any other function returning the same values on the same input will give the same reduction sequence. See Appendix \ref{app:FT} for a complete proof.
+ By hypothesis, we know that $t\;\alpha \redERT \overline n$ for some $n \in \bN$. By confluence, it is possible to chose any reduction strategy which is normalizing. In particular, we can chose the leftmost reduction strategy:
+  $t\;\alpha \stratETP l \overline n$.
+  Without loss of generality, we assume $t$ to be of the form $\lambda x.u$ as $t$ will reduce to such a term, given it realizes a function and, applied to $\alpha$, returns a value.
+
+  Thus, we are left to prove the result with $t[\alpha/x] \stratETP l \overline n$. By induction on the number of reduction steps, we prove that there exists a finite prefix such that for all $\beta$ with this prefix, $t[\beta/x] \stratETP l \overline n$. Let us proceed by case analysis on the first step reduction:
+  \begin{itemize}
+  \item the redex can be outside $\alpha$, meaning that there is $u$ such that $t[\alpha/x] \stratE l u[\alpha/x]$, then $t[\beta/x] \stratE l u[\beta/x]$ for any $\beta$. Using the induction hypothesis, the result follows.
+  \item the redex can involve $\alpha$. In this case, because of the reduction strategy, we find a right context $E[\;]$ and a term $u$ such that
+    $t[\alpha/x] = E[\alpha\;u[\alpha/x]][\alpha/x]$.
+
+    By regrouping reductions, we only focus on the inner term, namely $\alpha\;u[\alpha/x]$: the induction hypothesis will be applied to the resulting term because $\alpha\;u[\alpha/x]$ reduces at least once. Let $v \defeq u[\alpha/x]$.
+    We claim that $v \redERT \overline i$ for some $i \in \bN$. Indeed, we can assume without loss of generality that $\alpha$ does not reduce on a term which does not realizes $\Nat$: it suffices to replace the term $\alpha$ with the term
+    $\rec_{\Nat}\;(\alpha\;0)\;(\lambda n\;x. \alpha(S\;n))$
+    to have a function which still realizes $\Nat \to \Nat$ but no longer reduces on terms which do not realize $\Nat$.
+
+    Thus, $v \redERT \overline i$, which implies that $\alpha\;v \redERT \alpha \;\overline i$, but then $\alpha\;\overline i \redERT \overline{\alpha(i)}$ so, in the end,
+    $\alpha\;v \redERT \overline{\alpha(i)}$ and (by confluence)
+    $\alpha\;v \stratETP l \overline{\alpha(i)}$.
+
+    Now, by induction hypothesis, we find a prefix such that for any $\beta$ with this prefix, $E[\overline{\alpha(i)}][\beta/x] \stratETP l \overline n$ and $u[\beta/x] \stratETP l \overline i$. If needed, we can strengthen the condition by taking a longer prefix of alpha such that $\alpha(i)$ is contained in it. Then, for $\beta$ with this prefix:
+    \[t[\beta/x] = E[\beta\;u[\beta/x]][\beta/x] \redERT E[\beta\;\overline i][\beta/x]\stratETP l E[\overline{\alpha(i)}][\beta/x]\stratETP l \overline{n}\]
+    %\begin{align*}
+    %  t[\beta/x] &= E[\beta\;u[\beta/x]][\beta/x] \\
+    %  &\redERT E[\beta\;\overline i][\beta/x] \\
+    %  &\stratETP l E[\overline{\alpha(i)}][\beta/x] \\
+    %  t[\beta/x] &\stratETP l \overline{n}
+    %\end{align*}
+    %hence the result.
+  \end{itemize}
+
+  Thus, by induction, we deduce that there exists such a prefix.
 \end{proof}
 
 Using this lemma and the $\lambda$-terms from the previous subsection, we can now realize $\FT$.
@@ -1009,13 +1193,13 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
 
   This means that there is no case when $n_{C_b}$ diverges, so
   $n_{C_b}\realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr\alpha n)$,
-  which means that $\lambda b.n_{C_b}\realU \FT$.
+  which means that $\lambda b.n_{C_b}\realU \FT$.\todo{compacter}
 \end{proof}
 
 Not only does the model satisfy $\FT$, but it also refutes $\WKL$. By this, we mean that $\WKL\notin\ThRealU$, making our model a separating model between the two principles.
 
 To prove that $\WKL$ is not realized, we use the Kleene tree \cite{Kleene1953-KLERFA-3} construction (which can be relativized without issue). This tree is a standard construction in computability theory: it is a decidable tree which is infinite but has no computable infinite path. In the case of our model, every realized function in a context $[f_1,\ldots,f_p]$ is $f_1-\cdots-f_p$-computable, and the Kleene tree construction can be relativized, giving a $f_1-\cdots-f_p$-computable infinite tree with no $f_1-\cdots-f_p$ infinite path. Hence, in every context $\enviro$, there is no $t$ such that $t\realP{\enviro}{} \WKL$.
-
+\todo{etienne: relire}
 %The tree, seen as a predicate over binary words, only contains those words which are different from any computable function in a finite time. For example, if $\ell$ is of length $n$, then we check whether $\ell_0$, its first value, is different from the value of $\Enum{}{0}(0)$ computed on $n$ steps (if it exists). This way, any finite path is computable, because a universal machine exists and can simulate the computation of a code on an input for a finite time. However, no infinite path can be found from a computable point of view: if $\alpha$ is an infinite path in $K$, this means that for any $\Enum{}{i}(i)\convcal$ (which means that it is computed in a finite time), we have that $\alpha_i \neq \Enum{}{i}(i)$, hence $\alpha$ is diagonaly non computable, hence non computable. In the realizability model, this implies that no path of $K$ is realized.
 
 %\emnote{separation + eventuellement décrire ici l'arbre kleene}
@@ -1023,14 +1207,15 @@ To prove that $\WKL$ is not realized, we use the Kleene tree \cite{Kleene1953-KL
 \begin{theorem}
   For every $\enviro \in \Oracle$, $\WKL\notin \ThReal{\enviro}$, hence $\WKL\notin \ThRealU$.
 \end{theorem}
-
-%\begin{proof}
+\vlong{
+\begin{proof}
+\todo{utile ?}
 %  Suppose that there is $t \realU \WKL$. Let $\enviro\in\Oracle$, then $t \realP{}{\enviro} \WKL$. Let $\EnumE{}$ be an enumeration of $\sigma$-computable functions given by fixing a Gödel encoding of terms $t$. The Kleene tree $K_\enviro$ is defined as the set of lists $\ell \in \List(\Bool)$ such that for $i < |\ell|$, if $\EnumE{i}(i)\convcal[i]$ (meaning that the computation of $\EnumE{i}$ terminates in less than $i$ steps) then $\EnumE{i}(i) \neq \ell_i$.
 %  $K_\enviro$ is thus a tree with arbitrarily large finite sequences $\ell \in K$, but an finite path inside $K_\enviro$ cannot be $\enviro$-computable as it differs with every $\EnumE{i}$ on $i$. The realized functions $\Nat \to \Bool$ at context $\enviro$ being $\enviro$-computable, and taking a term $u$ encoding the premisses of $\WKL$ for $K_\enviro$ (the fact that $K_\enviro$ has arbitrarily large finite sequences), $t\;u$ should realize an infinite path in $K_\enviro$ at context $\enviro$, which is impossible.
 
 %  Hence $\WKL\notin\ThReal{\enviro}$, and $\WKL\notin\ThRealU$.
-%\end{proof}
-
+\end{proof}
+}
 
 \section{A robust interpretation of the Fan Theorem}
 \label{s:robust}
@@ -1075,7 +1260,7 @@ plus two additional technical conditions.
 
 
 We first recall the definition of an Evidenced Frame~\cite{CohMiqTat21}.
-
+\todo{remplacer par la figure papier MCA}
 \begin{definition}[Evidenced frame]
   An Evidenced Frame $\EFE$ is a pair of sets $(\Phi,E)$ equiped with:%\emnote{can be compacted if needed}
   \begin{itemize}
@@ -1283,7 +1468,7 @@ of functions, and thus a minimal system T types syntax.
 
 \begin{definition}[Evidenced Frame with data types]
   An evidenced frame with data types (EFdata, for short),
-  is a tuple $(\Phi,E,\relEFdot, \cod \cdot, e_0, e_S, e_{\rec})$ where:
+  is a tuple $(\Phi,E,\relEFdot, \cod \cdot, e_0, e_S, e_{\rec})$ where:\todo{2 colonnes ?}
   \begin{itemize}
   \item $(\Phi,E,\relEFdot)$ is an evidenced frame.
   \item $\cod \cdot : \bN \to \Phi$ is an encoding function. %We extend it naturally for types on
@@ -1310,10 +1495,31 @@ and are not to be considered as the natural notion of morphism for EFdata.
 For example, EF morphisms as defined in \cite{CohMiqTat21} do not require
 the constructions and morphism to commute on the nose.
 
-\begin{definition}[Strict EFdata morphism]\label{def:efdata}
-  Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$). A morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) commuting with every constructor of an EFdata.
+\todo{couper au besoin la définition}
+% \begin{definition}[Strict EFdata morphism]\label{def:efdata}
+%   Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$). A morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) commuting with every constructor of an EFdata.
+%
+%   We define $\CatEFData$ as the category whose objects are EFdatas, and morphisms are those defined above.
+% \end{definition}
 
-  We define $\CatEFData$ as the category whose objects are EFdatas, and morphisms are those defined above.
+\begin{definition}[Strict EFdata morphism]
+Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$).
+A strict morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) commuting with every constructor of an EFdata, that is:
+  \begin{itemize}
+  \item $\forall \varphi, \psi \in \Phi_1, \forall e \in E_1, \relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
+  \item $F(\PropTop_1) = \PropTop_2$ and $F({\witTop}_1) = {\witTop}_2$
+  \item $\forall \varphi, \psi \in \Phi_1, F({(\PropAnd \varphi \psi)}_1) = {(\PropAnd \varphi \psi)}_2$
+  \item $\forall e, e' \in E_1, F({\witPair e {e'}}_1) = \witPair{F(e)}{F(e')}_2$
+  \item $F({\witFst}_1) = {\witFst}_2$ and $F({\witSnd}_1) = {\witSnd}_2$
+  \item $\forall \varphi \in \Phi_1, \forall \vec \psi \in \powerset(\Phi_1),F({(\PropImpl{\varphi}{\vec\psi})}_1) = {(\PropImpl{F(\varphi)}{\{F(\psi)\mid \psi \in \vec \psi\}})}_2$
+  \item $F({\witEval}_1) = {\witEval}_2$ and $\forall e \in E_1, F({\witLam e}_1) = {\witLam{F(e)}}_2$
+  %\item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
+  %    \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
+  %    \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
+  %\end{cases}$
+  \item $F({e_{0}}_1) = {e_{0}}_2$, $F({e_{S}}_1) = {e_S}_2$ and $F({e_{\rec}}_1) = {e_{\rec}}_2$
+  \item for all $n \in \bN$, $F_{\Phi}({\cod n}_1) = {\cod n}_2$
+  \end{itemize}
 \end{definition}
 
 With this notion of morphism, we can formalize the \emph{future world} notion by taking
@@ -1518,9 +1724,14 @@ Is there a variation of the Theorem \ref{thm:main} accounting for such weakening
 %\cite{BreHer21}
 
 \bibliography{biblio}
-
-\newpage
-\onecolumn
-\appendix
-\input{appendix}
+%
+% \newpage
+% \onecolumn
+% \appendix
+% \input{appendix}
 \end{document}
+% \begin{definition}[Strict EFdata morphism]\label{def:efdata}
+%   Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$). A morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) commuting with every constructor of an EFdata.
+%
+%   We define $\CatEFData$ as the category whose objects are EFdatas, and morphisms are those defined above.
+% \end{definition}
