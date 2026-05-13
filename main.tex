@@ -8,6 +8,7 @@
 \usepackage{prelude}
 \usepackage{macros}
 \usepackage{mathpartir}
+\usepackage{makecell}
 
 
 \newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
@@ -979,10 +980,7 @@ are themselves decidables, as soon as $t$ and $u$ are typed in a sort $S$ which 
 Bounded formulas are defined in a similar way as for $\Sigma_0^1$ formulas of arithmetic, but with only relativized quantification (we want to be able to access the data we quantify on).  Using the recursors of $\Nat$, $\Bool$ and $\List$, as well as projections, any bounded formula implying only quantifications on discrete sorts and atomic formulas on discrete sorts (parameters can be functions) is decidable.
 
 For a decidable formula $\varphi(\varx^S)$, we write $\eval_\varphi$ for a term deciding $\varphi$. This is a term with witnesses that for $s \in \bS$ and $t \in \cod s$, $\eval_\varphi\ t$ realizes either
-\twoelt{\varphi(s)\text{ if it reduces to }\rtt}{\lnot\varphi(s)\text{ if it reduces to }\rff}
-
-\emnote{inline?}
-%\todo{2 colonnes}
+$\varphi(s)$ if it reduces to $\rtt$, or $\lnot\varphi(s)$ if it reduces to $\rff$.
 
 \subsubsection{Binary lists}
 
@@ -1186,7 +1184,7 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
   \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, B(\restr \alpha n)\]
   for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
   $n_{C_b}\;0 \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr\alpha n \in)$
-  but, from remark \ref{rmk:termin_FT}, we already know that $n_{C_b}\;0$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}\;0$ is a uniform bound for $B$.
+  but, from \Cref{rmk:termin_FT}, we already know that $n_{C_b}\;0$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}\;0$ is a uniform bound for $B$.
 
   Now, suppose $n_{C_b}\;0$ diverges. This means that for any $n \in \bN$, there exists some word $w_n \in \bB^\star$ such that $\lnot(w_n)$. By applying Weak König's Lemma (in our meta-theory), we find an infinite path
   $\alpha : \bN \to \bB$
@@ -1196,7 +1194,7 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
   $b\;\oracle_m\realP{\enviroT}{} \exists n^{\{\Nat\}}, B(\restr \alpha n)$,
   which we can destruct as some $n \in \bN$ such that
   $\pi_1\;(b\;\oracle_m) \redRTP{\enviroT} n$ and $\pi_2\;(b\;\oracle_m)\realP{\enviroT}{} B(\restr \alpha n)$.
-  Using lemma \ref{lem:continuity}, we can find an index $p\in \bN$ such that
+  Using \Cref{lem:continuity}, we can find an index $p\in \bN$ such that
   \[\forall (\beta \realP{\enviroT}{} \Nat \to \Bool), (\forall i < p, \beta\;\overline i \redRTP{\enviroT} \overline{\alpha(i)}) \implies \pi_1(b\;\beta) \redRTP{\enviroT} n\]
 
   Let $M \defeq \max(n,p)$.
@@ -1262,18 +1260,68 @@ here we will rather focus only on EFs:
 the concrete structure we study will be introduced as an additional structure
 over EFs.
 
-This section ends with the statement of Theorem \ref{thm:main}, which is a more abstract
-variant of Theorem \ref{thm:FT}: in this version, the realizability structure realizing $\FT$ can have realizers of any form ($\lambda$-terms, Turing machines\ldots) as long as it gives an implementation of integers with its recursor, satisfies the two conditions mentioned above for the argument to work,
+This section ends with the statement of \Cref{thm:main}, which is a more abstract
+variant of \Cref{thm:FT}: in this version, the realizability structure realizing $\FT$ can have realizers of any form ($\lambda$-terms, Turing machines\ldots) as long as it gives an implementation of integers with its recursor, satisfies the two conditions mentioned above for the argument to work,
 plus two additional technical conditions.
 
 \subsection{The induced Evidenced Frame}
 \label{s:EF}
 
 
+
 We first recall the definition of an Evidenced Frame~\cite{CohMiqTat21}.
-\todo{remplacer par la figure papier MCA}
+
+% \begin{comment}
+
+\begin{definition}[Evidenced Frame]\label{evidenced-frame}
+An \emph{evidenced frame} is a triple $\EFE = \left( \Phi, E, \relEFdot \right)$, where $\Phi$ is a set of propositions,~$E$ is a set of evidence, and~\mbox{$\relEF{e}{\phi_1}{\phi_2}$} is a ternary evidence relation on $E \times \Phi \times \Phi$,
+along with the structure captured in~\Cref{tab:EF}.
+%We write $\vec{\phi}$ for an element of $\power(\Phi)$, i.e., a subset of $\Phi$.
+\end{definition}
+\begin{figure}[t]
+\centering
+% \begin{small}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{} & \textbf{Logical Const.} & \textbf{Program Const.} & \textbf{Evidence Relation} \\
+\hline
+\emph{Reflexivity} &  & $\witID \in E$ & $\relEF \witID \varphi \varphi$ \\
+\hline
+\textit{Transitivity} &  & $\witComp \in E \times E \to E$ & $\relEF\witx{\varphi_1}{\varphi_2} \implies \relEF\wity{\varphi_2}{\varphi_3} \implies \relEF{\witComp\witx\wity}{\varphi_1}{\varphi_3}$ \\
+\hline
+\textit{Top} & $\!\top \!\in\! \Phi$ & $\witTop \in E$ & $ \relEF\witTop\varphi\PropTop$ \\
+\hline
+\textit{Conjunction} & $\PropAnd \!\in\! \Phi \!\times\! \Phi \!\to\! \Phi$ &
+\makecell[l]{
+$\witPairDot \!\in\! E \!\times\! E \!\to\! E$ \\
+$\witFst, \witSnd \in E$
+} &
+\makecell[l]{
+$\relEF{\witx_1}\psi{\varphi_1} \implies \relEF{\witx_2}\psi{\varphi_2}\implies \relEF{\witPair{\witx_1}{\witx_2}}\psi{\PropAnd{\varphi_1}{\varphi_2}}$
+\\ $\relEF\witFst{\PropAnd{\varphi_1}{\varphi_2}}{\varphi_1}  \qquad \relEF\witSnd{\PropAnd{\varphi_1}{\varphi_2}}{\varphi_2}$
+}
+\\
+\hline
+\makecell[l]{\textit{Universal}\\\textit{Implication}} & $\PropImpl{}{\,}\in \Phi \times \powerset(\Phi) \to \Phi$ &
+\makecell[l]{\hbox{$\witLam{} \!\in\! E \!\to\! E$} \\ $\witEval \in E$} &
+\makecell[l]{
+ $(\forall \varphi \in \vec \varphi,\ \relEF\witx{\PropAnd{\varphi_1}{\varphi_2}}\varphi)
+ \implies \relEF{\witLam\witx}{\varphi_1}{\PropImpl{\varphi_2}{\vec{\varphi}}}$\\
+    $\forall \varphi \in \vec{\varphi},\ \relEF{\witEval}{\PropAnd{(\PropImpl{\varphi_1}{\vec\varphi})}{\varphi_1}}\varphi$
+}
+\\
+\hline
+\end{tabular}
+}
+\caption{Evidenced Frame constructs, where $\vec{\phi}\in\powerset(\Phi)$ and the evidence relations are universally quantified.}
+\label{tab:EF}
+% \end{small}
+\end{figure}
+% \end{comment}
+\begin{comment}
 \begin{definition}[Evidenced frame]
-  An Evidenced Frame $\EFE$ is a pair of sets $(\Phi,E)$ equiped with:%\emnote{can be compacted if needed}
+  An Evidenced Frame $\EFE$ is a pair of sets $(\Phi,E)$ equipped with:%\emnote{can be compacted if needed}
   \begin{itemize}
   \item a ternary relation $\relEFdot \subseteq E \times \Phi \times \Phi$
   \item an element $\witID$ such that
@@ -1304,7 +1352,7 @@ We first recall the definition of an Evidenced Frame~\cite{CohMiqTat21}.
     \end{array}\]
   \end{itemize}
 \end{definition}
-
+\end{comment}
 As we want to generalize the argument of \Cref{thm:FT} to Evidenced Frames,
 we first show that the model we defined indeed induces one. As a corollary,
 this shows besides that our model also gives rise to a tripos and a topos~\cite{CohMiqTat21}.
@@ -1321,7 +1369,7 @@ for which we erase the witness $t$.
  The different components are thus defined by using the structure of $\SAT$ (but taking care of evidences provided
  by the expectedd $\lambda$-terms),
  which is a Heyting pre-algebra with intersection,
- and those properties (including the remark \ref{rmk:inclusion})
+ and those properties (including the \Cref{rmk:inclusion})
  suffice to show that $\EFSAT$ is an Evidenced Frame.
  As an example, the conjunction function is simply provided by
 $\PropAndDot \defeq \cdot \landSAT \cdot$ while
@@ -1444,11 +1492,11 @@ Scrutinizing the argument in the proof of \Cref{thm:FT},
 besides the whole Kripke-like structure of our model,
 we identify the following key ingredients:
 \begin{enumerate}
-\item the realizability model accounts at least for system T functions (for instance,
+\item The realizability model accounts at least for system T functions (for instance,
 encodings allow one to talk about functions $\List(\Nat) \to \Bool$),
-\item a function $f$ realized in some context $\enviro$ can be applied to an argument $x$ realized in some extension of the context, $\enviroT \supOr \enviro$, where $x$ is possibly non realized in $\enviro$.
-\item the functions $(\Nat \to \Nat) \to \Nat$ are continuous, in the sense that for any $f : (\Nat \to \Nat) \to \Nat$ and $\alpha : \Nat \to \Nat$ with a code, there exists a modulus $n$ such that $\forall \beta, \restr\alpha n = \restr \beta n \implies f(\alpha) = f(\beta)$.
-\item realizers can do an unbounded search,
+\item A function $f$ realized in some context $\enviro$ can be applied to an argument $x$ realized in some extension of the context, $\enviroT \supOr \enviro$, where $x$ is possibly non realized in $\enviro$.
+\item The functions $(\Nat \to \Nat) \to \Nat$ are continuous, in the sense that for any $f : (\Nat \to \Nat) \to \Nat$ and $\alpha : \Nat \to \Nat$ with a code, there exists a modulus $n$ such that $\forall \beta, \restr\alpha n = \restr \beta n \implies f(\alpha) = f(\beta)$.
+\item Realizers can do an unbounded search,
 as long as the meta-theory can prove that the search will terminate.
 \end{enumerate}
 
@@ -1479,15 +1527,21 @@ of functions, and thus a minimal system T types syntax.
 
 \begin{definition}[Evidenced Frame with data types]
   An evidenced frame with data types (EFdata, for short),
-  is a tuple $(\Phi,E,\relEFdot, \cod \cdot, e_0, e_S, e_{\rec})$ where:\todo{2 colonnes ?}
+  is a tuple $(\Phi,E,\relEFdot, \cod \cdot, e_0, e_S, e_{\rec})$ where:\vspace{-1em}
+  \begin{multicols}{2}
   \begin{itemize}
   \item $(\Phi,E,\relEFdot)$ is an evidenced frame.
   \item $\cod \cdot : \bN \to \Phi$ is an encoding function. %We extend it naturally for types on
 %    \[T,U \Coloneq \bN \mid T \to U\]
 %    by, for any $f : T \to U$:
 %    \[\cod f \defeq \prod_{x \in T} \PropImpl{\cod x}{\cod{f(x)}}\]
-  \item $\relEF{e_0}{\top}{\cod 0}$ and for all $n \in \bN$, $\relEF{e_S}{\cod n}{\cod{n + 1}}$
-  \item for all functions $f : \bN \to \Phi$,
+  \item $\relEF{e_0}{\top}{\cod 0}$
+  \item for all $n \in \bN$, $\relEF{e_S}{\cod n}{\cod{n + 1}}$
+  \end{itemize}
+  \end{multicols}
+  \vspace{-2.2em}
+  \begin{itemize}
+     \item for all functions $f : \bN \to \Phi$,
     \[\relEF{e_{\rec}}{\top}{\PropImpl{f(0)}{\PropImpl{\left(\prod_{n \in \bN}\PropImpl{\cod n}{\PropImpl{f(n)}{f(n+1)}}\right)}{\prod_{n \in \bN} \PropImpl{\cod n}{f(n)}}}}\]
   %\item for all type $T$ as previously defined, let $\rec_T$ be the recursor $T \to (\bN \to T \to T) \to \bN \to T$, then $\relEF{e_{\rec}}{\top}{\cod{\rec_T}}$
   \end{itemize}
@@ -1514,22 +1568,39 @@ the constructions and morphism to commute on the nose.
 
 \begin{definition}[Strict EFdata morphism]
 Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$).
-A strict morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) commuting with every constructor of an EFdata, that is:
+A strict morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) commuting with every constructor of an EFdata, that is (for all $\varphi,\psi,\chi\in\Phi_1,\vec\varphi\in\powerset(\Phi_1),\witx,\wity\in E_1,n\in\bN$):
+\begin{multicols}{2}
   \begin{itemize}
-  \item $\forall \varphi, \psi \in \Phi_1, \forall e \in E_1, \relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
-  \item $F(\PropTop_1) = \PropTop_2$ and $F({\witTop}_1) = {\witTop}_2$
-  \item $\forall \varphi, \psi \in \Phi_1, F({(\PropAnd \varphi \psi)}_1) = {(\PropAnd \varphi \psi)}_2$
-  \item $\forall e, e' \in E_1, F({\witPair e {e'}}_1) = \witPair{F(e)}{F(e')}_2$
-  \item $F({\witFst}_1) = {\witFst}_2$ and $F({\witSnd}_1) = {\witSnd}_2$
-  \item $\forall \varphi \in \Phi_1, \forall \vec \psi \in \powerset(\Phi_1),F({(\PropImpl{\varphi}{\vec\psi})}_1) = {(\PropImpl{F(\varphi)}{\{F(\psi)\mid \psi \in \vec \psi\}})}_2$
-  \item $F({\witEval}_1) = {\witEval}_2$ and $\forall e \in E_1, F({\witLam e}_1) = {\witLam{F(e)}}_2$
+  \item $\relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
+  \item $F(\PropTop_1) = \PropTop_2$ ~and~ $F({\witTop}_1) = {\witTop}_2$
+  \item $F({(\PropAnd \varphi \psi)}_1) = {(\PropAnd {F(\varphi)} {F(\psi)})}_2$
+  \item $F({\witPair e {e'}}_1) = \witPair{F(e)}{F(e')}_2$
+  \item $F({\witFst}_1) = {\witFst}_2$ ~and~ $F({\witSnd}_1) = {\witSnd}_2$
+  \item $F({(\PropImpl{\varphi}{\vec\psi})}_1) = {(\PropImpl{F(\varphi)}{\{F(\psi)\mid \psi \in \vec \psi\}})}_2$
+  \item $F({\witEval}_1) = {\witEval}_2$ \,and\, $F({\witLam e}_1) = {\witLam{F(e)}}_2$
   %\item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
   %    \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
   %    \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
   %\end{cases}$
-  \item $F({e_{0}}_1) = {e_{0}}_2$, $F({e_{S}}_1) = {e_S}_2$ and $F({e_{\rec}}_1) = {e_{\rec}}_2$
-  \item for all $n \in \bN$, $F_{\Phi}({\cod n}_1) = {\cod n}_2$
+  \item $F({e_{0}}_1) = {e_{0}}_2$, $F({e_{S}}_1) = {e_S}_2$ ~~and $F({e_{\rec}}_1) = {e_{\rec}}_2$
+  \item $F_{\Phi}({\cod n}_1) = {\cod n}_2$
   \end{itemize}
+\end{multicols}
+%   \begin{itemize}
+%   \item $\forall \varphi, \psi \in \Phi_1, \forall e \in E_1, \relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
+%   \item $F(\PropTop_1) = \PropTop_2$ and $F({\witTop}_1) = {\witTop}_2$
+%   \item $\forall \varphi, \psi \in \Phi_1, F({(\PropAnd \varphi \psi)}_1) = {(\PropAnd {F(\varphi)} {F(\psi)})}_2$
+%   \item $\forall e, e' \in E_1, F({\witPair e {e'}}_1) = \witPair{F(e)}{F(e')}_2$
+%   \item $F({\witFst}_1) = {\witFst}_2$ and $F({\witSnd}_1) = {\witSnd}_2$
+%   \item $\forall \varphi \in \Phi_1, \forall \vec \psi \in \powerset(\Phi_1),F({(\PropImpl{\varphi}{\vec\psi})}_1) = {(\PropImpl{F(\varphi)}{\{F(\psi)\mid \psi \in \vec \psi\}})}_2$
+%   \item $F({\witEval}_1) = {\witEval}_2$ and $\forall e \in E_1, F({\witLam e}_1) = {\witLam{F(e)}}_2$
+%   %\item $\exists f : \Phi_2 \to \Phi_1, \begin{cases}
+%   %    \exists \witx\in E_2, \forall \varphi \in \Phi_2,\relEF{\witx}{\varphi}{F(f(\varphi))}\\
+%   %    \exists \witx \in E_2, \forall \varphi \in \Phi_2, \relEF{\witx}{F(f(\varphi))}{\varphi}
+%   %\end{cases}$
+%   \item $F({e_{0}}_1) = {e_{0}}_2$, $F({e_{S}}_1) = {e_S}_2$ and $F({e_{\rec}}_1) = {e_{\rec}}_2$
+%   \item for all $n \in \bN$, $F_{\Phi}({\cod n}_1) = {\cod n}_2$
+%   \end{itemize}
 \end{definition}
 
 With this notion of morphism, we can formalize the \emph{future world} notion by taking
@@ -1541,12 +1612,12 @@ at this world, there is a future in which a path in $T$ exists.
 To generalize our argument in the setting of EF, we need some computational conditions. To begin with, we need to
 %\emnote{add a sentence on how this is a faithful generalization of relativized quantifications.}
 %\emnote{to do}
-have a strong notion underlying the quantifier $\exists$, that we call explicit existential. The explicit existential allows one to use a proof of $\exists x, \varphi$ to extract an object $a$ such that $\varphi$ is true on $a$. In the presence of effects, and even more so with classical logic,
+have a strong notion underlying the quantifier $\exists$, that we call strong existential. The strong existential allows one to use a proof of $\exists x, \varphi$ to extract an object $a$ such that $\varphi$ is true on $a$. In the presence of effects, and even more so with classical logic,
 the witness used to prove $\exists x, \varphi$ can be impossible to retrieve, making
-this explicit existential not realized \cite{Herbelin05}.
-The explicit existential is thus a natural condition: when taking the relativized version of $\exists$, we expect the proof to be able to give an explicit witness by its code, and explicit existential ensures that this code of witness indeed retrieves the witness.
-\begin{definition}[Explicit existential]
-  An EFdata is said to have explicit existential if there is an evidence $e$ such that for any system T type $\tau$ and any function $\varphi(-) : \tau \to \Prop$ there exists $a \in \tau$ such that
+this strong existential not realized \cite{Herbelin05}.
+The strong existential is thus a natural condition: when taking the relativized version of $\exists$, we expect the proof to be able to give an explicit witness by its code, and strong existential ensures that this code of witness indeed retrieves the witness.
+\begin{definition}[Strong existential]
+  An EFdata is said to have strong existential if there is an evidence $e$ such that for any system T type $\tau$ and any function $\varphi(-) : \tau \to \Prop$ there exists $a \in \tau$ such that
   $\relEF{e}{\exists x^\tau, \cod x \land \varphi(x)}{\cod a \land \varphi(a)}$.
 \end{definition}
 
@@ -1574,7 +1645,7 @@ Instead of oracles $\oracle_n$ interpreting functions $\bN \to \bN$, we could ad
 % By analysing in details the proof of theorem \ref{thm:FT}, in addition to the two main conditions, two technical conditions are needed.
 
 %\emnote{todo: introductory sentence}
-Another principle that is used in the theorem \ref{thm:FT} but need not be realized in an arbitrary EF is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}. This is a reasonnable assumption: for instance, every PCA implements unbounded search thanks to the fixpoint combinator $Y$.
+Another principle that is used in \Cref{thm:FT} but need not be realized in an arbitrary EF is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}. This is a reasonnable assumption: for instance, every PCA implements unbounded search thanks to the fixpoint combinator $Y$.
 %This construction is not realized in some typed settings. For example, we can easily construct a realizability model of Heyting Arithmetic using system T functions: those functions are total and contain recursive primitive functions, hence they can't be stable under $\mu$.
 
 
@@ -1596,15 +1667,15 @@ but extension to PCF or untyped settings naturally allow for such an operator.
 
 
 \subsubsection{The robust theorem}
-We can now state our generalized theorem about $\FT$. The conditions are the one introduced above, but they are not needed to be satisfied in every world. In the proof of \Cref{thm:FT}, there are two worlds: the one from which we get the bar, and the one in which we get the path avoiding $C(b)$. The continuity and explicit existential only need to be satisfied in the latter and, up to going to an even further future, can be checked only on a dense set of worlds. The unbounded search is used on the base world (the one containing our model), which is the only use of this hypothesis.
-As for Theorem~\ref{thm:FT},
+We can now state our generalized theorem about $\FT$. The conditions are the one introduced above, but they are not needed to be satisfied in every world. In the proof of \Cref{thm:FT}, there are two worlds: the one from which we get the bar, and the one in which we get the path avoiding $C(b)$. The continuity and strong existential only need to be satisfied in the latter and, up to going to an even further future, can be checked only on a dense set of worlds. The unbounded search is used on the base world (the one containing our model), which is the only use of this hypothesis.
+As for \Cref{thm:FT},
 we implicitely assume a classical meta-theory satisfying \WKL,
 which is line with the standard approach in realizability to show the validity
 of realizer by assuming a principle equivalent in the meta-theory.
 \begin{theorem}\label{thm:main}
   Let $\EFE$ be an EFdata with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following conditions are satisfied:
   \begin{itemize}
-  \item there is a dense subset $W' \subseteq W$ such that for any $w \in W', F(w)$ has continuity and explicit existential.
+  \item there is a dense subset $W' \subseteq W$ such that for any $w \in W', F(w)$ has continuity and strong existential.
   \item for any $w \in W$, function $B : \List(\bB) \to \bB$ with an infinite path
   and a code in $w$, there is an element $w' \geq w$,
   a code $e_\alpha$ of an infinite path $\alpha$ in $B$
@@ -1615,7 +1686,7 @@ of realizer by assuming a principle equivalent in the meta-theory.
 \end{theorem}
 
 \begin{proof}
-  We apply the proof of theorem \ref{thm:FT} in the general setting. To make the proof easier to read, we consider the types $\Bool$ and $\List(\Bool)$, as they can be encoded inside integers and the usual manipulations can be simulated on the encodings.
+  We apply the proof of \Cref{thm:FT} in the general setting. To make the proof easier to read, we consider the types $\Bool$ and $\List(\Bool)$, as they can be encoded inside integers and the usual manipulations can be simulated on the encodings.
 
   The proposition we want to prove is that there exists $\witx \in E$ such that for any predicate $B : \List(\Bool) \to \Phi$ closed by extension,
   \[
@@ -1633,7 +1704,7 @@ of realizer by assuming a principle equivalent in the meta-theory.
   \[g(b)\real g(\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B)\]
   but as $g$ commutes with $\cod -$, with $\implies$, and with quantification $\forall$, we deduce that
   \[g(b)\real \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
-  hence, $g(b) e_{\alpha} \real \exists n^{\{\Nat\}}, \restr \alpha n \in g(B)$. Using the fact that $g(b)$ is a code of a function $(\bN \to \bN) \to \bN$, we can apply continuity to find $m$ such that $\restr \alpha m = \restr \beta m \implies g(b) \alpha = g(b) \beta$ for any $\beta : \bN \to \bN$ with a code. This means that we can apply the same argument as in theorem \ref{thm:FT} to have a contradiction~: taking $M$ the maximum of this $m$ and of the encoded $n^{\{\Nat\}}$ by $g(b) e_{\alpha}$ (that we can take by explicit existential), we get $\restr \alpha M \in C(b)$, which is contradicting the fact that $\alpha$ always avoids $C(b)$.
+  hence, $g(b) e_{\alpha} \real \exists n^{\{\Nat\}}, \restr \alpha n \in g(B)$. Using the fact that $g(b)$ is a code of a function $(\bN \to \bN) \to \bN$, we can apply continuity to find $m$ such that $\restr \alpha m = \restr \beta m \implies g(b) \alpha = g(b) \beta$ for any $\beta : \bN \to \bN$ with a code. This means that we can apply the same argument as in \Cref{thm:FT} to have a contradiction~: taking $M$ the maximum of this $m$ and of the encoded $n^{\{\Nat\}}$ by $g(b) e_{\alpha}$ (that we can take by strong existential), we get $\restr \alpha M \in C(b)$, which is contradicting the fact that $\alpha$ always avoids $C(b)$.
 \end{proof}
 
 \begin{remark}
@@ -1643,13 +1714,13 @@ of realizer by assuming a principle equivalent in the meta-theory.
 
 \subsection{Application, limitations}
 \label{s:application}
-Having Theorem \ref{thm:main} at hands, we give examples of realizability models satisfying the conditions (and thus, realizing $\FT$).
+Having \Cref{thm:main} at hands, we give examples of realizability models satisfying the conditions (and thus, realizing $\FT$).
 
-The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata $\EFSATE$ from \Cref{rmk:EFSigma}. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the EFdata $\EFSATE$ has continuity, explicit existential and unbounded search, hence the fact that it satisfies $\FT$.
+The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata $\EFSATE$ from \Cref{rmk:EFSigma}. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the EFdata $\EFSATE$ has continuity, strong existential and unbounded search, hence the fact that it satisfies $\FT$.
 
-The second example is the historical one: the second Kleene algebra $K_2$ \cite{Kleene1965} satisfies the premisses. The preorder is the trivial one, with only one element. Continuity is by definition of the PCA (it is the set of continuous functions $(\bN \to \bN) \to \bN$), unbounded search can be defined for any PCA by encoding the combinator $Y$ in combinatory logic. Any function $\bN \to \bN$ has a code, hence the condition that a path exists for any decidable tree encoded. Finally, explicit existential is true for intuitionnistic PCAs. We thus find back the usual result that $K_2$ satisfies $\FT$.
+The second example is the historical one: the second Kleene algebra $K_2$ \cite{Kleene1965} satisfies the premisses. The preorder is the trivial one, with only one element. Continuity is by definition of the PCA (it is the set of continuous functions $(\bN \to \bN) \to \bN$), unbounded search can be defined for any PCA by encoding the combinator $Y$ in combinatory logic. Any function $\bN \to \bN$ has a code, hence the condition that a path exists for any decidable tree encoded. Finally, strong existential is true for intuitionnistic PCAs. We thus find back the usual result that $K_2$ satisfies $\FT$.
 
-A third example is the model we based our generalization on: the model by Lubarsky in \cite{LubRat13}.
+A third example is the model we based our generalization on: the model by Lubarsky and Rathjen \cite{LubRat13}.
 
 The existence of a path in a possible future is essential. For example, taking the realizability model given by $\SATE$, with local computation at some context $\enviro\in\Oracle$, the model does not realize $\FT$. To show this, we use the Kleene tree relativized to $\enviro$-computable functions. For any $\enviro$-computable path, given by a code $e$, we can simulate $e$ for increasing time duration until the finite path gets out of the tree, which will always happen because the infinite path in the Kleene tree are all uncomputable. This thus gives a bar for the Kleene tree, but this bar can't be uniform as the length of lists in this tree is unbounded.
 
@@ -1732,11 +1803,11 @@ of intuitionistic principles).
 %Now, several further work can be opened. This article shows that choice principles can be studied through a general realizability framework, namely evidenced frames, to give them a computational content. The natural extension of this work is thus to find similar theorems showing what computational behavior must be exhibited to show \textit{e.g.} \WKL, \KL, \DC or some other choice principles.
 
 Another interesting question arises when considering alternative versions of \FT. For example, it is possible to weaken the premisse that \emph{any bar must be uniform} by only considering bars on $\Pi_0^1$ trees or on computable trees (such alternatives are considered in \cite{LubRat13})
-Is there a variation of the Theorem \ref{thm:main} accounting for such weakenings?
+Is there a variation of the \Cref{thm:main} accounting for such weakenings?
 
 %\cite{BreHer21}
 
-\bibliography{biblio}
+\bibliography{bibdoi}
 %
 % \newpage
 % \onecolumn
