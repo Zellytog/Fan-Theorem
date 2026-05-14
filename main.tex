@@ -60,13 +60,32 @@
 }
 
 
-\Crefname{proposition}{Proposition}{Definitions}
+
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
- \input{abstract}
+ Friedman-Simpson’s original program of reverse mathematics,
+as is also the case for most of standard mathematics,
+has been developed in classical subsystems of second-order
+arithmetic. As such, (classical) reverse mathematics
+presents various limitations from a constructive point of view,
+since for instance they are unable to distinguish between
+a statement and its contrapositive (e.g. dependent choice and
+the bar induction principles).
+The case of (Weak) Kőnig Lemma (WKL) and Fan Theorem (FT)
+is particularly interesting in that regard:
+while KL is well-known to imply FT, and if constructivists like
+Brouwer rejected the former while admitting the latter,
+the converse implication has not been much studied for years.
+It is only recently that a growing enthusiasm for constructive reverse
+mathematics pushed towards a finer-grained analysis of the connection
+between such principles.
+
+In addition to intuitionistic reverse mathematics, the realizability approach to logical principles adds a computational meaning to purely logical statements. We follow this path to investigate the computational meaning to Brouwer's Fan Theorem: building on recent work by Lubarsky and Rathjen, we first construct a realizability interpretation of higher-order logic validating FT while refuting WKL. This interpretation relies on a $\lambda$-calculus extended with oracles while preserving a notion of continuity for realizers.
+
+We then push this approach a step further to show the robustness of this realizability interpretation by identifying, in the abstract and general setting of evidenced frames, sufficient computational conditions entailing FT.
 \end{abstract}
 
 
