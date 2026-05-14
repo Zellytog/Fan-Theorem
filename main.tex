@@ -320,7 +320,8 @@ The other sorts are given their natural set theoretic semantics.
   \cod - &:& \bigcup_{S \in \Sort} \sem{S} & \longrightarrow & H \\
   & & s &\longmapsto & \cod s
   \end{array}\]
-  Each well-typed term $\Gamma \vdash \termt : S$ is mapped to its semantics
+  Let $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) be the recursors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$); $\smallfrown$ the operation which, given a word $u$ and a letter $a$, appends $a$ to $u$ to make the new word $ua$; $\implH$ the implication of $H$ and $\landH$ its meet.
+  Given a well-typed term $\Gamma \vdash \termt : S$, we map it to its semantics
   $ \sem{\Gamma \vdash \termt : S} : \prod_{T \in \Gamma} \sem T \longrightarrow \sem S$
   by the usual set-theoretic interpretation:
 %   \vshort{For example,
@@ -374,8 +375,7 @@ The other sorts are given their natural set theoretic semantics.
   \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
   \item $\sem{\Gamma\vdash \sortPred{\termt} : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
   \end{itemize}
-  Here $\termrec_{\bN}$ (resp. $\termrec_{\bB}$, resp. $\termrec_{\bL}$) are the canonical recursors given by the initial algebra structure of $\bN$ (resp. $\bB$, resp. $\sem S^\star$), $\smallfrown$ is the operation which, given a word $u$ and a letter $a$, appends $a$ to $u$ to make the new word $ua$, $\implH$ is the implication of $H$ and $\landH$ is its meet.
-  For a given sort $S$, we will also write $\bS$ for $\sem S$. \emnote{pas sûr de si cette phrase doit être là ou plus haut.}
+  For a given sort $S$, we will also write $\bS$ for $\sem S$. %\emnote{pas sûr de si cette phrase doit être là ou plus haut.}
   }
 \end{definition}
 
@@ -1791,7 +1791,7 @@ that do not satisfy a strictly stronger principle than $(b)$.
 This methodology has been applied to $\FT$ in this article,
 but can be transposed to any other logical principle:
 first, the hierarchy of choice principles in \cite{BreHer21} is a natural
-candidate, as it gives both a list of principles and a a good criterium
+candidate, as it gives both a list of principles and a good criterium
 to exhibit what strictly stronger principle we do not expect to satisfy
 (namely the principles above in the hierarchy, and the classical counterpart
 of intuitionistic principles).
@@ -1802,7 +1802,7 @@ of intuitionistic principles).
 
 %Now, several further work can be opened. This article shows that choice principles can be studied through a general realizability framework, namely evidenced frames, to give them a computational content. The natural extension of this work is thus to find similar theorems showing what computational behavior must be exhibited to show \textit{e.g.} \WKL, \KL, \DC or some other choice principles.
 
-Another interesting question arises when considering alternative versions of \FT. For example, it is possible to weaken the premisse that \emph{any bar must be uniform} by only considering bars on $\Pi_0^1$ trees or on computable trees (such alternatives are considered in \cite{LubRat13})
+Another interesting question arises when considering alternative versions of \FT. For example, it is possible to weaken the premisse that \emph{any bar must be uniform} by only considering bars on $\Pi_0^1$ trees or on computable trees (such alternatives are considered in \cite{LubRat13}).
 Is there a variation of the \Cref{thm:main} accounting for such weakenings?
 
 %\cite{BreHer21}
