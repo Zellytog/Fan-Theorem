@@ -1,5 +1,5 @@
 
-\documentclass[a4paper,UKenglish,cleveref, autoref, thm-restate]{lipics-v2021}
+\documentclass[a4paper,UKenglish,cleveref,enumerate, autoref, thm-restate]{lipics-v2021}
 \bibliographystyle{plainurl}
 
 \usepackage{refcount}
@@ -144,19 +144,20 @@ To that end, we rely on realizability interpretations, and especially on the rec
 
 Besides, we need to figure out what it means to  capture \emph{exactly} the computational content of a logical principle. We believe that a satisfying answer to that question should address the three following points.
 
-\begin{itemize}
-\item First, is the computational content exhibited enough? It should be the fact that the expected principle is validated not because of some implicit restrictions, but in a setting that is also compatible with further computational extensions.
+\begin{enumerate}[(I)]
+\item Is the computational content exhibited enough? It should be the fact that the expected principle is validated not because of some implicit restrictions, but in a setting that is also compatible with further computational extensions.
 For instance, the Axiom of Choice is trivially valid in a setting with strong existential (such as Martin-Löf Type Theory or intuitionistic realizability interpretations based on a purely functional language) but this is due to the implicit restrictions that a realizer of $A\to B$ is necessarily a function. This does not extend to extension with effects, allowing for a coin flip is enough to refute it~\cite{CohFarTat19}. In contrast, several works show how Countable Choice can be validated using memoization techniques in presence of effects~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
 
-\item Secondly, how can we know that the computational features we consider are not too strong? For instance, it is clear that if memoization techniques allow to validate Countable Choice in presence of classical logic, such settings will also entail \Konig's Lemma and the Fan Theorem. We therefore suggest to look for realizability models providing separation results: \emph{e.g.}, to capture the exact computational content of Countable Choice, one should aim for a model refuting Dependent Choice. As the computational content does not, by itself, give a separation result, we want the following statement to hold for a computational content (a) to characterize the logical principle (b):
+\item How can we know that the computational features we consider are not too strong? For instance, it is clear that if memoization techniques allow to validate Countable Choice in presence of classical logic, such settings will also entail \Konig's Lemma and the Fan Theorem. We therefore suggest to look for realizability models providing separation results: \emph{e.g.}, to capture the exact computational content of Countable Choice, one should aim for a model refuting Dependent Choice. As the computational content does not, by itself, give a separation result, we want the following statement to hold for a computational content (a) to characterize the logical principle (b):
 \begin{center}
 \emph{`` there exists a model exhibiting (a) and separating (b) from its stronger variants''}
 \end{center}
 which, in the present case, means that we search for a model separating $\FT$ from $\WKL$.
 
-\item Thirdly, we should aim to offer robust interpretations, \emph{i.e.} to ensure that the validity of the interpretation is only a consequence of the studied computational features (say, memoization) and not peculiar to specificities of the underlying language of realizers (say, some $\lambda$-calculus). To that end, we suggest relying on \emph{evidenced frames}~\cite{CohMiqTat21}, which provide an algebraic representation of realizability models and allow us to express robust statements such as:
+\item We should aim to offer robust interpretations, \emph{i.e.} to ensure that the validity of the interpretation is only a consequence of the studied computational features (say, memoization) and not peculiar to specificities of the underlying language of realizers (say, some $\lambda$-calculus). To that end, we suggest relying on \emph{evidenced frames}~\cite{CohMiqTat21}, which provide an algebraic representation of realizability models and allow us to express robust statements such as:
 \emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''. In particular, Cohen \emph{et al.} proved that memoization techniques (a) in any of a variety of computational systems would yield a realizability model of Countable Choice (b)~\cite{CohFarTat19,CohMiqTat21}, which is a much stronger result than the definition of a specific model of the same axiom in ~\cite{Herbelin12,Miquey18a} based on an ad-hoc variant of the $\lambda$-calculus with some implementation of memoization.
-\end{itemize}
+\end{enumerate}
+
 
 
 
@@ -322,7 +323,7 @@ The other sorts are given their natural set theoretic semantics.
 
 \begin{definition}[Semantics]\label{def:sem}
   Let $(H,\leqH)$ be a Heyting pre-algebra with an intersection and a union operation $\bigcup,\bigcap : \powerset (H) \to H$.
-  For each sort $S \in \Sort$, we associate a set $\sem S$:
+  For each sort $S \in \Sort$, we associate a set $\sem S$ (which we will also write $\bS$):
   \begin{multicols}{2}
   \begin{itemize}
   \item $\sem{\Nat} \defeq \bN$
@@ -349,7 +350,7 @@ The other sorts are given their natural set theoretic semantics.
 
 
 
-  \vshort{
+
   \begin{itemize}
   \item $\sem{\varx_1 : S_1,\cdots , \varx_n : S_n\vdash \varx_i : S_i} \defeq \pi_i^n$
   \item $\sem{\Gamma \vdash \termlam \varx.\termt : S \to T} \defeq (x \in \sem S) \mapsto (\overrightarrow{x} \in \sem \Gamma) \mapsto \sem{\Gamma, \varx : S\vdash \termt : T}(\overrightarrow{x},x)$
@@ -377,8 +378,8 @@ The other sorts are given their natural set theoretic semantics.
   \item $\displaystyle\sem{\Gamma\vdash \exists \varx^S, \varphi : \Prop} \defeq (\overrightarrow x \in \sem{\Gamma}) \mapsto \bigcup_{s \in \sem S} \sem{\Gamma, \varx : S\vdash \varphi : \Prop}(\overrightarrow x, s)$
   \item $\sem{\Gamma\vdash \sortPred{\termt} : \Prop} \defeq \cod - \circ \sem{\Gamma\vdash \termt : S}$
   \end{itemize}
-  For a given sort $S$, we will also write $\bS$ for $\sem S$. 
-  }
+%   For a given sort $S$, we will also write $\bS$ for $\sem S$.
+
 \end{definition}
 
 In all generality, the syntactic terms are given in a typing context, like $\Gamma\vdash \termt : S$. Thus, to construct an element of $\bS$, we need an environment $\rho$ which covers $\Gamma$.
