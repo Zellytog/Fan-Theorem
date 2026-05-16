@@ -1,5 +1,25 @@
 \ProvidesPackage{macros}
 
+\newtheorem{notation}[definition]{Notation}
+\newcommand{\vary}{\mathbf{y}}
+
+\newcommand{\ciseau}{\ccnote{\ding{33}}}
+\newlength{\mysep}
+\newlength{\myl}
+\newcommand{\twoelt}[2]{
+  \settowidth{\myl}{$#1$}
+  \setlength{\mysep}{0.5\textwidth}
+  \addtolength{\mysep}{-\myl}
+  \addtolength{\mysep}{-15pt}
+\[
+  #1
+  \hspace{\mysep}
+  #2
+\]
+}
+
+
+
 %----- Symboles usuels -----%
 
 \newcommand{\defeq}{\triangleq}
