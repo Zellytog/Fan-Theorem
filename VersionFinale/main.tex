@@ -83,7 +83,7 @@ It is only recently that a growing enthusiasm for constructive reverse
 mathematics pushed towards a finer-grained analysis of the connection
 between such principles.
 
-In addition to intuitionistic reverse mathematics, the realizability approach to logical principles adds a computational meaning to purely logical statements. We follow this path to investigate the computational meaning to Brouwer's Fan Theorem: building on recent work by Lubarsky and Rathjen, we first construct a realizability interpretation of higher-order logic validating FT while refuting WKL. This interpretation relies on a $\lambda$-calculus extended with oracles while preserving a notion of continuity for realizers.
+In addition to intuitionistic reverse mathematics, the realizability approach to logical principles adds a computational meaning to purely logical statements. We follow this path to investigate the computational meaning of Brouwer's Fan Theorem: building on recent work by Lubarsky and Rathjen, we first construct a realizability interpretation of higher-order logic validating FT while refuting WKL. This interpretation relies on a $\lambda$-calculus extended with oracles while preserving a notion of continuity for realizers.
 
 We then push this approach a step further to show the robustness of this realizability interpretation by identifying, in the abstract and general setting of evidenced frames, sufficient computational conditions entailing FT.
 \end{abstract}
@@ -146,7 +146,7 @@ Besides, we need to figure out what it means to  capture \emph{exactly} the comp
 
 \begin{enumerate}[(I)]
 \item Is the computational content exhibited enough? It should be the fact that the expected principle is validated not because of some implicit restrictions, but in a setting that is also compatible with further computational extensions.
-For instance, the Axiom of Choice is trivially valid in a setting with strong existential (such as Martin-Löf Type Theory or intuitionistic realizability interpretations based on a purely functional language) but this is due to the implicit restrictions that a realizer of $A\to B$ is necessarily a function. This does not extend to extension with effects, allowing for a coin flip is enough to refute it~\cite{CohFarTat19}. In contrast, several works show how Countable Choice can be validated using memoization techniques in presence of effects~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
+For instance, the Axiom of Choice is trivially valid in a setting with strong existentials (such as Martin-Löf Type Theory or intuitionistic realizability interpretations based on a purely functional language) but this is due to the implicit restrictions that a realizer of $A\to B$ is necessarily a function. This does not extend to extension with effects, allowing for a coin flip is enough to refute it~\cite{CohFarTat19}. In contrast, several works show how Countable Choice can be validated using memoization techniques in presence of effects~\cite{BerBezCoq98,Herbelin12,Miquey18a,CohFarTat19}.
 
 \item How can we know that the computational features we consider are not too strong? For instance, it is clear that if memoization techniques allow to validate Countable Choice in presence of classical logic, such settings will also entail \Konig's Lemma and the Fan Theorem. We therefore suggest to look for realizability models providing separation results: \emph{e.g.}, to capture the exact computational content of Countable Choice, one should aim for a model refuting Dependent Choice. As the computational content does not, by itself, give a separation result, we want the following statement to hold for a computational content (a) to characterize the logical principle (b):
 \begin{center}
@@ -155,7 +155,7 @@ For instance, the Axiom of Choice is trivially valid in a setting with strong ex
 which, in the present case, means that we search for a model separating $\FT$ from $\WKL$.
 
 \item We should aim to offer robust interpretations, \emph{i.e.} to ensure that the validity of the interpretation is only a consequence of the studied computational features (say, memoization) and not peculiar to specificities of the underlying language of realizers (say, some $\lambda$-calculus). To that end, we suggest relying on \emph{evidenced frames}~\cite{CohMiqTat21}, which provide an algebraic representation of realizability models and allow us to express robust statements such as:
-\emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''. In particular, Cohen \emph{et al.} proved that memoization techniques (a) in any of a variety of computational systems would yield a realizability model of Countable Choice (b)~\cite{CohFarTat19,CohMiqTat21}, which is a much stronger result than the definition of a specific model of the same axiom in ~\cite{Herbelin12,Miquey18a} based on an ad-hoc variant of the $\lambda$-calculus with some implementation of memoization.
+\emph{``any computational system providing an implementation of \emph{(a)} will induce an evidenced frame validating \emph{(b)}}''. In particular, Cohen \emph{et al.} proved that memoization techniques (a) in any of a variety of computational systems would yield a realizability model of Countable Choice (b)~\cite{CohFarTat19,CohMiqTat21}, which is a stronger result than the definition of a specific model of the same axiom in ~\cite{Herbelin12,Miquey18a} based on an ad-hoc variant of the $\lambda$-calculus with some implementation of memoization.
 \end{enumerate}
 
 
@@ -186,9 +186,9 @@ As explained, constructive reverse mathematics is much more subtle than classica
 
 \paragraph*{Contributions of this paper}
 In this work, we provide a computational interpretation of the Fan Theorem in line with our manifesto. To this end, we construct a realizability model that validates \FT while refuting \WKL, and we subsequently show that the induced interpretation is itself robust.
-Our construction is inspired by the work of Lubarsky and Rathjen~\cite{LubRat13}, who sketch a model combining Kripke semantics with realizability. Their approach relies on a sequence of reals of strictly increasing Turing degree assigned to the worlds, which serve as oracles; at each world, the computable functions relative to the corresponding oracle are used to define a PCA-based realizability model.
+Our construction is inspired by the work of Lubarsky and Rathjen~\cite{LubRat13}, who sketch a model combining Kripke semantics with realizability. Their approach relies on a sequence of reals of strictly increasing Turing degrees assigned to the worlds, which serve as oracles; at each world, the computable functions relative to the corresponding oracle are used to define a PCA-based realizability model.
 
-To unveil a robust computational content of the Fan Theorem, we proceed as follows. First, in \Cref{s:HOL}, we introduce a computationally meaningful syntax for logical statements about trees, designed to better capture the computational behavior of realizers. In \Cref{s:realizability}, we then define a realizability interpretation based on a $\lambda$-calculus extended with oracles, in the spirit of relativized realizability~\cite{Goodman1978}. In \Cref{s:FT}, we establish a continuity property of this system and use it to exhibit a simple $\lambda$-term realizing \FT. We also show that our model refutes \WKL, thereby obtaining a separation result.
+To unveil a robust computational content of the Fan Theorem, we proceed as follows. First, in \Cref{s:HOL}, we introduce a computationally meaningful syntax for logical statements about trees, designed to better capture the computational behavior of realizers. In \Cref{s:realizability}, we then define a realizability interpretation based on a $\lambda$-calculus extended with oracles, in the spirit of Goodman's relativized realizability~\cite{Goodman1978}. In \Cref{s:FT}, we establish a continuity property of this system and use it to exhibit a simple $\lambda$-term realizing \FT. We also show that our model refutes \WKL, thereby obtaining a separation result.
 
 In a second phase, presented in \Cref{s:robust}, we isolate the key computational features of our construction—namely, continuity of realizers, strong existential quantification, and unbounded search. Using the notion of evidenced frames, we then prove a robust version of the validity of \FT, showing that any computational system exhibiting these same features yields a valid interpretation of the Fan Theorem
 
@@ -213,7 +213,7 @@ In a second phase, presented in \Cref{s:robust}, we isolate the key computationa
 \section{A computably relevant syntax for trees}
 \label{s:HOL}
 
-The model we construct is based on higher-order logic (HOL). This is a multi-sorted logic with a sort $\Prop$ denoting the set of propositions (hence the higher order qualification).
+The model we construct is based on higher-order logic (HOL). This is a multi-sorted logic with a sort $\Prop$ denoting the set of propositions (hence the higher-order qualification).
 The choice of HOL as our syntax is mainly motivated by its expressiveness. In HOL, it is possible to easily talk about predicates on sets over a given sort $S$, by the sort $S \to \Prop$. 
 
 
@@ -222,7 +222,7 @@ However, we seek a computational interpretation of the Fan Theorem such that \em
 To overcome this, we rely on a standard technique and use \emph{relativized quantifications}: instead of $\forall x,\varphi(x)$, we consider
 formulas of the shape $\forall x,\sortPredS{\Nat}{x} \to \varphi(x)$, where the proposition $\sortPredS{\Nat}{x}$ states that $x$ is indeed a natural number. A realizer of this statement will now have to realize  $\sortPredS{\Nat}{n}\to \varphi(n)$, that is to realize $\varphi(n)$ provided a realizer of $\sortPredS{\Nat}{n}$, \emph{i.e.} a term computing the value of $n$. The realizability model is introduced in \Cref{s:realizability}, we begin with the definition of HOL formulas for our interpretation.
 
-In order for our realizers to compute with trees, that is with path (via functions in $\bN\to\bB$), prefixes of paths (\emph{i.e.} lists on booleans) and (decidable) sets of lists, we therefore consider sorts accounting for natural numbers, lists, booleans, propositions and functions, while formulas are usual HOL propositions extended with a relativization predicate for each sort.
+In order for our realizers to compute with trees, that is to say with paths (via functions in $\bN\to\bB$), prefixes of paths (\emph{i.e.} lists on booleans) and (decidable) sets of lists, we therefore consider sorts accounting for natural numbers, lists, booleans, propositions and functions, while formulas are usual HOL propositions extended with a relativization predicate for each sort.
 
 
 
@@ -257,11 +257,8 @@ where $\termt$ is a HOL-term (\textit{c.f.} \Cref{def:hol_terms})
 
 With this set of sorts, we give a syntax for well-typed terms. We use bold font for the syntactic HOL terms, to distinguish them from the $\lambda$-calculus terms we introduce later. The only exception is to denote an element in $\Prop$, for which we use $\varphi,\psi\ldots$
 
-The HOL term constructors are akin to system T: there are constructors for abstraction and application for functions, constructors for pairing and projections, canonical constructors and recursor for our data types ($\Nat,\Bool,\List$). The main difference lies in the logical component, as we also add propositional constructors for the formula above.
-
-
-
-  As usual, we fix a denumerable set $\Xt$ of variables which we denote by $\varx,\bvary,\ldots$ and we define \emph{(HOL-)contexts} as lists of pairs $(\varx : S)$ where $\varx \in \Xt$ and $S \in \Sort$. We denote the set of (HOL-)contexts by $\Hctx$ and will write its elements $\Gamma,\Delta,\ldots$
+The HOL term constructors are akin to system T: there are constructors for abstraction and application for functions, constructors for pairing and projections, canonical constructors and recursor the different data types ($\Nat,\Bool,\List$). The main difference lies in the logical component, as we also add propositional constructors for the formulas above.
+As usual, we fix a denumerable set $\Xt$ of variables which we denote by $\varx,\bvary,\ldots$ and we define \emph{(HOL-)contexts} as lists of pairs $(\varx : S)$ where $\varx \in \Xt$ and $S \in \Sort$. We denote the set of (HOL-)contexts by $\Hctx$ and will write its elements $\Gamma,\Delta,\ldots$
 
 
 
@@ -318,7 +315,7 @@ The HOL term constructors are akin to system T: there are constructors for abstr
   \end{figure}
 
 
-A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and functions interpreting $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\bigcap,\bigcup : \powerset (H) \to H$ representing unions and intersections. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
+A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and functions interpreting the quantifications $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\bigcap,\bigcup : \powerset (H) \to H$ representing unions and intersections. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
 The other sorts are given their natural set theoretic semantics.
 
 \begin{definition}[Semantics]\label{def:sem}
@@ -405,7 +402,7 @@ for possibly non-computable infinite paths:
 using a semantics similar to Kripke semantics, the trees are forced to be
 compatible with paths yet to be defined.
 Then, we add infinite paths in the computational model by fixing
-primitives $\oracle$ and a reduction rule $\oracle\;\encode n \redi \encode{\alpha(n)}$
+primitives $\oracle$ together with a reduction rule $\oracle\;\encode n \redi \encode{\alpha(n)}$,
 where $\alpha$ is the infinite path we wish to add in the model.
 
 Using this realizability notion, the algorithm realizing $\FT$ is an extensive
@@ -424,22 +421,22 @@ using $\WKL$: as $B$ is taken as the complementary of a tree, the words not in $
 This is the point where the oracles come into play:
 we can now use an oracle $\oracle$ to simulate $\alpha$,
 and the Kripke semantics allows $b$ to take as argument the term $\oracle$.
-Thus, we wish our Kripke-like semantics to be defined such that $b$ realizing a bar on $B$ not only means that $b$ computes as a bar for some given oracles, but also that it does so when new oracles are added. Finally, using a continuity argument, computing $b(\oracle)$ can be done only for a finite part of $\oracle$, which was already treated in the computation of the original algorithm, giving that both $B(\oracle)$ holds (because it extends the prefix given by a bar on $B$) and that $B(\oracle)$ does not hold (by our choice of $\alpha$).
+Thus, we wish our Kripke-like semantics to be defined such that $b$ realizing a bar on $B$ not only means that $b$ computes as a bar for some given oracles, but also that it does so when new oracles are added. Finally, using a continuity argument, computing $b(\oracle)$ can be done only for a finite part of $\oracle$, which was already treated in the computation of the original algorithm, giving that both $B(\oracle)$ holds (because it extends the prefix given by a bar on $B$) and that $B(\oracle)$ does not hold (by our choice of $\alpha$). This rules out this case, which shows that the algorithm necessarily terminates.
 \end{itemize}
 To build a realizability model replicating this argument, we thus need to
 implement oracles but also to structure the realizability relation
 in a Kripke-like way: realizing $\varphi \to \psi$ not only means
 that realizers of $\varphi$ are sent to realizers of $\psi$
 for some given world (taken here to be context of functions working as oracles)
-but also for future worlds (extensions of this context).
+but also for future worlds (by considering extensions of this context).
 
 
 \subsection{Lambda-calculus}
 \label{}
 
-In \cite{LubRat13}, the argument mentioned above is implemented by taking a Kripke model of IZF. In this model, a realizability model is constructed based on Turing machines with oracle. The Kripke model itself uses as frame the set $\omega^{<\omega}$, and each world $\enviro$ corresponds to a finite set of oracles. By well designed construction, Lubarsky and Rathjen manage to construct the model so that the realizability model taken at some world $\enviro$ are Turing machine computing with oracles in $\enviro$.
+In Lubarsky and Rathjen's model\cite{LubRat13}, the argument mentioned above is implemented by taking a Kripke model of IZF. In this model, a realizability model is constructed based on Turing machines with oracle. The Kripke model itself uses as frame the set $\omega^{<\omega}$, and each world $\enviro$ corresponds to a finite set of oracles. Through a well-designed construction, Lubarsky and Rathjen manage to construct the model so that the realizability model taken at some world $\enviro$ are Turing machine computing with oracles in $\enviro$.
 
-In comparison, our model relies on $\lambda$-calculus, mainly to allow more explicit constructions (\textit{e.g.} real concrete terms can be given and proved to realize some given sentences).
+In comparison, our model relies on the $\lambda$-calculus, mainly to allow more explicit constructions (\textit{e.g.} real concrete terms can be given and proved to realize some given sentences).
 
 
 
@@ -454,10 +451,10 @@ In comparison, our model relies on $\lambda$-calculus, mainly to allow more expl
     & \mid \nil \mid t\append u \mid \rec_{\List}\;t\;u\;v
      \mid \oracle_n
   \end{align*}
-  where $n$ ranges over $\bN$.
+  where $n$ ranges over $\bN$. We assume the usual convention of $\alpha$-renaming of bound variables.
 \end{definition}
 
-We assume the usual convention of $\alpha$-renaming of bound variables.
+
 
 Using our multiple worlds analogy, we parametrize the reduction on terms by a list of functions $\bN \to \bB$. In place of the frame $\omega^{<\omega}$ previously mentioned, our set of worlds is $(\bN \to \bB)^{<\omega}$, but every definition could be restricted to a subset of $\bN \to \bB$, for example by taking only functions of some given degree. The model of \cite{LubRat13}
 can be obtained by taking the following restriction: fix a family $\{f_i\}_{i \in \bN}$ of functions $\bN \to \bB$ of strictly increasing Turing degrees, and only consider the contexts $\enviro$ where $\enviro_i$ agrees with $f_i$ on all but finitely many values.
@@ -466,7 +463,6 @@ can be obtained by taking the following restriction: fix a family $\{f_i\}_{i \i
 \begin{definition}[Reduction context]
   Let $\funB$ be the set of set-functions $\bN \to \bB$. We denote by $\Oracle$ the set of lists of set-functions $\bN \to \bB$:
   $\Oracle \defeq \List(\funB)$.
-  
   Elements of this set will be called reduction contexts. For any $\enviro \in \Oracle$, the $i$-th function of the list will be written $\enviro[i]$ and the length of $\enviro$ will be written $|\enviro|$.
 \end{definition}
 
@@ -478,7 +474,7 @@ We assume the usual convention for substitution without capture of free variable
 
 The reduction itself is the expected $\beta$-reduction, enriched by the reduction, for
 any set-function $f : \bN \to \bB$ in the $i$-th place of the reduction context: $\oracle_i \;\encode{n} \mapsto \encode{f(n)}$
-where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in this lambda-calculus, and the encoding of booleans is $\rtt$ and $\rff$, corresponding respectively to $\top \in \bB$ and $\bot \in \bB$.
+where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in this $\lambda$-calculus, and the encoding of booleans is $\rtt$ and $\rff$, corresponding respectively to $\top \in \bB$ and $\bot \in \bB$.
 
 \begin{definition}[Reduction]
   Let $\enviro \in \Oracle$.
@@ -498,12 +494,12 @@ where $\encode{n}$ means $\lamS^n\;\lamZ$, the canonical encoding of integers in
     \rec_{\List}\;t\;u\;(v \append w) & \rediE &u\;v\;w\;(\rec_{\List}\;t\;u\;w) \\
   \end{array}\]
 
-  The reduction relation $\redE$ is the smallest relation containing $\rediE$ and which is compatible, meaning that it is closed by subterms. We write $\redERT$ for the reflexive and transitive closure of $\redE$.
+  The reduction relation $\redE$ is the smallest relation containing $\rediE$ and which is compatible, meaning that it is closed by subterms. We write $\redERT$ for the reflexive and transitive closure of the relation $\redE$.
 \end{definition}
 
 
 
-As the reduction depends on the reduction context, we show that extending the reduction context also extends the reduction.
+As the reduction depends on the reduction context, we verify that extending the reduction context also extends the reduction.
 
 \begin{notation}
   For $\enviro,\enviroT \in \Oracle$, we write $\enviro \infOr \enviroT$ when $\enviro$ is a prefix of $\enviroT$.
@@ -517,17 +513,15 @@ As the reduction depends on the reduction context, we show that extending the re
 \end{proposition}
 
 \begin{proof}
-  It suffices to show that $\rediE\subseteq \redi_{\enviroT}$, but this is straightforward by just comparing the list of redexes.
+  It suffices to show that $\rediE\subseteq \redi_{\enviroT}$, which is straightforward by comparing the list of redexes of both reductions.
 \end{proof}
 
 \subsection{Saturated sets}
 
 Propositions in realizability models are interpreted via the set of their realizers. Following the Brouwer-Heyting-Kolmogorov interpretation, realizers of a formula are expected to \emph{compute} accordingly to the formula they realize. In particular, the interpretation of propositions is usually made in terms of \emph{saturated} set of terms, \emph{i.e.} closed under anti-reduction.
-
-
 In this setting, we therefore parametrize the notion of saturation by a reduction context.
 
-The notion of truth value in our model is thus, in a world $\enviro$, the set of saturated sets for $\rediE$. This truth value is local, in the sense that it only speaks about $\enviro$, so the adapted notion of truth value (for the Kripke interpretation) is given by family of saturated sets, for each $\enviro$.
+The notion of truth value in our model is thus, in a world $\enviro$, the set of saturated sets for the relation $\rediE$. This truth value is local, in the sense that it only speaks about $\enviro$, so the adapted notion of truth value (for the Kripke interpretation) is given by family of saturated sets, for each $\enviro$.
 
 \begin{definition}[Saturated set]
   Let $\enviro\in\Oracle$ and $A \subseteq \Lambda$.
@@ -538,7 +532,7 @@ The notion of truth value in our model is thus, in a world $\enviro$, the set of
   \forall \enviro,\enviroT\in\Oracle, \enviro \infOr \enviroT \implies A_{\enviro} \subseteq A_{\enviroT}\right\}\]
 \end{definition}
 
-As for usual saturated set, the different notions of saturated sets are complete lattice.
+As with ordinary saturated sets, the different notions of saturated sets define complete lattices.
 
 \begin{proposition}
   For any $\enviro \in \Oracle$, $\SATE$ is a complete sub-lattice of $\powerset(\Lambda)$. $\SAT$ is also a complete lattice for the pointwise inclusion and with the pointwise union and intersection.
@@ -554,7 +548,7 @@ The fact that $\SAT$ is taken to be the set of truth values means that we will u
 
 \begin{proposition}
 \label{prop:SAT}
-  Let $\varA,\varB \in \SAT$. Then let
+  Let $\varA,\varB \in \SAT$. Let then
   \begin{align*}
     \varA \infSAT \varB &\defeq \exists t \in \Lambda, \forall \enviro \in \Oracle, \forall u \in \termAE, tu \in \termBE\\
     \varA \impliesSAT \varB &\defeq \enviro \mapsto \{ t \in \Lambda \mid \forall \enviroT \supOr \enviro, \forall u \in \termA{\enviroT}, tu \in \termB{\enviroT}\}\\
@@ -571,13 +565,13 @@ The fact that the operations are well defined is standard and uses the compatibi
   \[\varA \infSAT \varB \impliesSAT \varC \iff \varA\landSAT \varB\infSAT \varC\]
   \begin{itemize}
   \item Suppose there is $t$ such that for any $\enviro,\enviroT\in\Oracle$, $u \in \termAE, v \in \termB{\enviroT}$ and such that $\enviro \infOr \enviroT$, then $t\;u\;v \in \termC{\enviroT}$. Then, for $\enviro \in \Oracle$ and $u \in \termAE\landSAT\termBE$, it holds that $\pi_1\;u\in\termAE$ and $\pi_2\;u\in\termBE$, so $t\;(\pi_1\;u)\;(\pi_2\;u)\in\termCE$. By antireduction, $\lambda x.t\;(\pi_1\;x)\;(\pi_2\;x)$ thus witnesses that $\varA \landSAT \varB \infSAT \varC$.
-  \item Suppose there is $t$ such that for any $\enviro\in\Oracle$ and $u \in \termAE \landSAT \termBE$, $tu \in \termCE$. Then, let $\enviro,\enviroT\in\Oracle$ be such that $\enviro\infOr \enviroT$ and $u \in \termAE$. By inclusion, $u \in \termA{\enviroT}$, so for any $v \in \termB{\enviroT}$, $t\;\langle u,v\rangle \in \termC{\enviroT}$, so by antireduction $\lambda x\;y.t\;\langle x,y\rangle$ is a witness that \mbox{$\varA\infSAT \varB \impliesSAT \varC$}.
+  \item Suppose there exists $t$ such that for any $\enviro\in\Oracle$ and $u \in \termAE \landSAT \termBE$, $tu \in \termCE$. Then,\linebreak let \mbox{$\enviro,\enviroT\in\Oracle$} be such that $\enviro\infOr \enviroT$ and $u \in \termAE$. By inclusion, $u \in \termA{\enviroT}$, so for any $v \in \termB{\enviroT}$, we have $t\;\langle u,v\rangle \in \termC{\enviroT}$. By antireduction, we therefore conclude that $\lambda x\;y.t\;\langle x,y\rangle$ is a witness that \mbox{$\varA\infSAT \varB \impliesSAT \varC$}.
   \end{itemize}
   Hence $\SATE$ and $\SAT$ are Heyting pre-algebras.
 \end{proof}
 
 \begin{remark}\label{rmk:inclusion}
-  The pre-order $\infSATE$ contains $\subseteq$ with the witness $t = \lambda x.x$. For this reason, the operator $\bigcap$ defines a lower bound, even though not the greatest.
+  The preorder $\infSATE$ contains $\subseteq$ with the witness $t = \lambda x.x$. For this reason, the operator $\bigcap$ defines a lower bound, even though not the greatest.
 \end{remark}
 
 
@@ -585,7 +579,7 @@ The fact that the operations are well defined is standard and uses the compatibi
 \label{}
 
 
-The realizability relation relates the lambda-calculus and the HOL model. The first step to relate the two is to instantiate the semantic defined previously with a Heyting pre-algebra interpreting $\Prop$. Of course, this instantiation is done by taking $\sem{\Prop}$ to be the set of saturated sets. Be it $\SATE$ or $\SAT$, those sets are equiped with a Heyting pre-algebra structure and both intersection and union operation.
+The realizability relation relates the $\lambda$-calculus and the HOL model. The first step to relate the two is to instantiate the semantic defined previously with a Heyting prealgebra interpreting $\Prop$. As is expected, this instantiation is done by taking $\sem{\Prop}$ to be the set of saturated sets. Be it $\SATE$ or $\SAT$, those sets are equipped with a Heyting prealgebra structure and both intersection and union operations.
 
 The only thing left to be defined is the $\cod -$ operation.
 
@@ -593,26 +587,26 @@ The only thing left to be defined is the $\cod -$ operation.
   We define by induction, for any $S \in \Sort$ and any element $s \in \bS$, the set $\cod s \in \SAT$:
   \begin{itemize}
   \item if $S = \Nat$, then for $n \in \bN$,
-    $\cod{n} \defeq \enviro \mapsto \{ t \in \Lambda \mid t \redERT \overline n\}$
+    $\cod{n} \defeq \enviro \mapsto \{ t \in \Lambda \mid t \redERT \overline n\}$;
   \item if $S = \Bool$, then
-    $\cod{\top} \defeq \enviro \mapsto \{ t \in \Lambda \mid t \redERT \rtt\}\quad\text{ and }\quad\cod{\bot} \defeq \enviro\mapsto \{ t \in \Lambda \mid t \redERT \rff\}$
+    $\cod{\top} \defeq \enviro \mapsto \{ t \in \Lambda \mid t \redERT \rtt\}\quad\text{ and }\quad\cod{\bot} \defeq \enviro\mapsto \{ t \in \Lambda \mid t \redERT \rff\}$;
   \item if $S = \List(T)$, then
     $\cod{\varepsilon} \defeq \enviro \mapsto\{ t \in \Lambda \mid t \redERT \nil \}$
     and for all $x \in \bT^\star$, $y \in \bT$,
-    \mbox{$\cod{x \smallfrown y} \defeq \enviro\mapsto \{ t \in \Lambda \mid \exists u \in \codE x, \exists v \in \codE y, t \redERT v \append u\}$}
+    \mbox{$\cod{x \smallfrown y} \defeq \enviro\mapsto \{ t \in \Lambda \mid \exists u \in \codE x, \exists v \in \codE y, t \redERT v \append u\}$};
   \item if $S = T \times U$, then for all $x \in \bT$, $y \in \bU$,
-    $\cod{(x,y)} \defeq \cod{x} \landSAT \cod{y}$
+    $\cod{(x,y)} \defeq \cod{x} \landSAT \cod{y}$;
     
   \item if $S = T \to U$, then for all $f : \bT \to \bU$,
-    $\cod f \defeq \bigcap_{x \in \bT} \cod x \impliesSAT \cod{f(x)}$
+    $\cod f \defeq \bigcap_{x \in \bT} \cod x \impliesSAT \cod{f(x)}$;
     
   \item if $S = \Prop$, then for all $\varA \in \SAT$,
-    $\cod{\varA} \defeq \varA$
+    $\cod{\varA} \defeq \varA$.
   \end{itemize}
   For each $\enviro\in\Oracle$, we define $\codE s$ by $\codE s \defeq (\cod s)_\enviro$.
 \end{definition}
 
-The fact that $\codE s \in\SATE$ is a straightforward induction on the set of sorts. We postpone the proof that $\enviro\infOr \enviroT \implies \codE s \subseteq \codP s {\enviroT}$ to the  \Cref{prop.monotonicity}, as it is a particular case of a proposition on realizability.
+The fact that $\codE s \in\SATE$ is a straightforward induction on the set of sorts. We postpone the proof that $\enviro\infOr \enviroT \implies \codE s \subseteq \codP s {\enviroT}$ to the  \Cref{prop.monotonicity}, as it is a particular case of a proposition of the realizability interpretation.
 
 We now have a semantic interpretation of our initial HOL syntax, where propositions are sets of terms. The realizability relation then defines, for a syntactic proposition $\vdash \varphi : \Prop$, an object $\sem{\varphi} \in \sem{\Prop}$. In a way, the relation is simply $t \in \cod{\sem{\varphi}(\termenv)}$ for $\Gamma\vdash \varphi : \Prop$ and $\rho\models \Gamma$, but we prefer to give an explicit definition of this relation.
 
@@ -670,19 +664,11 @@ We prove this by induction on $\varphi$ (and thus, for the case where $\varphi =
 
 
 
-
-
-
-
-
-
-
-
 \begin{notation}
-  We define the relativized universal quantification of a proposition
+  We define the relativized universal quantification of a proposition $\varphi$ \linebreak
   as
   $\displaystyle\forall \varx^{\{S\}}, \varphi \defeq \forall \varx^S, S(\varx) \to \varphi$.
-  Thus, when realizing a formula like $\forall \varx^{\{S\}}, \varphi$, it suffices to suppose that there is an object $s \in \bS$ with a code $t$ and to prove $\varphi$ using the data $t$.
+  Thus, when realizing a formula like $\forall \varx^{\{S\}}, \varphi$, it suffices to suppose that there is an object $s \in \bS$ with a code $t$ and to realize $\varphi$ using the data $t$.
 
   The relativized existential quantification is defined by $\exists \varx^{\{S\}}, \varphi \defeq \exists \varx^{S}, S(\varx) \land \varphi$.
   This type is naturally equipped with both
@@ -695,11 +681,11 @@ We prove this by induction on $\varphi$ (and thus, for the case where $\varphi =
 \label{}
 
 
-The main result to ensure a realizability model is sound is the adequacy lemma. This lemma has several implications and is based on the idea that typed terms are realizers. If typing is seen as a syntactic and decidable specification on programs, then the adequacy means that programs satisfying the syntactic specification associated to a proposition $\varphi$ also satisfy the semantic specification associated to $\varphi$.
+The main result to ensure the soundness of a realizability model is called the adequacy lemma. This lemma has several implications and is based on the idea that typed terms are realizers. If typing is seen as a syntactic and decidable specification on programs, then the adequacy means that programs satisfying the syntactic specification associated to a proposition $\varphi$ also satisfy the semantic specification associated to $\varphi$.
 
 From a logical point of view, the Curry-Howard correspondence also tells us that these typing rules translate to inference rules. Indeed, formal proofs of a proposition $\varphi$, based on natural deduction, can be associated to $\lambda$-terms $t$ such that $\vdash t : \varphi$. Using this correspondence, the adequacy lemma also means that, for any two statements $\varphi,\psi$ such that $\varphi$ is realized and $\psi$ is logically entailed by $\varphi$, $\psi$ is also realized. This makes the set $\ThReal{\enviro}$ of realized propositions at some context $\enviro$, and the set $\ThRealU$ of uniformly realized propositions, into a logical theory, closed by deduction. This also means that the theory is consistent, as there are predicates with no realizers (hence non realized formulas, in particular $\bot$). The adequacy lemma is essential to show that our model separates $\FT$ from $\WKL$, as this shows that there is a consistent theory (namely $\ThRealU$) containing $\FT$ and not containing $\WKL$.
 
-The proof of the adequacy lemma is an induction on the typing relation. For the cases about universal (resp. existential) quantification, a lemma is needed to relate the realizability of $\varphi[\termt/\varx]$ and the realizability of $\varphi$ where $\rho$ is enriched by $\varx\mapsto \rho(\termt)$.
+The proof of the adequacy lemma proceed by induction on the typing relation. For the cases involving universal (resp. existential) quantification, an additional lemma is required to relate the realizability of $\varphi[\termt/\varx]$ and the realizability of $\varphi$ where $\rho$ is enriched by $\varx\mapsto \rho(\termt)$.
 
 \begin{lemma}
   Let $\enviro \in \Oracle$, $\Gamma \in \Hctx$, $\termenv \models \Gamma$ and suppose that $\Gamma, \varx : S \vdash \varphi : \Prop$ and $\Gamma\vdash \termt : S$. The following equivalence holds:
@@ -711,7 +697,7 @@ The proof of the adequacy lemma is an induction on the typing relation. For the 
 \begin{proof}
  We must first prove by induction on terms $\termu$ that $\termenv(\termu[\termt/\varx]) = \termenv[\varx \mapsto \termenv(\termt)](\termu)$. Then, by induction on $\varphi$:
  \begin{itemize}
- \item if $\varphi = \sortPred{\termt}$, then we use the equality on terms to have $t \in \codE{\termenv(\termt)} \iff t \in \codE{\termenv(\termt)}$
+ \item if $\varphi = \sortPred{\termu}$, the equality on terms entails  $t \in \codE{\termenv(\termu[\termt/\varx])} \iff t \in \codE{\termenv[\varx\mapsto \termenv(\termt)](\termu)}$.
  \item the other four cases are straightforward by using the induction hypothesis to replace $\realPP \varphi[\termt/\varx]$ by $\realP{\enviro}{\termenv[\varx\mapsto\termenv(\termt)]} \varphi$.\qedhere
  \end{itemize}
 
@@ -749,7 +735,7 @@ We also introduce the typing system we consider for this model. It can be seen a
     \ruleBinaryL{$\Gamma\mid \Xi \vdash t : \exists \varx^S, \varphi$}{$\Gamma, \varx : S \mid \Xi \vdash u : \varphi \to \psi$}{$\Gamma\mid \Xi \vdash u\;t : \psi$}{$\exists_\mathrm e$}
 
     \ruleAxL{$\Gamma\mid \Xi \vdash 0 : \sortPredS{\Nat}{\termZ}$}{$\Nat_\mathrm i^0$}
-    \quad
+
     \ruleUnaryL{$\Gamma\mid\Xi\vdash t : \sortPredS{\Nat}{\termt}$}{$\Gamma\mid\Xi\vdash S\;t : \sortPredS{\Nat}{S(\termt})$}{$\Nat_\mathrm i^S$}
 
     \ruleAxL{$\Gamma\mid \Xi\vdash \rec_{\Nat} : \forall X^{\Nat \to \Prop},\sortPredS{X}{\termZ} \to (\forall \varn^{\{\Nat\}}, \sortPredS{X}{\varn} \to \sortPredS{X}{\termS(\varn})) \to \forall \varn^{\{\Nat\}}, \sortPredS{X}{\varn}$}{$\Nat_\mathrm e$}
@@ -801,12 +787,12 @@ We also introduce the typing system we consider for this model. It can be seen a
   \item \Cases{$\land_\mathrm e$}
   Both cases are straightforward by definition of realizing a conjunction.
   \item \case{$\forall_\mathrm i$}{$t : \forall \varx^S, \psi$}
-  By induction hypothesis, we know that for any $\termenv' \models \Gamma, \varx : S$, $t[t_i/x_i] \realP{\enviro}{\termenv'} \psi$. For any $s \in \bS, \termenv[\varx \mapsto s] \models \Gamma$, so $t[t_i/x_i] \realP{\enviro}{\termenv[\varx\mapsto s]} \psi$ which is, by definition, $t[t_i/x_i] \realPP \forall \varx^S,\psi$.
+  Using the induction hypothesis, for any $\termenv' \models \Gamma, \varx : S$,  we get that $t[t_i/x_i] \realP{\enviro}{\termenv'} \psi$. For any $s \in \bS$, $\termenv[\varx \mapsto s] \models \Gamma$, so $t[t_i/x_i] \realP{\enviro}{\termenv[\varx\mapsto s]} \psi$ which is, by definition, $t[t_i/x_i] \realPP \forall \varx^S,\psi$.
   \item \case{$\forall_\mathrm e$}{$t : \psi[\termt/\varx]$}
   By definition of realizing $\forall \varx^S, \psi$ and using the substitution lemma.
   \item \case{$\exists_\mathrm i$}{$t : \exists \varx^S, \varphi$}
-  By induction hypothesis, we know that $\sem{\termt}(\termenv) \in \bS$ and that $t \realP{\enviro}{\termenv[\varx \mapsto \sem{\termt}(\termenv)]} \varphi$, so we indeed find some $s \in \bS$ (namely $\sem{\termt}(\termenv)$) such that $t \realP{\enviro}{\termenv[\varx\mapsto s]}\varphi$, which is the expected result.
-  \item \case{$\exists_\mathrm e$}{$u\;t : \psi$} By induction hypothesis, we know that for any $\termenv\models \Gamma, \varx : S$, $u \realPP \varphi \to \psi$. In particular, there is by induction hypothesis some $s \in \bS$ such that $t \realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$, but then $\termenv[\varx\mapsto s]\models \Gamma, \varx : S$ so we can apply $t$ to $u$ to find that $u\;t\realPP \psi$.
+  By induction hypothesis, we know that $\sem{\termt}(\termenv) \in \bS$ and that $t \realP{\enviro}{\termenv[\varx \mapsto \sem{\termt}(\termenv)]} \varphi$, so we indeed have some $s \in \bS$ (namely $\sem{\termt}(\termenv)$) such that $t \realP{\enviro}{\termenv[\varx\mapsto s]}\varphi$, which is the expected result.
+  \item \case{$\exists_\mathrm e$}{$u\;t : \psi$} By induction hypothesis, we know that for any $\termenv\models \Gamma, \varx : S$, we have $u \realPP \varphi \to \psi$. In particular, by induction hypothesis there exists $s \in \bS$ such that $t \realP{\enviro}{\termenv[\varx \mapsto s]} \varphi$, but then $\termenv[\varx\mapsto s]\models \Gamma, \varx : S$ so we can apply $t$ to $u$ to find that $u\;t\realPP \psi$.
   \item The cases for $\Nat$ or $\Bool$ are analogous to the cases for $\List$.
   \item \Case{$\List_\mathrm i^{\nil}$} Indeed, $\nil \redERT \nil$.
   \item \Case{$\List_\mathrm i^{\append}$} By induction hypothesis.
@@ -820,7 +806,7 @@ We also introduce the typing system we consider for this model. It can be seen a
 
     The object $\sem{\varx}(\termenv)$ is a list. By induction, it is either $\nil$ or $s \smallfrown s'$ for two elements $s \in \bS^\star, s' \in \bS$:
     \begin{itemize}
-    \item if $\sem{\varx}(\termenv) = \nil$, then $w \redRTP{\enviroT} \nil$, $\rec_{\List}\;u\;v\;w \redRTP{\enviroT} u$ and $u \realP{\enviroT}{\termenv} X(\termnil)$, so $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\termnil)$.
+    \item if $\sem{\varx}(\termenv) = \nil$, then $w \redRTP{\enviroT} \nil$, $\rec_{\List}\;u\;v\;w \redRTP{\enviroT} u$ and $u \realP{\enviroT}{\termenv} X(\termnil)$. In particular, we get that $\rec_{\List}\;u\;v\;w\realP{\enviroT}{\termenv} X(\termnil)$.
     \item if $\sem{\varx}(\termenv) = s \smallfrown s'$, then $w \redRTP{\enviroT} w_1\append w_2$ for $w_1 \in \codP{s'}{\enviroT}$ and $w_2\in\codP{s}{\enviroT}$. In this case, by induction hypothesis, $\rec_{\List}\;u\;v\;w_2 \realP{\enviroT}{\termenv[\bvary \mapsto s']} \List(S)(\bvary)$, and
       \[\rec_{\List}\;u\;v\;w \redRTP{\enviroT} \rec_{\List}\;u\;v\;(w_1\append w_2) \redRTP{\enviroT} v\;w_2\;(\rec_{\List}\;u\;v\;w_2)\qedhere\]
       
@@ -849,9 +835,9 @@ is not realized, so $\ThRealU$ (resp. $\ThReal{\enviro}$) is consistent.
 
 \begin{notation}
   A lot of functions of our model are not described by any HOL-term but can have a realizer. Thus, we introduce the following notation for $t \in \Lambda, S \in \Sort, s \in \bS$:
-  \[t \realU S(s) \defeq t \realUP{[\varx \mapsto s]} S(\varx)\]
-  Given a $\lambda$-term $t$, there can be several objects $s,s' \in S$ such that $t$ is a code of $s$ (resp. $s'$): however, the intended behavior of $s$ (resp. $s'$) is given by the term $t$, and the choice of the object will not be relevant. For this reason, we will write
-  \[t \realU S \defeq \exists s \in \bS, t \realU S(s)\]
+  \[t \realU S(s) ~~\defeq ~~t \realUP{[\varx \mapsto s]} S(\varx)\]
+  Given a $\lambda$-term $t$, there can be several objects $s,s' \in S$ such that $t$ is a code of $s$ (resp. $s'$). However, the intended behavior of $s$ (resp. $s'$) is given by the term $t$, and the choice of the object will not be relevant. For this reason, we will write
+  \[t \realU S ~~\defeq~~ \exists s \in \bS, t \realU S(s)\]
   These notations can also be used with a reduction context, writing for instance $t\realP{\enviro}{} S$ to denote that $\exists s \in \bS, t \realP{\enviro}{} S(s)$.
 \end{notation}
 
@@ -869,25 +855,25 @@ construction of the program that we use to realize \FT.
 
 Now that we know both the logic we use and the model we consider,
 let us give a formal definition of $\FT$.
-We assume given the function $\restr \alpha \varn$ which is the
+We assume given the function $\alpha \mapsto \restr \alpha \varn$, where $\restr \alpha \varn$ is the
 prefix of the $n$ first values of $\alpha$, given in a list,
 and write $\ListInf$ for the prefix order on lists.
 
 As we mentioned before, $\FT$ applies to the complement of a tree.
-The way we formalize trees can vary, but in reverse mathematics and computability
+The way trees are formalized can vary, but in reverse mathematics and computability
 it is standard to consider a tree as a predicate $T \subseteq \List(\bN)$
 (where $\List$ is used in place of the set of finite words) closed by prefix,
 meaning that $\ell \ListInf \ell' \implies \ell' \in T \implies \ell \in T$.
 This means that the complement of a tree must satisfy the converse,
 which we call a \emph{monotone} predicate:
-\[\Mono^S(B) \defeq \forall \ell^{\List(S)}\,{\ell'}^{\List(S)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')\]
+\[\Mono^S(B)~~ \defeq~~ \forall \ell^{\List(S)}\,{\ell'}^{\List(S)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')\]
 Naturally, when writing $\forall B^{\Mono^S}, \varphi$, we use the same relativization procedure as before.
 
 The statement we use as $\FT$ (resp $\WKL$) are
 \begin{align*}
-\FT&\defeq \forall B^{\Mono^\Bool}\!\!\!, (\forall \alpha^{\{\Nat \to \Bool\}}, \exists \varn^{\{\Nat\}}, B(\restr\alpha \varn)) \Rightarrow
+\FT&~~\defeq ~~\forall B^{\Mono^\Bool}\!\!\!, (\forall \alpha^{\{\Nat \to \Bool\}}, \exists \varn^{\{\Nat\}}, B(\restr\alpha \varn)) \Rightarrow
 \exists \varn^{\{\Nat\}}, \forall \alpha^{\{\Nat\to\Bool\}}\!\!\!, B(\restr \alpha \varn)\\
-\WKL&\defeq \forall T^{\Tree^\Bool}\!\!\!, (\forall \varn^{\{\Nat\}}, \exists \ell^{\{\List(\Bool)\}}, |\ell| = \varn \land T(\ell)) \Rightarrow
+\WKL&~~\defeq ~~\forall T^{\Tree^\Bool}\!\!\!, (\forall \varn^{\{\Nat\}}, \exists \ell^{\{\List(\Bool)\}}, |\ell| = \varn \land T(\ell)) \Rightarrow
         \exists \alpha^{\{\Nat \to \Bool\}}\!\!\!, \forall \varn^{\{\Nat\}}\!\!\!, T(\restr \alpha \varn)
 \end{align*}
 
@@ -895,7 +881,7 @@ The statement we use as $\FT$ (resp $\WKL$) are
 
 
 
-$\FT$ is thus a rewriting of the contrapositive of $\WKL$, replacing a tree by its complement, a monotone predicate. However, the statement of $\FT$ vary in the litterature. In \cite{LubRat13} on which we base our model, $\FT$ is given on binary tree the same way we do here. In \cite{BreHer21}, however, $\FT$ is stated with a finite set instead of $\Bool$: in fact, our construction perfectly works in this setting because there is no more computational difficulty in the finite case, as long as the bound on the finite set is known \textit{a priori}. Another statement, which would make $\FT$ dual to $\KL$, would be to consider $T : \List(\bN) \to \Prop$ (the complement of $B$, a tree) with a finite branching condition saying that $T \cap \bN^n$ is always a finite set, in which case our models would not satisfy the principle.
+$\FT$ is thus a rewriting of the contrapositive of $\WKL$, replacing a tree by its complement, a monotone predicate. However, the statement of $\FT$ varies in the literature. In \cite{LubRat13} on which we base our model, $\FT$ is given on binary trees the same way we do here. In \cite{BreHer21}, however, $\FT$ is stated with a finite set instead of $\Bool$: in fact, our construction perfectly works in this setting because there is no more computational difficulty in the finite case, as long as the bound on the finite set is known \textit{a priori}. Another statement, which would make $\FT$ dual to $\KL$, would be to consider $T : \List(\bN) \to \Prop$ (the complement of $B$, a tree) with a finite branching condition saying that $T \cap \bN^n$ is always a finite set, in which case our models would not satisfy the principle.
 
 \subsection{First exploration of the model}
 
@@ -918,8 +904,8 @@ We will call those the discrete sorts.
 
 \subsubsection{Bounded formulas}
 
-Using boolean operations, it is straightforward that propositional logic over the atomic formulas
-$t = u \mid t \leq u$
+Using boolean operations, it is straightforward that formulas of propositional logic over the atomic formulas
+$t = u $ and $t \leq u$
 are themselves decidables, as soon as $t$ and $u$ are typed in a sort $S$ which is discrete.
 
 Bounded formulas are defined in a similar way as for $\Sigma_0^1$ formulas of arithmetic, but with only relativized quantification (we want to be able to access the data we quantify on).  Using the recursors of $\Nat$, $\Bool$ and $\List$, as well as projections, any bounded formula implying only quantifications on discrete sorts and atomic formulas on discrete sorts (parameters can be functions) is decidable.
@@ -936,7 +922,7 @@ $\forall m^{\Nat}, m \leq 2^n \implies \varphi(\ListEnum(m))$.
 
 \subsubsection{Finite and infinite path}
 
-Given a function $\alpha : \Nat \to \Bool$ and a number $n$, we write $\restr \alpha n : \List(\Bool)$ for the list of the $n$ first values of $\alpha$. Conversely, given a list $\ell : \List(\Bool)$, we write $\ell0^\infty$ for the function $\Nat \to \Bool$ which associate $\ell_i$, the $i$-th value of $\ell$, to $i < |\ell|$, and $0$ to any $i \geq |\ell|$.
+Given a function $\alpha : \Nat \to \Bool$ and a number $n$, we write $\restr \alpha n : \List(\Bool)$ for the list of the $n$ first values of $\alpha$. Conversely, given a list $\ell : \List(\Bool)$, we write $\ell0^\infty$ for the function $\Nat \to \Bool$ which associates $\ell_i$, the $i$-th value of $\ell$, to $i < |\ell|$, and $0$ to any $i \geq |\ell|$.
 
 
 
@@ -944,7 +930,7 @@ Given a function $\alpha : \Nat \to \Bool$ and a number $n$, we write $\restr \a
 
 \subsubsection{Predicate given a bar}
 
-We will now write the term realizing $\FT$.
+We will now define the term realizing $\FT$.
 Fix a monotone predicate $B : \List(\Bool) \to \Prop$, \textit{i.e.} such that
 $\forall \ell, \ell'^{\List(\Bool)}, \ell \ListInf \ell' \implies B(\ell) \implies B(\ell')$.
 A bar for this predicate is a realizer (in some reduction context $\enviro$)
@@ -962,20 +948,14 @@ Our goal is to construct a monotone subset $C\subseteq B$ which is decidable. Fo
 We then use this with a bounded quantification: we enumerate every list $\ell$ and, each time, add to $C$ the list $\restr{\ell0^\infty} b$ and every extension, as long as those extensions are of size lower than $\ell$. This can also be rewritten as follows: given a list $\ell$, checking whether $\ell \in C$ amounts to checking whether there exists a list $\ell'$ of size lower than $|\ell|$ such that $\restr{\ell'0^\infty}{b}\ListInf \ell$.
 
 This automatically gives a term
-\[C_b(\ell) ~~\defeq~~ \eval (\exists \ell'^{\{\List(\Bool)\}}, |\ell'| < |\ell| \land \restr{\ell'0^\infty} b \ListInf \ell)\ell\]
+\[C_b(\ell) ~~\defeq~~ \eval_{\exists \ell'^{\{\List(\Bool)\}}, |\ell'| < |\ell| \land \restr{\ell'0^\infty} b \ListInf \ell}\,\ell\]
 Now, we define the following predicate
-\[C'_b(n) ~~\defeq~~ \eval (\forall \ell^{\{\List(\Bool)\}}, |\ell| = n \implies C(\ell))n\]
+\[C'_b(n) ~~\defeq~~ \eval_{\forall \ell^{\{\List(\Bool)\}}, |\ell| = n \implies C(\ell)}\, n\]
 $C'$ is decidable as $C$ is and the quantification is bounded. If $C'(n)$ is realized, then $n$ is a uniform bound for $C$, hence for $B$. Thus, the term we construct is an unbounded search to find a $n$ satisfying $C'_b(n)$. Let $Y \defeq \lambda f.(\lambda x.f\;(x\;x))(\lambda x.f\;(x\;x))$, we define
 \[n_{C_b} ~~\defeq~~ Y(\lambda f.\lambda n.\rec_{\Bool}\;n\;(f\;(S\;n))\;C'_b(n))\]
 
 \begin{remark}\label{rmk:termin_FT}
-  By computing reduction, we see that $n_{C_b} n \redRT n$ if $C'_b(n)$ holds, and $n_{C_b} \redRT n_{C_b}\;(n+1)$ otherwise.
-  
-  
-  
-  
-  
-  
+  By computing reduction, we see that $n_{C_b} n \redRT n$ if $C'_b(n)$ holds, and that otherwise $n_{C_b} \redRT n_{C_b}\;(n+1)$.
   Hence, either $n_{C_b}\;0$ runs infinitely many steps, and for every $n$, $C'_b(n)$ is false (meaning that there exists $\ell_n \notin C$ of size $n$) or $n_{C_b} 0 \real \Nat$ and it is a uniform bound.
 \end{remark}
 
@@ -991,8 +971,8 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
 \begin{lemma}[Continuity]\label{lem:continuity}
   Let $\enviro\in\Oracle$ be a reduction context and $t \in \Lambda$ be a term such that
   \[t \realP{\enviro}{} (\Nat \to \Nat) \to \Nat\]
-  Then for any $\alpha \realP{\enviro}{} \Nat \to \Nat$, there exists $n\in \bN$ such that
-  \[\forall (\beta \realP{\enviro}{} \Nat \to \Nat), (\forall i < n, \beta\;\overline i \eqredE \alpha\;\overline i) \implies t\;\beta \eqredE t\;\alpha\]
+  Then for any $\alpha \realP{\enviro}{} \Nat \to \Nat$, there exists $m\in \bN$ such that
+  \[\forall (\beta \realP{\enviro}{} \Nat \to \Nat), (\forall i < m, \beta\;\overline i \eqredE \alpha\;\overline i) \implies t\;\beta \eqredE t\;\alpha\]
 \end{lemma}
 \begin{proof}
 
@@ -1000,7 +980,7 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
   $t\;\alpha \stratETP l \overline n$.
   Without loss of generality, we assume $t$ to be of the form $\lambda x.u$ as $t$ will reduce to such a term, given it realizes a function and, applied to $\alpha$, returns a value.
 
-  Thus, we are left to prove the result with $t[\alpha/x] \stratETP l \overline n$. By induction on the number of reduction steps, we prove that there exists a finite prefix such that for all $\beta$ with this prefix, $t[\beta/x] \stratETP l \overline n$. Let us proceed by case analysis on the first step reduction:
+  Thus, we are left to prove the result with $t[\alpha/x] \stratETP l \overline n$. By induction on the number of reduction steps, we prove that there exists modulus $m$ such that for all $\beta$ such which agrees on the prefix $\restr \alpha m$, then  $t[\beta/x] \stratETP l \overline n$. Let us proceed by case analysis on the first step reduction:
   \begin{itemize}
   \item the redex can be outside $\alpha$, meaning that there is $u$ such that $t[\alpha/x] \stratE l u[\alpha/x]$, then $t[\beta/x] \stratE l u[\beta/x]$ for any $\beta$. Using the induction hypothesis, the result follows.
   \item the redex can involve $\alpha$. In this case, because of the reduction strategy, we find a right context $E[\;]$ and a term $u$ such that
@@ -1015,7 +995,7 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
     $\alpha\;v \redERT \overline{\alpha(i)}$ and (by confluence)
     $\alpha\;v \stratETP l \overline{\alpha(i)}$.
 
-    Now, by induction hypothesis, we find a prefix such that for any $\beta$ with this prefix, $E[\overline{\alpha(i)}][\beta/x] \stratETP l \overline n$ and $u[\beta/x] \stratETP l \overline i$. If needed, we can strengthen the condition by taking a longer prefix of alpha such that $\alpha(i)$ is contained in it. Then, for $\beta$ with this prefix:
+    Now, by induction hypothesis, we find a prefix $\restr\alpha m$ such that for any $\beta$ with this prefix, $E[\overline{\alpha(i)}][\beta/x] \stratETP l \overline n$ and $u[\beta/x] \stratETP l \overline i$. If $i>m$, we can strengthen the condition by considering $i$  and the longer prefix $\restr \alpha i$. Then, for $\beta$ with this prefix:
     \[t[\beta/x] = E[\beta\;u[\beta/x]][\beta/x] \redERT E[\beta\;\overline i][\beta/x]\stratETP l E[\overline{\alpha(i)}][\beta/x]\stratETP l \overline{n}\]
     
     
@@ -1029,15 +1009,17 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
 Using this lemma and the $\lambda$-terms from the previous subsection, we can now realize $\FT$.
 
 \begin{theorem}[Realization of Fan Theorem]\label{thm:FT}
-  Using our previous definitions: $\lambda b. n_{C_b}\;0 \realU \FT$
+  We have $\lambda b. \langle n_{C_b}\;0 , \lambda \alpha.\pi_2 \,(b\, \alpha)\rangle \realU \FT$, using the previous definition of $n_{C_b}$ .\emnote{la deuxième composante est fausse}
 \end{theorem}
 
 \begin{proof}
-  Let us prove that $\lambda b. n_{C_b}\;0 \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
+  Let us prove that $\lambda b. \langle n_{C_b}\;0 , \lambda \alpha.\pi_2 \,(b\, \alpha)\rangle \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
   \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, B(\restr \alpha n)\]
   for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
-  $n_{C_b}\;0 \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr\alpha n)$
-  but, from \Cref{rmk:termin_FT}, we already know that $n_{C_b}\;0$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}\;0$ is a uniform bound for $B$.
+  $\langle n_{C_b}\;0 , \lambda \alpha.\pi_2 \,(b\, \alpha)\rangle \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr\alpha n)$
+  but, from \Cref{rmk:termin_FT}, we already know that $n_{C_b}\;0$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}\;0$ is a uniform bound for $B$ as well.
+  %In that case, since $B$ is closed by extension, $ \lambda \alpha.\pi_2 \,(b\, \alpha)$ thus realizes
+  \emnote{en réalité, pour la second composante, il faudrait garder la trace de la liste qui justifie que un élément $\restr \alpha {n_{C_b}\,0}$ est dans $C$}
 
   Now, suppose $n_{C_b}\;0$ diverges. This means that for any $n \in \bN$, there exists some word $w_n \in \bB^\star$ such that $\lnot C(w_n)$. By applying Weak König's Lemma (in our meta-theory), we find an infinite path
   $\alpha : \bN \to \bB$
@@ -1053,9 +1035,9 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
   Let $M \defeq \max(n,p)$.
   By continuity, we know that $\pi_1\;(b\;(\restr \alpha M 0^\infty)) \redRTP{\enviroT}{} n$, so when computing $C_b\;(\restr\alpha M)$, there exists a list $\ell$ of length $\leq M$ such that $\restr\alpha{{\pi_1\;(b\;\ell 0^\infty)}}$ is a prefix of $\restr{\alpha}{M}$, so $C(\restr{\alpha}{M})$ is realized. But by hypothesis, $\lnot C(\restr{\alpha}{M})$; hence a contradiction.
 
-  This means that there is no case in which $n_{C_b}$ diverges, so
-  \[n_{C_b}\realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr\alpha n)\]
-  which means that $\lambda b.n_{C_b}\realU \FT$.
+  This means that there is no case in which $n_{C_b}\,0$ diverges, so
+  \[\langle n_{C_b}\;0 , \lambda \alpha.\pi_2 \,(b\, \alpha)\rangle \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr\alpha n)\qedhere\]
+
 \end{proof}
 
 Not only does the model satisfy $\FT$, but it also refutes $\WKL$. By this, we mean that $\WKL\notin\ThRealU$, making our model a separating model between the two principles.
@@ -1076,7 +1058,7 @@ The realizability model developed in \Cref{s:FT} relies on the ideas
 of Lubarsky and Rathjen's work \cite{LubRat13} to prove $\FT$.
 For the argument in this proof to work, the two main conditions that emerge are
 \begin{itemize}
-\item a notion of continuity for the individuals realized by a code 
+\item a notion of continuity for the individuals realized by a code,
 \item having a Kripke-style notion of future worlds in which, given a tree $T$ at some world $\enviro$,
 there exists a future $\enviroT$ in which a path in $T$ can be computed.
 \end{itemize}
@@ -1183,7 +1165,7 @@ for which we erase the witness $t$.
 $\PropAndDot \defeq \cdot \landSAT \cdot$ while
 the pairing function is defined by $\witPair t u \defeq \lambda x. \langle t\;x,u\;x \rangle$
     together with $\witFst \defeq \pi_1$ and $\witSnd \defeq \pi_2$.
-
+It is then easy to check that these definitions satisfy the necessary rules for the evidence relation $\relEFdot$.
 \end{proof}
 
 \begin{remark}\label{rmk:EFSigma}
@@ -1216,7 +1198,7 @@ we identify the following key ingredients:
 \item The realizability model accounts at least for system T functions (for instance,
 encodings allow one to talk about functions $\List(\Nat) \to \Bool$).
 \item A function $f$ realized in some context $\enviro$ can be applied to an argument $x$ realized in some extension of the context, $\enviroT \supOr \enviro$, where $x$ is possibly non realized in $\enviro$.
-\item The functions $(\Nat \to \Nat) \to \Nat$ are continuous, in the sense that for any $f : (\Nat \to \Nat) \to \Nat$ and $\alpha : \Nat \to \Nat$ with a code, there exists a modulus $n$ such that $\forall \beta, \restr\alpha n = \restr \beta n \implies f(\alpha) = f(\beta)$.
+\item The functions $(\Nat \to \Nat) \to \Nat$ are continuous, in the sense that for any function $f : (\Nat \to \Nat) \to \Nat$ and $\alpha : \Nat \to \Nat$ with a code, there exists a modulus $n$ such that $\forall \beta, \restr\alpha n = \restr \beta n \implies f(\alpha) = f(\beta)$.
 \item Realizers can do an unbounded search,
 as long as the meta-theory can prove that the search will terminate.
 \end{enumerate}
@@ -1225,9 +1207,9 @@ as long as the meta-theory can prove that the search will terminate.
 
 A first step to the generalization is to account for the Kripke semantics we used in our model.
 In fact, the category semantic way of giving a Kripke model is to consider a category $\bC$,
-a pre-ordered set $(W, \leq)$ and to give a functor $F : W \to \bC$.
+a preordered set $(W, \leq)$ and to give a functor $F : W \to \bC$.
 This gives a guideline for our generalization: we construct a well-designed category for our work,
-where morphisms preserve the information we expect, and consider a functor from a pre-order to such a category.
+where morphisms preserve the information we expect, and consider a functor from a preorder to such a category.
 
 
 \subsubsection{Evidenced frames with data types}
@@ -1253,14 +1235,11 @@ of functions, and thus a minimal system T types syntax.
   \begin{itemize}
   \item $(\Phi,E,\relEFdot)$ is an evidenced frame.
   \item $\cod \cdot : \bN \to \Phi$ is an encoding function. 
-
-
-
   \item $\relEF{e_0}{\top}{\cod 0}$
   \item for all $n \in \bN$, $\relEF{e_S}{\cod n}{\cod{n + 1}}$
   \end{itemize}
   \end{multicols}
-  \vspace{-2.2em}
+  \vspace{-1.2em}
   \begin{itemize}
      \item for all functions $f : \bN \to \Phi$,
     \[\relEF{e_{\rec}}{\top}{\PropImpl{f(0)}{\PropImpl{\left(\prod_{n \in \bN}\PropImpl{\cod n}{\PropImpl{f(n)}{f(n+1)}}\right)}{\prod_{n \in \bN} \PropImpl{\cod n}{f(n)}}}}\]
@@ -1274,7 +1253,7 @@ of functions, and thus a minimal system T types syntax.
 
 To construct the category of EFdatas, we also need to define morphisms.
 The notion of morphism we introduce is only intended to state a correct generalized version
-of \Cref{thm:FT}, they are (very) strict morphisms which preverve every construction
+of \Cref{thm:FT}, they are (very) strict morphisms which preserve every construction
 (they preserve the evidences, the functions on propositions, \textit{etc.})
 and are not to be considered as the natural notion of morphism for EFdata.
 For example, EF morphisms as defined in \cite{CohMiqTat21} do not require
@@ -1289,7 +1268,7 @@ the constructions and morphism to commute on the nose.
 
 \begin{definition}[Strict EFdata morphism]
 Let $\EFE_1,\EFE_2$ be two EFdata (each component of which will be written respectively $E_1,\Phi_1,\ldots$ and $E_2,\Phi_2,\ldots$).
-A strict morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) commuting with every constructor of an EFdata, that is (for all $\varphi,\psi,\chi\in\Phi_1,\vec\varphi\in\powerset(\Phi_1),\witx,\wity\in E_1,n\in\bN$):
+A strict morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to \Phi_2$ and $F_E : E_1 \to E_2$ (we will just write $F$) commuting with every constructor of an EFdata, that is :
 \begin{multicols}{2}
   \begin{itemize}
   \item $\relEF{e}{\varphi}{\psi} \implies \relEF{F(e)}{F(\varphi)}{F(\psi)}$
@@ -1299,23 +1278,20 @@ A strict morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to 
   \item $F({\witFst}_1) = {\witFst}_2$ ~and~ $F({\witSnd}_1) = {\witSnd}_2$
   \item $F({(\PropImpl{\varphi}{\vec\psi})}_1) = {(\PropImpl{F(\varphi)}{\{F(\psi)\mid \psi \in \vec \psi\}})}_2$
   \item $F({\witEval}_1) = {\witEval}_2$ \,and\, $F({\witLam e}_1) = {\witLam{F(e)}}_2$
-  
-  
-  
+
   
   \item $F({e_{0}}_1) = {e_{0}}_2$, $F({e_{S}}_1) = {e_S}_2$ ~~and $F({e_{\rec}}_1) = {e_{\rec}}_2$
   \item $F_{\Phi}({\cod n}_1) = {\cod n}_2$
   \end{itemize}
 \end{multicols}
-
-
+\noindent where the rules hold for all $\varphi,\psi,\chi\in\Phi_1$,$\vec\varphi\in\powerset(\Phi_1)$, $\witx,\wity\in E_1$, $n\in\bN$.
 
 
 
 \end{definition}
 
 With this notion of morphism, we can formalize the \emph{future world} notion by taking
-a pre-order $\bC$ and constructing a functor $\bC \to \CatEFData$.
+a preorder $\bC$ and constructing a functor $\bC \to \CatEFData$.
 This makes it easy to define the condition that in any world and infinite binary tree $T$
 at this world, there is a future in which a path in $T$ exists.
 
@@ -1348,7 +1324,7 @@ For the purpose of this work, we will only consider the following (weak) version
   \end{multline*}
 \end{definition}
 \begin{example}
-Instead of oracles $\oracle_n$ interpreting functions $\bN \to \bN$, we could add as an oracle a program $\oracle$ such that $\oracle\;t$ reduces to $\rtt$ or $\rff$ depending on whether $t$ (weakly) terminates or not, supposing $t$ is closed and does not contain $\oracle$. In this case, it is possible to realize the function deciding if a path $\alpha : \bN \to \bB$ is the constant path $0$ by reading each bit of $\alpha$ until its first $1$. This function is not continuous, so the realizability model we could build on this computational system does not have continuity. For most reasonnable computational systems not adding non computable higher order function and without \texttt{quote} instruction, continuity is satisfied.
+Instead of oracles $\oracle_n$ interpreting functions $\bN \to \bN$, we could add as an oracle a program $\oracle$ such that $\oracle\;t$ reduces to $\rtt$ or $\rff$ depending on whether $t$ (weakly) terminates or not, supposing $t$ is closed and does not contain $\oracle$. In this case, it is possible to realize the function deciding if a path $\alpha : \bN \to \bB$ is the constant path $0$ by reading each bit of $\alpha$ until its first $1$. This function is not continuous, so the realizability model we could build on this computational system does not have continuity. For most reasonable computational systems not adding non computable higher-order function and without \texttt{quote} instruction, continuity is satisfied.
 \end{example}
 
 
@@ -1356,7 +1332,7 @@ Instead of oracles $\oracle_n$ interpreting functions $\bN \to \bN$, we could ad
 
 
 
-Another principle that is used in \Cref{thm:FT} but need not be realized in an arbitrary EF is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}. This is a reasonnable assumption: for instance, every PCA implements unbounded search thanks to the fixpoint combinator $Y$.
+Another principle that is used in \Cref{thm:FT}, but not necessarily realized in an arbitrary EF, is the ability to conduct an unbounded search. To find the uniform bound, we use a fixpoint akin to the $\mu$ operator from \cite{Kleene1943}. This is a reasonable assumption: for instance, every PCA implements unbounded search thanks to the fixpoint combinator $Y$.
 
 
 
@@ -1380,8 +1356,8 @@ but extension to PCF or untyped settings naturally allow for such an operator.
 \subsubsection{The robust theorem}
 We can now state our generalized theorem about $\FT$. The conditions are the one introduced above, but they are not needed to be satisfied in every world. In the proof of \Cref{thm:FT}, there are two worlds: the one from which we get the bar, and the one in which we get the path avoiding $C(b)$. The continuity and strong existential only need to be satisfied in the latter and, up to going to an even further future, can be checked only on a dense set of worlds. The unbounded search is used on the base world (the one containing our model), which is the only use of this hypothesis.
 As for \Cref{thm:FT},
-we implicitely assume a classical meta-theory satisfying \WKL,
-which is line with the standard approach in realizability to show the validity
+we implicitly assume a classical meta-theory satisfying \WKL,
+which is in line with the standard approach in realizability to show the validity
 of realizer by assuming a principle equivalent in the meta-theory.
 \begin{theorem}\label{thm:main}
   Let $\EFE$ be an EFdata with unbounded search. Let $(W,\leq,\bOne)$ be an ordered set with lower bound $\bOne$ and $F : W \to \CatEFData$ be a functor such that $F(\bOne) = \EFE$. If the following conditions are satisfied:
@@ -1405,35 +1381,37 @@ of realizer by assuming a principle equivalent in the meta-theory.
     \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, \restr \alpha n \in B
   \]
 
-  We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we can't define the fixpoint by itself, but we can define the function $C'_b$ which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. This function has a code $e_{C'_b}$.
+  We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we cannot define the fixpoint by itself, but we can define the function $C'_b$ which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. This function has a code $e_{C'_b}$.
 
-  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ C'_b$ (because we search for a $n$ such that $C'_b(n) = 1$). Combining it with the code $e_{C'_b}$, this gives an evidenced of a uniform bound. Thus, all that is left to prove is that $\lnot \circ C'_b$ indeed has a $0$.
+  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ C'_b$ (because we search for a $n$ such that $C'_b(n) = 1$). Combining it with the code $e_{C'_b}$, this gives an evidence of a uniform bound. Thus, all that is left to prove is that $\lnot \circ C'_b$ indeed has a $0$.
 
   Suppose that $C'_b(n) = 0$ for any $n$. This means that for any $n \in \bN$, there is a list of size $n$ avoiding $C$. Using Weak König's Lemma on $\overline{C}$ the complement of $C$ (which is a tree), we find a path $\alpha : \bN \to \bB$ such that $\restr \alpha n \notin C$ for any $n \in \bN$. By hypothesis on our functor $W \to \CatEFData$, we find $w' \in W$ and a code $e_\alpha \in \cod \alpha$ in $w'$. By the other hypothesis, we can assume (up to going to a future world) that $F(w')$ has continuity.
 
   Let $g$ be the morphism from $\EFE$ to $F(w')$. By construction of morphisms, we have
   \[g(b)\real g(\forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B)\]
   but as $g$ commutes with $\cod -$, with $\implies$, and with quantification $\forall$, we deduce that
-  \[g(b)\real \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in B\]
+  \[g(b)\real \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, \restr \alpha n \in g(B)\]
   hence, $g(b) e_{\alpha} \real \exists n^{\{\Nat\}}, \restr \alpha n \in g(B)$. Using the fact that $g(b)$ is a code of a function $(\bN \to \bN) \to \bN$, we can apply continuity to find $m$ such that $\restr \alpha m = \restr \beta m \implies g(b) \alpha = g(b) \beta$ for any $\beta : \bN \to \bN$ with a code. This means that we can apply the same argument as in \Cref{thm:FT} to have a contradiction~: taking $M$ the maximum of this $m$ and of the encoded $n^{\{\Nat\}}$ by $g(b) e_{\alpha}$ (that we can take by strong existential), we get $\restr \alpha M \in C(b)$, which is contradicting the fact that $\alpha$ always avoids $C(b)$.
 \end{proof}
 
 \begin{remark}
-  In fact, it should be possible to weaken the hypotheses. In the proof, we only need that infinite computable trees with a code inside $\EFE$ have a future in which there is an infinite path (with a code).
+  In fact, while the previous proof mimics the proof of \Cref{thm:FT}, it should even be possible to weaken the hypotheses. Indeed, in the proof, we only need that infinite computable trees with a code inside $\EFE$ have a future in which there is an infinite path (with a code).
 \end{remark}
 
 
 \subsection{Application, limitations}
 \label{s:application}
-Having \Cref{thm:main} at hands, we give examples of realizability models satisfying the conditions (and thus, realizing $\FT$).
+Having \Cref{thm:main} at hands, we give examples of realizability models satisfying the conditions (and thus, realizing $\FT$):
 
-The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata $\EFSATE$ from \Cref{rmk:EFSigma}. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the EFdata $\EFSATE$ has continuity, strong existential and unbounded search, hence the fact that it satisfies $\FT$.
+\begin{itemize}
+\item The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata $\EFSATE$ from \Cref{rmk:EFSigma}. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the EFdata $\EFSATE$ has continuity, strong existential and unbounded search, hence the fact that it satisfies $\FT$.
 
-The second example is the historical one: the second Kleene algebra $K_2$ \cite{Kleene1965} satisfies the premisses. The preorder is the trivial one, with only one element. Continuity is by definition of the PCA (it is the set of continuous functions $(\bN \to \bN) \to \bN$), unbounded search can be defined for any PCA by encoding the combinator $Y$ in combinatory logic. Any function $\bN \to \bN$ has a code, hence the condition that a path exists for any decidable tree encoded. Finally, strong existential is true for intuitionnistic PCAs. We thus find back the usual result that $K_2$ satisfies $\FT$.
+\item The second example is the historical one: the second Kleene algebra $K_2$ \cite{Kleene1965} satisfies the premisses. The preorder is the trivial one, with only one element. Continuity is by definition of the PCA (it is the set of continuous functions $(\bN \to \bN) \to \bN$), unbounded search can be defined for any PCA by encoding the combinator $Y$ in combinatory logic. Any function $\bN \to \bN$ has a code, hence the condition that a path exists for any decidable tree encoded. Finally, strong existential is true for intuitionnistic PCAs. We thus find back the usual result that $K_2$ satisfies $\FT$.
 
-A third example is the model we based our generalization on: the model by Lubarsky and Rathjen \cite{LubRat13}.
+\item A third example is the model we based our generalization on: the model by Lubarsky and Rathjen \cite{LubRat13}.
+\end{itemize}
 
-The existence of a path in a possible future is essential. For example, taking the realizability model given by $\SATE$, with local computation at some context $\enviro\in\Oracle$, the model does not realize $\FT$. To show this, we use the Kleene tree relativized to $\enviro$-computable functions. For any $\enviro$-computable path, given by a code $e$, we can simulate $e$ for increasing time duration until the finite path gets out of the tree, which will always happen because the infinite path in the Kleene tree are all uncomputable. This thus gives a bar for the Kleene tree, but this bar can't be uniform as the length of lists in this tree is unbounded.
+Observe that the existence of a path in a possible future is essential. For example, taking the realizability model given by $\SATE$, with local computation at some context $\enviro\in\Oracle$, the model does not realize $\FT$. To see this, consider the Kleene tree relativized to $\enviro$-computable functions. For any $\enviro$-computable path, given by a code $e$, we can simulate $e$ for increasing time duration until the finite path gets out of the tree, which will always happen because the infinite path in the Kleene tree are all uncomputable. This thus gives a bar for the Kleene tree, but this bar cannot be uniform as the length of lists in this tree is unbounded.
 
 Finally, we advocate that the restriction of working on EFdatas instead of just EF is not a limitation in practice.
 To see this, take an EF $(E,\Phi,\relEFdot)$. Using the UFam construction \cite{CohMiqTat21,JacobsCLTT} to get a tripos, and then using the tripos to topos construction, we can describe the objects of this topos. We focus on one of its full subcategories given by the assemblies. In this category, objects are given by a set $X$ and a function $E_X : X \to \Phi$,
@@ -1458,13 +1436,14 @@ based on a $\lambda$-calculus extended with oracles.
 We provide a concrete realizer for \FT, which performs a naive extensive search for
 a uniform bound. More importantly, we identify the key features of this realizability
 interpretation that allow to satisfy \FT:
-\begin{itemize}
+\begin{enumerate}[ (i)]
 \item realizers are continuous,
 \item the computational system can be extended with infinite paths
 for any computable tree,
 \item it accounts for strong existential,
 \item it features an unbounded search.
-\end{itemize}
+\end{enumerate}
+
 To support our claim that this computational interpretation is indeed robust, in
 the sense that it does not rely on other peculiarities of the underlying $\lambda$-calculus,
 we formulate it in the general framework of evidenced frames.
@@ -1488,17 +1467,18 @@ to constructive reverse maths, and we expect that an exploration of logical prin
 can be conducted by this methodology.
 Especially, we believe that a reasonable answer to the problem of
 finding the computational content of a logical
-principle $(b)$ should follow the same path:
+principle $\varphi$ should follow the same path:
 \begin{itemize}
 \item a general definition of computational system must be given,
 and this computational system can be made into an EF
 (or another general realizability framework, like implicative algebra \cite{Miquel20})
 \item on this notion of computational system, we can define a condition $(a)$
-such that a computational system satisfying $(a)$ always satisfies $(b)$ in the
+such that a computational system satisfying $(a)$ always satisfies $\varphi$ in the
 induced realizability model
 \item among the computational systems satisfying $(a)$, we can find ones
-that do not satisfy a strictly stronger principle than $(b)$.
+that do not satisfy a strictly stronger principle than $\varphi$.
 \end{itemize}
+
 This methodology has been applied to $\FT$ in this article,
 but can be transposed to any other logical principle:
 the hierarchy of choice principles in \cite{BreHer21} is a natural
@@ -1514,7 +1494,7 @@ of intuitionistic principles).
 Another interesting question arises when considering alternative versions of \FT. For example, it is possible to weaken the premisse that \emph{any bar must be uniform} by only considering bars on $\Pi_0^1$ trees or on computable trees (such alternatives are considered in \cite{LubRat13}).
 Is there a variation of the \Cref{thm:main} accounting for such weakenings?
 
-
+\clearpage
 
 \bibliography{bibdoi}
 
