@@ -11,6 +11,12 @@
 \usepackage{makecell}
 
 
+\usepackage[final,inline,nomargin]{fixme}
+\fxusetheme{color}
+\fxuseenvlayout{color}
+\FXRegisterAuthor{tl}{tlg}{\color{teal}[T]}
+\FXRegisterAuthor{em}{aem}{\color{blue}[É]}
+\FXRegisterAuthor{cc}{acc}{\color{red}}
 
 
 
@@ -41,23 +47,7 @@
 \acknowledgements{}
 \nolinenumbers
 
-\newtheorem{notation}[definition]{Notation}
-\newcommand{\vary}{\mathbf{y}}
 
-\newcommand{\ciseau}{\ccnote{\ding{33}}}
-\newlength{\mysep}
-\newlength{\myl}
-\newcommand{\twoelt}[2]{
-  \settowidth{\myl}{$#1$}
-  \setlength{\mysep}{0.5\textwidth}
-  \addtolength{\mysep}{-\myl}
-  \addtolength{\mysep}{-15pt}
-\[
-  #1
-  \hspace{\mysep}
-  #2
-\]
-}
 
 
 
@@ -1009,17 +999,18 @@ Before proving that $\FT$ is realized, a continuity lemma is needed.
 Using this lemma and the $\lambda$-terms from the previous subsection, we can now realize $\FT$.
 
 \begin{theorem}[Realization of Fan Theorem]\label{thm:FT}
-  We have $\lambda b. \langle n_{C_b}\;0 , \lambda \alpha.\pi_2 \,(b\, \alpha)\rangle \realU \FT$, using the previous definition of $n_{C_b}$ .\emnote{la deuxième composante est fausse}
+   The exists a term $\mathsf{fan}$ such that $\mathsf{fan}\realU \FT$.
+% uniform realizer $t_{\mathsf{fan}}$ We have $\lambda b. \langle n_{C_b}\;0 , \lambda \alpha.\pi_2 \,(b\, \alpha)\rangle \realU \FT$, using the previous definition of $n_{C_b}$ .\emnote{la deuxième composante est fausse}
 \end{theorem}
 
 \begin{proof}
-  Let us prove that $\lambda b. \langle n_{C_b}\;0 , \lambda \alpha.\pi_2 \,(b\, \alpha)\rangle \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
+  Let us prove that there exists a term $t_0$ such that $\mathsf{fan} \defeq \lambda b. \langle n_{C_b}\;0 , t_0\rangle \realU\FT$. Let $\enviro\in\Oracle$ be a reduction context of length $m$ and
   \[b \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, \exists n^{\{\Nat\}}, B(\restr \alpha n)\]
   for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
-  $\langle n_{C_b}\;0 , \lambda \alpha.\pi_2 \,(b\, \alpha)\rangle \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr\alpha n)$
-  but, from \Cref{rmk:termin_FT}, we already know that $n_{C_b}\;0$ either reduces to an integer or diverges. If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}\;0$ is a uniform bound for $B$ as well.
-  %In that case, since $B$ is closed by extension, $ \lambda \alpha.\pi_2 \,(b\, \alpha)$ thus realizes
-  \emnote{en réalité, pour la second composante, il faudrait garder la trace de la liste qui justifie que un élément $\restr \alpha {n_{C_b}\,0}$ est dans $C$}
+  $\langle n_{C_b}\;0 , t_0\rangle \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr\alpha n)$
+  but, from \Cref{rmk:termin_FT}, we already know that $n_{C_b}\;0$ either reduces to an integer or diverges.  If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}\;0$ is a uniform bound for $B$ as well.
+  \emnote{Il manquait ceci:} Assuming that $n_{C_b}\;0$ indeed reduces to an integer $n_0$, let us describe how to implement a term $t_0$ such that $t_0 \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr \alpha {n_0})$. Let $\alpha:\Nat\to\Bool$ be any function realized by a code $e_\alpha$. By definition of $n_{C_b}$, in particular $C(\restr \alpha {n_0})$ holds. This means that during the enumeration, the algorithm found a list $\ell'$ such that $|\ell'|<n_0$ and $\restr {\ell'0^\infty} b \ListInf \restr \alpha {n_0}$.
+  In particular, $\pi_2\,(b\,({\ell'0^\infty})\realP{\enviro}{}B(\restr {\ell'0^\infty} b)$, and we finally obtain a realizer of $B(\restr \alpha {n_0} )$ using that $B$ is monotone. Using again a fixpoint and an enumeration of lists to find $\ell'$, this mechanism can indeed be implemented by a term $t_0$ which only depends on $b$.
 
   Now, suppose $n_{C_b}\;0$ diverges. This means that for any $n \in \bN$, there exists some word $w_n \in \bB^\star$ such that $\lnot C(w_n)$. By applying Weak König's Lemma (in our meta-theory), we find an infinite path
   $\alpha : \bN \to \bB$
@@ -1383,7 +1374,8 @@ of realizer by assuming a principle equivalent in the meta-theory.
 
   We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we cannot define the fixpoint by itself, but we can define the function $C'_b$ which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. This function has a code $e_{C'_b}$.
 
-  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ C'_b$ (because we search for a $n$ such that $C'_b(n) = 1$). Combining it with the code $e_{C'_b}$, this gives an evidence of a uniform bound. Thus, all that is left to prove is that $\lnot \circ C'_b$ indeed has a $0$.
+  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ C'_b$ (because we search for a $n$ such that $C'_b(n) = 1$). Combining it with the code $e_{C'_b}$, this gives an evidence of a uniform bound $n_0$. \emnote{ajout} By a similar reasoning, we can mimic the definition of $t_0$ (in the proof of \Cref{thm:FT}).
+  Thus, all that is left to prove is that $\lnot \circ C'_b$ indeed has a $0$.
 
   Suppose that $C'_b(n) = 0$ for any $n$. This means that for any $n \in \bN$, there is a list of size $n$ avoiding $C$. Using Weak König's Lemma on $\overline{C}$ the complement of $C$ (which is a tree), we find a path $\alpha : \bN \to \bB$ such that $\restr \alpha n \notin C$ for any $n \in \bN$. By hypothesis on our functor $W \to \CatEFData$, we find $w' \in W$ and a code $e_\alpha \in \cod \alpha$ in $w'$. By the other hypothesis, we can assume (up to going to a future world) that $F(w')$ has continuity.
 
