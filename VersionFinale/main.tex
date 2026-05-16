@@ -305,7 +305,7 @@ As usual, we fix a denumerable set $\Xt$ of variables which we denote by $\varx,
   \end{figure}
 
 
-A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and functions interpreting the quantifications $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting pre-algebra $H$ equipped with two functions $\bigcap,\bigcup : \powerset (H) \to H$ representing unions and intersections. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
+A model of such a syntax must give a semantic interpretation of each sort. In particular, there must be an interpretation for the sort $\Prop$. From the constructors of this sort, the interpretation of $\Prop$ must have a function interpreting $\land$ and $\to$, and functions interpreting the quantifications $\forall$ and $\exists$. We postpone the introduction of the exact interpretation of $\Prop$, and parametrize the model by a Heyting prealgebra $H$ equipped with two functions $\bigcap,\bigcup : \powerset (H) \to H$ representing unions and intersections. Finally, to interpret $\Prop$, we need an interpretation of $\sortPred{\termt}$, for which we add an abstract encoding function $\cod -$ giving for each interpretation of a term an object of $H$.
 The other sorts are given their natural set theoretic semantics.
 
 \begin{definition}[Semantics]\label{def:sem}
@@ -1067,7 +1067,7 @@ In particular, it has the advantage of allowing one to abstract away
 from the implementation details to show that any computational system satisfying
 some specifications (\emph{e.g.}, memoization features) will induce a realizability model
 satisfying the expected logical principles (\emph{e.g.}, countable choice~\cite{CohMiqTat21}).
-In this section, we therefore seek for a general way to state the two conditions aboves
+In this section, we therefore seek for a general way to state the two conditions above
 (as well as a few others which will arise later) using EFs.
 
 In contrast with previous works using EFs~\cite{CohMiqTat21,GarMiq23,CohGruKirMiq25EffHOL,
@@ -1148,7 +1148,7 @@ this shows besides that our model also gives rise to a tripos and a topos~\cite{
 Observe that $\varA \infSAT \varB$ is exactly the proposition $\relEF t {\varA}{\varB}$
 for which we erase the witness $t$.
  The different components are thus defined by using the structure of $\SAT$ (but taking care of evidences provided
- by the expectedd $\lambda$-terms),
+ by the expected $\lambda$-terms),
  which is a Heyting pre-algebra with intersection,
  and those properties (including the \Cref{rmk:inclusion})
  suffice to show that $\EFSAT$ is an Evidenced Frame.
@@ -1398,7 +1398,7 @@ Having \Cref{thm:main} at hands, we give examples of realizability models satisf
 \begin{itemize}
 \item The first example is the one given before. For each $\enviro \in \Oracle$, we can define the EFdata $\EFSATE$ from \Cref{rmk:EFSigma}. For $\enviro, \enviroT \in \Oracle$ such that $\enviro\infOr \enviroT$, we have a morphism of EFdata given by inclusion. For each $\enviro$, the EFdata $\EFSATE$ has continuity, strong existential and unbounded search, hence the fact that it satisfies $\FT$.
 
-\item The second example is the historical one: the second Kleene algebra $K_2$ \cite{Kleene1965} satisfies the premisses. The preorder is the trivial one, with only one element. Continuity is by definition of the PCA (it is the set of continuous functions $(\bN \to \bN) \to \bN$), unbounded search can be defined for any PCA by encoding the combinator $Y$ in combinatory logic. Any function $\bN \to \bN$ has a code, hence the condition that a path exists for any decidable tree encoded. Finally, strong existential is true for intuitionnistic PCAs. We thus find back the usual result that $K_2$ satisfies $\FT$.
+\item The second example is the historical one: the second Kleene algebra $K_2$ \cite{Kleene1965} satisfies the premises. The preorder is the trivial one, with only one element. Continuity is by definition of the PCA (it is the set of continuous functions $(\bN \to \bN) \to \bN$), unbounded search can be defined for any PCA by encoding the combinator $Y$ in combinatory logic. Any function $\bN \to \bN$ has a code, hence the condition that a path exists for any decidable tree encoded. Finally, strong existential is true for intuitionistic PCAs. We thus find back the usual result that $K_2$ satisfies $\FT$.
 
 \item A third example is the model we based our generalization on: the model by Lubarsky and Rathjen \cite{LubRat13}.
 \end{itemize}
@@ -1474,7 +1474,7 @@ that do not satisfy a strictly stronger principle than $\varphi$.
 This methodology has been applied to $\FT$ in this article,
 but can be transposed to any other logical principle:
 the hierarchy of choice principles in \cite{BreHer21} is a natural
-candidate, as it gives both a list of principles and a good criterium
+candidate, as it gives both a list of principles and a good criterion
 to exhibit what strictly stronger principle we do not expect to satisfy
 (namely the principles above in the hierarchy, and the classical counterpart
 of intuitionistic principles).
@@ -1483,7 +1483,7 @@ of intuitionistic principles).
 
 
 
-Another interesting question arises when considering alternative versions of \FT. For example, it is possible to weaken the premisse that \emph{any bar must be uniform} by only considering bars on $\Pi_0^1$ trees or on computable trees (such alternatives are considered in \cite{LubRat13}).
+Another interesting question arises when considering alternative versions of \FT. For example, it is possible to weaken the premise that \emph{any bar must be uniform} by only considering bars on $\Pi_0^1$ trees or on computable trees (such alternatives are considered in \cite{LubRat13}).
 Is there a variation of the \Cref{thm:main} accounting for such weakenings?
 
 \clearpage
