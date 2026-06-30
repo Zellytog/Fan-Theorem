@@ -1,5 +1,5 @@
 
-\documentclass[a4paper,UKenglish,cleveref,enumerate, autoref, thm-restate]{lipics-v2021}
+\documentclass[a4paper,UKenglish,cleveref, autoref, thm-restate]{lipics-v2021}
 \bibliographystyle{plainurl}
 
 \usepackage{refcount}
@@ -9,15 +9,6 @@
 \usepackage{macros}
 \usepackage{mathpartir}
 \usepackage{makecell}
-
-
-\usepackage[final,inline,nomargin]{fixme}
-\fxusetheme{color}
-\fxuseenvlayout{color}
-\FXRegisterAuthor{tl}{tlg}{\color{teal}[T]}
-\FXRegisterAuthor{em}{aem}{\color{blue}[É]}
-\FXRegisterAuthor{cc}{acc}{\color{red}}
-
 
 
 
@@ -422,7 +413,6 @@ but also for future worlds (by considering extensions of this context).
 
 
 \subsection{Lambda-calculus}
-\label{}
 
 In Lubarsky and Rathjen's model\cite{LubRat13}, the argument mentioned above is implemented by taking a Kripke model of IZF. In this model, a realizability model is constructed based on Turing machines with oracle. The Kripke model itself uses as frame the set $\omega^{<\omega}$, and each world $\enviro$ corresponds to a finite set of oracles. Through a well-designed construction, Lubarsky and Rathjen manage to construct the model so that the realizability model taken at some world $\enviro$ are Turing machine computing with oracles in $\enviro$.
 
@@ -566,7 +556,7 @@ The fact that the operations are well defined is standard and uses the compatibi
 
 
 \subsection{Realizability relation}
-\label{}
+
 
 
 The realizability relation relates the $\lambda$-calculus and the HOL model. The first step to relate the two is to instantiate the semantic defined previously with a Heyting prealgebra interpreting $\Prop$. As is expected, this instantiation is done by taking $\sem{\Prop}$ to be the set of saturated sets. Be it $\SATE$ or $\SAT$, those sets are equipped with a Heyting prealgebra structure and both intersection and union operations.
@@ -668,7 +658,7 @@ We prove this by induction on $\varphi$ (and thus, for the case where $\varphi =
 
 
 \subsection{Adequacy}
-\label{}
+
 
 
 The main result to ensure the soundness of a realizability model is called the adequacy lemma. This lemma has several implications and is based on the idea that typed terms are realizers. If typing is seen as a syntactic and decidable specification on programs, then the adequacy means that programs satisfying the syntactic specification associated to a proposition $\varphi$ also satisfy the semantic specification associated to $\varphi$.
@@ -740,7 +730,7 @@ We also introduce the typing system we consider for this model. It can be seen a
 
     \ruleBinaryL{$\Gamma\mid\Xi\vdash t : \sortPred{\termt}$}{$\Gamma\mid \Xi\vdash u : \sortPredS{\List(S)}{\termu}$}{$\Gamma\mid\Xi\vdash t\append u : \sortPredS{\List(S)}{\termt \termcons \termu}$}{$\List_\mathrm i^{\append}$}
 
-   \scalebox{0.9}{\ruleAxL{$\Gamma\mid\Xi \vdash \rec_{\List} : \forall X^{\List(S) \to \Prop}, \sortPredS{X}{\termnil} \to (\forall \varx^{\{S\}}, \forall \vary^{\{\List(S)\}}, \sortPredS{X}{\vary} \to \sortPredS{X}{\varx \termcons \vary}) \to \forall \varx^{\{\List(S)\}}, \sortPredS{X}{\varx}$}{$\List_\mathrm e$}}
+   \scalebox{0.88}{\ruleAxL{$\!\Gamma\mid\Xi \vdash \rec_{\List}\! :\! \forall X^{\List(S) \to \Prop}\!, \sortPredS{X}{\termnil} \to (\forall \varx^{\{S\}}\!, \forall \vary^{\{\List(S)\}}\!, \sortPredS{X}{\vary} \to \sortPredS{X}{\varx \termcons \vary}) \to \forall \varx^{\{\List(S)\}}\!\!, \sortPredS{X}{\varx}$}{$\List_\mathrm e$}}
 
   \end{mathpar}
 
@@ -861,9 +851,9 @@ Naturally, when writing $\forall B^{\Mono^S}, \varphi$, we use the same relativi
 
 The statement we use as $\FT$ (resp $\WKL$) are
 \begin{align*}
-\FT&~~\defeq ~~\forall B^{\Mono^\Bool}\!\!\!, (\forall \alpha^{\{\Nat \to \Bool\}}, \exists \varn^{\{\Nat\}}, B(\restr\alpha \varn)) \Rightarrow
+\FT&\defeq \forall B^{\Mono^\Bool}\!\!\!, (\forall \alpha^{\{\Nat \to \Bool\}}, \exists \varn^{\{\Nat\}}, B(\restr\alpha \varn)) \Rightarrow
 \exists \varn^{\{\Nat\}}, \forall \alpha^{\{\Nat\to\Bool\}}\!\!\!, B(\restr \alpha \varn)\\
-\WKL&~~\defeq ~~\forall T^{\Tree^\Bool}\!\!\!, (\forall \varn^{\{\Nat\}}, \exists \ell^{\{\List(\Bool)\}}, |\ell| = \varn \land T(\ell)) \Rightarrow
+\WKL&\defeq\forall T^{\Tree^\Bool}\!\!\!, (\forall \varn^{\{\Nat\}}, \exists \ell^{\{\List(\Bool)\}}, |\ell| = \varn \land T(\ell)) \Rightarrow
         \exists \alpha^{\{\Nat \to \Bool\}}\!\!\!, \forall \varn^{\{\Nat\}}\!\!\!, T(\restr \alpha \varn)
 \end{align*}
 
@@ -1009,7 +999,7 @@ Using this lemma and the $\lambda$-terms from the previous subsection, we can no
   for some function $B : \List(\bB) \to \SAT$ closed by extension. By saturation, it suffices to show that
   $\langle n_{C_b}\;0 , t_0\rangle \realP{\enviro}{} \exists n^{\{\Nat\}}, \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr\alpha n)$
   but, from \Cref{rmk:termin_FT}, we already know that $n_{C_b}\;0$ either reduces to an integer or diverges.  If it reduces to an integer, then this integer is a uniform bound for $C$, but as $C \subseteq B$, it follows that $n_{C_b}\;0$ is a uniform bound for $B$ as well.
-  \emnote{Il manquait ceci:} Assuming that $n_{C_b}\;0$ indeed reduces to an integer $n_0$, let us describe how to implement a term $t_0$ such that $t_0 \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr \alpha {n_0})$. Let $\alpha:\Nat\to\Bool$ be any function realized by a code $e_\alpha$. By definition of $n_{C_b}$, in particular $C(\restr \alpha {n_0})$ holds. This means that during the enumeration, the algorithm found a list $\ell'$ such that $|\ell'|<n_0$ and $\restr {\ell'0^\infty} b \ListInf \restr \alpha {n_0}$.
+  Assuming that $n_{C_b}\;0$ indeed reduces to an integer $n_0$, let us describe how to implement a term $t_0$ such that $t_0 \realP{\enviro}{} \forall \alpha^{\{\Nat \to \Bool\}}, B(\restr \alpha {n_0})$. Let $\alpha:\Nat\to\Bool$ be any function realized by a code $e_\alpha$. By definition of $n_{C_b}$, in particular $C(\restr \alpha {n_0})$ holds. This means that during the enumeration, the algorithm found a list $\ell'$ such that $|\ell'|<n_0$ and $\restr {\ell'0^\infty} b \ListInf \restr \alpha {n_0}$.
   In particular, $\pi_2\,(b\,({\ell'0^\infty})\realP{\enviro}{}B(\restr {\ell'0^\infty} b)$, and we finally obtain a realizer of $B(\restr \alpha {n_0} )$ using that $B$ is monotone. Using again a fixpoint and an enumeration of lists to find $\ell'$, this mechanism can indeed be implemented by a term $t_0$ which only depends on $b$.
 
   Now, suppose $n_{C_b}\;0$ diverges. This means that for any $n \in \bN$, there exists some word $w_n \in \bB^\star$ such that $\lnot C(w_n)$. By applying Weak König's Lemma (in our meta-theory), we find an infinite path
@@ -1269,8 +1259,6 @@ A strict morphism of EFdata is the data of two functions $F_{\Phi} : \Phi_1 \to 
   \item $F({\witFst}_1) = {\witFst}_2$ ~and~ $F({\witSnd}_1) = {\witSnd}_2$
   \item $F({(\PropImpl{\varphi}{\vec\psi})}_1) = {(\PropImpl{F(\varphi)}{\{F(\psi)\mid \psi \in \vec \psi\}})}_2$
   \item $F({\witEval}_1) = {\witEval}_2$ \,and\, $F({\witLam e}_1) = {\witLam{F(e)}}_2$
-
-  
   \item $F({e_{0}}_1) = {e_{0}}_2$, $F({e_{S}}_1) = {e_S}_2$ ~~and $F({e_{\rec}}_1) = {e_{\rec}}_2$
   \item $F_{\Phi}({\cod n}_1) = {\cod n}_2$
   \end{itemize}
@@ -1374,7 +1362,7 @@ of realizer by assuming a principle equivalent in the meta-theory.
 
   We assume there is $b$ witnessing the bar on $B$, and the definition of $C(b)$ from it is system T defined: this ensures that we can define the same function using the witnesses $\witZ,\witS,\witRec$. In the definition of $n_{C(b)}$, we cannot define the fixpoint by itself, but we can define the function $C'_b$ which, for any $n$, computes whether every $\ell \in \List(\Bool)$ of size $n$ is inside $C(b)$. This function has a code $e_{C'_b}$.
 
-  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ C'_b$ (because we search for a $n$ such that $C'_b(n) = 1$). Combining it with the code $e_{C'_b}$, this gives an evidence of a uniform bound $n_0$. \emnote{ajout} By a similar reasoning, we can mimic the definition of $t_0$ (in the proof of \Cref{thm:FT}).
+  By hypothesis, the evidenced frame has unbounded search, so we can apply it to $\lnot \circ C'_b$ (because we search for a $n$ such that $C'_b(n) = 1$). Combining it with the code $e_{C'_b}$, this gives an evidence of a uniform bound $n_0$. By a similar reasoning, we can mimic the definition of $t_0$ (in the proof of \Cref{thm:FT}).
   Thus, all that is left to prove is that $\lnot \circ C'_b$ indeed has a $0$.
 
   Suppose that $C'_b(n) = 0$ for any $n$. This means that for any $n \in \bN$, there is a list of size $n$ avoiding $C$. Using Weak König's Lemma on $\overline{C}$ the complement of $C$ (which is a tree), we find a path $\alpha : \bN \to \bB$ such that $\restr \alpha n \notin C$ for any $n \in \bN$. By hypothesis on our functor $W \to \CatEFData$, we find $w' \in W$ and a code $e_\alpha \in \cod \alpha$ in $w'$. By the other hypothesis, we can assume (up to going to a future world) that $F(w')$ has continuity.
@@ -1436,8 +1424,7 @@ for any computable tree,
 \item it features an unbounded search.
 \end{enumerate}
 
-To support our claim that this computational interpretation is indeed robust, in
-the sense that it does not rely on other peculiarities of the underlying $\lambda$-calculus,
+To support our claim that this computational interpretation is indeed robust and does not rely on other peculiarities of the underlying $\lambda$-calculus,
 we formulate it in the general framework of evidenced frames.
 This provides us with a result which applies to any realizability model
 exhibiting those properties.
