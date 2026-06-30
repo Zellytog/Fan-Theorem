@@ -1,0 +1,18 @@
+page 3 paragraph "The computational content of the Fan Theorem", there is a new
+line between "there exists a naturel number n such that for any" and
+"alpha in B^N" that shouldn't be here
+
+page 11 paragraph just before lemma 21 "the adequacy lemma proceed" should be
+"proceeds"
+
+page 15 subsection 4.2.4 paragraph 5 "are of size lower than l" should be
+"are of size greater than |l|"
+
+page 16 remark 26 "and otherwize n_C_b |> " there should be a n just before
+the |> symbol.
+
+page 20 after the Definition 35, there is a new line between "to begin with, we
+need to" and "have a strong notion" that shouldn't be here
+
+page 21 subsection 5.2.4 "the conditions are the one" should be
+"the conditions are the ones"
